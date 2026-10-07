@@ -1,4 +1,4 @@
-# 🕶️ Luxottica BigQuery Training: Instructor Master Guide
+# 🕶️ Luxottica BigQuery Training: Instructor Master Guide (Storytelling & Gamification Edition)
 **Course:** BigQuery for Data Analysis: Mastering Marketing Data with BigQuery SQL  
 **GCP Project Name:** `bigquery-luxottica`  
 **GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21`  
@@ -10,96 +10,91 @@
 
 ---
 
-## 🕒 180-Minute Master Schedule & Facilitation Flow
+## 🎬 The Storytelling Narrative: "The Mystery of the Leaky Ad Budget"
+
+> **The Executive Briefing (15:30):**  
+> *"It's Q4 2026. The Luxottica CMO calls an emergency meeting: Global digital ad spend across Meta, TikTok, and Google increased by +35%, but overall online revenue growth stayed flat at +2%. The Board demands answers before approving the Q4 Holiday budget. Your team of Marketing Data Detectives has 3 hours in BigQuery Studio to solve the mystery, identify budget leaks, discover secret growth drivers, and present the Q4 Recovery Plan!"*
 
 ```mermaid
 flowchart TD
-    Block1["<b>15:30 - 16:00 (30m) | Block 1: Fundamentals & BigQuery Data Insights</b><br/>• Icebreaker & EDW Mental Model<br/>• Console Pinning & <b>BigQuery Data Insights (Relationship Graph)</b><br/>• <b>Data Canvas & Insights Node</b><br/>• First Guided Code-Along"] --> Block2["<b>16:00 - 16:45 (45m) | Block 2: Exploring & Preparing</b><br/>• SELECT, WHERE, GROUP BY, CASE WHEN<br/>• 🏆 <b>Challenge #1: Data Explorer (8 Questions)</b><br/>• Live Debrief & Scoreboard Update"]
-    Block2 --> Break["<b>16:45 - 17:00 (15m) | ☕ Coffee Break & Catch-up</b>"]
-    Break --> Block3["<b>17:00 - 17:45 (45m) | Block 3: Advanced Querying</b><br/>• UNIONS & Multi-Table JOINS<br/>• CTEs & Cross-Channel Brand ROAS<br/>• 🏆 <b>Challenge #2: Cross-Channel Intelligence (4 Questions)</b>"]
-    Block3 --> Block4["<b>17:45 - 18:15 (30m) | Block 4: Visual Data Prep & Wrangling</b><br/>• 📊 <b>BigQuery Visual Data Prep (Gemini Suggestion Cards)</b><br/>• String/Date Parsing & QUALIFY Deduplication<br/>• 🏆 <b>Challenge #3: The Clean Slate (Automated View)</b><br/>• 📊 <b>1-Click Looker Studio Live Dashboard Demo</b>"]
-    Block4 --> Block5["<b>18:15 - 18:30 (15m) | Block 5: Executive Wrap-up</b><br/>• Insights & Security/PII Masking<br/>• Winning Brand Team Awarding"]
+    Briefing["<b>15:30 - Emergency Briefing</b><br/>CMO Dilemma: Ad Spend +35%, Revenue +2%"] --> Ch1["<b>16:15 - Chapter 1: The Leaky Bucket</b><br/><i>Uncovering high AOV Ray-Ban Meta Smart Glasses & Oliver Peoples vs TikTok Discount Leakage</i>"]
+    Ch1 --> Ch2["<b>17:20 - Chapter 2: The Cross-Channel Plot Twist</b><br/><i>Calculating ROAS: TikTok Vogue (0.8x ROAS 📉) vs Google Search Oliver Peoples (6.2x ROAS 🚀)</i>"]
+    Ch2 --> Ch3["<b>17:55 - Chapter 3: The Goldmine in the Trash</b><br/><i>Cleaning dirty leads to recover 350+ VIP leads worth €120,000+ & Building Looker Studio Dashboard</i>"]
+    Ch3 --> Victory["<b>18:25 - Executive Board Presentation & Awarding</b><br/>Winning Brand Team presents the Q4 Recovery Plan to CMO"]
 ```
 
 ---
 
-## ⏱️ Detailed Block-by-Block Execution Script
+## 🏆 Gamification Rules & Brand Team Competition
 
-### 🕒 15:30 - 16:00 | Block 1: BigQuery Fundamentals, Data Insights & Data Canvas (30 Mins)
-
-- **15:30 - 15:40 (10m) | Welcome & Mentimeter Icebreaker**
-  - Welcome participants and introduce course objectives.
-  - Launch live icebreaker poll: *"What is your biggest daily struggle with Excel spreadsheets?"*
-  - Connect answers to BigQuery's serverless speed and scale.
-
-- **15:40 - 15:52 (12m) | BigQuery Studio, Data Insights & Data Canvas**
-  - Guide participants live to `https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21`.
-  - Pin project: **"+ ADD" -> "Star a project by name"** -> `qwiklabs-gcp-04-9efaa47f1d21`.
-  - **NEW FEATURE DEMO 1: BigQuery Data Insights (`cloud.google.com/bigquery/docs/data-insights`)**:
-    - Open dataset `luxottica_marketing_analytics` and click **"Generate Data Insights"**.
-    - Show the **Interactive Relationship Graph**: Explain how Gemini maps connections between `lux_crm_customers`, `lux_online_orders`, and `lux_ad_spend` visually!
-    - Show **AI-Generated Table/Column Descriptions** and **Sample SQL Queries** generated with 1 click.
-  - **NEW FEATURE DEMO 2: BigQuery Data Canvas & Insights Node**:
-    - Show visual DAG nodes (Search -> Table -> SQL -> Visualization -> **Insights Node**).
-
-- **15:52 - 16:00 (8m) | First Guided Code-Along Query**
-  - Write a simple SQL query together in the query editor tab. Explain bytes scanned preview.
+1. **Divide into 4 Brand Detective Teams:**
+   - 🕶️ **Team Ray-Ban** (Smart Glasses & Heritage Icons)
+   - 🕶️ **Team Oakley** (Prizm Sport & Innovation)
+   - 🕶️ **Team Persol** (Handmade Italian Heritage)
+   - 🕶️ **Team Oliver Peoples** (Luxury Eyewear)
+2. **Scoring System:**
+   - **First Team to submit correct SQL query:** +100 Points
+   - **Best Business Insight / Story Interpretation:** +50 Points
+   - **Most Creative Looker Studio Dashboard:** +100 Points
 
 ---
 
-### 🕒 16:00 - 16:45 | Block 2: Exploring & Preparing Data (45 Mins)
+## ⏱️ 180-Minute Master Schedule & Story Arc
 
-- **16:00 - 16:15 (15m) | Lecture & Code-Along: Core SQL Clauses**
-  - Teach `SELECT`, `FROM`, `WHERE`, `GROUP BY`, `ORDER BY`.
-  - Excel Translation: `SELECT` = Columns, `WHERE` = Filter Header, `GROUP BY` = Pivot Table, `SUM/AVG` = Values.
+### 🕒 15:30 - 16:00 | Block 1: Executive Briefing, Data Insights & Data Canvas (30 Mins)
 
-- **16:15 - 16:40 (25m) | 🏆 Challenge #1: "The Data Explorer" (8 Business Questions)**
-  - Divide attendees into 4 Brand Teams (Team Ray-Ban, Team Oakley, Team Persol, Team Oliver Peoples).
-  - Open `challenges/challenge_1_data_explorer.sql` containing 8 business questions.
+- **15:30 - 15:40 (10m) | Emergency Briefing & Icebreaker**
+  - Present the CMO Dilemma: Ad Spend +35%, Revenue +2%.
+  - Icebreaker Poll: *"Where do you suspect the marketing money is leaking?"*
 
-- **16:40 - 16:45 (5m) | Challenge #1 Live Debrief & Scoreboard Update**
-  - Project `challenges/challenge_1_solutions.sql`. Award points to winning team.
+- **15:40 - 15:52 (12m) | BigQuery Studio, Data Insights & Data Canvas Demo**
+  - Open dataset `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`.
+  - **Data Insights Demo (`cloud.google.com/bigquery/docs/data-insights`):** Click *"Generate Data Insights"* to render the **Interactive Relationship Graph**. Show how Gemini maps `lux_crm_customers` -> `lux_online_orders` -> `lux_ad_spend`!
+  - **Data Canvas Demo:** Show visual DAG nodes (Search, Table, SQL, Visualization, Insights Node).
 
----
-
-### ☕ 16:45 - 17:00 | Coffee Break & Catch-up Buffer (15 Mins)
+- **15:52 - 16:00 (8m) | First Code-Along Query (Checking Total Revenue vs Spend)**
 
 ---
 
-### 🕒 17:00 - 17:45 | Block 3: Advanced Querying & Cross-Channel Analytics (45 Mins)
+### 🕒 16:00 - 16:45 | Block 2: Chapter 1 - "The Leaky Bucket" (45 Mins)
 
-- **17:00 - 17:20 (20m) | Lecture & Code-Along: UNIONS & JOINS**
-  - Explain `UNION ALL` (vertical stacking) vs `INNER / LEFT JOIN` (horizontal enrichment).
-  - Demonstrate CTEs (`WITH` clauses) for aggregating spend and revenue before joining for ROAS.
-
-- **17:20 - 17:40 (20m) | 🏆 Challenge #2: "Cross-Channel Marketing Intelligence" (4 Questions)**
-  - Open `challenges/challenge_2_cross_channel.sql`. Calculate LTV and Multi-Platform Brand ROAS.
-
-- **17:40 - 17:45 (5m) | Challenge #2 Solution Review**
-  - Review `challenges/challenge_2_solutions.sql`.
+- **16:00 - 16:15 (15m) | Core SQL Building Blocks (`SELECT`, `WHERE`, `GROUP BY`)**
+- **16:15 - 16:40 (25m) | 🏆 Challenge #1: "The Data Explorer" (8 Clues)**
+  - Teams investigate sales performance, brand revenue ranking, and discount leakage.
+  - **Plot Twist #1 Discovered:** *Ray-Ban Meta Smart Glasses* and *Oliver Peoples* have massive Average Order Values (> €300), but heavy discount promotions on *Vogue Eyewear* are destroying margins!
+- **16:40 - 16:45 (5m) | Chapter 1 Debrief & Scoreboard Update**
 
 ---
 
-### 🕒 17:45 - 18:15 | Block 4: Visual Data Prep & Data Wrangling (30 Mins)
+### ☕ 16:45 - 17:00 | Coffee Break (15 Mins)
+
+---
+
+### 🕒 17:00 - 17:45 | Block 3: Chapter 2 - "The Cross-Channel Plot Twist" (45 Mins)
+
+- **17:00 - 17:20 (20m) | Advanced SQL: UNIONS, JOINS & CTEs**
+- **17:20 - 17:40 (20m) | 🏆 Challenge #2: "Cross-Channel Intelligence" (4 Clues)**
+  - Teams calculate Customer LTV and Multi-Platform Brand ROAS.
+  - **Plot Twist #2 Discovered:** *TikTok Vogue Eyewear* campaigns have a disastrous **0.8x ROAS** (losing money!), while *Google Search Oliver Peoples & Persol* have a stellar **6.2x ROAS**!
+- **17:40 - 17:45 (5m) | Chapter 2 Debrief & Scoreboard Update**
+
+---
+
+### 🕒 17:45 - 18:15 | Block 4: Chapter 3 - "The Goldmine in the Trash" (30 Mins)
 
 - **17:45 - 17:55 (10m) | DEMO: BigQuery Studio Visual Data Prep**
-  - Show **Visual Data Preparation** in BigQuery Studio:
-    - **Data View:** Column distribution histograms (null counts, string patterns).
-    - **Gemini Suggestion Cards:** One-click AI cleaning rules (*Trim spaces*, *Lowercase email*).
-    - **Cell Editing Few-Shot Prompts:** Edit 1 cell in the grid to teach Gemini the desired format!
-
-- **17:55 - 18:10 (15m) | 🏆 Challenge #3: "The Clean Slate" (Automated View Creation)**
-  - Open `challenges/challenge_3_clean_slate.sql`. Transform dirty leads into `v_clean_marketing_leads`.
-  - **1-Click Looker Studio Demo:** Connect the VIEW live to Looker Studio to generate an executive dashboard!
-
-- **18:10 - 18:15 (5m) | Challenge #3 Solution Review**
+  - Show Gemini suggestion cards and few-shot cell editing for data wrangling.
+- **17:55 - 18:10 (15m) | 🏆 Challenge #3: "The Clean Slate" (Automated View & Looker Studio)**
+  - Teams clean `lux_raw_marketing_leads_dirty` into `v_clean_marketing_leads`.
+  - **Plot Twist #3 Discovered:** Cleaning the dirty leads unlocks **350+ valid VIP leads** worth over **€120,000 in Q4 revenue**!
+  - **1-Click Looker Studio Demo:** Connect the View to Looker Studio to display the **CMO Executive Rescue Dashboard**!
+- **18:10 - 18:15 (5m) | Chapter 3 Debrief**
 
 ---
 
-### 🕒 18:15 - 18:30 | Block 5: Key Takeaways, Security & Awards (15 Mins)
+### 🕒 18:15 - 18:30 | Block 5: The Q4 Recovery Plan & Award Ceremony (15 Mins)
 
 - **18:15 - 18:25 (10m) | Executive Summary & Security Spotlight**
-  - Highlight business value gained (Data Insights, Data Canvas, Visual Data Prep, ROAS, Looker Studio).
-  - Security & PII Spotlight: Row/Column-level security, PII data masking (emails/phones), and isolated cloud tenant governance.
-
-- **18:25 - 18:30 (5m) | Winning Team Awarding & Feedback**
+  - Summarize the Q4 Recovery Plan: Shift 40% of TikTok ad budget to Google Search Oliver Peoples & Ray-Ban Meta Smart Glasses, and activate the 350 recovered VIP leads.
+  - Security Spotlight: Row/Column-level security and PII masking.
+- **18:25 - 18:30 (5m) | Awarding the Winning Brand Detective Team!**

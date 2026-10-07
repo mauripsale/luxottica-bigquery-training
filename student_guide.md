@@ -1,4 +1,6 @@
 # 🕶️ Luxottica BigQuery Training: Student Participant Guide
+## Mission: "The Mystery of the Leaky Ad Budget & The Smart Glasses Breakthrough"
+
 **Course:** BigQuery for Data Analysis: Mastering Marketing Data with BigQuery SQL  
 **GCP Project Name:** `bigquery-luxottica`  
 **GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21`  
@@ -8,7 +10,14 @@
 
 ---
 
-## 🚀 1. Quick Start: Connecting to Your BigQuery Environment
+## 🕵️‍♀️ 1. Your Mission Briefing
+> **The Problem:** Global digital ad spend across Meta, TikTok, and Google increased by +35%, but overall online revenue growth stayed flat at +2%.  
+> **Your Role:** Marketing Data Detective at Luxottica.  
+> **Your Goal:** Solve the mystery in BigQuery Studio, identify budget leaks, discover secret growth drivers, recover lost VIP lead revenue, and present the Q4 Recovery Plan to the CMO!
+
+---
+
+## 🚀 2. Quick Start: Connecting to Your BigQuery Environment
 
 ### Step 1: Open BigQuery Studio
 1. Open your browser and go to: [https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21](https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21)
@@ -22,33 +31,46 @@
 
 ---
 
-## 🎨 2. BigQuery Data Insights, Data Canvas & Visual Data Prep
+## 🎨 3. BigQuery Data Insights, Data Canvas & Visual Data Prep
 
-In addition to writing SQL code directly, BigQuery Studio includes modern AI-powered features:
-
-### 2.1 BigQuery Data Insights (`cloud.google.com/bigquery/docs/data-insights`)
-Overcomes the "cold start problem" when exploring new datasets:
-- **Interactive Relationship Graphs:** Visual map showing connections, dependencies, and join keys between tables (`lux_crm_customers`, `lux_online_orders`, `lux_ad_spend`).
+### 3.1 BigQuery Data Insights (`cloud.google.com/bigquery/docs/data-insights`)
+- **Interactive Relationship Graphs:** Visual map showing connections between tables (`lux_crm_customers`, `lux_online_orders`, `lux_ad_spend`).
 - **AI-Generated Descriptions:** Automated documentation explaining datasets, tables, and columns in natural language.
 - **Sample SQL Queries:** 1-click starter queries generated automatically to kickstart statistical analysis.
 
-### 2.2 BigQuery Data Canvas & Insights Node (Visual DAG Workspace)
+### 3.2 BigQuery Data Canvas & Insights Node
 - **Search Node:** Search datasets using Gemini natural language prompts.
 - **Table Node:** Inspect schemas and column distribution histograms.
 - **SQL Node:** View Gemini-generated SQL or write custom queries.
 - **Visualization Node:** Turn query results directly into bar/line charts with 1 click.
 - **💡 Insights Node:** Automatically generate narrative executive summaries, detect statistical anomalies, spot revenue surges, and calculate metric correlations!
 
-### 2.3 Visual Data Preparation (Gemini Low-Code Wrangling)
-- **Data View:** Inspect column quality with built-in statistical histograms.
-- **Gemini Suggestion Cards:** One-click AI cleaning suggestions (*Trim spaces*, *Lowercase email*).
-- **Cell Editing Few-Shot Prompts:** Manually edit 1 cell in the preview grid — Gemini learns your formatting rule and applies it to the entire table automatically!
+---
+
+## 🏆 4. The 3 Investigation Chapters (Challenges)
+
+### Chapter 1: "The Leaky Bucket" (16:15 - 16:40)
+**File:** `challenges/challenge_1_data_explorer.sql`
+- **Goal:** Uncover sales performance, brand revenue ranking, and discount leakage.
+- **Key Clue:** Compare Ray-Ban Meta Smart Glasses & Oliver Peoples AOV (> €300) vs Vogue Eyewear discount leakage.
 
 ---
 
-## 📊 3. Marketing SQL Cheat Sheet & Excel Translation
+### Chapter 2: "The Cross-Channel Plot Twist" (17:20 - 17:40)
+**File:** `challenges/challenge_2_cross_channel.sql`
+- **Goal:** Calculate Customer LTV and Multi-Platform Brand ROAS.
+- **Key Clue:** Discover why TikTok Vogue Eyewear has a 0.8x ROAS (losing money!) while Google Search Oliver Peoples has a 6.2x ROAS!
 
-### Excel vs BigQuery SQL Rosetta Stone
+---
+
+### Chapter 3: "The Goldmine in the Trash" (17:55 - 18:10)
+**File:** `challenges/challenge_3_clean_slate.sql`
+- **Goal:** Clean `lux_raw_marketing_leads_dirty` into `v_clean_marketing_leads`.
+- **Key Clue:** Unlock 350+ valid VIP leads worth over €120,000 in Q4 revenue, and build the Looker Studio Executive Dashboard!
+
+---
+
+## 📊 5. Excel vs BigQuery SQL Rosetta Stone
 
 | Excel Action | BigQuery SQL Equivalent | Example Code |
 | :--- | :--- | :--- |
@@ -59,57 +81,3 @@ Overcomes the "cold start problem" when exploring new datasets:
 | **Counting Rows** | `COUNT(column)` or `COUNT(DISTINCT id)` | `COUNT(DISTINCT customer_id)` |
 | **VLOOKUP / CERCA.VERT** | `LEFT JOIN table ON key` | `LEFT JOIN lux_crm_customers ON ...` |
 | **Remove Duplicates** | `QUALIFY ROW_NUMBER() OVER(...) = 1` | Keep latest record per email |
-
----
-
-## 🏆 4. Hands-on Challenge Worksheets (3 Hours / 3 Challenges)
-
-### Challenge #1: "The Data Explorer" (16:15 - 16:40)
-**File:** `challenges/challenge_1_data_explorer.sql`
-- **Part A (Sales Performance):** Brand revenue ranking, channel breakdown, high-value orders (> 300 EUR).
-- **Part B (Campaign Efficiency):** Ad platform CTR %, top 5 campaigns by Cost-Per-Conversion (`spend / conversions`).
-- **Part C (Discount Leakage & Regional):** Effective discount % per product category, customer segmentation by country & loyalty tier.
-- **Part D (Conditional Metrics):** Spend tier segmentation ('Low', 'Medium', 'High') using `CASE WHEN`.
-
----
-
-### Challenge #2: "Cross-Channel Marketing Intelligence" (17:20 - 17:40)
-**File:** `challenges/challenge_2_cross_channel.sql`
-- **Q1 (Customer LTV):** Join `lux_crm_customers` + `lux_online_orders` to compute LTV per loyalty tier.
-- **Q2 (Omni-channel Stream):** Use `UNION ALL` to combine E-Commerce Direct and Retail Store sales streams.
-- **Q3 (Multi-Platform Brand ROAS):** Use CTEs (`WITH` clauses) to blend Ad Spend and Sales Revenue per brand to compute ROAS (`Sales Revenue / Ad Spend`).
-- **Q4 (Cross-Sell Opportunity):** Identify customers purchasing brands different from their CRM preferred brand.
-
----
-
-### Challenge #3: "The Clean Slate" (17:55 - 18:10)
-**File:** `challenges/challenge_3_clean_slate.sql`
-**Goal:** Transform the dirty marketing leads table `lux_raw_marketing_leads_dirty` into a clean reporting view `v_clean_marketing_leads`.
-- **Requirements:** Trim whitespace, convert emails to lowercase, normalize brand names (`ray ban` -> `Ray-Ban`), extract currency strings (`€ 175.00` -> `175.00`), parse mixed dates (`DD/MM/YYYY` / `YYYY-MM-DD`), deduplicate emails using `QUALIFY ROW_NUMBER() OVER(...)`.
-
----
-
-## 💡 5. Essential BigQuery Marketing Functions
-
-```sql
--- 1. Cleaning Strings
-TRIM('  Ray-Ban  ')                --> 'Ray-Ban'
-LOWER('MARCO.ROSSI@EMAIL.IT')       --> 'marco.rossi@email.it'
-INITCAP('vogue eyewear')           --> 'Vogue Eyewear'
-
--- 2. Safe Division (prevents division by zero errors)
-SAFE_DIVIDE(spend_eur, conversions)
-
--- 3. Extracting numbers from messy currency strings
-SAFE_CAST(REGEXP_REPLACE('€ 175.00', r'[^0-9.]', '') AS NUMERIC)  --> 175.00
-
--- 4. Date Parsing
-PARSE_DATE('%d/%m/%Y', '15/09/2026')   --> DATE '2026-09-15'
-PARSE_DATE('%Y-%m-%d', '2026-09-15')   --> DATE '2026-09-15'
-```
-
----
-
-## 📈 6. Next Steps & Continuous Learning
-- **Looker Studio:** Connect your BigQuery views directly to Looker Studio for automated executive dashboards.
-- **Support & Questions:** Reach out to the Luxottica Global Analytics Enablement team.

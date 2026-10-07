@@ -1,8 +1,8 @@
 -- =============================================================================
--- LUXOTTICA MARKETING ANALYTICS - MASSIVE ENTERPRISE MOCK DATASET (116,000+ ROWS)
--- Course: Mastering Marketing Data with BigQuery SQL
+-- LUXOTTICA MARKETING ANALYTICS - DATA STORYTELLING MOCK DATASET (116,000+ ROWS)
+-- Course: Mastering Marketing Data with BigQuery SQL (Storytelling Edition)
+-- Storyline: "The Mystery of the Missing Ray-Ban ROAS & The Smart Glasses Breakthrough"
 -- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
--- Project Name: bigquery-luxottica
 -- Target Dataset: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
 -- =============================================================================
 
@@ -11,6 +11,7 @@ OPTIONS(location="US");
 
 -- -----------------------------------------------------------------------------
 -- 1. CRM CUSTOMERS MASTER TABLE (10,000 Global Customers)
+-- Embedded Story Insight: VIP & Gold tier customers love Oliver Peoples & Ray-Ban Meta
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers` AS
 WITH customer_generator AS (
@@ -23,7 +24,7 @@ WITH customer_generator AS (
     DATE_SUB(DATE '2026-09-30', INTERVAL MOD(ABS(FARM_FINGERPRINT(CAST(id * 3 AS STRING))), 1000) DAY) AS signup_date,
     ['Ray-Ban', 'Oakley', 'Persol', 'Oliver Peoples', 'Vogue Eyewear', 'Costa', 'Sunglass Hut', 'Alain Mikli', 'Arnette', 'Target Optical'][ORDINAL(MOD(id, 10) + 1)] AS preferred_brand,
     CASE 
-      WHEN MOD(id, 20) = 0 THEN 'VIP'
+      WHEN MOD(id, 15) = 0 THEN 'VIP'
       WHEN MOD(id, 5) = 0 THEN 'Gold'
       WHEN MOD(id, 2) = 0 THEN 'Silver'
       ELSE 'Standard'
@@ -43,6 +44,7 @@ FROM customer_generator;
 
 -- -----------------------------------------------------------------------------
 -- 2. ONLINE & RETAIL ORDERS TABLE (100,000 Transactions)
+-- Embedded Story Insight: Smart Glasses & Luxury frames have high AOV (>280 EUR)
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders` AS
 WITH order_generator AS (
@@ -54,11 +56,20 @@ WITH order_generator AS (
     ['Ray-Ban', 'Oakley', 'Persol', 'Oliver Peoples', 'Vogue Eyewear', 'Costa', 'Sunglass Hut', 'Alain Mikli', 'Arnette', 'Target Optical'][ORDINAL(MOD(id, 10) + 1)] AS brand,
     ['Sunglasses', 'Optical Frames', 'Prescription Lenses', 'Smart Glasses (Ray-Ban Meta)', 'Accessories'][ORDINAL(MOD(id, 5) + 1)] AS product_category,
     ['E-Commerce Direct', 'Retail Store', 'Mobile App', 'Affiliate Network', 'Wholesale Partner'][ORDINAL(MOD(id, 5) + 1)] AS channel,
-    (MOD(id, 4) + 1) AS units_sold,
-    ROUND(90.00 + (MOD(ABS(FARM_FINGERPRINT(CAST(id * 19 AS STRING))), 45000) / 10.0), 2) AS gross_amount_eur,
+    (MOD(id, 3) + 1) AS units_sold,
+    
+    -- Story AOV rules: Oliver Peoples & Smart Glasses = High Price (320-480 EUR), Vogue/Arnette = Low Price (90-140 EUR)
     CASE 
-      WHEN MOD(id, 4) = 0 THEN ROUND((90.00 + (MOD(ABS(FARM_FINGERPRINT(CAST(id * 19 AS STRING))), 45000) / 10.0)) * 0.15, 2)
-      WHEN MOD(id, 7) = 0 THEN ROUND((90.00 + (MOD(ABS(FARM_FINGERPRINT(CAST(id * 19 AS STRING))), 45000) / 10.0)) * 0.25, 2)
+      WHEN MOD(id, 10) = 3 THEN ROUND(320.00 + (MOD(id * 17, 160)), 2) -- Oliver Peoples
+      WHEN MOD(id, 5) = 3 THEN ROUND(299.00 + (MOD(id * 19, 120)), 2) -- Smart Glasses Ray-Ban Meta
+      WHEN MOD(id, 10) = 4 THEN ROUND(85.00 + (MOD(id * 11, 55)), 2)   -- Vogue
+      ELSE ROUND(140.00 + (MOD(ABS(FARM_FINGERPRINT(CAST(id * 19 AS STRING))), 15000) / 100.0), 2)
+    END AS gross_amount_eur,
+    
+    -- Story Discount rules: High discounts on Vogue & E-Commerce Direct (discount leakage!)
+    CASE 
+      WHEN MOD(id, 5) = 0 THEN ROUND(35.00 + MOD(id, 20), 2) -- Heavy discount
+      WHEN MOD(id, 10) = 4 THEN ROUND(25.00, 2)              -- Vogue promo
       ELSE 0.00
     END AS discount_amount_eur
   FROM UNNEST(GENERATE_ARRAY(1, 100000)) AS id
@@ -77,6 +88,7 @@ FROM order_generator;
 
 -- -----------------------------------------------------------------------------
 -- 3. MULTI-CHANNEL AD SPEND TABLE (5,000 Daily Campaign Logs)
+-- Embedded Story Insight: TikTok Vogue = Low ROAS (<0.9), Google Oliver Peoples = High ROAS (>6.0)
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend` AS
 WITH campaign_generator AS (
@@ -92,47 +104,64 @@ WITH campaign_generator AS (
     ['Google Search', 'Google Shopping', 'Meta Instagram', 'Meta Facebook', 'TikTok', 'Pinterest', 'YouTube', 'Amazon Ads', 'Snapchat', 'Criteo'][ORDINAL(MOD(id, 10) + 1)] AS platform,
     DATE_SUB(DATE '2026-09-30', INTERVAL MOD(id, 365) DAY) AS date,
     ['Ray-Ban', 'Oakley', 'Persol', 'Oliver Peoples', 'Vogue Eyewear', 'Costa', 'Sunglass Hut', 'Alain Mikli', 'Arnette', 'Target Optical'][ORDINAL(MOD(id, 10) + 1)] AS brand,
-    10000 + MOD(ABS(FARM_FINGERPRINT(CAST(id * 23 AS STRING))), 90000) AS impressions,
-    300 + MOD(ABS(FARM_FINGERPRINT(CAST(id * 29 AS STRING))), 4700) AS clicks,
-    ROUND(400.00 + (MOD(ABS(FARM_FINGERPRINT(CAST(id * 31 AS STRING))), 360000) / 100.0), 2) AS spend_eur,
-    10 + MOD(ABS(FARM_FINGERPRINT(CAST(id * 37 AS STRING))), 240) AS conversions
+    
+    -- Story Impressions & Spend: TikTok & Meta Facebook = Huge spend, Google Search = High efficiency
+    CASE 
+      WHEN MOD(id, 10) = 4 THEN 80000 + MOD(id * 100, 50000) -- TikTok high impressions
+      ELSE 15000 + MOD(ABS(FARM_FINGERPRINT(CAST(id * 23 AS STRING))), 40000)
+    END AS impressions,
+    
+    CASE 
+      WHEN MOD(id, 10) = 4 THEN 2500 + MOD(id * 10, 1500) -- TikTok clicks
+      ELSE 400 + MOD(ABS(FARM_FINGERPRINT(CAST(id * 29 AS STRING))), 2000)
+    END AS clicks,
+    
+    -- Story Spend: Heavy spend on TikTok Vogue (wasteful!)
+    CASE 
+      WHEN MOD(id, 10) = 4 THEN ROUND(2500.00 + (MOD(id * 31, 1500)), 2) -- TikTok Vogue
+      WHEN MOD(id, 10) = 3 THEN ROUND(400.00 + (MOD(id * 13, 300)), 2)    -- Oliver Peoples Search (efficient!)
+      ELSE ROUND(600.00 + (MOD(ABS(FARM_FINGERPRINT(CAST(id * 31 AS STRING))), 120000) / 100.0), 2)
+    END AS spend_eur,
+    
+    -- Story Conversions: High conversions on Oliver Peoples & Ray-Ban Meta
+    CASE 
+      WHEN MOD(id, 10) = 4 THEN 12 + MOD(id, 10)                         -- TikTok low conversions
+      WHEN MOD(id, 10) = 3 THEN 95 + MOD(id, 40)                         -- Oliver Peoples high conversions
+      ELSE 25 + MOD(ABS(FARM_FINGERPRINT(CAST(id * 37 AS STRING))), 80)
+    END AS conversions
   FROM UNNEST(GENERATE_ARRAY(1, 5000)) AS id
 )
 SELECT * FROM campaign_generator;
 
 -- -----------------------------------------------------------------------------
 -- 4. RAW DIRTY MARKETING LEADS TABLE (1,000 Messy Lead Records)
+-- Embedded Story Insight: Cleaning unlocks 350+ VIP leads worth €120,000+
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty` AS
 WITH dirty_generator AS (
   SELECT
     id,
-    -- Messy IDs with padding
     CASE WHEN MOD(id, 3) = 0 THEN CONCAT(' LEAD_', LPAD(CAST(id AS STRING), 5, '0'), ' ') ELSE CONCAT('LEAD_', LPAD(CAST(id AS STRING), 5, '0')) END AS raw_lead_id,
     
-    -- Messy emails (uppercase, trailing spaces, invalid missing @)
     CASE 
       WHEN MOD(id, 25) = 0 THEN CONCAT('invalid_email_format_', id)
       WHEN MOD(id, 2) = 0 THEN UPPER(CONCAT('  user_', id, '@LUXMAIL.COM '))
       ELSE LOWER(CONCAT('user_', id, '@luxmail.com  '))
     END AS raw_email,
     
-    -- Unstandardized Brand Names
     ['ray ban', 'Ray-Ban ', 'PERSOL', 'Persol', 'oakley', 'OAKLEY', 'oliver peoples', 'Vogue Eyewear', 'vogue', ' Sunglass Hut '][ORDINAL(MOD(id, 10) + 1)] AS raw_brand,
     
-    -- Heterogeneous Date formats
     CASE 
       WHEN MOD(id, 3) = 0 THEN FORMAT_DATE('%d/%m/%Y', DATE_SUB(DATE '2026-09-30', INTERVAL MOD(id, 60) DAY))
       WHEN MOD(id, 3) = 1 THEN FORMAT_DATE('%Y-%m-%d', DATE_SUB(DATE '2026-09-30', INTERVAL MOD(id, 60) DAY))
       ELSE FORMAT_DATE('%b %d, %Y', DATE_SUB(DATE '2026-09-30', INTERVAL MOD(id, 60) DAY))
     END AS signup_raw_date,
     
-    -- Messy Currency strings
     CASE 
-      WHEN MOD(id, 4) = 0 THEN CONCAT(' € ', CAST(100 + MOD(id * 17, 400) AS STRING), '.00 ')
-      WHEN MOD(id, 4) = 1 THEN CONCAT(CAST(100 + MOD(id * 17, 400) AS STRING), '.50 EUR')
-      WHEN MOD(id, 4) = 2 THEN CONCAT('- ', CAST(50 + MOD(id, 100) AS STRING), '.00') -- Negative invalid spend
-      ELSE CAST(100 + MOD(id * 17, 400) AS STRING)
+      WHEN MOD(id, 4) = 0 THEN CONCAT(' € ', CAST(250 + MOD(id * 17, 300) AS STRING), '.00 ')
+      WHEN MOD(id, 4) = 1 THEN CONCAT(CAST(300 + MOD(id * 17, 200) AS STRING), '.50 EUR')
+      WHEN MOD(id, 4) = 2 THEN CONCAT('- ', CAST(50 + MOD(id, 100) AS STRING), '.00')
+      ELSE CAST(180 + MOD(id * 17, 200) AS STRING)
     END AS raw_estimated_spend,
     
     ['IT', 'US', 'FR', 'UK', 'DE', 'JP'][ORDINAL(MOD(id, 6) + 1)] AS raw_country,
