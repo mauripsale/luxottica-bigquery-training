@@ -1,19 +1,45 @@
-# 🕶️ Luxottica BigQuery Training: Instructor Master Guide (Storytelling & Gamification Edition)
-**Course:** BigQuery for Data Analysis: Mastering Marketing Data with BigQuery SQL  
+# 🕶️ Luxottica BigQuery Training: Instructor Master Guide
+## The Definitive 180-Minute Facilitation & Preparation Manual
+
+**Course Title:** BigQuery for Data Analysis: Mastering Marketing Data with BigQuery SQL  
+**Story Narrative:** "The Mystery of the Leaky Ad Budget & The Smart Glasses Breakthrough"  
 **GCP Project Name:** `bigquery-luxottica`  
 **GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21`  
 **Project Owner:** `student-02-25b97e18011e@qwiklabs.net` (student b50b8eff)  
 **Target Dataset:** `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`  
 **Target Audience:** Global Analytics, Business Analyst, Digital Commerce & Retail Operations  
-**Duration:** 3 Hours / 180 Minutes (15:30 - 18:30)  
+**Date & Time:** Oct 12th, 2026 | 15:30 - 18:30 (3 Hours / 180 Minutes)  
 **Format:** Hybrid (In-Person & Remote Connection)
 
 ---
 
-## 🎬 The Storytelling Narrative: "The Mystery of the Leaky Ad Budget"
+## 📋 1. Trainer Pre-Flight & Setup Checklist (Before 15:30)
 
-> **The Executive Briefing (15:30):**  
-> *"It's Q4 2026. The Luxottica CMO calls an emergency meeting: Global digital ad spend across Meta, TikTok, and Google increased by +35%, but overall online revenue growth stayed flat at +2%. The Board demands answers before approving the Q4 Holiday budget. Your team of Marketing Data Detectives has 3 hours in BigQuery Studio to solve the mystery, identify budget leaks, discover secret growth drivers, and present the Q4 Recovery Plan!"*
+### 1.1 GCP Environment & IAM Setup
+1. **Target Project:** `qwiklabs-gcp-04-9efaa47f1d21` (`bigquery-luxottica`).
+2. **Dataset Pre-loading:** Execute `dataset/00_setup_schema_and_data.sql` **BEFORE** the session starts.
+3. **Verify Table Creation (116,000+ Total Rows):**
+   - `lux_crm_customers` (10,000 Rows)
+   - `lux_online_orders` (100,000 Rows)
+   - `lux_ad_spend` (5,000 Rows)
+   - `lux_raw_marketing_leads_dirty` (1,000 Rows)
+4. **IAM Roles Assigned to Participants:**
+   - `BigQuery Job User` (`roles/bigquery.jobUser`) on project `qwiklabs-gcp-04-9efaa47f1d21`.
+   - `BigQuery Data Viewer` (`roles/bigquery.dataViewer`) on dataset `luxottica_marketing_analytics`.
+
+### 1.2 Materials & File Sharing Strategy
+1. **Participant Handouts Folder (Drive / Intranet):**
+   - [student_guide.md](file:///Users/maurizio.ipsale/Code/my-agy-projects/projectA/student_guide.md) (Student Quick Start & Rosetta Stone Cheat Sheet)
+   - [00_data_storytelling_narrative.md](file:///Users/maurizio.ipsale/Code/my-agy-projects/projectA/handouts/00_data_storytelling_narrative.md) (Step-by-Step Analytical Script)
+   - Exercise SQL files: `challenges/challenge_1_data_explorer.sql`, `challenges/challenge_2_cross_channel.sql`, `challenges/challenge_3_clean_slate.sql`.
+2. **Console Pinning Instructions:** Show participants how to click **"+ ADD" -> "Star a project by name"** and type `qwiklabs-gcp-04-9efaa47f1d21`.
+
+---
+
+## 🎬 2. The Storytelling Narrative & Gamification Framework
+
+> **The Executive Problem (15:30 Briefing):**  
+> *"Global digital ad spend across Meta, TikTok, and Google increased by +35%, but overall online revenue growth stayed flat at +2%. The CMO needs a Q4 Recovery Plan! Your teams of Marketing Data Detectives have 3 hours in BigQuery Studio to solve the mystery, find the budget leaks, discover secret high-ROAS growth drivers, and recover lost VIP lead revenue!"*
 
 ```mermaid
 flowchart TD
@@ -25,21 +51,17 @@ flowchart TD
 
 ---
 
-## 🏆 Gamification Rules & Brand Team Competition
+## 🏆 3. Gamification Rules & Brand Detective Teams
 
-1. **Divide into 4 Brand Detective Teams:**
-   - 🕶️ **Team Ray-Ban** (Smart Glasses & Heritage Icons)
-   - 🕶️ **Team Oakley** (Prizm Sport & Innovation)
-   - 🕶️ **Team Persol** (Handmade Italian Heritage)
-   - 🕶️ **Team Oliver Peoples** (Luxury Eyewear)
-2. **Scoring System:**
-   - **First Team to submit correct SQL query:** +100 Points
-   - **Best Business Insight / Story Interpretation:** +50 Points
-   - **Most Creative Looker Studio Dashboard:** +100 Points
+- **4 Brand Teams:** Team Ray-Ban, Team Oakley, Team Persol, Team Oliver Peoples.
+- **Points System:**
+  - First team with correct SQL query: **+100 Points**
+  - Best business insight/story interpretation: **+50 Points**
+  - Most creative Looker Studio Executive Dashboard: **+100 Points**
 
 ---
 
-## ⏱️ 180-Minute Master Schedule & Story Arc
+## ⏱️ 4. 180-Minute Master Schedule & Step-by-Step Flow
 
 ### 🕒 15:30 - 16:00 | Block 1: Executive Briefing, Data Insights & Data Canvas (30 Mins)
 
@@ -86,7 +108,7 @@ flowchart TD
   - Show Gemini suggestion cards and few-shot cell editing for data wrangling.
 - **17:55 - 18:10 (15m) | 🏆 Challenge #3: "The Clean Slate" (Automated View & Looker Studio)**
   - Teams clean `lux_raw_marketing_leads_dirty` into `v_clean_marketing_leads`.
-  - **Plot Twist #3 Discovered:** Cleaning the dirty leads unlocks **350+ valid VIP leads** worth over **€120,000 in Q4 revenue**!
+  - **Plot Twist #3 Discovered:** Cleaning dirty leads recovers **350+ valid VIP leads** worth over **€120,000 in Q4 revenue**!
   - **1-Click Looker Studio Demo:** Connect the View to Looker Studio to display the **CMO Executive Rescue Dashboard**!
 - **18:10 - 18:15 (5m) | Chapter 3 Debrief**
 
