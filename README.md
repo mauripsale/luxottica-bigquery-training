@@ -17,6 +17,12 @@ Welcome to the official repository for the **Luxottica Training Workshop: Master
 
 ---
 
+## 📖 Step-by-Step Data Storytelling Script
+The entire 3-hour course is structured as a progressive **Data Detective Investigation** ("The Mystery of the Leaky Ad Budget & The Smart Glasses Breakthrough").  
+See the full step-by-step analytical script here: [00_data_storytelling_narrative.md](file:///Users/maurizio.ipsale/Code/my-agy-projects/projectA/handouts/00_data_storytelling_narrative.md).
+
+---
+
 ## 📂 Repository Structure
 
 ```
@@ -27,6 +33,7 @@ Welcome to the official repository for the **Luxottica Training Workshop: Master
 ├── dataset/
 │   └── 00_setup_schema_and_data.sql           # Massive Enterprise Seed Script (116,000+ Records)
 ├── handouts/
+│   ├── 00_data_storytelling_narrative.md      # Step-by-Step Analytical Script (Problem -> Analysis -> Root Cause -> Solution)
 │   ├── 01_fundamentals_and_exploration.md     # Block 1 & 2 Concepts, BigQuery Data Insights, Data Canvas & Starter SQL
 │   ├── 02_advanced_querying.md                # Block 3 UNIONS, JOINS & Multi-Source Cross-Channel Analytics
 │   └── 03_data_cleaning_and_transformation.md # Block 4 BigQuery Visual Data Prep, Wrangling & QUALIFY
@@ -54,12 +61,6 @@ Welcome to the official repository for the **Luxottica Training Workshop: Master
    - `lux_online_orders` (**100,000 Rows**)
    - `lux_ad_spend` (**5,000 Rows**)
    - `lux_raw_marketing_leads_dirty` (**1,000 Rows**)
-
-### Step 2: Hands-on Execution Across the 3 Hours
-- **Block 1 (15:40 - 15:52):** BigQuery Data Insights & Data Canvas orientation (Relationship Graphs, Table/Column Descriptions, Sample Queries).
-- **Block 2 (16:15 - 16:40):** Challenge #1 (`challenges/challenge_1_data_explorer.sql`).
-- **Block 3 (17:20 - 17:40):** Challenge #2 (`challenges/challenge_2_cross_channel.sql`).
-- **Block 4 (17:45 - 18:10):** Visual Data Prep & Challenge #3 (`challenges/challenge_3_clean_slate.sql`).
 
 ---
 
