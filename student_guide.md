@@ -58,35 +58,30 @@ LIMIT 10;
 
 ---
 
-## 🏆 3. Hands-on Challenge Worksheets
+## 🏆 3. Hands-on Challenge Worksheets (3 Hours / 3 Challenges)
 
-### Challenge #1: "The Data Explorer" (16:25 - 16:45)
-**Goal:** Query `lux_online_orders` and `lux_ad_spend` to answer key business questions.
-
-- **Question 1 (Brand Revenue Ranking):**  
-  Which Luxottica brand generated the highest total revenue in `lux_online_orders`?
-  
-- **Question 2 (Discount Leakage Analysis):**  
-  Calculate the total revenue lost due to discounts per sales channel (`channel`).
-  
-- **Question 3 (High-Efficiency Campaigns):**  
-  Find all ad campaigns in `lux_ad_spend` with >100 conversions and spend < €3,000. Calculate cost per conversion (`spend_eur / conversions`).
-
-- **Question 4 (Bonus - Loyalty Tier Revenue):**  
-  Join `lux_crm_customers` with `lux_online_orders` to find total revenue per loyalty tier (`VIP`, `Gold`, `Silver`, `Standard`).
+### Challenge #1: "The Data Explorer" (16:15 - 16:40)
+**File:** `challenges/challenge_1_data_explorer.sql`
+- **Part A (Sales Performance):** Brand revenue ranking, channel breakdown, high-value orders (> 300 EUR).
+- **Part B (Campaign Efficiency):** Ad platform CTR %, top 5 campaigns by Cost-Per-Conversion (`spend / conversions`).
+- **Part C (Discount Leakage & Regional):** Effective discount % per product category, customer segmentation by country & loyalty tier.
+- **Part D (Conditional Metrics):** Spend tier segmentation ('Low', 'Medium', 'High') using `CASE WHEN`.
 
 ---
 
-### Challenge #2: "The Clean Slate" (18:00 - 18:15)
-**Goal:** Transform the raw, dirty marketing leads table `lux_raw_marketing_leads_dirty` into a clean reporting view named `v_clean_marketing_leads`.
+### Challenge #2: "Cross-Channel Marketing Intelligence" (17:20 - 17:40)
+**File:** `challenges/challenge_2_cross_channel.sql`
+- **Q1 (Customer LTV):** Join `lux_crm_customers` + `lux_online_orders` to compute LTV per loyalty tier.
+- **Q2 (Omni-channel Stream):** Use `UNION ALL` to combine E-Commerce Direct and Retail Store sales streams.
+- **Q3 (Multi-Platform Brand ROAS):** Use CTEs (`WITH` clauses) to blend Ad Spend and Sales Revenue per brand to compute ROAS (`Sales Revenue / Ad Spend`).
+- **Q4 (Cross-Sell Opportunity):** Identify customers purchasing brands different from their CRM preferred brand.
 
-#### Cleaning Checklist:
-1. **Trim Whitespace:** Clean leading/trailing spaces from lead IDs and emails.
-2. **Lower Case Email:** Convert emails to lowercase (`LOWER(TRIM(raw_email))`).
-3. **Brand Normalization:** Standardize brand names (`ray ban` / `RAY BAN` -> `Ray-Ban`, `PERSOL` -> `Persol`).
-4. **Safe Currency Extraction:** Convert string prices like `' € 175.00 '` to NUMERIC using `REGEXP_REPLACE` and `SAFE_CAST`.
-5. **Flexible Date Parsing:** Parse dates in European (`DD/MM/YYYY`) or ISO (`YYYY-MM-DD`) format using `PARSE_DATE()`.
-6. **Deduplication:** Keep only 1 lead entry per email address based on highest priority (`lead_priority`).
+---
+
+### Challenge #3: "The Clean Slate" (17:55 - 18:10)
+**File:** `challenges/challenge_3_clean_slate.sql`
+**Goal:** Transform the dirty marketing leads table `lux_raw_marketing_leads_dirty` into a clean reporting view `v_clean_marketing_leads`.
+- **Requirements:** Trim whitespace, convert emails to lowercase, normalize brand names (`ray ban` -> `Ray-Ban`), extract currency strings (`€ 175.00` -> `175.00`), parse mixed dates (`DD/MM/YYYY` / `YYYY-MM-DD`), deduplicate emails using `QUALIFY ROW_NUMBER() OVER(...)`.
 
 ---
 

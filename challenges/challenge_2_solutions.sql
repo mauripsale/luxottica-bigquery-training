@@ -1,73 +1,87 @@
 -- =============================================================================
--- HANDS-ON CHALLENGE #2 SOLUTIONS: "THE CLEAN SLATE"
+-- HANDS-ON CHALLENGE #2 SOLUTIONS: "CROSS-CHANNEL MARKETING INTELLIGENCE"
 -- Luxottica Marketing Analytics Workshop
 -- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
 -- Target Dataset: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
 -- =============================================================================
 
-CREATE OR REPLACE VIEW `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads` AS
-WITH CleanedBase AS (
+-- Q1: Customer Lifetime Value (LTV) by Loyalty Tier
+SELECT
+  c.loyalty_tier,
+  COUNT(DISTINCT c.customer_id) AS total_customers,
+  COUNT(o.order_id) AS total_orders,
+  ROUND(SUM(o.revenue_eur), 2) AS total_sales_revenue_eur,
+  ROUND(SAFE_DIVIDE(SUM(o.revenue_eur), COUNT(DISTINCT c.customer_id)), 2) AS avg_spend_per_customer_eur
+FROM
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers` c
+LEFT JOIN
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders` o
+ON
+  c.customer_id = o.customer_id
+GROUP BY
+  c.loyalty_tier
+ORDER BY
+  total_sales_revenue_eur DESC;
+
+-- Q2: Full Omni-Channel Transaction Log (UNION ALL)
+SELECT 
+  order_id, customer_id, brand, revenue_eur, 'E-Commerce Direct' AS channel_type
+FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+WHERE channel = 'E-Commerce Direct'
+
+UNION ALL
+
+SELECT 
+  order_id, customer_id, brand, revenue_eur, 'Retail Store' AS channel_type
+FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+WHERE channel = 'Retail Store';
+
+-- Q3: Multi-Platform Brand ROAS (Return on Ad Spend)
+WITH BrandAdSpend AS (
   SELECT
-    TRIM(raw_lead_id) AS lead_id,
-    
-    -- Email cleanup
-    LOWER(TRIM(raw_email)) AS clean_email,
-    
-    -- Brand normalization
-    CASE 
-      WHEN LOWER(TRIM(raw_brand)) LIKE '%ray%' THEN 'Ray-Ban'
-      WHEN LOWER(TRIM(raw_brand)) LIKE '%persol%' THEN 'Persol'
-      WHEN LOWER(TRIM(raw_brand)) LIKE '%oakley%' THEN 'Oakley'
-      WHEN LOWER(TRIM(raw_brand)) LIKE '%oliver%' THEN 'Oliver Peoples'
-      WHEN LOWER(TRIM(raw_brand)) LIKE '%vogue%' THEN 'Vogue Eyewear'
-      ELSE INITCAP(TRIM(raw_brand))
-    END AS clean_brand,
-    
-    -- Heterogeneous Date parsing
-    CASE
-      WHEN signup_raw_date LIKE '%/%' THEN PARSE_DATE('%d/%m/%Y', signup_raw_date)
-      WHEN signup_raw_date LIKE '%-%' THEN PARSE_DATE('%Y-%m-%d', signup_raw_date)
-      WHEN REGEXP_CONTAINS(signup_raw_date, r'^[A-Za-z]{3}') THEN PARSE_DATE('%b %d, %Y', signup_raw_date)
-      ELSE NULL
-    END AS signup_date,
-    
-    -- Currency extraction & non-negative spend check
-    GREATEST(
-      0.00,
-      COALESCE(
-        SAFE_CAST(
-          REGEXP_REPLACE(
-            REGEXP_REPLACE(raw_estimated_spend, r',', '.'), 
-            r'[^0-9.-]', ''
-          ) AS NUMERIC
-        ),
-        0.00
-      )
-    ) AS estimated_spend_eur,
-    
-    UPPER(TRIM(raw_country)) AS country,
-    lead_priority
+    brand,
+    SUM(spend_eur) AS total_ad_spend_eur,
+    SUM(clicks) AS total_clicks,
+    SUM(conversions) AS total_conversions
   FROM
-    `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`
-  WHERE
-    -- Filter invalid email formats
-    REGEXP_CONTAINS(TRIM(raw_email), r'^[^@]+@[^@]+\.[^@]+$')
+    `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
+  GROUP BY brand
+),
+
+BrandRevenue AS (
+  SELECT
+    brand,
+    SUM(revenue_eur) AS total_sales_revenue_eur
+  FROM
+    `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+  GROUP BY brand
 )
 
 SELECT
-  lead_id,
-  clean_email AS email,
-  clean_brand AS brand,
-  signup_date,
-  estimated_spend_eur,
-  country
-FROM
-  CleanedBase
--- Deduplicate by email keeping top lead priority
-QUALIFY ROW_NUMBER() OVER(
-  PARTITION BY clean_email 
-  ORDER BY lead_priority ASC, signup_date DESC
-) = 1;
+  s.brand,
+  ROUND(s.total_ad_spend_eur, 2) AS total_ad_spend_eur,
+  ROUND(COALESCE(r.total_sales_revenue_eur, 0.0), 2) AS total_sales_revenue_eur,
+  ROUND(SAFE_DIVIDE(r.total_sales_revenue_eur, s.total_ad_spend_eur), 2) AS roas_ratio
+FROM BrandAdSpend s
+LEFT JOIN BrandRevenue r
+  ON s.brand = r.brand
+ORDER BY roas_ratio DESC;
 
--- Verification Query to view output
-SELECT * FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads`;
+-- Q4: Customer Brand Preference Alignment (Cross-Sell Opportunity)
+SELECT
+  c.customer_id,
+  CONCAT(c.first_name, ' ', c.last_name) AS full_name,
+  c.country,
+  c.preferred_brand AS crm_preferred_brand,
+  o.brand AS purchased_brand,
+  o.revenue_eur
+FROM
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers` c
+JOIN
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders` o
+ON
+  c.customer_id = o.customer_id
+WHERE
+  c.preferred_brand != o.brand
+ORDER BY
+  o.revenue_eur DESC;

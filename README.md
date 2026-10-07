@@ -22,20 +22,21 @@ Welcome to the official repository for the **Luxottica Training Workshop: Master
 ```
 .
 ├── README.md                                  # Repository Overview & Quick Start
-├── instructor_guide.md                        # Complete Instructor Facilitation Manual
+├── instructor_guide.md                        # Complete 180-Minute Instructor Facilitation Script
 ├── student_guide.md                           # Student Participant Guide & Cheat Sheet
-├── trainer_guide.md                           # Facilitator Checklist & Minute-by-Minute Schedule
 ├── dataset/
-│   └── 00_setup_schema_and_data.sql           # Complete BigQuery Standard SQL Dataset Seed Script
+│   └── 00_setup_schema_and_data.sql           # Rich BigQuery Seed Script (Hundreds of records)
 ├── handouts/
 │   ├── 01_fundamentals_and_exploration.md     # Block 1 & 2 Concepts, Console Guide & Starter SQL
 │   ├── 02_advanced_querying.md                # Block 3 UNIONS, JOINS & Multi-Source Cross-Channel Analytics
 │   └── 03_data_cleaning_and_transformation.md # Block 4 Data Integrity, String/Date Wrangling & QUALIFY
 ├── challenges/
-│   ├── challenge_1_data_explorer.sql          # Hands-on Challenge #1 Exercises
+│   ├── challenge_1_data_explorer.sql          # Block 2: Challenge #1 Exercises (8 Business Questions)
 │   ├── challenge_1_solutions.sql              # Challenge #1 Solution Queries
-│   ├── challenge_2_clean_slate.sql            # Hands-on Challenge #2 Exercises
-│   └── challenge_2_solutions.sql              # Challenge #2 Solution View Script
+│   ├── challenge_2_cross_channel.sql          # Block 3: Challenge #2 Exercises (ROAS & Multi-table JOINS)
+│   ├── challenge_2_solutions.sql              # Challenge #2 Solution Queries
+│   ├── challenge_3_clean_slate.sql            # Block 4: Challenge #3 Exercises (Building Automated View)
+│   └── challenge_3_solutions.sql              # Challenge #3 Solution View Script
 └── slides/
     └── slide_deck_outline.md                  # Complete Slide Deck Outline & Speaker Script
 ```
@@ -48,11 +49,12 @@ Welcome to the official repository for the **Luxottica Training Workshop: Master
 1. Log into Google Cloud Console and open [BigQuery Studio](https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21).
 2. Verify target dataset exists: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`.
 3. Open a new SQL Query tab, paste the contents of `dataset/00_setup_schema_and_data.sql`, and execute.
-4. Verify the 4 created tables: `lux_crm_customers`, `lux_online_orders`, `lux_ad_spend`, `lux_raw_marketing_leads_dirty`.
+4. Verify the created tables: `lux_crm_customers` (50 rows), `lux_online_orders` (120 rows), `lux_ad_spend` (60 rows), `lux_raw_marketing_leads_dirty` (30 rows).
 
-### Step 2: Hands-on Execution
-- **Block 2 (16:00 - 16:45):** Open `challenges/challenge_1_data_explorer.sql` for Challenge #1.
-- **Block 4 (17:45 - 18:15):** Open `challenges/challenge_2_clean_slate.sql` for Challenge #2.
+### Step 2: Hands-on Execution Across the 3 Hours
+- **Block 2 (16:15 - 16:40):** Challenge #1 (`challenges/challenge_1_data_explorer.sql`).
+- **Block 3 (17:20 - 17:40):** Challenge #2 (`challenges/challenge_2_cross_channel.sql`).
+- **Block 4 (17:55 - 18:10):** Challenge #3 (`challenges/challenge_3_clean_slate.sql`).
 
 ---
 

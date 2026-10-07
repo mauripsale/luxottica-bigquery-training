@@ -5,117 +5,113 @@
 **Project Owner:** `student-02-25b97e18011e@qwiklabs.net` (student b50b8eff)  
 **Target Dataset:** `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`  
 **Target Audience:** Global Analytics, Business Analyst, Digital Commerce & Retail Operations  
-**Date & Time:** Oct 12th, 2026 | 15:30 - 18:30 (3 Hours / 180 Minutes)  
+**Duration:** 3 Hours / 180 Minutes (15:30 - 18:30)  
 **Format:** Hybrid (In-Person & Remote Connection)
 
 ---
 
-## 📋 1. Pre-Session Checklist & Technical Logistics
+## 🕒 Minute-by-Minute 180-Minute Pacing & Facilitation Masterplan
 
-### T-24 Hours Before Session
-- [ ] Confirm GCP Project Access: Verify `qwiklabs-gcp-04-9efaa47f1d21` (`bigquery-luxottica`) is active under owner `student-02-25b97e18011e@qwiklabs.net`.
-- [ ] Assign IAM Roles / Dataset Permissions:
-  - `roles/bigquery.jobUser` (on project level `qwiklabs-gcp-04-9efaa47f1d21`)
-  - `roles/bigquery.dataViewer` (on dataset level `luxottica_marketing_analytics`)
-  - `roles/bigquery.dataEditor` (on dataset level for Challenge #2 VIEW creation)
-- [ ] Execute `dataset/00_setup_schema_and_data.sql` to populate all 4 tables in `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`.
-- [ ] Send `student_guide.md` and Wi-Fi / Zoom access details to all participants.
-
-### T-60 Minutes Before Session
-- [ ] Test room audio, dual screens, wireless microphone, and Zoom/Teams screen sharing.
-- [ ] Open BigQuery Console (`https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21`) and verify dataset availability.
-- [ ] Open Mentimeter / Slido icebreaker poll.
-- [ ] Open a blank Looker Studio window linked to `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`.
+```mermaid
+flowchart TD
+    Block1["<b>15:30 - 16:00 (30m)</b><br/>Block 1: Fundamentals & Console Pinning"] --> Block2["<b>16:00 - 16:45 (45m)</b><br/>Block 2: Exploring & 🏆 Challenge #1 (8 Questions)"]
+    Block2 --> Break["<b>16:45 - 17:00 (15m)</b><br/>☕ Coffee Break & Individual Catch-up"]
+    Break --> Block3["<b>17:00 - 17:45 (45m)</b><br/>Block 3: UNIONS, JOINS & 🏆 Challenge #2 (ROAS)"]
+    Block3 --> Block4["<b>17:45 - 18:15 (30m)</b><br/>Block 4: Wrangling & 🏆 Challenge #3 (Looker Studio)"]
+    Block4 --> Block5["<b>18:15 - 18:30 (15m)</b><br/>Block 5: Executive Wrap-up & Awards"]
+```
 
 ---
 
-## ⏱️ 2. Minute-by-Minute Facilitation Timeline
+## ⏱️ Detailed Block-by-Block Execution Script
 
-### 🕒 15:30 - 15:45 | Welcome, Icebreaker & Concept Hook (15 Mins)
-- **Slide 1-3:** Welcome & Agenda overview.
-- **Interactive Icebreaker (Mentimeter/Slido):**  
-  *Prompt:* "What's the biggest pain point in your daily Excel spreadsheets?"  
-  *Instructor Action:* Highlight common answers (vlookups freezing, 1M row cap, broken formulas). Connect them to BigQuery's serverless speed.
-- **Excel vs EDW Analogy:**  
-  Explain that BigQuery is not replacing Excel's flexibility, but taking over the heavy lifting for massive datasets.
+### 🕒 15:30 - 16:00 | Block 1: BigQuery Fundamentals & Console Pinning (30 Mins)
 
-### 🕒 15:45 - 16:00 | Hands-on Orientation & Project Pinning (15 Mins)
-- **Console Walkthrough:**  
-  Direct participants to `https://console.cloud.google.com/bigquery`.
-- **Project Pinning Exercise:**  
-  Guide participants live: Click **"+ ADD" -> "Star a project by name"** -> Type `qwiklabs-gcp-04-9efaa47f1d21` (or search `bigquery-luxottica`).
-- **Dataset Exploration:**  
-  Show participants how to click on `luxottica_marketing_analytics` and inspect table schemas (`lux_crm_customers`, `lux_online_orders`, `lux_ad_spend`, `lux_raw_marketing_leads_dirty`).
+- **15:30 - 15:40 (10m) | Welcome & Mentimeter Icebreaker**
+  - Welcome participants and introduce the course objectives.
+  - Launch live icebreaker poll: *"What is your biggest daily struggle with Excel spreadsheets?"*
+  - Debrief answers: Connect vlookup lag and row limits to BigQuery's serverless architecture.
 
-### 🕒 16:00 - 16:25 | SQL Exploration Basics & Live Code-Along (25 Mins)
-- **Core Clause Order:** Explain `SELECT` -> `FROM` -> `WHERE` -> `GROUP BY` -> `ORDER BY`.
-- **Excel Translation Table:**
-  - `SELECT` = Picking columns in Excel
-  - `WHERE` = Excel Header Filters
-  - `GROUP BY` = Excel Pivot Table
-  - `SUM / AVG` = Pivot Values
-- **Live Code-Along Query:**  
-  Write together: Revenue & Units Sold by Brand in `lux_online_orders`.
-  ```sql
-  SELECT brand, COUNT(order_id) AS total_orders, SUM(revenue_eur) AS total_revenue
-  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
-  GROUP BY brand ORDER BY total_revenue DESC;
-  ```
+- **15:40 - 15:50 (10m) | Console Orientation & Project Pinning**
+  - Guide all participants live to `https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21`.
+  - Step-by-step pinning: Click **"+ ADD" -> "Star a project by name"** -> Type `qwiklabs-gcp-04-9efaa47f1d21`.
+  - Inspect dataset `luxottica_marketing_analytics` and preview schemas for `lux_crm_customers`, `lux_online_orders`, `lux_ad_spend`, `lux_raw_marketing_leads_dirty`.
 
-### 🕒 16:25 - 16:45 | 🏆 Challenge #1: "The Data Explorer" (20 Mins)
-- **Team Gamification Launch:**  
-  Divide attendees into 4 Luxottica Brand Teams (Team Ray-Ban, Team Oakley, Team Persol, Team Oliver Peoples).
-- **Task:** Participants complete Questions 1-4 in `challenge_1_data_explorer.sql`.
-- **Instructor Role:** Walk the room and check Zoom chat. Assist stuck participants.
-- **Solution Debrief (16:40):** Show `challenge_1_solutions.sql` and declare the winning team.
+- **15:50 - 16:00 (10m) | First Guided Code-Along Query**
+  - Write a simple query together to count total rows and inspect columns.
+  - Explain the query validator (top right corner: bytes scanned and cost preview).
 
 ---
 
-### ☕ 16:45 - 17:00 | Coffee Break & Catch-up Buffer
+### 🕒 16:00 - 16:45 | Block 2: Exploring & Preparing Data (45 Mins)
+
+- **16:00 - 16:15 (15m) | Lecture & Code-Along: Core SQL Clauses**
+  - Teach `SELECT`, `FROM`, `WHERE`, `GROUP BY`, `ORDER BY`.
+  - Excel Translation: `SELECT` = Columns, `WHERE` = Filter Header, `GROUP BY` = Pivot Table, `SUM/AVG` = Values.
+  - Demonstrate conditional filtering with `AND`, `OR`, `IN`, `BETWEEN`.
+
+- **16:15 - 16:40 (25m) | 🏆 Challenge #1: "The Data Explorer" (8 Business Questions)**
+  - Divide attendees into 4 Brand Teams (Team Ray-Ban, Team Oakley, Team Persol, Team Oliver Peoples).
+  - Open `challenges/challenge_1_data_explorer.sql` containing 8 business questions (E-Commerce revenue, channel sales, high-value transactions, campaign efficiency, discount leakage).
+  - Walk the room and check Zoom chat to assist stuck participants.
+
+- **16:40 - 16:45 (5m) | Challenge #1 Live Debrief & Scoreboard Update**
+  - Project `challenges/challenge_1_solutions.sql` on screen. Award points to the fastest correct team.
 
 ---
 
-### 🕒 17:00 - 17:25 | Multi-Source Querying: UNIONS & JOINS (25 Mins)
-- **Concept:** Combining data across platforms (CRM + Orders + Ad Spend).
-- **`UNION ALL` vs `JOIN`:**  
-  - Vertical (UNIONS) = Stacking rows from same format feeds.
-  - Horizontal (JOINS) = Adding extra columns via matching keys (`customer_id` / `brand`).
-- **Live Code-Along:** Blending Customer Loyalty Tier with Order Revenue.
-
-### 🕒 17:25 - 17:45 | Cross-Channel ROAS Analytics (20 Mins)
-- **Concept:** Calculating Return on Ad Spend (ROAS) per brand.
-- **Code Demo:** Using CTEs (`WITH` clause) to aggregate spend and sales independently before joining on `brand`.
-- **Key Takeaway:** How BigQuery helps marketing teams prove campaign ROI across Google Ads, Meta, and TikTok.
+### ☕ 16:45 - 17:00 | Coffee Break & Catch-up Buffer (15 Mins)
+- Help any struggling remote or in-person participants catch up on BigQuery syntax.
 
 ---
 
-### 🕒 17:45 - 18:00 | Data Cleaning & Wrangling Toolkit (15 Mins)
-- **Data Quality Principles:** Why bad data ruins campaign attribution.
-- **Key Functions Demo:**
-  - `TRIM()` & `LOWER()`
-  - `SAFE_CAST()` (Defensive casting to avoid crashes)
-  - `PARSE_DATE()` (Handling mixed date formats)
-  - `QUALIFY ROW_NUMBER() OVER(...)` (Clean deduplication)
-- **Simplifying Nested Fields Note:** Keep `ARRAY` / `STRUCT` explanations purely conceptual (max 3 minutes) so non-technical users stay confident.
+### 🕒 17:00 - 17:45 | Block 3: Advanced Querying & Cross-Channel Analytics (45 Mins)
 
-### 🕒 18:00 - 18:15 | 🏆 Challenge #2: "The Clean Slate" + Looker Studio Demo (15 Mins)
-- **Task:** Participants transform `lux_raw_marketing_leads_dirty` into `v_clean_marketing_leads` view.
-- **1-Click Looker Studio Demo (18:10):**  
-  Instructor opens Looker Studio directly from the created VIEW in BigQuery and shows a live, polished marketing dashboard!
+- **17:00 - 17:20 (20m) | Lecture & Code-Along: UNIONS & JOINS**
+  - Explain `UNION ALL` (vertical stacking) vs `INNER / LEFT JOIN` (horizontal enrichment).
+  - Explain Primary Keys (`customer_id`, `brand`) and avoiding revenue duplication fan-out.
+  - Demonstrate CTEs (`WITH` clauses) for aggregating spend and revenue before joining.
 
----
+- **17:20 - 17:40 (20m) | 🏆 Challenge #2: "Cross-Channel Marketing Intelligence" (4 Questions)**
+  - Open `challenges/challenge_2_cross_channel.sql`.
+  - Tasks: LTV by Loyalty Tier, Omni-channel UNION stream, Multi-Platform Brand ROAS calculation, Brand Preference Alignment.
 
-### 🕒 18:15 - 18:30 | Executive Summary, Security & Awarding (15 Mins)
-- **Executive Wrap-up:** Summary of skills gained.
-- **Security & PII Spotlight:** Row-level & Column-level security, PII data masking (emails/phones), and isolated cloud tenant governance.
-- **Awards & Feedback:** Declare overall winning Brand Team, distribute feedback link.
+- **17:40 - 17:45 (5m) | Challenge #2 Solution Review**
+  - Review `challenges/challenge_2_solutions.sql` and explain how ROAS proves marketing ROI.
 
 ---
 
-## 🛠️ 3. Troubleshooting & FAQs for Instructor
+### 🕒 17:45 - 18:15 | Block 4: Data Cleaning & Transformation (30 Mins)
 
-| Issue / Error | Root Cause | Solution / Fix |
+- **17:45 - 17:55 (10m) | Lecture: SQL Data Wrangling Toolkit**
+  - Explain string functions (`TRIM`, `LOWER`), `SAFE_CAST` (preventing crashes), `PARSE_DATE` (handling `DD/MM/YYYY`), and `QUALIFY ROW_NUMBER()` for deduplication.
+  - *Pedagogical Note:* Keep nested fields (`ARRAY`/`STRUCT`) purely conceptual (max 2 minutes).
+
+- **17:55 - 18:10 (15m) | 🏆 Challenge #3: "The Clean Slate" (Building an Automated ETL View)**
+  - Open `challenges/challenge_3_clean_slate.sql`.
+  - Transform dirty leads into production VIEW `v_clean_marketing_leads`.
+  - **1-Click Looker Studio Demo:** Connect the VIEW live to Looker Studio to generate an executive dashboard!
+
+- **18:10 - 18:15 (5m) | Challenge #3 Solution Review**
+  - Inspect `challenges/challenge_3_solutions.sql`.
+
+---
+
+### 🕒 18:15 - 18:30 | Block 5: Key Takeaways, Security & Awards (15 Mins)
+
+- **18:15 - 18:25 (10m) | Executive Summary & Security Spotlight**
+  - Highlight business value gained (automated data cleaning, cross-channel ROAS, Looker Studio connectivity).
+  - Security & PII Spotlight: Row/Column-level security, PII data masking (emails/phones), and isolated cloud tenant governance.
+
+- **18:25 - 18:30 (5m) | Winning Team Awarding & Feedback**
+  - Declare the winning Luxottica Brand Team, share GitHub repository link, and collect feedback.
+
+---
+
+## 🛠️ Troubleshooting & Instructor Cheat Sheet
+
+| Issue | Root Cause | Fix / Response |
 | :--- | :--- | :--- |
-| **`Table not found`** | Typo in dataset name or missing backticks. | Remind them to use full path `` `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.table_name` ``. |
-| **`Division by zero`** | Dividing by zero in cost metrics. | Replace `a / b` with `SAFE_DIVIDE(a, b)`. |
+| **`Table not found`** | Missing project prefix or backticks. | Remind them to use `` `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.table_name` ``. |
+| **`Division by zero`** | Dividing by zero in cost metrics. | Use `SAFE_DIVIDE(numerator, denominator)`. |
 | **`Cannot parse date`** | Mixed date format string (`02/09/2026` vs `2026-09-01`). | Use `CASE WHEN string LIKE '%/%' THEN PARSE_DATE('%d/%m/%Y', string) ...` |

@@ -5,13 +5,13 @@
 -- Target Dataset: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
 -- =============================================================================
 
--- -----------------------------------------------------------------------------
--- SOLUTION 1: Revenue by Brand
--- -----------------------------------------------------------------------------
+-- Q1: Total Revenue and Units Sold per Brand
 SELECT
   brand,
   COUNT(order_id) AS total_orders,
-  ROUND(SUM(revenue_eur), 2) AS total_revenue_eur
+  SUM(units_sold) AS total_units_sold,
+  ROUND(SUM(revenue_eur), 2) AS total_revenue_eur,
+  ROUND(SAFE_DIVIDE(SUM(revenue_eur), COUNT(order_id)), 2) AS avg_order_value_eur
 FROM
   `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
 GROUP BY
@@ -19,58 +19,108 @@ GROUP BY
 ORDER BY
   total_revenue_eur DESC;
 
--- -----------------------------------------------------------------------------
--- SOLUTION 2: Discount Impact Analysis
--- -----------------------------------------------------------------------------
+-- Q2: Sales Channel Breakdown
 SELECT
   channel,
   COUNT(order_id) AS total_orders,
-  ROUND(SUM(revenue_eur), 2) AS sum_revenue_eur,
-  ROUND(SUM(discount_amount_eur), 2) AS sum_discounts_eur,
-  ROUND(
-    SAFE_DIVIDE(SUM(discount_amount_eur), (SUM(revenue_eur) + SUM(discount_amount_eur))) * 100, 
-    2
-  ) AS discount_percentage
+  SUM(units_sold) AS total_units,
+  ROUND(SUM(revenue_eur), 2) AS total_revenue_eur
 FROM
   `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
 GROUP BY
   channel
 ORDER BY
-  sum_discounts_eur DESC;
+  total_revenue_eur DESC;
 
--- -----------------------------------------------------------------------------
--- SOLUTION 3: High-Performing Ad Campaigns
--- -----------------------------------------------------------------------------
+-- Q3: High-Value E-Commerce Transactions
+SELECT
+  order_id,
+  customer_id,
+  brand,
+  channel,
+  product_category,
+  revenue_eur
+FROM
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+WHERE
+  revenue_eur > 300.00
+  AND channel IN ('E-Commerce Direct', 'App')
+ORDER BY
+  revenue_eur DESC;
+
+-- Q4: Platform Performance
+SELECT
+  platform,
+  ROUND(SUM(spend_eur), 2) AS total_spend_eur,
+  SUM(impressions) AS total_impressions,
+  SUM(clicks) AS total_clicks,
+  SUM(conversions) AS total_conversions,
+  ROUND(SAFE_DIVIDE(SUM(clicks), SUM(impressions)) * 100, 2) AS ctr_percentage
+FROM
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
+GROUP BY
+  platform
+ORDER BY
+  total_spend_eur DESC;
+
+-- Q5: Top 5 Campaign Efficiency (Cost-Per-Conversion)
 SELECT
   campaign_name,
   platform,
   brand,
-  spend_eur,
-  conversions,
-  ROUND(SAFE_DIVIDE(spend_eur, conversions), 2) AS cost_per_conversion
+  ROUND(SUM(spend_eur), 2) AS total_spend_eur,
+  SUM(conversions) AS total_conversions,
+  ROUND(SAFE_DIVIDE(SUM(spend_eur), SUM(conversions)), 2) AS cost_per_conversion
 FROM
   `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
-WHERE
-  conversions > 100
-  AND spend_eur < 3000.00
-ORDER BY
-  cost_per_conversion ASC;
-
--- -----------------------------------------------------------------------------
--- SOLUTION 4: Loyalty Tier Revenue (Bonus)
--- -----------------------------------------------------------------------------
-SELECT
-  c.loyalty_tier,
-  COUNT(DISTINCT c.customer_id) AS total_customers,
-  COUNT(o.order_id) AS total_orders,
-  ROUND(SUM(o.revenue_eur), 2) AS total_revenue_eur
-FROM
-  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers` c
-JOIN
-  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders` o
-ON
-  c.customer_id = o.customer_id
 GROUP BY
-  c.loyalty_tier
+  campaign_name, platform, brand
+HAVING
+  total_conversions > 0
+ORDER BY
+  cost_per_conversion ASC
+LIMIT 5;
+
+-- Q6: Discount Impact Analysis per Product Category
+SELECT
+  product_category,
+  ROUND(SUM(revenue_eur), 2) AS total_revenue_eur,
+  ROUND(SUM(discount_amount_eur), 2) AS total_discounts_eur,
+  ROUND(
+    SAFE_DIVIDE(SUM(discount_amount_eur), (SUM(revenue_eur) + SUM(discount_amount_eur))) * 100, 
+    2
+  ) AS effective_discount_pct
+FROM
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+GROUP BY
+  product_category
+ORDER BY
+  total_discounts_eur DESC;
+
+-- Q7: Regional Customer Segmentation
+SELECT
+  country,
+  loyalty_tier,
+  COUNT(customer_id) AS total_customers
+FROM
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers`
+GROUP BY
+  country, loyalty_tier
+ORDER BY
+  country ASC, total_customers DESC;
+
+-- Q8: Revenue Bucket Segmentation using CASE WHEN
+SELECT
+  CASE
+    WHEN revenue_eur < 150.00 THEN 'Low (< 150 EUR)'
+    WHEN revenue_eur BETWEEN 150.00 AND 300.00 THEN 'Medium (150-300 EUR)'
+    ELSE 'High (> 300 EUR)'
+  END AS spend_tier,
+  COUNT(order_id) AS total_orders,
+  ROUND(SUM(revenue_eur), 2) AS total_revenue_eur
+FROM
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+GROUP BY
+  spend_tier
 ORDER BY
   total_revenue_eur DESC;
