@@ -2,18 +2,20 @@
 -- HANDS-ON CHALLENGE #2: "THE CLEAN SLATE"
 -- Target Duration: 20 Minutes (within Block 4: 17:45 - 18:15)
 -- Target Audience: Luxottica Global Analytics & Business Analysts
+-- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
+-- Target Dataset: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
 -- =============================================================================
 
 /*
 BUSINESS CONTEXT:
 The marketing leads pipeline receives raw data from global digital forms.
-The raw table `luxottica_marketing_analytics.lux_raw_marketing_leads_dirty` contains 
-whitespace issues, inconsistent brand casing, varied date formats, string currency values,
+The raw table `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty` 
+contains whitespace issues, inconsistent brand casing, varied date formats, string currency values,
 and duplicate email submissions.
 
 OBJECTIVE:
 Transform this messy dataset into a standardized, production-ready BigQuery SQL VIEW
-named `luxottica_marketing_analytics.v_clean_marketing_leads`.
+named `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads`.
 
 REQUIREMENTS:
 1. Standardize Lead ID: Trim leading/trailing whitespace.
@@ -28,7 +30,7 @@ REQUIREMENTS:
 -- WRITE YOUR CLEANING SQL / VIEW CREATION STATEMENT BELOW:
 -- -----------------------------------------------------------------------------
 
-CREATE OR REPLACE VIEW `luxottica_marketing_analytics.v_clean_marketing_leads` AS
+CREATE OR REPLACE VIEW `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads` AS
 -- YOUR SQL STATEMENT HERE;
 
 

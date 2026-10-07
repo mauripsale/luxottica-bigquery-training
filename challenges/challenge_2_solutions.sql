@@ -1,9 +1,11 @@
 -- =============================================================================
 -- HANDS-ON CHALLENGE #2 SOLUTIONS: "THE CLEAN SLATE"
 -- Luxottica Marketing Analytics Workshop
+-- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
+-- Target Dataset: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
 -- =============================================================================
 
-CREATE OR REPLACE VIEW `luxottica_marketing_analytics.v_clean_marketing_leads` AS
+CREATE OR REPLACE VIEW `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads` AS
 WITH CleanedBase AS (
   SELECT
     TRIM(raw_lead_id) AS lead_id,
@@ -46,7 +48,7 @@ WITH CleanedBase AS (
     UPPER(TRIM(raw_country)) AS country,
     lead_priority
   FROM
-    `luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`
+    `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`
   WHERE
     -- Filter invalid email formats
     REGEXP_CONTAINS(TRIM(raw_email), r'^[^@]+@[^@]+\.[^@]+$')
@@ -68,4 +70,4 @@ QUALIFY ROW_NUMBER() OVER(
 ) = 1;
 
 -- Verification Query to view output
-SELECT * FROM `luxottica_marketing_analytics.v_clean_marketing_leads`;
+SELECT * FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads`;

@@ -1,5 +1,8 @@
 # 🕶️ Luxottica BigQuery Training: Student Participant Guide
 **Course:** BigQuery for Data Analysis: Mastering Marketing Data with BigQuery SQL  
+**GCP Project Name:** `bigquery-luxottica`  
+**GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21`  
+**Target Dataset:** `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`  
 **Client:** Luxottica Global Analytics, Business Analyst, Digital Commerce & Retail Operations  
 **Date & Time:** Oct 12th, 2026 | 15:30 - 18:30 (3 Hours / 180 Minutes)
 
@@ -8,13 +11,13 @@
 ## 🚀 1. Quick Start: Connecting to Your BigQuery Environment
 
 ### Step 1: Open BigQuery Studio
-1. Open your browser and go to: [https://console.cloud.google.com/bigquery](https://console.cloud.google.com/bigquery)
-2. Log in with your **Luxottica Corporate Email**.
+1. Open your browser and go to: [https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21](https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21)
+2. Log in with your assigned account (`student-02-25b97e18011e@qwiklabs.net` or your Luxottica Corporate Email).
 
 ### Step 2: Pin the Training Project
 1. In the left navigation pane (**Explorer**), click the **`+ ADD`** button at the top.
 2. Select **"Star a project by name"** (or *Pin a project*).
-3. Type the project name: **`lux-bq-training-2026`** and click **Star**.
+3. Type the project ID: **`qwiklabs-gcp-04-9efaa47f1d21`** (or search **`bigquery-luxottica`**) and click **Star**.
 4. You will now see the dataset **`luxottica_marketing_analytics`** in your left sidebar!
 
 ---
@@ -42,7 +45,7 @@ SELECT
   ROUND(SUM(revenue_eur), 2) AS total_revenue_eur,
   ROUND(AVG(revenue_eur), 2) AS avg_order_value_eur
 FROM
-  `luxottica_marketing_analytics.lux_online_orders`
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
 WHERE
   revenue_eur > 50.00
 GROUP BY

@@ -1,5 +1,7 @@
 # Module 01 & 02: BigQuery Fundamentals & Data Exploration
-**Luxottica Marketing Data Training**
+**Luxottica Marketing Data Training**  
+**GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21` (`bigquery-luxottica`)  
+**Target Dataset:** `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`  
 **Date:** Oct 12th, 2026 | **Time:** 15:30 - 16:45
 
 ---
@@ -18,8 +20,8 @@
 
 ## 2. Navigating the BigQuery Console
 
-1. **GCP Console URL:** `https://console.cloud.google.com/bigquery`
-2. **Project Hierarchy:** `Organization > Project ID > Dataset ID > Table / View`
+1. **GCP Console URL:** `https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21`
+2. **Project Hierarchy:** `qwiklabs-gcp-04-9efaa47f1d21 > luxottica_marketing_analytics > Table / View`
 3. **Key Console Areas:**
    - **Explorer Pane (Left):** Search datasets, tables, view schemas & metadata.
    - **Query Editor (Center):** Write standard SQL queries, format code, view real-time syntax validation.
@@ -36,7 +38,7 @@ SELECT
     column_2,
     AGGREGATE_FUNCTION(column_3) AS metric_alias
 FROM
-    `project_id.dataset_id.table_name`
+    `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.table_name`
 WHERE
     filter_condition
 GROUP BY
@@ -60,7 +62,7 @@ SELECT
   ROUND(SUM(revenue_eur), 2) AS total_revenue_eur,
   ROUND(AVG(revenue_eur), 2) AS avg_order_value_eur
 FROM
-  `luxottica_marketing_analytics.lux_online_orders`
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
 GROUP BY
   brand
 ORDER BY
@@ -75,7 +77,7 @@ SELECT
   COUNT(order_id) AS total_orders,
   SUM(revenue_eur) AS total_revenue
 FROM
-  `luxottica_marketing_analytics.lux_online_orders`
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
 WHERE
   revenue_eur >= 150.00
 GROUP BY
@@ -92,7 +94,7 @@ SELECT
   loyalty_tier,
   COUNT(customer_id) AS customer_count
 FROM
-  `luxottica_marketing_analytics.lux_crm_customers`
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers`
 GROUP BY
   country,
   loyalty_tier

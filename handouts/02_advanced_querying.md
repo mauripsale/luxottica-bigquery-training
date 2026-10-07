@@ -1,5 +1,6 @@
 # Module 02: Advanced Querying & Multi-Source Data Integration
-**Luxottica Marketing Data Training**
+**Luxottica Marketing Data Training**  
+**GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21` (`bigquery-luxottica`)  
 **Date:** Oct 12th, 2026 | **Time:** 17:00 - 17:45 (Block 3)
 
 ---
@@ -23,14 +24,14 @@ When analyzing omni-channel campaigns at Luxottica (e.g., Ray-Ban or Oakley camp
 -- Example: Combining E-Commerce orders with Retail Store order feeds
 SELECT 
   order_id, customer_id, brand, revenue_eur, 'E-Commerce' AS source_type
-FROM `luxottica_marketing_analytics.lux_online_orders`
+FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
 WHERE channel = 'E-Commerce Direct'
 
 UNION ALL
 
 SELECT 
   order_id, customer_id, brand, revenue_eur, 'Retail Store' AS source_type
-FROM `luxottica_marketing_analytics.lux_online_orders`
+FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
 WHERE channel = 'Retail Store';
 ```
 
@@ -60,9 +61,9 @@ SELECT
   o.product_category,
   COALESCE(o.revenue_eur, 0.0) AS order_revenue_eur
 FROM
-  `luxottica_marketing_analytics.lux_crm_customers` c
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers` c
 LEFT JOIN
-  `luxottica_marketing_analytics.lux_online_orders` o
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders` o
 ON
   c.customer_id = o.customer_id
 ORDER BY
@@ -79,7 +80,7 @@ WITH BrandAdSpend AS (
     SUM(spend_eur) AS total_ad_spend,
     SUM(impressions) AS total_impressions,
     SUM(clicks) AS total_clicks
-  FROM `luxottica_marketing_analytics.lux_ad_spend`
+  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
   GROUP BY brand
 ),
 
@@ -87,7 +88,7 @@ BrandRevenue AS (
   SELECT
     brand,
     SUM(revenue_eur) AS total_sales_revenue
-  FROM `luxottica_marketing_analytics.lux_online_orders`
+  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
   GROUP BY brand
 )
 

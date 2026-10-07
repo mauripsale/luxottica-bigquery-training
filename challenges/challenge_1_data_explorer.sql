@@ -2,6 +2,8 @@
 -- HANDS-ON CHALLENGE #1: "THE DATA EXPLORER"
 -- Target Duration: 20 Minutes (within Block 2: 16:00 - 16:45)
 -- Target Audience: Luxottica Global Analytics & Business Analysts
+-- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
+-- Target Dataset: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
 -- =============================================================================
 
 /*
@@ -11,9 +13,9 @@ of recent sales and ad campaign metrics to identify top revenue drivers.
 
 INSTRUCTIONS:
 Write standard SQL queries in BigQuery to answer the 4 business questions below.
-Target Table 1: `luxottica_marketing_analytics.lux_online_orders`
-Target Table 2: `luxottica_marketing_analytics.lux_ad_spend`
-Target Table 3: `luxottica_marketing_analytics.lux_crm_customers`
+Target Table 1: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+Target Table 2: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
+Target Table 3: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers`
 */
 
 -- -----------------------------------------------------------------------------

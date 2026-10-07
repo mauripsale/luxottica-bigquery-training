@@ -1,11 +1,18 @@
 -- =============================================================================
 -- LUXOTTICA MARKETING ANALYTICS - BIGQUERY TRAINING DATASET SETUP
 -- Course: Mastering Marketing Data with BigQuery SQL
--- Target Dataset: `luxottica_marketing_analytics` (or Sandbox dataset)
+-- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
+-- Project Name: bigquery-luxottica
+-- Target Dataset: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
+-- Owner: student-02-25b97e18011e@qwiklabs.net
 -- =============================================================================
 
+-- Ensure dataset exists (or create in console)
+CREATE SCHEMA IF NOT EXISTS `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
+OPTIONS(location="US");
+
 -- 1. CRM CUSTOMERS TABLE
-CREATE OR REPLACE TABLE `luxottica_marketing_analytics.lux_crm_customers` AS
+CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers` AS
 SELECT * FROM UNNEST([
   STRUCT('CUST-1001' AS customer_id, 'Marco' AS first_name, 'Rossi' AS last_name, 'marco.rossi@email.it' AS email, 'IT' AS country, DATE '2024-01-15' AS signup_date, 'Ray-Ban' AS preferred_brand, 'VIP' AS loyalty_tier),
   STRUCT('CUST-1002', 'Sophie', 'Dubois', 'sophie.dubois@email.fr', 'FR', DATE '2024-03-22', 'Persol', 'Gold'),
@@ -20,7 +27,7 @@ SELECT * FROM UNNEST([
 ]);
 
 -- 2. ONLINE & RETAIL ORDERS TABLE
-CREATE OR REPLACE TABLE `luxottica_marketing_analytics.lux_online_orders` AS
+CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders` AS
 SELECT * FROM UNNEST([
   STRUCT('ORD-9001' AS order_id, 'CUST-1001' AS customer_id, TIMESTAMP '2026-09-01 10:15:00 UTC' AS order_timestamp, 'Ray-Ban' AS brand, 'Sunglasses' AS product_category, 'E-Commerce Direct' AS channel, 1 AS units_sold, 175.00 AS revenue_eur, 15.00 AS discount_amount_eur),
   STRUCT('ORD-9002', 'CUST-1002', TIMESTAMP '2026-09-02 14:30:00 UTC', 'Persol', 'Optical', 'Retail Store', 1, 280.00, 0.00),
@@ -35,7 +42,7 @@ SELECT * FROM UNNEST([
 ]);
 
 -- 3. MULTI-CHANNEL AD SPEND TABLE
-CREATE OR REPLACE TABLE `luxottica_marketing_analytics.lux_ad_spend` AS
+CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend` AS
 SELECT * FROM UNNEST([
   STRUCT('CMP-101' AS campaign_id, 'RB_Wayfarer_Summer2026_EU' AS campaign_name, 'Google Ads' AS platform, DATE '2026-09-01' AS date, 'Ray-Ban' AS brand, 45000 AS impressions, 1800 AS clicks, 2400.00 AS spend_eur, 120 AS conversions),
   STRUCT('CMP-102', 'RB_Wayfarer_Summer2026_EU', 'Meta', DATE '2026-09-01', 'Ray-Ban', 62000, 2100, 2900.00, 145),
@@ -47,7 +54,7 @@ SELECT * FROM UNNEST([
 ]);
 
 -- 4. RAW DIRTY MARKETING LEADS TABLE (FOR CLEANING CHALLENGE #2)
-CREATE OR REPLACE TABLE `luxottica_marketing_analytics.lux_raw_marketing_leads_dirty` AS
+CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty` AS
 SELECT * FROM UNNEST([
   STRUCT(' LEAD_001 ' AS raw_lead_id, '  MARCO.ROSSI@EMAIL.IT ' AS raw_email, 'Ray-Ban ' AS raw_brand, '2026-09-01' AS signup_raw_date, ' € 175.00 ' AS raw_estimated_spend, 'IT' AS raw_country, 1 AS lead_priority),
   STRUCT('LEAD_002', 'sophie.dubois@email.fr', 'PERSOL', '02/09/2026', '280.00', 'FR', 2),

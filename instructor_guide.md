@@ -1,5 +1,9 @@
 # 🕶️ Luxottica BigQuery Training: Instructor Master Guide
 **Course:** BigQuery for Data Analysis: Mastering Marketing Data with BigQuery SQL  
+**GCP Project Name:** `bigquery-luxottica`  
+**GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21`  
+**Project Owner:** `student-02-25b97e18011e@qwiklabs.net` (student b50b8eff)  
+**Target Dataset:** `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`  
 **Target Audience:** Global Analytics, Business Analyst, Digital Commerce & Retail Operations  
 **Date & Time:** Oct 12th, 2026 | 15:30 - 18:30 (3 Hours / 180 Minutes)  
 **Format:** Hybrid (In-Person & Remote Connection)
@@ -9,20 +13,19 @@
 ## 📋 1. Pre-Session Checklist & Technical Logistics
 
 ### T-24 Hours Before Session
-- [ ] Confirm GCP Project Access: Ensure `lux-bq-training-2026` is active.
-- [ ] Add all participant email addresses to the Google Group `bq-training-participants@luxottica.com`.
-- [ ] Assign IAM Roles to the Group:
-  - `roles/bigquery.jobUser` (on project level)
-  - `roles/bigquery.dataViewer` (on dataset level)
+- [ ] Confirm GCP Project Access: Verify `qwiklabs-gcp-04-9efaa47f1d21` (`bigquery-luxottica`) is active under owner `student-02-25b97e18011e@qwiklabs.net`.
+- [ ] Assign IAM Roles / Dataset Permissions:
+  - `roles/bigquery.jobUser` (on project level `qwiklabs-gcp-04-9efaa47f1d21`)
+  - `roles/bigquery.dataViewer` (on dataset level `luxottica_marketing_analytics`)
   - `roles/bigquery.dataEditor` (on dataset level for Challenge #2 VIEW creation)
-- [ ] Execute `dataset/00_setup_schema_and_data.sql` to populate all 4 tables in `luxottica_marketing_analytics`.
+- [ ] Execute `dataset/00_setup_schema_and_data.sql` to populate all 4 tables in `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`.
 - [ ] Send `student_guide.md` and Wi-Fi / Zoom access details to all participants.
 
 ### T-60 Minutes Before Session
 - [ ] Test room audio, dual screens, wireless microphone, and Zoom/Teams screen sharing.
-- [ ] Open BigQuery Console (`https://console.cloud.google.com/bigquery`) and verify dataset availability.
+- [ ] Open BigQuery Console (`https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21`) and verify dataset availability.
 - [ ] Open Mentimeter / Slido icebreaker poll.
-- [ ] Open a blank Looker Studio window linked to `luxottica_marketing_analytics`.
+- [ ] Open a blank Looker Studio window linked to `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`.
 
 ---
 
@@ -40,7 +43,7 @@
 - **Console Walkthrough:**  
   Direct participants to `https://console.cloud.google.com/bigquery`.
 - **Project Pinning Exercise:**  
-  Guide participants live: Click **"+ ADD" -> "Star a project by name"** -> Type `lux-bq-training-2026`.
+  Guide participants live: Click **"+ ADD" -> "Star a project by name"** -> Type `qwiklabs-gcp-04-9efaa47f1d21` (or search `bigquery-luxottica`).
 - **Dataset Exploration:**  
   Show participants how to click on `luxottica_marketing_analytics` and inspect table schemas (`lux_crm_customers`, `lux_online_orders`, `lux_ad_spend`, `lux_raw_marketing_leads_dirty`).
 
@@ -55,7 +58,7 @@
   Write together: Revenue & Units Sold by Brand in `lux_online_orders`.
   ```sql
   SELECT brand, COUNT(order_id) AS total_orders, SUM(revenue_eur) AS total_revenue
-  FROM `luxottica_marketing_analytics.lux_online_orders`
+  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
   GROUP BY brand ORDER BY total_revenue DESC;
   ```
 
@@ -113,6 +116,6 @@
 
 | Issue / Error | Root Cause | Solution / Fix |
 | :--- | :--- | :--- |
-| **`Table not found`** | Typo in dataset name or missing backticks. | Remind them to use full path `` `lux-bq-training-2026.luxottica_marketing_analytics.table_name` ``. |
+| **`Table not found`** | Typo in dataset name or missing backticks. | Remind them to use full path `` `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.table_name` ``. |
 | **`Division by zero`** | Dividing by zero in cost metrics. | Replace `a / b` with `SAFE_DIVIDE(a, b)`. |
 | **`Cannot parse date`** | Mixed date format string (`02/09/2026` vs `2026-09-01`). | Use `CASE WHEN string LIKE '%/%' THEN PARSE_DATE('%d/%m/%Y', string) ...` |

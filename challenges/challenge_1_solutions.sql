@@ -1,6 +1,8 @@
 -- =============================================================================
 -- HANDS-ON CHALLENGE #1 SOLUTIONS: "THE DATA EXPLORER"
 -- Luxottica Marketing Analytics Workshop
+-- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
+-- Target Dataset: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
 -- =============================================================================
 
 -- -----------------------------------------------------------------------------
@@ -11,7 +13,7 @@ SELECT
   COUNT(order_id) AS total_orders,
   ROUND(SUM(revenue_eur), 2) AS total_revenue_eur
 FROM
-  `luxottica_marketing_analytics.lux_online_orders`
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
 GROUP BY
   brand
 ORDER BY
@@ -30,7 +32,7 @@ SELECT
     2
   ) AS discount_percentage
 FROM
-  `luxottica_marketing_analytics.lux_online_orders`
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
 GROUP BY
   channel
 ORDER BY
@@ -47,7 +49,7 @@ SELECT
   conversions,
   ROUND(SAFE_DIVIDE(spend_eur, conversions), 2) AS cost_per_conversion
 FROM
-  `luxottica_marketing_analytics.lux_ad_spend`
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
 WHERE
   conversions > 100
   AND spend_eur < 3000.00
@@ -63,9 +65,9 @@ SELECT
   COUNT(o.order_id) AS total_orders,
   ROUND(SUM(o.revenue_eur), 2) AS total_revenue_eur
 FROM
-  `luxottica_marketing_analytics.lux_crm_customers` c
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers` c
 JOIN
-  `luxottica_marketing_analytics.lux_online_orders` o
+  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders` o
 ON
   c.customer_id = o.customer_id
 GROUP BY

@@ -1,5 +1,6 @@
 # Module 03: Data Cleaning & Transformation (Data Wrangling)
-**Luxottica Marketing Data Training**
+**Luxottica Marketing Data Training**  
+**GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21` (`bigquery-luxottica`)  
 **Date:** Oct 12th, 2026 | **Time:** 17:45 - 18:15 (Block 4)
 
 ---
@@ -30,7 +31,7 @@ SELECT
   LOWER(TRIM(raw_email)) AS clean_email,
   INITCAP(TRIM(REGEXP_REPLACE(raw_brand, r'[^a-zA-Z0-9\s-]', ''))) AS clean_brand,
   CAST(REGEXP_REPLACE(raw_estimated_spend, r'[^\d.]', '') AS NUMERIC) AS clean_spend_eur
-FROM `luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`;
+FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`;
 ```
 
 ### 2.2 Defensive Type Casting with `SAFE_CAST`
@@ -40,7 +41,7 @@ FROM `luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`;
 ```sql
 SELECT
   SAFE_CAST(REGEXP_REPLACE(raw_estimated_spend, r'[^\d.]', '') AS NUMERIC) AS safe_spend_eur
-FROM `luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`;
+FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`;
 ```
 
 ### 2.3 Date & Timestamp Parsing
@@ -56,7 +57,7 @@ SELECT
     WHEN raw_date LIKE '%-%' THEN PARSE_DATE('%Y-%m-%d', raw_date)
     ELSE PARSE_DATE('%b %d, %Y', raw_date)
   END AS clean_signup_date
-FROM `luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`;
+FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`;
 ```
 
 ### 2.4 Deduplication using `QUALIFY` and `ROW_NUMBER()`
@@ -77,7 +78,7 @@ FROM (
     signup_raw_date,
     raw_estimated_spend,
     lead_priority
-  FROM `luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`
+  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`
 )
 QUALIFY ROW_NUMBER() OVER(
   PARTITION BY clean_email 

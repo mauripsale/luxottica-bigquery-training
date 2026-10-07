@@ -1,6 +1,9 @@
 # Slide Deck Presentation Outline
 **Course Title:** BigQuery for Data Analysis: Mastering Marketing Data with BigQuery SQL  
 **Client:** Luxottica  
+**GCP Project Name:** `bigquery-luxottica`  
+**GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21`  
+**Project Owner:** `student-02-25b97e18011e@qwiklabs.net`  
 **Target Audience:** Global Analytics, Business Analyst, Digital Commerce & Retail Operations  
 **Date & Time:** Oct 12th, 2026 | 15:30 - 18:30 (3 Hours / 180 Mins)  
 **Format:** Hybrid (In-Person & Remote)
@@ -13,7 +16,7 @@
 - **Title:** Mastering Marketing Data with BigQuery SQL
 - **Visual:** Luxottica Brand Mosaic (Ray-Ban, Oakley, Persol, Oliver Peoples, Sunglass Hut) + Google Cloud BigQuery Logo.
 - **Key Message:** Welcome to today's hands-on workshop tailored for Luxottica's Global Analytics & Business teams.
-- **Speaker Notes:** Introduce trainers, setup expectations, verify remote & in-person connectivity to GCP Console.
+- **Environment:** Project `bigquery-luxottica` (`qwiklabs-gcp-04-9efaa47f1d21`).
 
 ### Slide 2: Course Agenda & Objectives
 - **Title:** 3-Hour Interactive Agenda
@@ -40,9 +43,9 @@
 
 ### Slide 5: Hands-on Orientation - GCP BigQuery Console Walkthrough
 - **Title:** Navigating Your Analytics Environment
-- **Interactive Action:** Participants open `https://console.cloud.google.com/bigquery`
+- **Interactive Action:** Open `https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21`
 - **Key UI Regions:**
-  - Explorer Pane (Organization > Project > Datasets > Tables)
+  - Explorer Pane (Project `qwiklabs-gcp-04-9efaa47f1d21` > Dataset `luxottica_marketing_analytics` > Tables)
   - Query Tab & Standard SQL Formatter
   - Query Validator (Bytes scanned preview)
   - Results & Preview tabs
@@ -50,7 +53,7 @@
 ### Slide 6: Dataset Setup Checklist
 - **Title:** Verifying Access to Training Dataset
 - **Command / Script:** `00_setup_schema_and_data.sql`
-- **Tables Created:**
+- **Tables Created in `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`:**
   - `lux_crm_customers`
   - `lux_online_orders`
   - `lux_ad_spend`
