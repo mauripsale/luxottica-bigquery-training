@@ -1,5 +1,5 @@
 # 🕶️ Luxottica BigQuery Training: Student Participant Guide
-## Mission: "The Mystery of the Leaky Ad Budget & The Smart Glasses Breakthrough"
+## Mission: "Unlocking High-ROAS Google Ads Growth & Capturing Ray-Ban Meta Search Demand"
 
 **Course:** BigQuery for Data Analysis: Mastering Marketing Data with BigQuery SQL  
 **GCP Project Name:** `bigquery-luxottica`  
@@ -11,9 +11,9 @@
 ---
 
 ## 🕵️‍♀️ 1. Your Mission Briefing
-> **The Problem:** Global digital ad spend across Meta, TikTok, and Google increased by +35%, but overall online revenue growth stayed flat at +2%.  
+> **The Problem:** Global digital ad spend increased by +35% (driven by heavy experimental spend on third-party social networks), but overall online revenue growth stayed flat at +2%.  
 > **Your Role:** Marketing Data Detective at Luxottica.  
-> **Your Goal:** Solve the mystery in BigQuery Studio, identify budget leaks, discover secret growth drivers, recover lost VIP lead revenue, and present the Q4 Recovery Plan to the CMO!
+> **Your Goal:** Solve the mystery in BigQuery Studio, identify budget waste on third-party networks, prove the massive ROAS of Google Ads (Search, Shopping, YouTube), recover lost VIP lead revenue for Google Ads Customer Match, and present the Q4 Google Growth Plan to the CMO!
 
 ---
 
@@ -49,24 +49,24 @@
 
 ## 🏆 4. The 3 Investigation Chapters (Challenges)
 
-### Chapter 1: "The Leaky Bucket" (16:15 - 16:40)
+### Chapter 1: "High Margin Discovery" (16:15 - 16:40)
 **File:** `challenges/challenge_1_data_explorer.sql`
-- **Goal:** Uncover sales performance, brand revenue ranking, and discount leakage.
-- **Key Clue:** Compare Ray-Ban Meta Smart Glasses & Oliver Peoples AOV (> €300) vs Vogue Eyewear discount leakage.
+- **Goal:** Uncover sales performance, brand revenue ranking, and high-margin product categories.
+- **Key Clue:** Compare Ray-Ban Meta Smart Glasses & Oliver Peoples AOV (> €300) vs Vogue Eyewear sales.
 
 ---
 
-### Chapter 2: "The Cross-Channel Plot Twist" (17:20 - 17:40)
+### Chapter 2: "The Google ROAS Revelation" (17:20 - 17:40)
 **File:** `challenges/challenge_2_cross_channel.sql`
 - **Goal:** Calculate Customer LTV and Multi-Platform Brand ROAS.
-- **Key Clue:** Discover why TikTok Vogue Eyewear has a 0.8x ROAS (losing money!) while Google Search Oliver Peoples has a 6.2x ROAS!
+- **Key Clue:** Discover why third-party social networks (TikTok / Criteo) have a wasteful 0.7x ROAS while **Google Search & Shopping** generate a massive **6.8x - 8.2x ROAS**!
 
 ---
 
-### Chapter 3: "The Goldmine in the Trash" (17:55 - 18:10)
+### Chapter 3: "Google Ads Customer Match" (17:55 - 18:10)
 **File:** `challenges/challenge_3_clean_slate.sql`
 - **Goal:** Clean `lux_raw_marketing_leads_dirty` into `v_clean_marketing_leads`.
-- **Key Clue:** Unlock 350+ valid VIP leads worth over €120,000 in Q4 revenue, and build the Looker Studio Executive Dashboard!
+- **Key Clue:** Unlock 350+ valid VIP leads for **Google Ads Customer Match**, and build the Looker Studio Executive Dashboard!
 
 ---
 

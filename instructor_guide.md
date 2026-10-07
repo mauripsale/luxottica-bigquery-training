@@ -1,8 +1,8 @@
 # 🕶️ Luxottica BigQuery Training: Instructor Master Guide
-## The Definitive 180-Minute Facilitation & Preparation Manual
+## The Definitive 180-Minute Facilitation & Preparation Manual (Google Ecosystem Edition)
 
 **Course Title:** BigQuery for Data Analysis: Mastering Marketing Data with BigQuery SQL  
-**Story Narrative:** "The Mystery of the Leaky Ad Budget & The Smart Glasses Breakthrough"  
+**Story Narrative:** "Unlocking High-ROAS Google Ads Growth & Capturing Ray-Ban Meta Search Demand"  
 **GCP Project Name:** `bigquery-luxottica`  
 **GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21`  
 **Project Owner:** `student-02-25b97e18011e@qwiklabs.net` (student b50b8eff)  
@@ -36,17 +36,17 @@
 
 ---
 
-## 🎬 2. The Storytelling Narrative & Gamification Framework
+## 🎬 2. The Google Ecosystem Storytelling Narrative
 
 > **The Executive Problem (15:30 Briefing):**  
-> *"Global digital ad spend across Meta, TikTok, and Google increased by +35%, but overall online revenue growth stayed flat at +2%. The CMO needs a Q4 Recovery Plan! Your teams of Marketing Data Detectives have 3 hours in BigQuery Studio to solve the mystery, find the budget leaks, discover secret high-ROAS growth drivers, and recover lost VIP lead revenue!"*
+> *"Global digital ad spend increased by +35% (driven by heavy experimental spend on third-party social networks), but overall online revenue growth stayed flat at +2%. The CMO needs a Q4 Growth Plan! Your teams of Marketing Data Detectives have 3 hours in BigQuery Studio to solve the mystery, identify budget waste on third-party networks, prove the massive ROAS of Google Ads (Search, Shopping, YouTube), and present the Q4 Growth Plan!"*
 
 ```mermaid
 flowchart TD
-    Briefing["<b>15:30 - Emergency Briefing</b><br/>CMO Dilemma: Ad Spend +35%, Revenue +2%"] --> Ch1["<b>16:15 - Chapter 1: The Leaky Bucket</b><br/><i>Uncovering high AOV Ray-Ban Meta Smart Glasses & Oliver Peoples vs TikTok Discount Leakage</i>"]
-    Ch1 --> Ch2["<b>17:20 - Chapter 2: The Cross-Channel Plot Twist</b><br/><i>Calculating ROAS: TikTok Vogue (0.8x ROAS 📉) vs Google Search Oliver Peoples (6.2x ROAS 🚀)</i>"]
-    Ch2 --> Ch3["<b>17:55 - Chapter 3: The Goldmine in the Trash</b><br/><i>Cleaning dirty leads to recover 350+ VIP leads worth €120,000+ & Building Looker Studio Dashboard</i>"]
-    Ch3 --> Victory["<b>18:25 - Executive Board Presentation & Awarding</b><br/>Winning Brand Team presents the Q4 Recovery Plan to CMO"]
+    Briefing["<b>15:30 - Emergency Briefing</b><br/>CMO Dilemma: Ad Spend +35% (on 3rd-party social), Revenue +2%"] --> Ch1["<b>16:15 - Chapter 1: High Margin Discovery</b><br/><i>Uncovering high AOV Ray-Ban Meta Smart Glasses & Oliver Peoples (> €300)</i>"]
+    Ch1 --> Ch2["<b>17:20 - Chapter 2: The Google ROAS Revelation</b><br/><i>3rd-Party Social TikTok/Criteo (0.7x ROAS 📉) vs <b>Google Search & Shopping (6.8x ROAS 🚀)</b></i>"]
+    Ch2 --> Ch3["<b>17:55 - Chapter 3: Google Ads Customer Match</b><br/><i>Cleaning dirty leads to recover 350+ VIP leads for Google Ads Customer Match & Looker Studio Dashboard</i>"]
+    Ch3 --> Victory["<b>18:25 - Executive Board Presentation & Awarding</b><br/>Winning Brand Team presents the Q4 Google Growth Plan to CMO"]
 ```
 
 ---
@@ -67,7 +67,7 @@ flowchart TD
 
 - **15:30 - 15:40 (10m) | Emergency Briefing & Icebreaker**
   - Present the CMO Dilemma: Ad Spend +35%, Revenue +2%.
-  - Icebreaker Poll: *"Where do you suspect the marketing money is leaking?"*
+  - Icebreaker Poll: *"Where do you suspect the marketing money is being wasted?"*
 
 - **15:40 - 15:52 (12m) | BigQuery Studio, Data Insights & Data Canvas Demo**
   - Open dataset `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`.
@@ -78,12 +78,12 @@ flowchart TD
 
 ---
 
-### 🕒 16:00 - 16:45 | Block 2: Chapter 1 - "The Leaky Bucket" (45 Mins)
+### 🕒 16:00 - 16:45 | Block 2: Chapter 1 - "High Margin Discovery" (45 Mins)
 
 - **16:00 - 16:15 (15m) | Core SQL Building Blocks (`SELECT`, `WHERE`, `GROUP BY`)**
 - **16:15 - 16:40 (25m) | 🏆 Challenge #1: "The Data Explorer" (8 Clues)**
-  - Teams investigate sales performance, brand revenue ranking, and discount leakage.
-  - **Plot Twist #1 Discovered:** *Ray-Ban Meta Smart Glasses* and *Oliver Peoples* have massive Average Order Values (> €300), but heavy discount promotions on *Vogue Eyewear* are destroying margins!
+  - Teams investigate sales performance, brand revenue ranking, and product categories.
+  - **Plot Twist #1 Discovered:** *Ray-Ban Meta Smart Glasses* and *Oliver Peoples* have massive Average Order Values (> €300), representing Luxottica's biggest growth opportunity!
 - **16:40 - 16:45 (5m) | Chapter 1 Debrief & Scoreboard Update**
 
 ---
@@ -92,31 +92,31 @@ flowchart TD
 
 ---
 
-### 🕒 17:00 - 17:45 | Block 3: Chapter 2 - "The Cross-Channel Plot Twist" (45 Mins)
+### 🕒 17:00 - 17:45 | Block 3: Chapter 2 - "The Google ROAS Revelation" (45 Mins)
 
 - **17:00 - 17:20 (20m) | Advanced SQL: UNIONS, JOINS & CTEs**
 - **17:20 - 17:40 (20m) | 🏆 Challenge #2: "Cross-Channel Intelligence" (4 Clues)**
   - Teams calculate Customer LTV and Multi-Platform Brand ROAS.
-  - **Plot Twist #2 Discovered:** *TikTok Vogue Eyewear* campaigns have a disastrous **0.8x ROAS** (losing money!), while *Google Search Oliver Peoples & Persol* have a stellar **6.2x ROAS**!
+  - **Plot Twist #2 Discovered:** Third-party social networks (TikTok / Criteo) have a wasteful **0.7x ROAS**, while **Google Search & Google Shopping** generate a massive **6.8x - 8.2x ROAS**!
 - **17:40 - 17:45 (5m) | Chapter 2 Debrief & Scoreboard Update**
 
 ---
 
-### 🕒 17:45 - 18:15 | Block 4: Chapter 3 - "The Goldmine in the Trash" (30 Mins)
+### 🕒 17:45 - 18:15 | Block 4: Chapter 3 - "Google Ads Customer Match" (30 Mins)
 
 - **17:45 - 17:55 (10m) | DEMO: BigQuery Studio Visual Data Prep**
   - Show Gemini suggestion cards and few-shot cell editing for data wrangling.
 - **17:55 - 18:10 (15m) | 🏆 Challenge #3: "The Clean Slate" (Automated View & Looker Studio)**
   - Teams clean `lux_raw_marketing_leads_dirty` into `v_clean_marketing_leads`.
-  - **Plot Twist #3 Discovered:** Cleaning dirty leads recovers **350+ valid VIP leads** worth over **€120,000 in Q4 revenue**!
+  - **Plot Twist #3 Discovered:** Cleaning dirty leads recovers **350+ valid VIP leads** for **Google Ads Customer Match**!
   - **1-Click Looker Studio Demo:** Connect the View to Looker Studio to display the **CMO Executive Rescue Dashboard**!
 - **18:10 - 18:15 (5m) | Chapter 3 Debrief**
 
 ---
 
-### 🕒 18:15 - 18:30 | Block 5: The Q4 Recovery Plan & Award Ceremony (15 Mins)
+### 🕒 18:15 - 18:30 | Block 5: The Q4 Google Growth Plan & Award Ceremony (15 Mins)
 
 - **18:15 - 18:25 (10m) | Executive Summary & Security Spotlight**
-  - Summarize the Q4 Recovery Plan: Shift 40% of TikTok ad budget to Google Search Oliver Peoples & Ray-Ban Meta Smart Glasses, and activate the 350 recovered VIP leads.
+  - Summarize the Q4 Growth Plan: Reallocate 60% of budget from wasteful third-party social to **Google Search, Google Shopping, YouTube Ads, and Performance Max**.
   - Security Spotlight: Row/Column-level security and PII masking.
 - **18:25 - 18:30 (5m) | Awarding the Winning Brand Detective Team!**

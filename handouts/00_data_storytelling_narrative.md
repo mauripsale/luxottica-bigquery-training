@@ -1,5 +1,5 @@
-# 📖 Luxottica Data Narrative Script: Step-by-Step Investigation
-## "The Mystery of the Leaky Ad Budget & The Smart Glasses Breakthrough"
+# 📖 Luxottica Data Narrative Script: Step-by-Step Investigation (Google Ecosystem Edition)
+## "Unlocking High-ROAS Google Ads Growth & Capturing Ray-Ban Meta Search Demand"
 
 This document outlines the step-by-step analytical narrative for trainers and participants during the 3-hour Luxottica BigQuery workshop.
 
@@ -7,12 +7,12 @@ This document outlines the step-by-step analytical narrative for trainers and pa
 
 ```mermaid
 flowchart TD
-    P1["<b>Passo 1: Il Problema del CMO</b><br/>Spesa Adv +35%, Fatturato +2%. Dove finiscono i soldi?"] --> P2["<b>Passo 2: Esplorazione Fatturato</b><br/>Quali brand vendono e quali hanno scontrino alto?"]
-    P2 --> P3["<b>Passo 3: Analisi Promozioni</b><br/>Dove si verificano fughe di margine per sconto eccessivo?"]
-    P3 --> P4["<b>Passo 4: Calcolo ROAS Cross-Canale</b><br/>TikTok Vogue (0.8x ROAS 📉) vs Google Search Oliver Peoples (6.2x ROAS 🚀)"]
-    P4 --> P5["<b>Passo 5: Analisi CRM & Cross-Sell</b><br/>I clienti Ray-Ban vogliono gli Smart Glasses nei Retail Store!"]
-    P5 --> P6["<b>Passo 6: Data Wrangling Lead</b><br/>Pulizia lead sporchi: sbloccati 350+ lead VIP (€120k+ fatturato)"]
-    P6 --> P7["<b>Passo 7: Piano di Recupero Q4</b><br/>Riallocazione budget & Dashboard Looker Studio per il CMO"]
+    P1["<b>Passo 1: Il Problema del CMO</b><br/>Spesa Adv +35% (su canali social terzi), Fatturato +2%. Dove finiscono i soldi?"] --> P2["<b>Passo 2: Esplorazione Fatturato</b><br/>Quali brand vendono e quali hanno scontrino alto (Ray-Ban Meta Smart Glasses & Oliver Peoples > €300)?"]
+    P2 --> P3["<b>Passo 3: Analisi Promozioni</b><br/>Dove si verificano le fughe di margine sui canali e-commerce?"]
+    P3 --> P4["<b>Passo 4: Calcolo ROAS Cross-Canale</b><br/>Social Terzi TikTok/Criteo (0.7x ROAS 📉) vs <b>Google Search & Shopping (6.8x ROAS 🚀)</b>"]
+    P4 --> P5["<b>Passo 5: Analisi CRM & Search Intent</b><br/>Gli utenti cercano Ray-Ban Meta Smart Glasses su Google, ma il budget adv era bloccato altrove!"]
+    P5 --> P6["<b>Passo 6: Data Wrangling Lead</b><br/>Pulizia lead sporchi: sbloccati 350+ lead VIP per <b>Google Ads Customer Match</b>"]
+    P6 --> P7["<b>Passo 7: Piano di Crescita Q4 con Google</b><br/>Riallocazione budget verso Google Ads & Dashboard Looker Studio per il CMO"]
 ```
 
 ---
@@ -20,8 +20,8 @@ flowchart TD
 ## 🎬 Step-by-Step Analytical Script
 
 ### 🚨 PASSO 1: Il Problema di Business (15:30)
-- **Contesto:** Il CMO di Luxottica affronta una crisi prima del Q4: il budget pubblicitario sui canali digitali è aumentato del **+35%**, ma il fatturato online è cresciuto solo del **+2%**.
-- **La Domanda di Business:** *Perché l'aumento dell'investimento adv non sta generando fatturato proporzionale? Quali canali o campagne stanno sprecando budget?*
+- **Contesto:** Il CMO di Luxottica affronta una sfida prima del Q4: il budget pubblicitario è aumentato del **+35%** (a causa di pesanti investimenti su reti social terze e display frammentate), ma il fatturato e-commerce è cresciuto solo del **+2%**.
+- **La Domanda di Business:** *Quali canali stanno sprecando budget e dove dobbiamo riallocare le risorse per massimizzare il ritorno sulle vendite prima del Black Friday?*
 
 ---
 
@@ -34,11 +34,11 @@ flowchart TD
   ```
 - **Cosa Dicono i Dati:**
   - *Ray-Ban* e *Oakley* guidano i volumi complessivi di vendita.
-  - *Ray-Ban Meta Smart Glasses* e *Oliver Peoples* registrano lo scontrino medio (AOV) più alto della catena (> €300/ordine), ma i volumi di transazione sono ancora bassi.
+  - *Ray-Ban Meta Smart Glasses* e *Oliver Peoples* registrano lo scontrino medio (AOV) più alto della catena (> €300/ordine), rappresentando la massima opportunità di margine per Luxottica!
 
 ---
 
-### 📉 PASSO 3: L'Analisi della Fuga di Margine (16:30 - Challenge 1, Parte C)
+### 📉 PASSO 3: L'Analisi delle Promozioni per Canale (16:30 - Challenge 1, Parte C)
 - **Azione SQL:**
   ```sql
   SELECT brand, channel, ROUND(AVG(discount_amount_eur), 2) AS avg_discount
@@ -47,7 +47,7 @@ flowchart TD
   GROUP BY brand, channel ORDER BY avg_discount DESC;
   ```
 - **Cosa Dicono i Dati (Primo Indizio):**
-  - Sul canale *E-Commerce Direct*, il brand *Vogue Eyewear* registra sconti continuativi del **25-35%**, erosivi del margine netto. Stiamo scontando prodotti ad acquisto d'impulso senza generare fedeltà.
+  - I canali di affiliazione terzi stanno erodendo i margini con sconti continuativi non necessari su prodotti ad alto valore, mentre l'e-commerce diretto registra domanda organica elevata.
 
 ---
 
@@ -68,30 +68,30 @@ flowchart TD
          ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas
   FROM spend_by_brand s
   JOIN revenue_by_brand r ON s.brand = r.brand
-  ORDER BY roas ASC;
+  ORDER BY roas DESC;
   ```
-- **Cosa Dicono i Dati (La Causa Radice Identificata!):**
-  - **TikTok su Vogue Eyewear:** Assorbe il 40% dell'aumento di budget adv, generando un **ROAS di 0.8x** (perdita netta!).
-  - **Google Search su Oliver Peoples & Persol:** Ha un budget ridotto, ma genera un **ROAS di 6.2x**!
+- **Cosa Dicono i Dati (La Rivelazione Ecosistema Google!):**
+  - **Google Search, Google Shopping & Performance Max:** Generano un **ROAS strabiliante di 6.8x - 8.2x**! Catturano l'intenzione d'acquisto ad alto valore per *Oliver Peoples*, *Persol* e *Ray-Ban Meta Smart Glasses*, ma soffrono di budget limitati!
+  - **Social Terzi e Display Frammentati (TikTok / Criteo):** Hanno assorbito il 40% del nuovo budget adv, generando un **ROAS fallimentare di 0.7x** (perdita netta per Luxottica!).
 
 ---
 
-### 👥 PASSO 5: L'Opportunità di Cross-Sell nel CRM (17:35 - Challenge 2, Parte D)
-- **Azione SQL:** Incrocio `lux_crm_customers` con gli ordini nei *Retail Store*.
+### 👥 PASSO 5: L'Opportunità Google Search Intent & CRM (17:35 - Challenge 2, Parte D)
+- **Azione SQL:** Incrocio `lux_crm_customers` con gli ordini e la ricerca Google.
 - **Cosa Dicono i Dati:**
-  - I clienti con preferenza *Ray-Ban* acquistano frequentemente gli *Smart Glasses Ray-Ban Meta* nei negozi fisici, ma non ricevono campagne adv digitali mirate su questo prodotto.
+  - Esiste una domanda di ricerca altissima su **Google Search** per *Ray-Ban Meta Smart Glasses*, ma Luxottica stava esaurendo il budget giornaliero di Google Ads a metà giornata a causa dei fondi bloccati su piattaforme social terze inefficienti.
 
 ---
 
-### 🧹 PASSO 6: Sblocco del Valore dai Lead Sporchi (17:55 - Challenge 3)
+### 🧹 PASSO 6: Sblocco Lead per Google Ads Customer Match (17:55 - Challenge 3)
 - **Azione SQL / Visual Data Prep:** Pulizia e deduplicazione della tabella `lux_raw_marketing_leads_dirty`.
 - **Cosa Dicono i Dati:**
-  - La pulizia automatizzata sblocca **350+ lead VIP** abbandonati, per un valore potenziale di **€120.000+** in vista del Q4.
+  - La pulizia automatizzata sblocca **350+ lead VIP** pronti per essere caricati su **Google Ads Customer Match**, consentendo di attivare campagne di re-engagement ad altissima conversione su **YouTube Ads** e **Google Search**!
 
 ---
 
-### 📊 PASSO 7: Il Piano di Recupero Q4 per il CMO (18:15)
-1. **Taglio del 50% del budget TikTok su Vogue Eyewear** (eliminazione della dispersione).
-2. **Riallocazione del budget su Google Search per Oliver Peoples, Persol e Ray-Ban Meta Smart Glasses** (massimizzazione del ROAS).
-3. **Attivazione dei 350 lead VIP recuperati**.
-4. **Pubblicazione del Dashboard interattivo in Looker Studio**!
+### 📊 PASSO 7: Il Piano di Crescita Q4 con Google per il CMO (18:15)
+1. **Spostare il 60% del budget dalle reti terze inefficienti verso Google Ads (Google Search, Google Shopping, YouTube Ads e Performance Max)**.
+2. **Aumentare la copertura di ricerca su Google Ads** per i prodotti ad alto margine (*Ray-Ban Meta Smart Glasses* e *Oliver Peoples*) garantendo il 100% della quota d'impressione.
+3. **Attivare i 350 lead VIP recuperati** tramite Google Ads Customer Match.
+4. **Pubblicare il Dashboard di Crescita in Looker Studio** collegato direttamente a BigQuery!

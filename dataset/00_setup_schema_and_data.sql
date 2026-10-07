@@ -1,7 +1,7 @@
 -- =============================================================================
--- LUXOTTICA MARKETING ANALYTICS - DATA STORYTELLING MOCK DATASET (116,000+ ROWS)
--- Course: Mastering Marketing Data with BigQuery SQL (Storytelling Edition)
--- Storyline: "The Mystery of the Missing Ray-Ban ROAS & The Smart Glasses Breakthrough"
+-- LUXOTTICA MARKETING ANALYTICS - GOOGLE HERO DATA STORYTELLING DATASET (116,000+ ROWS)
+-- Course: Mastering Marketing Data with BigQuery SQL (Google Ecosystem Edition)
+-- Storyline: "Unlocking High-ROAS Google Ads Growth & Capturing Ray-Ban Meta Search Demand"
 -- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
 -- Target Dataset: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
 -- =============================================================================
@@ -44,7 +44,7 @@ FROM customer_generator;
 
 -- -----------------------------------------------------------------------------
 -- 2. ONLINE & RETAIL ORDERS TABLE (100,000 Transactions)
--- Embedded Story Insight: Smart Glasses & Luxury frames have high AOV (>280 EUR)
+-- Embedded Story Insight: Smart Glasses & Luxury frames have high AOV (>300 EUR)
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders` AS
 WITH order_generator AS (
@@ -58,7 +58,7 @@ WITH order_generator AS (
     ['E-Commerce Direct', 'Retail Store', 'Mobile App', 'Affiliate Network', 'Wholesale Partner'][ORDINAL(MOD(id, 5) + 1)] AS channel,
     (MOD(id, 3) + 1) AS units_sold,
     
-    -- Story AOV rules: Oliver Peoples & Smart Glasses = High Price (320-480 EUR), Vogue/Arnette = Low Price (90-140 EUR)
+    -- Story AOV rules: Oliver Peoples & Smart Glasses = High Price (320-480 EUR)
     CASE 
       WHEN MOD(id, 10) = 3 THEN ROUND(320.00 + (MOD(id * 17, 160)), 2) -- Oliver Peoples
       WHEN MOD(id, 5) = 3 THEN ROUND(299.00 + (MOD(id * 19, 120)), 2) -- Smart Glasses Ray-Ban Meta
@@ -66,10 +66,8 @@ WITH order_generator AS (
       ELSE ROUND(140.00 + (MOD(ABS(FARM_FINGERPRINT(CAST(id * 19 AS STRING))), 15000) / 100.0), 2)
     END AS gross_amount_eur,
     
-    -- Story Discount rules: High discounts on Vogue & E-Commerce Direct (discount leakage!)
     CASE 
-      WHEN MOD(id, 5) = 0 THEN ROUND(35.00 + MOD(id, 20), 2) -- Heavy discount
-      WHEN MOD(id, 10) = 4 THEN ROUND(25.00, 2)              -- Vogue promo
+      WHEN MOD(id, 10) = 0 THEN ROUND(20.00 + MOD(id, 15), 2)
       ELSE 0.00
     END AS discount_amount_eur
   FROM UNNEST(GENERATE_ARRAY(1, 100000)) AS id
@@ -88,7 +86,8 @@ FROM order_generator;
 
 -- -----------------------------------------------------------------------------
 -- 3. MULTI-CHANNEL AD SPEND TABLE (5,000 Daily Campaign Logs)
--- Embedded Story Insight: TikTok Vogue = Low ROAS (<0.9), Google Oliver Peoples = High ROAS (>6.0)
+-- Embedded Story Insight: Google Search & Shopping = Massive High ROAS (>6.8x)
+-- Competitor third-party social (TikTok/Criteo) = Wasteful low ROAS (<0.8x)
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend` AS
 WITH campaign_generator AS (
@@ -96,38 +95,32 @@ WITH campaign_generator AS (
     id,
     CONCAT('CMP-', LPAD(CAST(id AS STRING), 5, '0')) AS campaign_id,
     CONCAT(
-      ['RB_Wayfarer', 'OK_Prizm_Sport', 'PS_Handmade_Heritage', 'OP_Luxury_Eyewear', 'VG_Fashion_Style', 'Costa_Water_Polarized', 'SGH_Summer_Promo'][ORDINAL(MOD(id, 7) + 1)],
+      ['RB_Wayfarer_Smart', 'OK_Prizm_Sport', 'PS_Handmade_Heritage', 'OP_Luxury_Eyewear', 'VG_Fashion_Style', 'Costa_Water_Polarized', 'SGH_Summer_Promo'][ORDINAL(MOD(id, 7) + 1)],
       '_',
       ['US', 'EU_IT', 'EU_FR', 'EU_DE', 'UK', 'APAC_JP', 'GLOBAL'][ORDINAL(MOD(id * 3, 7) + 1)],
       '_2026'
     ) AS campaign_name,
-    ['Google Search', 'Google Shopping', 'Meta Instagram', 'Meta Facebook', 'TikTok', 'Pinterest', 'YouTube', 'Amazon Ads', 'Snapchat', 'Criteo'][ORDINAL(MOD(id, 10) + 1)] AS platform,
+    ['Google Search', 'Google Shopping', 'YouTube Ads', 'Google Performance Max', 'Meta Instagram', 'Meta Facebook', 'TikTok', 'Pinterest', 'Snapchat', 'Criteo'][ORDINAL(MOD(id, 10) + 1)] AS platform,
     DATE_SUB(DATE '2026-09-30', INTERVAL MOD(id, 365) DAY) AS date,
     ['Ray-Ban', 'Oakley', 'Persol', 'Oliver Peoples', 'Vogue Eyewear', 'Costa', 'Sunglass Hut', 'Alain Mikli', 'Arnette', 'Target Optical'][ORDINAL(MOD(id, 10) + 1)] AS brand,
     
-    -- Story Impressions & Spend: TikTok & Meta Facebook = Huge spend, Google Search = High efficiency
-    CASE 
-      WHEN MOD(id, 10) = 4 THEN 80000 + MOD(id * 100, 50000) -- TikTok high impressions
-      ELSE 15000 + MOD(ABS(FARM_FINGERPRINT(CAST(id * 23 AS STRING))), 40000)
-    END AS impressions,
+    -- Story Impressions & Clicks: Google Search & Shopping = High intent
+    15000 + MOD(ABS(FARM_FINGERPRINT(CAST(id * 23 AS STRING))), 50000) AS impressions,
+    500 + MOD(ABS(FARM_FINGERPRINT(CAST(id * 29 AS STRING))), 2500) AS clicks,
     
+    -- Story Spend: TikTok/Criteo third-party channels absorb heavy budget with zero return
     CASE 
-      WHEN MOD(id, 10) = 4 THEN 2500 + MOD(id * 10, 1500) -- TikTok clicks
-      ELSE 400 + MOD(ABS(FARM_FINGERPRINT(CAST(id * 29 AS STRING))), 2000)
-    END AS clicks,
-    
-    -- Story Spend: Heavy spend on TikTok Vogue (wasteful!)
-    CASE 
-      WHEN MOD(id, 10) = 4 THEN ROUND(2500.00 + (MOD(id * 31, 1500)), 2) -- TikTok Vogue
-      WHEN MOD(id, 10) = 3 THEN ROUND(400.00 + (MOD(id * 13, 300)), 2)    -- Oliver Peoples Search (efficient!)
-      ELSE ROUND(600.00 + (MOD(ABS(FARM_FINGERPRINT(CAST(id * 31 AS STRING))), 120000) / 100.0), 2)
+      WHEN MOD(id, 10) IN (6, 9) THEN ROUND(2200.00 + (MOD(id * 31, 1200)), 2) -- TikTok / Criteo (High spend, low return)
+      WHEN MOD(id, 10) IN (0, 1, 2, 3) THEN ROUND(450.00 + (MOD(id * 13, 350)), 2) -- Google Search / Shopping / PMax (Efficient!)
+      ELSE ROUND(600.00 + (MOD(ABS(FARM_FINGERPRINT(CAST(id * 31 AS STRING))), 100000) / 100.0), 2)
     END AS spend_eur,
     
-    -- Story Conversions: High conversions on Oliver Peoples & Ray-Ban Meta
+    -- Story Conversions: Google Ads drives massive high-margin conversions!
     CASE 
-      WHEN MOD(id, 10) = 4 THEN 12 + MOD(id, 10)                         -- TikTok low conversions
-      WHEN MOD(id, 10) = 3 THEN 95 + MOD(id, 40)                         -- Oliver Peoples high conversions
-      ELSE 25 + MOD(ABS(FARM_FINGERPRINT(CAST(id * 37 AS STRING))), 80)
+      WHEN MOD(id, 10) IN (0, 1, 3) THEN 120 + MOD(id, 60)                        -- Google Search / Shopping / PMax (Massive Conversions!)
+      WHEN MOD(id, 10) IN (2) THEN 85 + MOD(id, 30)                             -- YouTube Ads (High Conversions!)
+      WHEN MOD(id, 10) IN (6, 9) THEN 8 + MOD(id, 6)                             -- TikTok / Criteo (0.7x ROAS - Wasteful!)
+      ELSE 25 + MOD(ABS(FARM_FINGERPRINT(CAST(id * 37 AS STRING))), 40)
     END AS conversions
   FROM UNNEST(GENERATE_ARRAY(1, 5000)) AS id
 )
@@ -135,7 +128,7 @@ SELECT * FROM campaign_generator;
 
 -- -----------------------------------------------------------------------------
 -- 4. RAW DIRTY MARKETING LEADS TABLE (1,000 Messy Lead Records)
--- Embedded Story Insight: Cleaning unlocks 350+ VIP leads worth €120,000+
+-- Embedded Story Insight: Cleaning unlocks 350+ VIP leads for Google Ads Customer Match!
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty` AS
 WITH dirty_generator AS (
