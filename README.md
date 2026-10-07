@@ -25,7 +25,7 @@ Welcome to the official repository for the **Luxottica Training Workshop: Master
 ├── instructor_guide.md                        # Complete 180-Minute Instructor Facilitation Script
 ├── student_guide.md                           # Student Participant Guide & Cheat Sheet
 ├── dataset/
-│   └── 00_setup_schema_and_data.sql           # Rich Seed Script (Hundreds of realistic records)
+│   └── 00_setup_schema_and_data.sql           # Massive Enterprise Seed Script (116,000+ Records)
 ├── handouts/
 │   ├── 01_fundamentals_and_exploration.md     # Block 1 & 2 Concepts, BigQuery Data Insights, Data Canvas & Starter SQL
 │   ├── 02_advanced_querying.md                # Block 3 UNIONS, JOINS & Multi-Source Cross-Channel Analytics
@@ -49,7 +49,11 @@ Welcome to the official repository for the **Luxottica Training Workshop: Master
 1. Log into Google Cloud Console and open [BigQuery Studio](https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21).
 2. Verify target dataset exists: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`.
 3. Open a new SQL Query tab, paste the contents of `dataset/00_setup_schema_and_data.sql`, and execute.
-4. Verify created tables: `lux_crm_customers` (50 rows), `lux_online_orders` (120 rows), `lux_ad_spend` (60 rows), `lux_raw_marketing_leads_dirty` (30 rows).
+4. Verify created tables:
+   - `lux_crm_customers` (**10,000 Rows**)
+   - `lux_online_orders` (**100,000 Rows**)
+   - `lux_ad_spend` (**5,000 Rows**)
+   - `lux_raw_marketing_leads_dirty` (**1,000 Rows**)
 
 ### Step 2: Hands-on Execution Across the 3 Hours
 - **Block 1 (15:40 - 15:52):** BigQuery Data Insights & Data Canvas orientation (Relationship Graphs, Table/Column Descriptions, Sample Queries).
@@ -60,4 +64,4 @@ Welcome to the official repository for the **Luxottica Training Workshop: Master
 ---
 
 ## 🔒 Security & Compliance Spotlight
-All datasets use sanitized mock schema structure modeling Luxottica's real-world business dynamics (Ray-Ban, Oakley, Persol, Oliver Peoples, Vogue Eyewear) and operate safely within the isolated BigQuery project `qwiklabs-gcp-04-9efaa47f1d21`.
+All datasets use sanitized mock schema structure modeling Luxottica's real-world business dynamics (Ray-Ban, Oakley, Persol, Oliver Peoples, Vogue Eyewear, Costa, Sunglass Hut, Alain Mikli, Arnette, Target Optical) and operate safely within the isolated BigQuery project `qwiklabs-gcp-04-9efaa47f1d21`.
