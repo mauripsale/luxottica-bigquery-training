@@ -1,5 +1,5 @@
 # 🕶️ Guida Docente Master per il Corso BigQuery Luxottica (Edizione Italiana)
-## Manuale Integrale di Facilitazione e Conduzione (180 Minuti)
+## Manuale Integrale di Facilitazione e Copione/Gobbo Docente (180 Minuti)
 
 **Titolo Corso:** BigQuery per l'Analisi Dati: Dominare i Dati Marketing con BigQuery SQL & BigQuery Studio  
 **Filo Conduttore (Storytelling):** "Sbloccare la Crescita High-ROAS con Google Ads & Catturare la Domanda Ray-Ban Meta"  
@@ -67,18 +67,35 @@ flowchart TD
 
 ---
 
-## ⏱️ 4. Cronoprogramma Dettagliato Minuto per Minuto (180 Minuti)
+## ⏱️ 4. Cronoprogramma e COPIONE/GOBBO DOCENTE (180 Minuti)
 
-### 🕒 15:30 - 16:00 | Blocco 1: Executive Briefing, Data Insights & Data Canvas (30 Mins)
+### 🕒 15:30 - 16:00 | Blocco 1: Executive Briefing & DEMO LIVE DATA CANVAS (30 Mins)
 
 - **15:30 - 15:40 (10m) | Briefing d'Emergenza & Icebreaker**
   - Presenta il dilemma del CMO: Spesa Adv +35%, Fatturato +2%.
   - Sondaggio Icebreaker: *"Su quale canale sospetti che si stia sprecando il budget pubblicitario?"*
 
-- **15:40 - 15:52 (12m) | Demo Live: BigQuery Studio, Data Insights & Data Canvas**
-  - Apri la console sul dataset `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`.
-  - **Demo BigQuery Data Insights (`cloud.google.com/bigquery/docs/data-insights`):** Clicca *"Generate Data Insights"* per mostrare il **Grafo di Relazione Interattivo** che mappa `lux_crm_customers` -> `lux_online_orders` -> `lux_ad_spend`.
-  - **Demo Data Canvas:** Mostra i nodi visuali DAG (Nodo Cerca, Nodo Tabella, Nodo SQL, Nodo Visualizzazione e **Nodo Insights AI**).
+- **15:40 - 15:52 (12m) | 🎙️ COPIONE DEMO LIVE: BigQuery Data Canvas, Data Insights & Gemini**
+
+> **[Azione Docente]:** Condividi lo schermo sulla console di BigQuery Studio nel progetto `qwiklabs-gcp-04-9efaa47f1d21`.
+>
+> **[Parla il Docente]:**  
+> *"Benvenuti in BigQuery Studio! Prima di scrivere anche solo una riga di codice SQL, voglio mostrarvi come l'Intelligenza Artificiale Gemini ci permette di esplorare i dati di Luxottica usando il linguaggio naturale. Apriamo il **BigQuery Data Canvas** cliccando sul tasto `+` in alto."*
+>
+> **[Azione Docente]:** Apri il Data Canvas e digita il prompt nella barra al centro:  
+> `Mostrami le vendite totali e lo scontrino medio per brand nel dataset luxottica_marketing_analytics` e premi Invio.
+>
+> **[Parla il Docente]:**  
+> *"Guardate cosa succede: Gemini crea un **Nodo SQL** in automatico, scrive la query di raggruppamento per brand ed esegue il calcolo. Ora clicchiamo sul pulsante **Visualize** per generare il grafico a barre."*
+>
+> **[Azione Docente]:** Clicca su **Visualize**. Poi clicca su **Generate Insights** (o *Add Insights Node*).
+>
+> **[Parla il Docente - Commentando il Grafico e gli Insights generati]:**  
+> *"Osserviamo insieme il grafico e i 4 punti chiave generati dall'AI di BigQuery:*
+> 1. **Mappa Colore Scontrino Medio (AOV):** *Guardate la barra in alto in giallo acceso (**Oliver Peoples**) e quella in basso in viola scuro (**Vogue Eyewear**). Il colore mappa lo scontrino medio: il giallo indica un AOV di quasi 400 €/ordine, il viola soltanto 129 €/ordine.*
+> 2. **Top Revenue Leader (Oliver Peoples - 3.96M €):** *I prodotti di lusso ad alto valore trascinano i margini di Luxottica.*
+> 3. **Lagging Brands (Vogue Eyewear - 1.29M €):** *Sulle linee fashion a basso scontrino stiamo concedendo troppi sconti.*
+> 4. **Il Mistero di Ray-Ban (1.8M €):** *Ray-Ban registra 1.8M € di vendite, ma è sotto le sue potenzialità online. Perché il brand leader non sta dominando?*"
 
 - **15:52 - 16:00 (8m) | Prima Query Guidata (Verifica Spesa vs Fatturato Generale)**
 
@@ -86,10 +103,11 @@ flowchart TD
 
 ### 🕒 16:00 - 16:45 | Blocco 2: Capitolo 1 - "Scoperta dei Prodotti ad Alto Margine" (45 Mins)
 
-- **16:00 - 16:15 (15m) | Fondamenti SQL (`SELECT`, `WHERE`, `GROUP BY`)**
-  - Spiega la metafora della Rosetta Stone: `GROUP BY` = Tabella Pivot di Excel!
+- **16:00 - 16:15 (15m) | 🎙️ COPIONE: Fondamenti SQL (`SELECT`, `WHERE`, `GROUP BY`)**
+  - **Metafora Rosetta Stone:** `GROUP BY` = Tabella Pivot di Excel!
+  - `SELECT` = "Scegliere le colonne del report" | `WHERE` = "Filtri di colonna" | `SUM()` = "Campi valore".
 - **16:15 - 16:40 (25m) | 🏆 Challenge #1: "The Data Explorer" (8 Indizi)**
-  - Le squadre analizzano le vendite per brand, canale e categoria.
+  - Le squadre eseguono `challenges/challenge_1_data_explorer.sql`.
   - **Colpo di Scena #1 Dati:** *Ray-Ban Meta Smart Glasses* e *Oliver Peoples* registrano uno scontrino medio altissimo (> 300 €), rappresentando la massima opportunità di crescita per Luxottica!
 - **16:40 - 16:45 (5m) | Debrief Capitolo 1 e Aggiornamento Classifica**
 
@@ -101,9 +119,10 @@ flowchart TD
 
 ### 🕒 17:00 - 17:45 | Blocco 3: Capitolo 2 - "La Rivelazione del ROAS Google Ads" (45 Mins)
 
-- **17:00 - 17:20 (20m) | SQL Avanzato: UNIONS, JOINS & CTE (`WITH`)**
+- **17:00 - 17:20 (20m) | 🎙️ COPIONE: SQL Avanzato (UNIONS, JOINS & CTE `WITH`)**
+  - Spiega il `JOIN` come un **VLOOKUP (CERCA.VERT)** istantaneo su milioni di righe.
 - **17:20 - 17:40 (20m) | 🏆 Challenge #2: "Intelligence Cross-Canale" (4 Indizi)**
-  - Le squadre incrociano la spesa adv con il fatturato ordini per calcolare il ROAS per piattaforma.
+  - Le squadre eseguono `challenges/challenge_2_cross_channel.sql`.
   - **Colpo di Scena #2 Dati:** I social terzi (TikTok / Criteo) hanno un ROAS fallimentare di **0.7x**, mentre **Google Search e Google Shopping** generano un **ROAS stellare compreso tra 6.8x e 8.2x**!
 - **17:40 - 17:45 (5m) | Debrief Capitolo 2 e Aggiornamento Classifica**
 
@@ -114,7 +133,7 @@ flowchart TD
 - **17:45 - 17:55 (10m) | DEMO: BigQuery Studio Visual Data Prep**
   - Mostra le schede di suggerimento Gemini e l'editing cellulare few-shot per la pulizia dati senza codice.
 - **17:55 - 18:10 (15m) | 🏆 Challenge #3: "The Clean Slate" (Vista Automatica e Looker Studio)**
-  - Le squadre puliscono `lux_raw_marketing_leads_dirty` creando la Vista `v_clean_marketing_leads`.
+  - Le squadre eseguono `challenges/challenge_3_clean_slate.sql` e creano la Vista `v_clean_marketing_leads`.
   - **Colpo di Scena #3 Dati:** La pulizia sblocca **350+ lead VIP** pronti per **Google Ads Customer Match**!
   - **Demo Looker Studio 1-Click:** Connetti la Vista a Looker Studio per mostrare il **Dashboard di Crescita Q4** al CMO!
 - **18:10 - 18:15 (5m) | Debrief Capitolo 3**
@@ -123,7 +142,7 @@ flowchart TD
 
 ### 🕒 18:15 - 18:30 | Blocco 5: Il Piano di Crescita Q4 con Google e Premiazione (15 Mins)
 
-- **18:15 - 18:25 (10m) | Sintesi Strategica & Sicurezza Dati**
+- **18:15 - 18:25 (10m) | 🎙️ COPIONE: Sintesi Strategica & Sicurezza Dati**
   - Riassunto del Piano di Crescita: Spostare il 60% del budget dai canali terzi verso **Google Search, Google Shopping, YouTube Ads e Performance Max**.
   - Sicurezza Dati: Row/Column-level security e mascheramento dei PII (email/telefoni).
 - **18:25 - 18:30 (5m) | Premiazione del Brand Detective Team Vincitore!**
