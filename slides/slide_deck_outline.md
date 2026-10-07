@@ -10,7 +10,7 @@
 
 ---
 
-## Block 1: BigQuery Fundamentals & Data Canvas (15:30 - 16:00)
+## Block 1: BigQuery Fundamentals, Data Canvas & AI Insights (15:30 - 16:00)
 
 ### Slide 1: Welcome & Executive Introduction
 - **Title:** Mastering Marketing Data with BigQuery SQL & BigQuery Studio
@@ -20,7 +20,7 @@
 ### Slide 2: Course Agenda & Objectives
 - **Title:** 3-Hour Interactive Agenda
 - **Agenda Breakdown:**
-  - 15:30 - 16:00 | Block 1: Fundamentals & **BigQuery Data Canvas (DAG Nodes)**
+  - 15:30 - 16:00 | Block 1: Fundamentals, **Data Canvas & AI Insights Node**
   - 16:00 - 16:45 | Block 2: Exploring Data + **Challenge #1 (8 Questions)**
   - 16:45 - 17:00 | ☕ Coffee Break
   - 17:00 - 17:45 | Block 3: Advanced Querying + **Challenge #2 (Cross-Channel ROAS)**
@@ -31,10 +31,10 @@
 - **Title:** Beyond Spreadsheets: Scale, Speed, and Single Source of Truth
 - **Comparison Visual:** Excel vs BigQuery Architecture
 
-### Slide 4: BigQuery Studio & BigQuery Data Canvas
-- **Title:** Modern Visual Analytics with Gemini
-- **Visual Diagram:** Node Graph (Search Node -> Table Node -> SQL Node -> Visualization Node).
-- **Key Capability:** Using natural language prompts to discover and analyze multi-brand sales data visually.
+### Slide 4: BigQuery Studio, Data Canvas & Insights Node
+- **Title:** Modern Visual Analytics & AI Executive Summaries
+- **Visual Diagram:** Node Graph (Search Node -> Table Node -> SQL Node -> Visualization Node -> **Insights Node**).
+- **Key Capability:** Generating automatic natural-language executive summaries, spotting revenue surges, detecting anomalies, and calculating metric correlations automatically with Gemini!
 
 ---
 

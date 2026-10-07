@@ -22,15 +22,16 @@
 
 ---
 
-## 🎨 2. BigQuery Data Canvas & Visual Data Prep (AI-Powered Studio)
+## 🎨 2. BigQuery Data Canvas, AI Insights & Visual Data Prep
 
-In addition to writing SQL code directly, BigQuery Studio includes two modern visual features:
+In addition to writing SQL code directly, BigQuery Studio includes modern visual features:
 
-### 2.1 BigQuery Data Canvas (Visual DAG Workspace)
+### 2.1 BigQuery Data Canvas & Insights Node (Visual DAG Workspace)
 - **Search Node:** Search datasets using Gemini natural language prompts.
 - **Table Node:** Inspect schemas and column distribution histograms.
 - **SQL Node:** View Gemini-generated SQL or write custom queries.
 - **Visualization Node:** Turn query results directly into bar/line charts with 1 click.
+- **💡 Insights Node:** Automatically generate narrative executive summaries, detect statistical anomalies, spot revenue surges, and calculate metric correlations!
 
 ### 2.2 Visual Data Preparation (Gemini Low-Code Wrangling)
 - **Data View:** Inspect column quality with built-in statistical histograms.

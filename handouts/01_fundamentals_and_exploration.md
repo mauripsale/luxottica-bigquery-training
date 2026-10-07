@@ -1,4 +1,4 @@
-# Module 01 & 02: BigQuery Fundamentals, Data Canvas & Exploration
+# Module 01 & 02: BigQuery Fundamentals, Data Canvas & AI Insights
 **Luxottica Marketing Data Training**  
 **GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21` (`bigquery-luxottica`)  
 **Target Dataset:** `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`  
@@ -18,7 +18,7 @@
 
 ---
 
-## 2. Navigating BigQuery Studio & BigQuery Data Canvas
+## 2. Navigating BigQuery Studio: Data Canvas & Gemini Insights
 
 Google Cloud provides two ways to interact with marketing data in BigQuery Studio:
 
@@ -26,7 +26,7 @@ Google Cloud provides two ways to interact with marketing data in BigQuery Studi
 - **URL:** `https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21`
 - Best for writing direct GoogleSQL scripts, creating tables, and building structured Views.
 
-### 2.2 BigQuery Data Canvas (AI-Powered Visual Directed Graph)
+### 2.2 BigQuery Data Canvas & AI Insights (Node-Based Workspace)
 **BigQuery Data Canvas** is an interactive, visual, node-based workspace powered by **Gemini in BigQuery**. Instead of writing raw code from scratch, you can explore data visually using connected **Nodes**:
 
 ```mermaid
@@ -34,7 +34,7 @@ flowchart LR
     S[🔍 Search Node<br/><i>Natural Language Prompt</i>] --> T[📊 Table Node<br/><i>lux_online_orders</i>]
     T --> Q[⚡ SQL Node<br/><i>Gemini Generated SQL</i>]
     Q --> V[📈 Visualization Node<br/><i>Instant Auto-Charts</i>]
-    Q --> D[💾 Destination Table Node<br/><i>Save View / Table</i>]
+    Q --> I[💡 Insights Node<br/><i>Gemini Executive Summary</i>]
 ```
 
 #### Core Data Canvas Nodes for Marketing Analysts:
@@ -42,7 +42,7 @@ flowchart LR
 2. **Table Node:** Represents selected tables or views with schema previews and data profiling histograms.
 3. **SQL Node:** Houses SQL queries generated automatically by Gemini or edited manually.
 4. **Visualization Node:** Automatically builds bar charts, line graphs, and pie charts directly from query outputs.
-5. **Insights Node:** Uncovers statistical patterns, column distributions, anomalies, and correlations automatically.
+5. **💡 Insights Node (NEW):** Automatically generates executive natural-language summaries, statistical trends, pattern detection, anomaly flags (e.g. ad spend spikes), and variable correlations out of raw query results!
 
 ---
 

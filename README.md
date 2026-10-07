@@ -27,7 +27,7 @@ Welcome to the official repository for the **Luxottica Training Workshop: Master
 ├── dataset/
 │   └── 00_setup_schema_and_data.sql           # Rich Seed Script (Hundreds of realistic records)
 ├── handouts/
-│   ├── 01_fundamentals_and_exploration.md     # Block 1 & 2 Concepts, BigQuery Data Canvas & Starter SQL
+│   ├── 01_fundamentals_and_exploration.md     # Block 1 & 2 Concepts, BigQuery Data Canvas, AI Insights & Starter SQL
 │   ├── 02_advanced_querying.md                # Block 3 UNIONS, JOINS & Multi-Source Cross-Channel Analytics
 │   └── 03_data_cleaning_and_transformation.md # Block 4 BigQuery Visual Data Prep, Wrangling & QUALIFY
 ├── challenges/
@@ -52,7 +52,7 @@ Welcome to the official repository for the **Luxottica Training Workshop: Master
 4. Verify created tables: `lux_crm_customers` (50 rows), `lux_online_orders` (120 rows), `lux_ad_spend` (60 rows), `lux_raw_marketing_leads_dirty` (30 rows).
 
 ### Step 2: Hands-on Execution Across the 3 Hours
-- **Block 1 (15:40 - 15:52):** BigQuery Data Canvas orientation (Search Nodes, Table Nodes, SQL Nodes).
+- **Block 1 (15:40 - 15:52):** BigQuery Data Canvas & Insights Node orientation (Search, Table, SQL, Visualization, Insights Nodes).
 - **Block 2 (16:15 - 16:40):** Challenge #1 (`challenges/challenge_1_data_explorer.sql`).
 - **Block 3 (17:20 - 17:40):** Challenge #2 (`challenges/challenge_2_cross_channel.sql`).
 - **Block 4 (17:45 - 18:10):** Visual Data Prep & Challenge #3 (`challenges/challenge_3_clean_slate.sql`).
