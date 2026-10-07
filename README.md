@@ -18,7 +18,7 @@ Welcome to the official repository for the **Luxottica Training Workshop: Master
 ---
 
 ## 📖 Step-by-Step Data Storytelling Script
-The entire 3-hour course is structured as a progressive **Data Detective Investigation** ("The Mystery of the Leaky Ad Budget & The Smart Glasses Breakthrough").  
+The entire 3-hour course is structured as a progressive **Data Detective Investigation** ("Unlocking High-ROAS Google Ads Growth & Capturing Ray-Ban Meta Search Demand").  
 See the full step-by-step analytical script here: [00_data_storytelling_narrative.md](file:///Users/maurizio.ipsale/Code/my-agy-projects/projectA/handouts/00_data_storytelling_narrative.md).
 
 ---
@@ -28,12 +28,13 @@ See the full step-by-step analytical script here: [00_data_storytelling_narrativ
 ```
 .
 ├── README.md                                  # Repository Overview & Quick Start
-├── instructor_guide.md                        # Complete 180-Minute Instructor Facilitation Script
+├── instructor_guide.md                        # Complete 180-Minute Instructor Facilitation Script (English)
+├── instructor_guide_it.md                     # Complete 180-Minute Instructor Facilitation Script (Italian)
 ├── student_guide.md                           # Student Participant Guide & Cheat Sheet
 ├── dataset/
 │   └── 00_setup_schema_and_data.sql           # Massive Enterprise Seed Script (116,000+ Records)
 ├── handouts/
-│   ├── 00_data_storytelling_narrative.md      # Step-by-Step Analytical Script (Problem -> Analysis -> Root Cause -> Solution)
+│   ├── 00_data_storytelling_narrative.md      # Step-by-Step Analytical Script (Problem -> Analysis -> Root Cause -> Google Solution)
 │   ├── 01_fundamentals_and_exploration.md     # Block 1 & 2 Concepts, BigQuery Data Insights, Data Canvas & Starter SQL
 │   ├── 02_advanced_querying.md                # Block 3 UNIONS, JOINS & Multi-Source Cross-Channel Analytics
 │   └── 03_data_cleaning_and_transformation.md # Block 4 BigQuery Visual Data Prep, Wrangling & QUALIFY
