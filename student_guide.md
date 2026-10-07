@@ -22,7 +22,24 @@
 
 ---
 
-## 📊 2. Marketing SQL Cheat Sheet & Excel Translation
+## 🎨 2. BigQuery Data Canvas & Visual Data Prep (AI-Powered Studio)
+
+In addition to writing SQL code directly, BigQuery Studio includes two modern visual features:
+
+### 2.1 BigQuery Data Canvas (Visual DAG Workspace)
+- **Search Node:** Search datasets using Gemini natural language prompts.
+- **Table Node:** Inspect schemas and column distribution histograms.
+- **SQL Node:** View Gemini-generated SQL or write custom queries.
+- **Visualization Node:** Turn query results directly into bar/line charts with 1 click.
+
+### 2.2 Visual Data Preparation (Gemini Low-Code Wrangling)
+- **Data View:** Inspect column quality with built-in statistical histograms.
+- **Gemini Suggestion Cards:** One-click AI cleaning suggestions (*Trim spaces*, *Lowercase email*).
+- **Cell Editing Few-Shot Prompts:** Manually edit 1 cell in the preview grid — Gemini learns your formatting rule and applies it to the entire table automatically!
+
+---
+
+## 📊 3. Marketing SQL Cheat Sheet & Excel Translation
 
 ### Excel vs BigQuery SQL Rosetta Stone
 
@@ -36,29 +53,9 @@
 | **VLOOKUP / CERCA.VERT** | `LEFT JOIN table ON key` | `LEFT JOIN lux_crm_customers ON ...` |
 | **Remove Duplicates** | `QUALIFY ROW_NUMBER() OVER(...) = 1` | Keep latest record per email |
 
-### Standard SQL Query Template
-```sql
-SELECT
-  brand,
-  product_category,
-  COUNT(order_id) AS total_orders,
-  ROUND(SUM(revenue_eur), 2) AS total_revenue_eur,
-  ROUND(AVG(revenue_eur), 2) AS avg_order_value_eur
-FROM
-  `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
-WHERE
-  revenue_eur > 50.00
-GROUP BY
-  brand,
-  product_category
-ORDER BY
-  total_revenue_eur DESC
-LIMIT 10;
-```
-
 ---
 
-## 🏆 3. Hands-on Challenge Worksheets (3 Hours / 3 Challenges)
+## 🏆 4. Hands-on Challenge Worksheets (3 Hours / 3 Challenges)
 
 ### Challenge #1: "The Data Explorer" (16:15 - 16:40)
 **File:** `challenges/challenge_1_data_explorer.sql`
@@ -85,7 +82,7 @@ LIMIT 10;
 
 ---
 
-## 💡 4. Essential BigQuery Marketing Functions
+## 💡 5. Essential BigQuery Marketing Functions
 
 ```sql
 -- 1. Cleaning Strings
@@ -106,6 +103,6 @@ PARSE_DATE('%Y-%m-%d', '2026-09-15')   --> DATE '2026-09-15'
 
 ---
 
-## 📈 5. Next Steps & Continuous Learning
+## 📈 6. Next Steps & Continuous Learning
 - **Looker Studio:** Connect your BigQuery views directly to Looker Studio for automated executive dashboards.
 - **Support & Questions:** Reach out to the Luxottica Global Analytics Enablement team.
