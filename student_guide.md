@@ -22,18 +22,24 @@
 
 ---
 
-## 🎨 2. BigQuery Data Canvas, AI Insights & Visual Data Prep
+## 🎨 2. BigQuery Data Insights, Data Canvas & Visual Data Prep
 
-In addition to writing SQL code directly, BigQuery Studio includes modern visual features:
+In addition to writing SQL code directly, BigQuery Studio includes modern AI-powered features:
 
-### 2.1 BigQuery Data Canvas & Insights Node (Visual DAG Workspace)
+### 2.1 BigQuery Data Insights (`cloud.google.com/bigquery/docs/data-insights`)
+Overcomes the "cold start problem" when exploring new datasets:
+- **Interactive Relationship Graphs:** Visual map showing connections, dependencies, and join keys between tables (`lux_crm_customers`, `lux_online_orders`, `lux_ad_spend`).
+- **AI-Generated Descriptions:** Automated documentation explaining datasets, tables, and columns in natural language.
+- **Sample SQL Queries:** 1-click starter queries generated automatically to kickstart statistical analysis.
+
+### 2.2 BigQuery Data Canvas & Insights Node (Visual DAG Workspace)
 - **Search Node:** Search datasets using Gemini natural language prompts.
 - **Table Node:** Inspect schemas and column distribution histograms.
 - **SQL Node:** View Gemini-generated SQL or write custom queries.
 - **Visualization Node:** Turn query results directly into bar/line charts with 1 click.
 - **💡 Insights Node:** Automatically generate narrative executive summaries, detect statistical anomalies, spot revenue surges, and calculate metric correlations!
 
-### 2.2 Visual Data Preparation (Gemini Low-Code Wrangling)
+### 2.3 Visual Data Preparation (Gemini Low-Code Wrangling)
 - **Data View:** Inspect column quality with built-in statistical histograms.
 - **Gemini Suggestion Cards:** One-click AI cleaning suggestions (*Trim spaces*, *Lowercase email*).
 - **Cell Editing Few-Shot Prompts:** Manually edit 1 cell in the preview grid — Gemini learns your formatting rule and applies it to the entire table automatically!

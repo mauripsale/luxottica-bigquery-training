@@ -14,10 +14,10 @@
 
 ```mermaid
 flowchart TD
-    Block1["<b>15:30 - 16:00 (30m) | Block 1: Fundamentals, Data Canvas & Insights</b><br/>• Icebreaker & EDW Mental Model<br/>• Console Pinning & <b>BigQuery Data Canvas (Insights Node)</b><br/>• First Guided Code-Along"] --> Block2["<b>16:00 - 16:45 (45m) | Block 2: Exploring & Preparing</b><br/>• SELECT, WHERE, GROUP BY, CASE WHEN<br/>• 🏆 <b>Challenge #1: Data Explorer (8 Questions)</b><br/>• Live Debrief & Scoreboard Update"]
+    Block1["<b>15:30 - 16:00 (30m) | Block 1: Fundamentals & BigQuery Data Insights</b><br/>• Icebreaker & EDW Mental Model<br/>• Console Pinning & <b>BigQuery Data Insights (Relationship Graph)</b><br/>• <b>Data Canvas & Insights Node</b><br/>• First Guided Code-Along"] --> Block2["<b>16:00 - 16:45 (45m) | Block 2: Exploring & Preparing</b><br/>• SELECT, WHERE, GROUP BY, CASE WHEN<br/>• 🏆 <b>Challenge #1: Data Explorer (8 Questions)</b><br/>• Live Debrief & Scoreboard Update"]
     Block2 --> Break["<b>16:45 - 17:00 (15m) | ☕ Coffee Break & Catch-up</b>"]
     Break --> Block3["<b>17:00 - 17:45 (45m) | Block 3: Advanced Querying</b><br/>• UNIONS & Multi-Table JOINS<br/>• CTEs & Cross-Channel Brand ROAS<br/>• 🏆 <b>Challenge #2: Cross-Channel Intelligence (4 Questions)</b>"]
-    Block3 --> Block4["<b>17:45 - 18:15 (30m) | Block 4: Visual Data Prep & Wrangling</b><br/>• 📊 <b>BigQuery Visual Data Prep (Gemini Cards)</b><br/>• String/Date Parsing & QUALIFY Deduplication<br/>• 🏆 <b>Challenge #3: The Clean Slate (Automated View)</b><br/>• 📊 <b>1-Click Looker Studio Live Dashboard Demo</b>"]
+    Block3 --> Block4["<b>17:45 - 18:15 (30m) | Block 4: Visual Data Prep & Wrangling</b><br/>• 📊 <b>BigQuery Visual Data Prep (Gemini Suggestion Cards)</b><br/>• String/Date Parsing & QUALIFY Deduplication<br/>• 🏆 <b>Challenge #3: The Clean Slate (Automated View)</b><br/>• 📊 <b>1-Click Looker Studio Live Dashboard Demo</b>"]
     Block4 --> Block5["<b>18:15 - 18:30 (15m) | Block 5: Executive Wrap-up</b><br/>• Insights & Security/PII Masking<br/>• Winning Brand Team Awarding"]
 ```
 
@@ -25,19 +25,22 @@ flowchart TD
 
 ## ⏱️ Detailed Block-by-Block Execution Script
 
-### 🕒 15:30 - 16:00 | Block 1: BigQuery Fundamentals, Data Canvas & AI Insights (30 Mins)
+### 🕒 15:30 - 16:00 | Block 1: BigQuery Fundamentals, Data Insights & Data Canvas (30 Mins)
 
 - **15:30 - 15:40 (10m) | Welcome & Mentimeter Icebreaker**
   - Welcome participants and introduce course objectives.
   - Launch live icebreaker poll: *"What is your biggest daily struggle with Excel spreadsheets?"*
   - Connect answers to BigQuery's serverless speed and scale.
 
-- **15:40 - 15:52 (12m) | BigQuery Studio, Data Canvas & AI Insights Node**
+- **15:40 - 15:52 (12m) | BigQuery Studio, Data Insights & Data Canvas**
   - Guide participants live to `https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21`.
   - Pin project: **"+ ADD" -> "Star a project by name"** -> `qwiklabs-gcp-04-9efaa47f1d21`.
-  - **NEW FEATURE DEMO: BigQuery Data Canvas & Insights Node**:
-    - Show how Data Canvas uses visual node graphs (Search Node -> Table Node -> SQL Node -> Visualization Node -> **Insights Node**).
-    - **Insights Node Demo:** Show how Gemini analyzes query outputs to automatically write narrative executive summaries, spot revenue anomalies, highlight trends, and calculate correlations!
+  - **NEW FEATURE DEMO 1: BigQuery Data Insights (`cloud.google.com/bigquery/docs/data-insights`)**:
+    - Open dataset `luxottica_marketing_analytics` and click **"Generate Data Insights"**.
+    - Show the **Interactive Relationship Graph**: Explain how Gemini maps connections between `lux_crm_customers`, `lux_online_orders`, and `lux_ad_spend` visually!
+    - Show **AI-Generated Table/Column Descriptions** and **Sample SQL Queries** generated with 1 click.
+  - **NEW FEATURE DEMO 2: BigQuery Data Canvas & Insights Node**:
+    - Show visual DAG nodes (Search -> Table -> SQL -> Visualization -> **Insights Node**).
 
 - **15:52 - 16:00 (8m) | First Guided Code-Along Query**
   - Write a simple SQL query together in the query editor tab. Explain bytes scanned preview.
@@ -96,7 +99,7 @@ flowchart TD
 ### 🕒 18:15 - 18:30 | Block 5: Key Takeaways, Security & Awards (15 Mins)
 
 - **18:15 - 18:25 (10m) | Executive Summary & Security Spotlight**
-  - Highlight business value gained (Data Canvas, Insights Node, Visual Data Prep, ROAS, Looker Studio).
+  - Highlight business value gained (Data Insights, Data Canvas, Visual Data Prep, ROAS, Looker Studio).
   - Security & PII Spotlight: Row/Column-level security, PII data masking (emails/phones), and isolated cloud tenant governance.
 
 - **18:25 - 18:30 (5m) | Winning Team Awarding & Feedback**

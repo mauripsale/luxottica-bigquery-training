@@ -1,4 +1,4 @@
-# Module 01 & 02: BigQuery Fundamentals, Data Canvas & AI Insights
+# Module 01 & 02: BigQuery Fundamentals, Data Canvas & BigQuery Data Insights
 **Luxottica Marketing Data Training**  
 **GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21` (`bigquery-luxottica`)  
 **Target Dataset:** `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`  
@@ -18,16 +18,31 @@
 
 ---
 
-## 2. Navigating BigQuery Studio: Data Canvas & Gemini Insights
+## 2. Navigating BigQuery Studio: BigQuery Data Insights & Data Canvas
 
-Google Cloud provides two ways to interact with marketing data in BigQuery Studio:
+Google Cloud provides AI-powered discovery and analysis tools in BigQuery Studio powered by **Gemini in BigQuery**:
 
-### 2.1 The Standard SQL Editor
-- **URL:** `https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21`
-- Best for writing direct GoogleSQL scripts, creating tables, and building structured Views.
+### 2.1 BigQuery Data Insights (`docs.cloud.google.com/bigquery/docs/data-insights`)
+When encountering a new, unfamiliar marketing dataset, analysts face the "cold start problem": *What is in this dataset, and how do the tables connect?*
 
-### 2.2 BigQuery Data Canvas & AI Insights (Node-Based Workspace)
-**BigQuery Data Canvas** is an interactive, visual, node-based workspace powered by **Gemini in BigQuery**. Instead of writing raw code from scratch, you can explore data visually using connected **Nodes**:
+**BigQuery Data Insights** (integrated with Knowledge Catalog) automatically generates:
+
+1. **Interactive Relationship Graphs:** A visual map showing connections, dependencies, and join keys (schema-defined or Gemini LLM-inferred) across `lux_crm_customers`, `lux_online_orders`, and `lux_ad_spend`.
+2. **AI-Generated Table & Column Descriptions:** Automated plain-language documentation explaining what each column represents (e.g. `revenue_eur`, `loyalty_tier`, `spend_eur`). Analysts can review, edit, and publish these descriptions directly to Knowledge Catalog.
+3. **Sample SQL Queries:** Automatically generated, context-aware SQL queries (with natural language prompts) that jump-start statistical analysis and multi-table joins with 1 click!
+
+```mermaid
+flowchart TD
+    DS["Dataset: luxottica_marketing_analytics"] --> DI["✨ Generate Data Insights (Gemini)"]
+    DI --> RG["🕸️ Relationship Graph<br/><i>Visual map connecting tables via customer_id & brand</i>"]
+    DI --> DESC["📝 AI Descriptions<br/><i>Table & Column documentation</i>"]
+    DI --> SQ["⚡ Sample SQL Queries<br/><i>1-Click starter queries for joins & stats</i>"]
+```
+
+---
+
+### 2.2 BigQuery Data Canvas (AI-Powered Visual Node Workspace)
+**BigQuery Data Canvas** is an interactive, visual, node-based workspace. Instead of writing raw code from scratch, you can explore data visually using connected **Nodes**:
 
 ```mermaid
 flowchart LR
@@ -37,12 +52,12 @@ flowchart LR
     Q --> I[💡 Insights Node<br/><i>Gemini Executive Summary</i>]
 ```
 
-#### Core Data Canvas Nodes for Marketing Analysts:
-1. **Search Node:** Find datasets across Luxottica using natural language prompts (e.g., *"Find Ray-Ban sales in Q3 2026"*).
-2. **Table Node:** Represents selected tables or views with schema previews and data profiling histograms.
-3. **SQL Node:** Houses SQL queries generated automatically by Gemini or edited manually.
-4. **Visualization Node:** Automatically builds bar charts, line graphs, and pie charts directly from query outputs.
-5. **💡 Insights Node (NEW):** Automatically generates executive natural-language summaries, statistical trends, pattern detection, anomaly flags (e.g. ad spend spikes), and variable correlations out of raw query results!
+#### Core Data Canvas Nodes:
+- **Search Node:** Find datasets across Luxottica using natural language prompts (e.g., *"Find Ray-Ban sales in Q3 2026"*).
+- **Table Node:** Schema previews and data profiling histograms.
+- **SQL Node:** Houses SQL queries generated automatically by Gemini or edited manually.
+- **Visualization Node:** Automatically builds bar charts, line graphs, and pie charts directly from query outputs.
+- **Insights Node:** Generates executive natural-language summaries, statistical trends, anomaly flags, and correlations.
 
 ---
 
