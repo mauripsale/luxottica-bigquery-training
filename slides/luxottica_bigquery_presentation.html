@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Luxottica BigQuery Training - Interactive Presentation</title>
+  <title>Luxottica BigQuery Masterclass - Visual Slide Deck</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=JetBrains+Mono:wght@700&display=swap');
     
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #0b0f19;
-      color: #f3f4f6;
+      background-color: #060913;
+      color: #ffffff;
       overflow: hidden;
     }
 
@@ -19,40 +19,30 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    .glass-card {
-      background: rgba(17, 24, 39, 0.7);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    .glass-overlay {
+      background: linear-gradient(135deg, rgba(10, 15, 26, 0.85) 0%, rgba(6, 9, 19, 0.95) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .glass-card-glow {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(66, 133, 244, 0.3);
-      box-shadow: 0 0 30px rgba(66, 133, 244, 0.15);
+      border: 2px solid rgba(66, 133, 244, 0.4);
+      box-shadow: 0 0 40px rgba(66, 133, 244, 0.25);
     }
 
     .gradient-text-google {
-      background: linear-gradient(135deg, #4285f4 0%, #34a853 35%, #fbbc05 70%, #ea4335 100%);
+      background: linear-gradient(135deg, #4285f4 0%, #34a853 40%, #fbbc05 75%, #ea4335 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-    }
-
-    .gradient-text-gold {
-      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .slide-transition {
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .slide {
       display: none;
       opacity: 0;
-      transform: scale(0.98) translateY(10px);
+      transform: scale(0.97) translateY(12px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .slide.active {
@@ -64,348 +54,328 @@
 </head>
 <body class="h-screen w-screen flex flex-col justify-between p-6 select-none relative">
 
-  <!-- TOP HEADER / BRANDING -->
-  <header class="flex justify-between items-center z-20 pb-4 border-b border-gray-800/60">
-    <div class="flex items-center gap-3">
-      <div class="px-3 py-1 bg-blue-600/20 border border-blue-500/40 rounded-full text-blue-400 font-bold text-xs tracking-wider uppercase flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+  <!-- TOP BRANDING HEADER -->
+  <header class="flex justify-between items-center z-30 pb-3 border-b border-gray-800/80">
+    <div class="flex items-center gap-4">
+      <span class="px-3 py-1 bg-blue-500/20 border border-blue-400/40 rounded-full text-blue-400 font-extrabold text-xs tracking-wider uppercase flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-blue-400 animate-ping"></span>
         Google Cloud & Luxottica
-      </div>
-      <span class="text-gray-500 text-xs font-mono">QWIKLABS-GCP-04-9EFAA47F1D21</span>
+      </span>
+      <span class="text-gray-400 text-xs font-mono font-bold">PROJECT: QWIKLABS-GCP-04-9EFAA47F1D21</span>
     </div>
     
-    <div class="flex items-center gap-4 text-xs text-gray-400">
-      <span id="current-slide-title" class="font-semibold text-gray-300">Executive Mission Briefing</span>
+    <div class="flex items-center gap-3 text-xs font-bold text-gray-300">
+      <span id="current-slide-title" class="text-gray-200 uppercase tracking-wide">Executive Overview</span>
       <span class="text-gray-600">|</span>
-      <span class="font-mono text-blue-400"><span id="slide-num">1</span> / <span id="slide-total">8</span></span>
+      <span class="font-mono text-blue-400 text-sm"><span id="slide-num">1</span> / <span id="slide-total">8</span></span>
     </div>
   </header>
 
-  <!-- SLIDES CONTAINER -->
-  <main class="flex-1 flex items-center justify-center relative my-4 overflow-hidden z-10">
+  <!-- MAIN SLIDE CONTAINER -->
+  <main class="flex-1 flex items-center justify-center relative my-3 overflow-hidden z-10">
 
-    <!-- SLIDE 1: COVER -->
-    <div class="slide active flex-col items-center justify-center text-center max-w-5xl mx-auto space-y-8 slide-transition">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-500/10 via-green-500/10 to-amber-500/10 border border-gray-700/60 text-xs font-medium text-gray-300">
-        <span class="text-amber-400">🕶️</span> Luxottica Global Analytics & Digital Commerce Workshop
+    <!-- SLIDE 1: COVER SLIDE WITH HERO GENERATED IMAGE -->
+    <div class="slide active w-full h-full max-w-6xl mx-auto grid grid-cols-12 gap-8 items-center">
+      <div class="col-span-7 space-y-6 text-left">
+        <span class="px-4 py-1.5 rounded-full bg-blue-600/30 border border-blue-400/50 text-blue-300 text-sm font-bold tracking-wide uppercase">
+          🕶️ Masterclass Executive Briefing
+        </span>
+
+        <h1 class="text-5xl md:text-6xl font-black tracking-tight leading-tight">
+          Mastering Marketing Data with <br>
+          <span class="gradient-text-google">BigQuery SQL & Studio</span>
+        </h1>
+
+        <p class="text-xl text-gray-300 font-medium leading-relaxed">
+          Unlocking High-ROAS Google Ads Growth & Capturing Ray-Ban Meta Search Demand
+        </p>
+
+        <div class="flex gap-4 pt-2">
+          <div class="glass-overlay p-4 rounded-2xl border-l-4 border-l-blue-500">
+            <div class="text-2xl font-black text-white">180 Mins</div>
+            <div class="text-xs text-gray-400 font-bold uppercase">Hands-On Workshop</div>
+          </div>
+          <div class="glass-overlay p-4 rounded-2xl border-l-4 border-l-green-500">
+            <div class="text-2xl font-black text-white">116,000+</div>
+            <div class="text-xs text-gray-400 font-bold uppercase">Live Records</div>
+          </div>
+          <div class="glass-overlay p-4 rounded-2xl border-l-4 border-l-amber-500">
+            <div class="text-2xl font-black text-white">Gemini AI</div>
+            <div class="text-xs text-gray-400 font-bold uppercase">BigQuery Studio</div>
+          </div>
+        </div>
       </div>
 
-      <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
-        Mastering Marketing Data with <br>
-        <span class="gradient-text-google">BigQuery SQL & Studio</span>
-      </h1>
-
-      <p class="text-lg text-gray-400 max-w-2xl leading-relaxed">
-        Unlocking High-ROAS Google Ads Growth & Capturing Ray-Ban Meta Search Demand
-      </p>
-
-      <div class="grid grid-cols-3 gap-4 w-full max-w-3xl pt-4">
-        <div class="glass-card p-4 rounded-2xl text-left border-l-4 border-l-blue-500">
-          <div class="text-xs text-gray-400 font-mono mb-1">⏱️ DURATION</div>
-          <div class="text-lg font-bold text-white">180 Minutes</div>
-          <div class="text-xs text-gray-500 mt-1">3 Hands-on Challenges</div>
-        </div>
-        <div class="glass-card p-4 rounded-2xl text-left border-l-4 border-l-green-500">
-          <div class="text-xs text-gray-400 font-mono mb-1">📊 DATASET SIZE</div>
-          <div class="text-lg font-bold text-white">116,000+ Records</div>
-          <div class="text-xs text-gray-500 mt-1">Orders, CRM & Ad Spend</div>
-        </div>
-        <div class="glass-card p-4 rounded-2xl text-left border-l-4 border-l-amber-500">
-          <div class="text-xs text-gray-400 font-mono mb-1">🤖 AI ASSISTANT</div>
-          <div class="text-lg font-bold text-white">Gemini in BigQuery</div>
-          <div class="text-xs text-gray-500 mt-1">Data Canvas & SQL Gen</div>
+      <div class="col-span-5 relative h-full max-h-[480px] rounded-3xl overflow-hidden border-2 border-gray-700/60 shadow-2xl">
+        <img src="assets/luxottica_hero_banner_1791467759147.png" alt="Ray-Ban Meta Smart Glasses" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
+          <span class="text-sm font-bold text-gray-200">Ray-Ban Meta Smart Glasses & Luxury Eyewear</span>
         </div>
       </div>
     </div>
 
-    <!-- SLIDE 2: CMO EMERGENCY BRIEFING -->
-    <div class="slide flex-col justify-center max-w-5xl w-full mx-auto space-y-6 slide-transition">
-      <div class="flex items-center gap-3">
-        <span class="px-3 py-1 rounded-md bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold uppercase">🚨 Emergency Briefing</span>
-        <h2 class="text-3xl font-bold text-white">The CMO Dilemma: Where is the Budget Leaking?</h2>
+    <!-- SLIDE 2: CMO EMERGENCY BRIEFING WITH DASHBOARD IMAGE -->
+    <div class="slide w-full h-full max-w-6xl mx-auto grid grid-cols-12 gap-8 items-center">
+      <div class="col-span-6 space-y-6">
+        <span class="px-3.5 py-1.5 rounded-lg bg-red-500/20 text-red-400 border border-red-500/40 text-xs font-black uppercase tracking-wider">
+          🚨 CMO Emergency Briefing
+        </span>
+        <h2 class="text-4xl font-extrabold text-white leading-tight">Where is the Marketing Budget Leaking?</h2>
+
+        <div class="grid grid-cols-2 gap-4 pt-2">
+          <div class="glass-overlay p-5 rounded-2xl border-l-4 border-l-red-500">
+            <div class="text-xs font-bold text-gray-400 uppercase">Ad Budget Increase</div>
+            <div class="text-4xl font-black text-red-400 mt-1">+35%</div>
+            <div class="text-xs text-gray-300 mt-1">€4.8M Total Spend</div>
+          </div>
+
+          <div class="glass-overlay p-5 rounded-2xl border-l-4 border-l-amber-500">
+            <div class="text-xs font-bold text-gray-400 uppercase">E-Commerce Growth</div>
+            <div class="text-4xl font-black text-amber-400 mt-1">FLAT (+2%)</div>
+            <div class="text-xs text-gray-300 mt-1">€21.5M Revenue</div>
+          </div>
+        </div>
+
+        <div class="glass-card-glow p-4 rounded-2xl text-sm font-bold text-blue-300">
+          🕵️ Mission: Analyze 116,000+ records in BigQuery Studio to uncover budget waste on 3rd-party social networks.
+        </div>
+      </div>
+
+      <div class="col-span-6 h-full max-h-[460px] rounded-3xl overflow-hidden border-2 border-red-500/40 shadow-2xl relative">
+        <img src="assets/cmo_budget_leakage_1791467800384.png" alt="CMO Marketing Dashboard" class="w-full h-full object-cover">
+      </div>
+    </div>
+
+    <!-- SLIDE 3: GAMIFICATION & BRAND TEAMS WITH EYEWEAR IMAGE -->
+    <div class="slide w-full h-full max-w-6xl mx-auto grid grid-cols-12 gap-8 items-center">
+      <div class="col-span-6 space-y-6">
+        <span class="px-3.5 py-1.5 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 text-xs font-black uppercase tracking-wider">
+          🏆 Competition Rules
+        </span>
+        <h2 class="text-4xl font-extrabold text-white">4 Brand Detective Teams</h2>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="glass-overlay p-4 rounded-xl border-l-4 border-l-red-500 font-bold text-base text-white flex items-center gap-3">
+            <span class="text-2xl">🕶️</span> Team Ray-Ban
+          </div>
+          <div class="glass-overlay p-4 rounded-xl border-l-4 border-l-blue-500 font-bold text-base text-white flex items-center gap-3">
+            <span class="text-2xl">🕶️</span> Team Oakley
+          </div>
+          <div class="glass-overlay p-4 rounded-xl border-l-4 border-l-green-500 font-bold text-base text-white flex items-center gap-3">
+            <span class="text-2xl">🕶️</span> Team Persol
+          </div>
+          <div class="glass-overlay p-4 rounded-xl border-l-4 border-l-amber-500 font-bold text-base text-white flex items-center gap-3">
+            <span class="text-2xl">🕶️</span> Team Oliver Peoples
+          </div>
+        </div>
+
+        <div class="glass-overlay p-4 rounded-2xl flex justify-between items-center text-center">
+          <div>
+            <div class="text-2xl font-black text-amber-400">+100 PTS</div>
+            <div class="text-xs text-gray-400 font-bold">First SQL Query</div>
+          </div>
+          <div class="h-8 w-px bg-gray-700"></div>
+          <div>
+            <div class="text-2xl font-black text-blue-400">+50 PTS</div>
+            <div class="text-xs text-gray-400 font-bold">Best Insight</div>
+          </div>
+          <div class="h-8 w-px bg-gray-700"></div>
+          <div>
+            <div class="text-2xl font-black text-green-400">+100 PTS</div>
+            <div class="text-xs text-gray-400 font-bold">Looker Dashboard</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-span-6 h-full max-h-[460px] rounded-3xl overflow-hidden border-2 border-amber-500/40 shadow-2xl relative">
+        <img src="assets/eyewear_brand_collection_1791467863205.png" alt="Luxury Eyewear Collection" class="w-full h-full object-cover">
+      </div>
+    </div>
+
+    <!-- SLIDE 4: BIGQUERY STUDIO DATA CANVAS -->
+    <div class="slide w-full h-full max-w-6xl mx-auto flex flex-col justify-center space-y-6">
+      <div class="text-center space-y-2">
+        <span class="px-3.5 py-1.5 rounded-lg bg-blue-500/20 text-blue-400 border border-blue-500/40 text-xs font-black uppercase tracking-wider">
+          🤖 AI Visual Canvas
+        </span>
+        <h2 class="text-4xl font-extrabold text-white">BigQuery Studio Data Canvas & Gemini AI</h2>
       </div>
 
       <div class="grid grid-cols-2 gap-6 pt-2">
-        <div class="glass-card p-6 rounded-2xl border-l-4 border-l-red-500 space-y-3">
-          <div class="flex justify-between items-start">
-            <span class="text-sm font-semibold text-gray-400">Digital Ad Budget</span>
-            <span class="px-2.5 py-1 bg-red-500/20 text-red-400 rounded-full text-xs font-bold">+35% Increase</span>
+        <div class="glass-overlay p-6 rounded-3xl border-2 border-blue-500/40 space-y-4">
+          <div class="text-base font-bold text-blue-400 flex items-center gap-2">
+            <span>💬 Prompt in Linguaggio Naturale</span>
           </div>
-          <div class="text-4xl font-extrabold text-red-400">€4.8M Total Spend</div>
-          <p class="text-xs text-gray-400 leading-relaxed">
-            Luxottica heavily increased experimental spending on third-party social networks and fragmented display networks (TikTok, Criteo).
-          </p>
-        </div>
-
-        <div class="glass-card p-6 rounded-2xl border-l-4 border-l-amber-500 space-y-3">
-          <div class="flex justify-between items-start">
-            <span class="text-sm font-semibold text-gray-400">Online Revenue Growth</span>
-            <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs font-bold">FLAT (+2%)</span>
+          <div class="p-4 bg-gray-950 rounded-2xl border border-gray-800 font-mono text-sm text-green-400 leading-relaxed">
+            "Calcola il totale ordini, il fatturato in Euro e lo scontrino medio per brand nel dataset luxottica_marketing_analytics"
           </div>
-          <div class="text-4xl font-extrabold text-amber-400">€21.5M Total Revenue</div>
-          <p class="text-xs text-gray-400 leading-relaxed">
-            E-commerce revenue stayed stagnated. The CMO demands a data-backed Q4 Growth Plan to eliminate waste and drive high-margin ROI!
-          </p>
-        </div>
-      </div>
-
-      <div class="glass-card-glow p-5 rounded-2xl flex items-center justify-between">
-        <div class="space-y-1">
-          <div class="text-sm font-bold text-blue-400">🕵️ Your Marketing Detective Mission</div>
-          <div class="text-xs text-gray-300">Investigate 116,000+ records in BigQuery Studio to find the root cause and present the Q4 Growth Plan to the CMO.</div>
-        </div>
-        <div class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold cursor-pointer transition">
-          Start Investigation ➔
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 3: GAMIFICATION & TEAMS -->
-    <div class="slide flex-col justify-center max-w-5xl w-full mx-auto space-y-6 slide-transition">
-      <div class="flex justify-between items-end">
-        <div>
-          <span class="px-3 py-1 rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold uppercase">🏆 Competition</span>
-          <h2 class="text-3xl font-bold text-white mt-1">4 Brand Detective Teams</h2>
-        </div>
-        <div class="text-xs font-mono text-gray-400">Scoreboard Live Updates</div>
-      </div>
-
-      <div class="grid grid-cols-4 gap-4">
-        <div class="glass-card p-5 rounded-2xl border-t-4 border-t-red-500 space-y-2">
-          <div class="text-2xl">🕶️</div>
-          <div class="font-bold text-white text-base">Team Ray-Ban</div>
-          <div class="text-xs text-gray-400">Smart Glasses & Heritage Icons</div>
-        </div>
-
-        <div class="glass-card p-5 rounded-2xl border-t-4 border-t-blue-500 space-y-2">
-          <div class="text-2xl">🕶️</div>
-          <div class="font-bold text-white text-base">Team Oakley</div>
-          <div class="text-xs text-gray-400">Prizm Sport Technology</div>
-        </div>
-
-        <div class="glass-card p-5 rounded-2xl border-t-4 border-t-green-500 space-y-2">
-          <div class="text-2xl">🕶️</div>
-          <div class="font-bold text-white text-base">Team Persol</div>
-          <div class="text-xs text-gray-400">Handcrafted Italian Luxury</div>
-        </div>
-
-        <div class="glass-card p-5 rounded-2xl border-t-4 border-t-amber-500 space-y-2">
-          <div class="text-2xl">🕶️</div>
-          <div class="font-bold text-white text-base">Team Oliver Peoples</div>
-          <div class="text-xs text-gray-400">High-AOV Luxury Eyewear</div>
-        </div>
-      </div>
-
-      <div class="glass-card p-5 rounded-2xl grid grid-cols-3 gap-4 text-center">
-        <div class="p-3 bg-gray-800/40 rounded-xl border border-gray-700/50">
-          <div class="text-xl font-extrabold text-amber-400">+100 Punti</div>
-          <div class="text-xs text-gray-400 mt-1">Prima squadra con Query Corretta</div>
-        </div>
-        <div class="p-3 bg-gray-800/40 rounded-xl border border-gray-700/50">
-          <div class="text-xl font-extrabold text-blue-400">+50 Punti</div>
-          <div class="text-xs text-gray-400 mt-1">Migliore Interpretazione Insight</div>
-        </div>
-        <div class="p-3 bg-gray-800/40 rounded-xl border border-gray-700/50">
-          <div class="text-xl font-extrabold text-green-400">+100 Punti</div>
-          <div class="text-xs text-gray-400 mt-1">Migliore Dashboard Looker Studio</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SLIDE 4: BIGQUERY DATA CANVAS & GEMINI AI -->
-    <div class="slide flex-col justify-center max-w-5xl w-full mx-auto space-y-6 slide-transition">
-      <div class="flex justify-between items-end">
-        <div>
-          <span class="px-3 py-1 rounded-md bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xs font-bold uppercase">🎨 Visual Analytics</span>
-          <h2 class="text-3xl font-bold text-white mt-1">BigQuery Studio Data Canvas & Gemini AI</h2>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-6">
-        <div class="glass-card p-5 rounded-2xl space-y-4">
-          <div class="flex items-center gap-2 text-sm font-bold text-blue-400">
-            <span>🤖 Gemini Natural Language Prompt</span>
+          <div class="text-xs text-gray-300 font-medium leading-relaxed">
+            I Business Analyst non scrivono SQL da zero: Gemini genera automaticamente il Grafo Visivo (DAG), le query e le visualizzazioni!
           </div>
-          <div class="p-3 bg-gray-900 rounded-xl border border-gray-800 font-mono text-xs text-green-400 leading-relaxed">
-            "Mostrami le vendite totali e lo scontrino medio per brand nel dataset luxottica_marketing_analytics"
+        </div>
+
+        <div class="glass-card-glow p-6 rounded-3xl space-y-4">
+          <div class="text-base font-bold text-amber-400">💡 Insights AI di Business</div>
+          <div class="space-y-3 text-sm font-semibold">
+            <div class="p-3 bg-green-500/20 text-green-300 rounded-xl border border-green-500/30">
+              🟢 <b>Oliver Peoples & Arnette:</b> Dominano per AOV (> €350 scontrino medio).
+            </div>
+            <div class="p-3 bg-red-500/20 text-red-300 rounded-xl border border-red-500/30">
+              🔴 <b>Vogue Eyewear:</b> AOV più basso (€129) a causa dell'eccesso di sconti.
+            </div>
+            <div class="p-3 bg-blue-500/20 text-blue-300 rounded-xl border border-blue-500/30">
+              🔵 <b>Ray-Ban Smart Glasses:</b> Domanda altissima ma vendite strozzate!
+            </div>
           </div>
-          <p class="text-xs text-gray-400 leading-relaxed">
-            I Business Analyst non devono scrivere SQL a memoria! Gemini traduce il linguaggio naturale in un Grafo Visivo (DAG) con query SQL e grafici automatici.
-          </p>
-        </div>
-
-        <div class="glass-card p-5 rounded-2xl space-y-3">
-          <div class="text-sm font-bold text-amber-400">💡 Insights AI Automatici</div>
-          <ul class="text-xs text-gray-300 space-y-2">
-            <li class="flex items-start gap-2">
-              <span class="text-green-400 font-bold">✓</span>
-              <span><b>Oliver Peoples & Arnette:</b> Dominano per scontrino medio (> €350 AOV).</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-red-400 font-bold">✗</span>
-              <span><b>Vogue Eyewear:</b> Scontrino più basso (€129 AOV) per sconti promozionali.</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-blue-400 font-bold">?</span>
-              <span><b>Mistero Ray-Ban:</b> €1.8M di fatturato online, sotto le potenzialità!</span>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
 
-    <!-- SLIDE 5: CHAPTER 1 - HIGH MARGIN DISCOVERY -->
-    <div class="slide flex-col justify-center max-w-5xl w-full mx-auto space-y-6 slide-transition">
-      <div>
-        <span class="px-3 py-1 rounded-md bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold uppercase">🔎 Chapter 1</span>
-        <h2 class="text-3xl font-bold text-white mt-1">High Margin Discovery & Ray-Ban Meta Opportunity</h2>
+    <!-- SLIDE 5: HIGH MARGIN DISCOVERY (AOV COMPARISON) -->
+    <div class="slide w-full h-full max-w-6xl mx-auto flex flex-col justify-center space-y-6">
+      <div class="text-center space-y-2">
+        <span class="px-3.5 py-1.5 rounded-lg bg-green-500/20 text-green-400 border border-green-500/40 text-xs font-black uppercase tracking-wider">
+          🔎 Chapter 1 Discovery
+        </span>
+        <h2 class="text-4xl font-extrabold text-white">High Margin Discovery & AOV Analysis</h2>
       </div>
 
-      <div class="grid grid-cols-3 gap-5">
-        <div class="glass-card p-5 rounded-2xl border-t-4 border-t-green-500 space-y-2">
-          <div class="text-xs font-mono text-gray-400">HIGH MARGIN LEADER</div>
-          <div class="text-xl font-bold text-white">Oliver Peoples</div>
-          <div class="text-3xl font-extrabold text-green-400">€396.00 AOV</div>
-          <div class="text-xs text-gray-400">Prodotti di lusso che trascinano la redditività e-commerce.</div>
+      <div class="grid grid-cols-3 gap-6 pt-2">
+        <div class="glass-overlay p-6 rounded-3xl border-t-8 border-t-green-500 text-center space-y-2">
+          <div class="text-xs font-mono font-bold text-gray-400 uppercase">LUXURY LEADER</div>
+          <div class="text-2xl font-black text-white">Oliver Peoples</div>
+          <div class="text-5xl font-black text-green-400">€396</div>
+          <div class="text-xs text-gray-300 font-medium">Scontrino Medio (AOV)</div>
         </div>
 
-        <div class="glass-card-glow p-5 rounded-2xl space-y-2">
-          <div class="text-xs font-mono text-blue-400">🚀 GROWTH OPPORTUNITY</div>
-          <div class="text-xl font-bold text-white">Ray-Ban Meta Smart Glasses</div>
-          <div class="text-3xl font-extrabold text-blue-400">> €320.00 AOV</div>
-          <div class="text-xs text-gray-300">Scontrino elevato e domanda di ricerca alle stelle su Google!</div>
+        <div class="glass-card-glow p-6 rounded-3xl text-center space-y-2 transform scale-105">
+          <div class="text-xs font-mono font-bold text-blue-400 uppercase">🚀 GROWTH ENGINE</div>
+          <div class="text-2xl font-black text-white">Ray-Ban Meta</div>
+          <div class="text-5xl font-black text-blue-400">> €320</div>
+          <div class="text-xs text-gray-200 font-bold">Domanda Google alle stelle!</div>
         </div>
 
-        <div class="glass-card p-5 rounded-2xl border-t-4 border-t-red-500 space-y-2">
-          <div class="text-xs font-mono text-gray-400">MARGIN LEAKAGE</div>
-          <div class="text-xl font-bold text-white">Vogue Eyewear</div>
-          <div class="text-3xl font-extrabold text-red-400">€129.00 AOV</div>
-          <div class="text-xs text-gray-400">Eccesso di sconti svaluta il prodotto e non genera margine.</div>
+        <div class="glass-overlay p-6 rounded-3xl border-t-8 border-t-red-500 text-center space-y-2">
+          <div class="text-xs font-mono font-bold text-gray-400 uppercase">MARGIN LEAKAGE</div>
+          <div class="text-2xl font-black text-white">Vogue Eyewear</div>
+          <div class="text-5xl font-black text-red-400">€129</div>
+          <div class="text-xs text-gray-300 font-medium">Troppi sconti svalutano il brand</div>
         </div>
       </div>
 
-      <div class="p-4 bg-blue-950/40 border border-blue-800/60 rounded-xl text-xs text-gray-300">
-        <b class="text-blue-400">Colpo di Scena #1:</b> C'è un'altissima intenzione d'acquisto per i <b>Ray-Ban Meta Smart Glasses</b> su Google Search, ma Luxottica esaurisce il budget giornaliero di Google Ads prima di sera!
+      <div class="glass-card-glow p-4 rounded-2xl text-center text-sm font-extrabold text-blue-300">
+        💡 Plot Twist #1: C'è un'intenzione d'acquisto altissima su Google Search per i Ray-Ban Meta, ma il budget giornaliero di Google Ads si esaurisce troppo presto!
       </div>
     </div>
 
-    <!-- SLIDE 6: CHAPTER 2 - THE GOOGLE ROAS REVELATION -->
-    <div class="slide flex-col justify-center max-w-5xl w-full mx-auto space-y-6 slide-transition">
-      <div>
-        <span class="px-3 py-1 rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold uppercase">📊 Chapter 2</span>
-        <h2 class="text-3xl font-bold text-white mt-1">The Google Ads High-ROAS Revelation</h2>
+    <!-- SLIDE 6: THE GOOGLE ROAS REVELATION WITH SKYROCKETING CHART IMAGE -->
+    <div class="slide w-full h-full max-w-6xl mx-auto grid grid-cols-12 gap-8 items-center">
+      <div class="col-span-7 space-y-6">
+        <span class="px-3.5 py-1.5 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40 text-xs font-black uppercase tracking-wider">
+          📊 Chapter 2 Revelation
+        </span>
+        <h2 class="text-4xl font-extrabold text-white">The Google Ads ROAS Revelation</h2>
+
+        <div class="space-y-3">
+          <div class="glass-overlay p-4 rounded-2xl border-l-8 border-l-red-500 flex justify-between items-center">
+            <div>
+              <div class="text-lg font-black text-red-400">TikTok & Criteo (Social Terzi)</div>
+              <div class="text-xs text-gray-400 font-bold">€2,200/giorno di spesa | Solo 8 conversioni</div>
+            </div>
+            <div class="text-3xl font-black text-red-400">0.7x ROAS ❌</div>
+          </div>
+
+          <div class="glass-card-glow p-4 rounded-2xl border-l-8 border-l-green-500 flex justify-between items-center">
+            <div>
+              <div class="text-xl font-black text-green-400">Google Search & Shopping</div>
+              <div class="text-xs text-gray-200 font-bold">€450/giorno di spesa | 120 conversioni</div>
+            </div>
+            <div class="text-4xl font-black text-green-400">6.8x - 8.2x 🚀</div>
+          </div>
+        </div>
+
+        <div class="text-xs font-bold text-amber-300 bg-amber-950/40 p-3 rounded-xl border border-amber-800">
+          💡 Plot Twist #2: I social terzi assorbono il 40% del budget in perdita. Riallocando i fondi su Google Ads si cattura il 100% della ricerca Ray-Ban Meta!
+        </div>
       </div>
 
-      <div class="glass-card rounded-2xl overflow-hidden border border-gray-800">
-        <table class="w-full text-left border-collapse text-xs">
-          <thead>
-            <tr class="bg-gray-800/60 border-b border-gray-700 text-gray-300 font-mono">
-              <th class="p-3.5">Piattaforma Adv</th>
-              <th class="p-3.5">Spesa Giornaliera</th>
-              <th class="p-3.5">Conversioni</th>
-              <th class="p-3.5">ROAS Calcolato</th>
-              <th class="p-3.5">Esito Analisi</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-800/50">
-            <tr class="bg-red-950/20">
-              <td class="p-3.5 font-bold text-red-400">TikTok & Criteo (Social Terzi)</td>
-              <td class="p-3.5 font-mono">€2,200 / giorno</td>
-              <td class="p-3.5 font-mono">8 / giorno</td>
-              <td class="p-3.5 font-extrabold text-red-400">0.7x ROAS</td>
-              <td class="p-3.5"><span class="px-2 py-0.5 bg-red-500/20 text-red-400 rounded font-bold">❌ Spreco di Budget</span></td>
-            </tr>
-            <tr class="bg-green-950/30">
-              <td class="p-3.5 font-bold text-green-400">Google Search & Shopping</td>
-              <td class="p-3.5 font-mono">€450 / giorno</td>
-              <td class="p-3.5 font-mono">120 / giorno</td>
-              <td class="p-3.5 font-extrabold text-green-400">6.8x - 8.2x ROAS</td>
-              <td class="p-3.5"><span class="px-2 py-0.5 bg-green-500/20 text-green-400 rounded font-bold">🚀 High-ROAS Hero</span></td>
-            </tr>
-            <tr class="bg-blue-950/20">
-              <td class="p-3.5 font-bold text-blue-400">YouTube Ads & PMax</td>
-              <td class="p-3.5 font-mono">€600 / giorno</td>
-              <td class="p-3.5 font-mono">85 / giorno</td>
-              <td class="p-3.5 font-extrabold text-blue-400">6.5x ROAS</td>
-              <td class="p-3.5"><span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded font-bold">⭐ Canale di Scala</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="p-4 bg-amber-950/40 border border-amber-800/60 rounded-xl text-xs text-gray-300">
-        <b class="text-amber-400">Colpo di Scena #2:</b> I canali social terzi assorbono il 40% del budget generando perdite. Spostando i fondi su <b>Google Ads</b>, Luxottica cattura il 100% della ricerca Smart Glasses!
+      <div class="col-span-5 h-full max-h-[460px] rounded-3xl overflow-hidden border-2 border-green-500/40 shadow-2xl relative">
+        <img src="assets/google_ads_roas_growth_1791467826535.png" alt="Google Ads High ROAS Victory" class="w-full h-full object-cover">
       </div>
     </div>
 
-    <!-- SLIDE 7: CHAPTER 3 - GOOGLE ADS CUSTOMER MATCH -->
-    <div class="slide flex-col justify-center max-w-5xl w-full mx-auto space-y-6 slide-transition">
-      <div>
-        <span class="px-3 py-1 rounded-md bg-purple-500/20 text-purple-400 border border-purple-500/30 text-xs font-bold uppercase">🧹 Chapter 3</span>
-        <h2 class="text-3xl font-bold text-white mt-1">Data Wrangling & Google Ads Customer Match</h2>
+    <!-- SLIDE 7: CUSTOMER MATCH DATA WRANGLING -->
+    <div class="slide w-full h-full max-w-6xl mx-auto flex flex-col justify-center space-y-6">
+      <div class="text-center space-y-2">
+        <span class="px-3.5 py-1.5 rounded-lg bg-purple-500/20 text-purple-400 border border-purple-500/40 text-xs font-black uppercase tracking-wider">
+          🧹 Chapter 3 Action
+        </span>
+        <h2 class="text-4xl font-extrabold text-white">Data Wrangling & Google Ads Customer Match</h2>
       </div>
 
-      <div class="grid grid-cols-3 gap-5">
-        <div class="glass-card p-5 rounded-2xl space-y-2 border-l-4 border-l-red-500">
-          <div class="text-xs font-mono text-gray-400">1. RAW DIRTY LEADS</div>
-          <div class="text-lg font-bold text-white">1,000 Lead Disordinati</div>
-          <div class="text-xs text-gray-400">Spazi iniziali, email in maiuscolo, simboli valuta (€, EUR) e date in 3 formati misti.</div>
+      <div class="grid grid-cols-3 gap-6 pt-2">
+        <div class="glass-overlay p-6 rounded-3xl border-l-4 border-l-red-500 space-y-2">
+          <div class="text-xs font-mono font-bold text-gray-400 uppercase">1. RAW DATA</div>
+          <div class="text-3xl font-black text-white">1,000 Leads</div>
+          <div class="text-xs text-gray-300 font-medium">Lead disordinati con email sporche e formati valuta misti.</div>
         </div>
 
-        <div class="glass-card p-5 rounded-2xl space-y-2 border-l-4 border-l-blue-500">
-          <div class="text-xs font-mono text-blue-400">2. VISUAL DATA PREP</div>
-          <div class="text-lg font-bold text-white">Pulizia No-Code</div>
-          <div class="text-xs text-gray-300">BigQuery Visual Data Prep & Gemini puliscono i dati senza scrivere codice complesso.</div>
+        <div class="glass-overlay p-6 rounded-3xl border-l-4 border-l-blue-500 space-y-2">
+          <div class="text-xs font-mono font-bold text-blue-400 uppercase">2. VISUAL PREP</div>
+          <div class="text-3xl font-black text-blue-400">No-Code</div>
+          <div class="text-xs text-gray-300 font-medium">BigQuery Visual Data Prep pulisce i dati in automatico.</div>
         </div>
 
-        <div class="glass-card-glow p-5 rounded-2xl space-y-2 border-l-4 border-l-green-500">
-          <div class="text-xs font-mono text-green-400">3. GOOGLE CUSTOMER MATCH</div>
-          <div class="text-3xl font-extrabold text-green-400">350+ Lead VIP</div>
-          <div class="text-xs text-gray-300">Spesa stimata > €200 sbloccati per campagnie Customer Match su YouTube e Search!</div>
+        <div class="glass-card-glow p-6 rounded-3xl border-l-4 border-l-green-500 space-y-2">
+          <div class="text-xs font-mono font-bold text-green-400 uppercase">3. CUSTOMER MATCH</div>
+          <div class="text-3xl font-black text-green-400">350+ VIPs</div>
+          <div class="text-xs text-gray-200 font-bold">Lead VIP sbloccati per retargeting su YouTube & Search!</div>
         </div>
       </div>
 
-      <div class="p-4 bg-purple-950/40 border border-purple-800/60 rounded-xl text-xs text-gray-300 flex items-center justify-between">
-        <div><b>1-Click Looker Studio Integration:</b> La Vista `v_clean_marketing_leads` si connette a Looker Studio in 1 click!</div>
-        <span class="px-3 py-1 bg-purple-600 text-white rounded-lg font-bold text-xs">Visualizza Dashboard ➔</span>
+      <div class="glass-overlay p-4 rounded-2xl flex justify-between items-center text-sm font-bold text-gray-200">
+        <span>📊 La vista pulita `v_clean_marketing_leads` si connette direttamente a Looker Studio!</span>
+        <span class="px-4 py-2 bg-purple-600 text-white rounded-xl font-bold text-xs">Apri Dashboard ➔</span>
       </div>
     </div>
 
     <!-- SLIDE 8: THE Q4 GOOGLE GROWTH PLAN -->
-    <div class="slide flex-col justify-center max-w-5xl w-full mx-auto space-y-6 slide-transition">
+    <div class="slide w-full h-full max-w-6xl mx-auto flex flex-col justify-center space-y-8">
       <div class="text-center space-y-2">
-        <span class="px-3 py-1 rounded-md bg-green-500/20 text-green-400 border border-green-500/30 text-xs font-bold uppercase">📊 Final Executive Strategy</span>
-        <h2 class="text-4xl font-extrabold text-white">The Q4 Google Growth Plan for CMO</h2>
+        <span class="px-3.5 py-1.5 rounded-lg bg-green-500/20 text-green-400 border border-green-500/40 text-xs font-black uppercase tracking-wider">
+          📊 Executive Strategy
+        </span>
+        <h2 class="text-5xl font-black text-white">The Q4 Google Growth Plan for CMO</h2>
       </div>
 
-      <div class="grid grid-cols-4 gap-4 pt-2">
-        <div class="glass-card p-5 rounded-2xl space-y-2 text-left">
-          <div class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 font-bold font-mono flex items-center justify-center text-sm">1</div>
-          <div class="font-bold text-white text-sm">Riallocare il 60%</div>
-          <p class="text-xs text-gray-400">Spostare il budget dai social terzi inefficienti a Google Search, Shopping & PMax.</p>
+      <div class="grid grid-cols-4 gap-4">
+        <div class="glass-card-glow p-6 rounded-3xl space-y-2 text-left">
+          <div class="text-3xl font-black text-blue-400 font-mono">01</div>
+          <div class="text-lg font-black text-white">Riallocare 60%</div>
+          <div class="text-xs text-gray-300 font-medium">Spostare il budget dai social terzi a Google Search & PMax.</div>
         </div>
 
-        <div class="glass-card p-5 rounded-2xl space-y-2 text-left">
-          <div class="w-8 h-8 rounded-full bg-green-500/20 text-green-400 font-bold font-mono flex items-center justify-center text-sm">2</div>
-          <div class="font-bold text-white text-sm">100% Search Share</div>
-          <p class="text-xs text-gray-400">Coprire la domanda di ricerca su Ray-Ban Meta Smart Glasses & Oliver Peoples.</p>
+        <div class="glass-card-glow p-6 rounded-3xl space-y-2 text-left">
+          <div class="text-3xl font-black text-green-400 font-mono">02</div>
+          <div class="text-lg font-black text-white">100% Search Share</div>
+          <div class="text-xs text-gray-300 font-medium">Coprire sempre la domanda Ray-Ban Meta Smart Glasses.</div>
         </div>
 
-        <div class="glass-card p-5 rounded-2xl space-y-2 text-left">
-          <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 font-bold font-mono flex items-center justify-center text-sm">3</div>
-          <div class="font-bold text-white text-sm">Activate Customer Match</div>
-          <p class="text-xs text-gray-400">Ingaggiare i 350+ lead VIP recuperati su YouTube Ads e Search.</p>
+        <div class="glass-card-glow p-6 rounded-3xl space-y-2 text-left">
+          <div class="text-3xl font-black text-amber-400 font-mono">03</div>
+          <div class="text-lg font-black text-white">Customer Match</div>
+          <div class="text-xs text-gray-300 font-medium">Attivare i 350+ lead VIP recuperati su YouTube.</div>
         </div>
 
-        <div class="glass-card p-5 rounded-2xl space-y-2 text-left">
-          <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 font-bold font-mono flex items-center justify-center text-sm">4</div>
-          <div class="font-bold text-white text-sm">Looker Studio Dashboard</div>
-          <p class="text-xs text-gray-400">Monitorare in tempo reale il ROAS e l'incremento di fatturato per il CMO.</p>
+        <div class="glass-card-glow p-6 rounded-3xl space-y-2 text-left">
+          <div class="text-3xl font-black text-purple-400 font-mono">04</div>
+          <div class="text-lg font-black text-white">Looker Studio</div>
+          <div class="text-xs text-gray-300 font-medium">Monitorare il ROAS in tempo reale per il CMO.</div>
         </div>
       </div>
 
-      <div class="text-center pt-4">
-        <div class="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-500 hover:to-green-500 text-white font-bold rounded-2xl text-sm shadow-xl transition cursor-pointer">
+      <div class="text-center pt-2">
+        <div class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 via-green-600 to-amber-500 text-white font-extrabold text-base rounded-2xl shadow-2xl cursor-pointer">
           🏆 Premiazione Brand Detective Team Vincitore!
         </div>
       </div>
@@ -413,36 +383,35 @@
 
   </main>
 
-  <!-- BOTTOM FOOTER & CONTROLS -->
-  <footer class="flex justify-between items-center z-20 pt-4 border-t border-gray-800/60">
-    <div class="flex items-center gap-2">
-      <button id="prev-btn" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 active:scale-95 text-white font-bold text-xs rounded-xl transition border border-gray-700 flex items-center gap-1">
+  <!-- BOTTOM NAVIGATION CONTROLS -->
+  <footer class="flex justify-between items-center z-30 pt-3 border-t border-gray-800/80">
+    <div class="flex items-center gap-3">
+      <button id="prev-btn" class="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 active:scale-95 text-white font-bold text-xs rounded-xl transition border border-gray-700 flex items-center gap-2">
         <span>←</span> Precedente
       </button>
-      <button id="next-btn" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-bold text-xs rounded-xl transition shadow-lg shadow-blue-500/20 flex items-center gap-1">
+      <button id="next-btn" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-bold text-xs rounded-xl transition shadow-lg shadow-blue-500/25 flex items-center gap-2">
         Successiva <span>→</span>
       </button>
     </div>
 
     <!-- PROGRESS BAR -->
-    <div class="w-1/3 bg-gray-800 h-2 rounded-full overflow-hidden border border-gray-700">
-      <div id="progress-bar" class="bg-gradient-to-r from-blue-500 to-green-500 h-full w-1/8 transition-all duration-300"></div>
+    <div class="w-1/3 bg-gray-800/80 h-2.5 rounded-full overflow-hidden border border-gray-700">
+      <div id="progress-bar" class="bg-gradient-to-r from-blue-500 via-green-500 to-amber-400 h-full w-1/8 transition-all duration-300"></div>
     </div>
 
-    <div class="flex items-center gap-3">
-      <span class="text-xs text-gray-500 font-mono hidden md:inline">Usa le frecce [←] [→] o Spazio</span>
-      <button id="fullscreen-btn" class="px-3 py-2 bg-gray-800/60 hover:bg-gray-700 text-gray-300 rounded-xl text-xs border border-gray-700 transition">
+    <div class="flex items-center gap-4">
+      <span class="text-xs text-gray-400 font-mono font-bold hidden md:inline">Usa [←] [→] o tasto [F] per Fullscreen</span>
+      <button id="fullscreen-btn" class="px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-200 rounded-xl text-xs font-bold border border-gray-700 transition">
         🖥️ Fullscreen
       </button>
     </div>
   </footer>
 
-  <!-- INTERACTIVE SLIDE SCRIPT -->
+  <!-- INTERACTIVE SCRIPT -->
   <script>
     const slides = document.querySelectorAll('.slide');
     const slideNum = document.getElementById('slide-num');
     const slideTotal = document.getElementById('slide-total');
-    const slideTitle = document.getElementById('slide-title');
     const currentSlideTitle = document.getElementById('current-slide-title');
     const progressBar = document.getElementById('progress-bar');
     const prevBtn = document.getElementById('prev-btn');
@@ -450,13 +419,13 @@
     const fullscreenBtn = document.getElementById('fullscreen-btn');
 
     const slideTitles = [
-      "Cover & Overview",
-      "The CMO Dilemma: Where is Budget Leaking?",
-      "Gamification & 4 Brand Detective Teams",
-      "BigQuery Studio Data Canvas & Gemini AI",
-      "Chapter 1: High Margin Discovery",
-      "Chapter 2: The Google ROAS Revelation",
-      "Chapter 3: Google Ads Customer Match",
+      "Executive Overview",
+      "CMO Emergency Briefing",
+      "Gamification & Brand Teams",
+      "BigQuery Studio & Gemini AI",
+      "Chapter 1: AOV & Margin Discovery",
+      "Chapter 2: Google Ads High ROAS",
+      "Chapter 3: Customer Match Action",
       "The Q4 Google Growth Plan"
     ];
 
