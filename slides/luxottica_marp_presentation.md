@@ -3,7 +3,7 @@ marp: true
 theme: default
 paginate: true
 header: 'Google Cloud | Luxottica BigQuery Masterclass'
-footer: 'Project: qwiklabs-gcp-04-9efaa47f1d21'
+footer: 'Luxottica Data Analytics Workshop'
 ---
 
 <style>

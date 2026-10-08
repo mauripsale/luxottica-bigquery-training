@@ -70,7 +70,7 @@ html_content = f'''<!DOCTYPE html>
     <header class="flex justify-between items-center pb-4 border-b border-gray-100">
       <div class="flex items-center gap-3">
         {google_cloud_svg}
-        <span class="text-xs font-mono text-gray-400 pl-4 border-l border-gray-300">Project: qwiklabs-gcp-04-9efaa47f1d21</span>
+        <span class="text-xs font-semibold text-gray-500 pl-4 border-l border-gray-300">Luxottica Data Masterclass</span>
       </div>
       
       <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">
