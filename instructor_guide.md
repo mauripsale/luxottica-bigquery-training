@@ -91,7 +91,49 @@ flowchart TD
 > 3. **Lagging Brands (Vogue Eyewear - €1.29M):** *Low-AOV fashion lines are heavily discounted, eating into profitability.*
 > 4. **The Ray-Ban Mystery (€1.8M):** *Ray-Ban records €1.8M in online sales but is underperforming its full potential. Why is Luxottica's flagship brand not dominating online?*"
 
-- **15:52 - 16:00 (8m) | First Code-Along Query (Checking Total Revenue vs Spend)**
+- **15:52 - 16:00 (8m) | 🎙️ TELEPROMPTER SCRIPT: First Code-Along Query (Verifying Global Revenue vs Ad Spend)**
+
+> **[Trainer Action]:** Click the **`+` -> `SQL query`** button in the top left to open a new SQL query tab in BigQuery Studio.
+>
+> **[Trainer Speaks]:**  
+> *"Great! Now that we've experienced the power of Data Canvas, let's take an essential step: learning how to use the standard BigQuery Studio SQL editor. Everyone, please click the `+` button in the top left and select **SQL query**."*
+>
+> **[Trainer Action]:** Paste or type the following query in the editor:
+> ```sql
+> -- Query 1: Verify Global Ad Spend vs Total Revenue
+> SELECT 
+>   'Total Online Orders' AS metric,
+>   COUNT(DISTINCT order_id) AS total_count,
+>   ROUND(SUM(revenue_eur), 2) AS total_eur
+> FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+>
+> UNION ALL
+>
+> SELECT 
+>   'Total Ad Spend' AS metric,
+>   COUNT(DISTINCT campaign_id) AS total_count,
+>   ROUND(SUM(spend_eur), 2) AS total_eur
+> FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`;
+> ```
+>
+> **[Trainer Speaks]:**  
+> *"Before diving into individual challenges, let's check the two baseline aggregate numbers for our CMO: how much total revenue we generated online and how much total budget we spent on advertising."*
+>
+> *"Let's examine the syntax:*
+> - `SELECT`: *Specifies the columns to calculate.*
+> - `COUNT(DISTINCT order_id)`: *Counts unique orders without duplicates.*
+> - `SUM(revenue_eur)`: *Calculates total revenue in EUR.*
+> - `UNION ALL`: *Appends the ad spend calculation rows directly beneath.*
+>
+> *Let's all click the blue **RUN** button (or press `Cmd/Ctrl + Enter`)."*
+>
+> **[Trainer Speaks - Commenting the Results on Screen]:**  
+> *"Look at the results at the bottom:*
+> - **Total Online Revenue:** *~€21.5 Million across 100,000 orders.*
+> - **Total Ad Spend:** *~€4.8 Million across 5,000 campaigns.*
+>
+> *At first glance, this looks like a great result: we generate €21.5M revenue on a €4.8M spend (an overall ROAS of ~4.5x). But then **why is the CMO complaining that the +35% ad budget increase in Q3 didn't drive sales growth?**  
+> Because this aggregate number **hides the truth**! In our upcoming challenges, we will zoom in to pinpoint which channels are wasting money and which ones are driving true growth. Are you ready for Challenge #1?"*
 
 ---
 

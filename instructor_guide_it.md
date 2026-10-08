@@ -97,7 +97,49 @@ flowchart TD
 > 3. **Lagging Brands (Vogue Eyewear - 1.29M €):** *Sulle linee fashion a basso scontrino stiamo concedendo troppi sconti.*
 > 4. **Il Mistero di Ray-Ban (1.8M €):** *Ray-Ban registra 1.8M € di vendite, ma è sotto le sue potenzialità online. Perché il brand leader non sta dominando?*"
 
-- **15:52 - 16:00 (8m) | Prima Query Guidata (Verifica Spesa vs Fatturato Generale)**
+- **15:52 - 16:00 (8m) | 🎙️ COPIONE DEMO LIVE: Prima Query Guidata (Verifica Spesa vs Fatturato Generale)**
+
+> **[Azione Docente]:** Clicca sul pulsante **`+` -> `SQL query`** in alto a sinistra per aprire una nuova scheda dell'editor SQL in BigQuery Studio.
+>
+> **[Parla il Docente]:**  
+> *"Perfetto! Ora che abbiamo visto la potenza del Data Canvas, facciamo un passo fondamentale: impariamo a usare l'editor SQL standard di BigQuery Studio. Cliccate tutti in alto a sinistra sul tasto `+` e selezionate **SQL query**."*
+>
+> **[Azione Docente]:** Incolla o digita nell'editor la seguente query:
+> ```sql
+> -- Query 1: Verifica Spesa Pubblicitaria Globale vs Fatturato Totale
+> SELECT 
+>   'Totale Ordini Online' AS metric,
+>   COUNT(DISTINCT order_id) AS total_count,
+>   ROUND(SUM(revenue_eur), 2) AS total_eur
+> FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+>
+> UNION ALL
+>
+> SELECT 
+>   'Totale Spesa Adv' AS metric,
+>   COUNT(DISTINCT campaign_id) AS total_count,
+>   ROUND(SUM(spend_eur), 2) AS total_eur
+> FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`;
+> ```
+>
+> **[Parla il Docente]:**  
+> *"Prima di addentrarci nelle singole sfide, verifichiamo i due numeri aggregati di partenza per il nostro CMO: quanto abbiamo incassato in totale dall'e-commerce e quanto abbiamo speso complessivamente in pubblicità."*
+>
+> *"Osserviamo la sintassi:*
+> - `SELECT`: *Specifica le colonne da calcolare.*
+> - `COUNT(DISTINCT order_id)`: *Conta il numero unico di ordini (senza duplicati).*
+> - `SUM(revenue_eur)`: *Calcola il totale incassato in Euro.*
+> - `UNION ALL`: *Incolla sotto le righe relative alla spesa pubblicitaria.*
+>
+> *Clicchiamo tutti sul tasto celeste **RUN** (o premiamo `Cmd/Ctrl + Enter`)."*
+>
+> **[Parla il Docente - Commentando il Risultato a Schermo]:**  
+> *"Guardiamo i risultati comparsi in basso:*
+> - **Totale Fatturato Online:** *~21,5 Milioni di Euro su 100.000 ordini.*
+> - **Totale Spesa Pubblicitaria:** *~4,8 Milioni di Euro su 5.000 campagne.*
+>
+> *A prima vista sembra un ottimo risultato: incassiamo 21,5M € spendendone 4,8M € (ROAS complessivo di ~4.5x). Ma allora **perché il CMO si lamenta che il +35% di budget aggiuntivo nell'ultimo trimestre non ha fatto crescere le vendite?**  
+> La risposta è che questo numero aggregato **nasconde la verità**! Nelle prossime sfide andremo a fare lo 'zoom-in' per scoprire quali canali stanno sprecando denaro e quali stanno trascinando il business. Siete pronti per la Challenge #1?"*
 
 ---
 
