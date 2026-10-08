@@ -1,4 +1,19 @@
-<!DOCTYPE html>
+import os
+import subprocess
+
+# Python script to generate official Google Cloud style presentation slides in 100% English.
+
+google_cloud_svg = '''<svg width="160" height="36" viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <text x="0" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="24" fill="#4285F4">G</text>
+  <text x="18" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="24" fill="#EA4335">o</text>
+  <text x="32" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="24" fill="#FBBC05">o</text>
+  <text x="46" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="24" fill="#4285F4">g</text>
+  <text x="61" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="24" fill="#34A853">l</text>
+  <text x="68" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="24" fill="#EA4335">e</text>
+  <text x="88" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="500" font-size="24" fill="#5F6368">Cloud</text>
+</svg>'''
+
+html_content = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,42 +23,42 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap');
     
-    body {
+    body {{
       font-family: 'Google Sans', 'Plus Jakarta Sans', sans-serif;
       background-color: #ffffff;
       color: #202124;
       margin: 0;
       padding: 0;
-    }
+    }}
 
-    .font-mono {
+    .font-mono {{
       font-family: 'Roboto Mono', monospace;
-    }
+    }}
 
-    .g-blue { color: #4285F4; }
-    .g-red { color: #EA4335; }
-    .g-yellow { color: #FBBC05; }
-    .g-green { color: #34A853; }
+    .g-blue {{ color: #4285F4; }}
+    .g-red {{ color: #EA4335; }}
+    .g-yellow {{ color: #FBBC05; }}
+    .g-green {{ color: #34A853; }}
 
-    .bg-g-blue { background-color: #4285F4; }
-    .bg-g-red { background-color: #EA4335; }
-    .bg-g-yellow { background-color: #FBBC05; }
-    .bg-g-green { background-color: #34A853; }
+    .bg-g-blue {{ background-color: #4285F4; }}
+    .bg-g-red {{ background-color: #EA4335; }}
+    .bg-g-yellow {{ background-color: #FBBC05; }}
+    .bg-g-green {{ background-color: #34A853; }}
 
-    .slide {
+    .slide {{
       display: none;
-    }
+    }}
 
-    .slide.active {
+    .slide.active {{
       display: flex;
-    }
+    }}
 
-    .code-box {
+    .code-box {{
       background-color: #f8f9fa;
       border: 1px solid #dadce0;
       border-radius: 12px;
       font-family: 'Roboto Mono', monospace;
-    }
+    }}
   </style>
 </head>
 <body class="bg-white text-[#202124] min-h-screen flex flex-col justify-between p-4 md:p-8 select-none">
@@ -54,15 +69,7 @@
     <!-- HEADER -->
     <header class="flex justify-between items-center pb-4 border-b border-gray-100">
       <div class="flex items-center gap-3">
-        <svg width="160" height="36" viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <text x="0" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="24" fill="#4285F4">G</text>
-  <text x="18" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="24" fill="#EA4335">o</text>
-  <text x="32" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="24" fill="#FBBC05">o</text>
-  <text x="46" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="24" fill="#4285F4">g</text>
-  <text x="61" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="24" fill="#34A853">l</text>
-  <text x="68" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="700" font-size="24" fill="#EA4335">e</text>
-  <text x="88" y="26" font-family="'Google Sans', 'Plus Jakarta Sans', Roboto, sans-serif" font-weight="500" font-size="24" fill="#5F6368">Cloud</text>
-</svg>
+        {google_cloud_svg}
         <span class="text-xs font-mono text-gray-400 pl-4 border-l border-gray-300">Project: qwiklabs-gcp-04-9efaa47f1d21</span>
       </div>
       
@@ -436,60 +443,60 @@
     let currentSlide = 0;
     slideTotal.textContent = slides.length;
 
-    function updateSlide() {
-      slides.forEach((slide, idx) => {
+    function updateSlide() {{
+      slides.forEach((slide, idx) => {{
         slide.classList.toggle('active', idx === currentSlide);
-      });
+      }});
 
       slideNum.textContent = currentSlide + 1;
       currentSlideTitle.textContent = slideTitles[currentSlide] || "";
-      progressBar.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+      progressBar.style.width = `${{((currentSlide + 1) / slides.length) * 100}}%`;
 
       prevBtn.disabled = currentSlide === 0;
       prevBtn.style.opacity = currentSlide === 0 ? "0.4" : "1";
       nextBtn.disabled = currentSlide === slides.length - 1;
       nextBtn.style.opacity = currentSlide === slides.length - 1 ? "0.4" : "1";
-    }
+    }}
 
-    prevBtn.addEventListener('click', () => {
-      if (currentSlide > 0) {
+    prevBtn.addEventListener('click', () => {{
+      if (currentSlide > 0) {{
         currentSlide--;
         updateSlide();
-      }
-    });
+      }}
+    }});
 
-    nextBtn.addEventListener('click', () => {
-      if (currentSlide < slides.length - 1) {
+    nextBtn.addEventListener('click', () => {{
+      if (currentSlide < slides.length - 1) {{
         currentSlide++;
         updateSlide();
-      }
-    });
+      }}
+    }});
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === 'Space') {
-        if (currentSlide < slides.length - 1) {
+    document.addEventListener('keydown', (e) => {{
+      if (e.key === 'ArrowRight' || e.key === 'Space') {{
+        if (currentSlide < slides.length - 1) {{
           currentSlide++;
           updateSlide();
-        }
-      } else if (e.key === 'ArrowLeft') {
-        if (currentSlide > 0) {
+        }}
+      }} else if (e.key === 'ArrowLeft') {{
+        if (currentSlide > 0) {{
           currentSlide--;
           updateSlide();
-        }
-      } else if (e.key === 'f' || e.key === 'F') {
+        }}
+      }} else if (e.key === 'f' || e.key === 'F') {{
         toggleFullscreen();
-      }
-    });
+      }}
+    }});
 
-    function toggleFullscreen() {
-      if (!document.fullscreenElement) {
+    function toggleFullscreen() {{
+      if (!document.fullscreenElement) {{
         document.documentElement.requestFullscreen();
-      } else {
-        if (document.exitFullscreen) {
+      }} else {{
+        if (document.exitFullscreen) {{
           document.exitFullscreen();
-        }
-      }
-    }
+        }}
+      }}
+    }}
 
     fullscreenBtn.addEventListener('click', toggleFullscreen);
 
@@ -497,3 +504,15 @@
   </script>
 </body>
 </html>
+'''
+
+target_artifact = '/Users/maurizio.ipsale/.gemini/antigravity/brain/62589854-6166-49a1-af7c-3ea1ce5ea5c3/luxottica_bigquery_presentation_modern.html'
+target_workspace = '/Users/maurizio.ipsale/Code/my-agy-projects/projectA/slides/luxottica_bigquery_presentation.html'
+
+with open(target_artifact, 'w') as f:
+    f.write(html_content)
+
+with open(target_workspace, 'w') as f:
+    f.write(html_content)
+
+print("SUCCESS: Official Google Cloud White Presentation created in 100% English!")

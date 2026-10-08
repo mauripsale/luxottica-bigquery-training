@@ -2,20 +2,21 @@
 marp: true
 theme: default
 paginate: true
-header: '🕶️ Google Cloud & Luxottica | BigQuery Masterclass'
+header: 'Google Cloud | Luxottica BigQuery Masterclass'
 footer: 'Project: qwiklabs-gcp-04-9efaa47f1d21'
 ---
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Roboto+Mono:wght@400;500;700&display=swap');
 
 :root {
-  --color-background: #060913;
-  --color-foreground: #f3f4f6;
-  --color-heading: #4285f4;
-  --color-accent: #34a853;
+  --color-background: #ffffff;
+  --color-foreground: #202124;
+  --color-heading: #1a73e8;
+  --color-blue: #4285f4;
   --color-red: #ea4335;
   --color-yellow: #fbbc05;
+  --color-green: #34a853;
   --font-default: 'Plus Jakarta Sans', sans-serif;
 }
 
@@ -29,177 +30,220 @@ section {
 }
 
 h1 {
-  font-size: 52px;
-  font-weight: 900;
-  color: #ffffff;
+  font-size: 48px;
+  font-weight: 800;
+  color: #202124;
   line-height: 1.2;
 }
 
 h2 {
-  font-size: 38px;
-  font-weight: 800;
-  color: var(--color-heading);
+  font-size: 36px;
+  font-weight: 700;
+  color: #202124;
   margin-bottom: 20px;
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, #4285f4, #34a853, #fbbc05, #ea4335);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+.g-blue { color: var(--color-blue); }
+.g-red { color: var(--color-red); }
+.g-yellow { color: var(--color-yellow); }
+.g-green { color: var(--color-green); }
 
 .card-red {
-  background: rgba(234, 67, 53, 0.15);
+  background: #fce8e6;
   border-left: 6px solid var(--color-red);
   padding: 20px;
   border-radius: 12px;
 }
 
 .card-green {
-  background: rgba(52, 168, 83, 0.15);
-  border-left: 6px solid var(--color-accent);
+  background: #e6f4ea;
+  border-left: 6px solid var(--color-green);
   padding: 20px;
   border-radius: 12px;
 }
 
 .card-blue {
-  background: rgba(66, 133, 244, 0.15);
-  border-left: 6px solid var(--color-heading);
+  background: #e8f0fe;
+  border-left: 6px solid var(--color-blue);
   padding: 20px;
   border-radius: 12px;
 }
 
-.stat-number {
-  font-size: 48px;
-  font-weight: 900;
+.code-block {
+  background: #f8f9fa;
+  border: 1px solid #dadce0;
+  padding: 18px;
+  border-radius: 8px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 18px;
 }
 
 header {
   font-size: 14px;
-  color: #9ca3af;
+  color: #5f6368;
 }
 
 footer {
   font-size: 14px;
-  color: #6b7280;
+  color: #80862b;
 }
 </style>
 
 <!-- _class: lead -->
-<!-- _backgroundColor: #0b0f19 -->
 
-# Mastering Marketing Data with <br><span class="gradient-text">BigQuery SQL & Studio</span>
+# Exploring and Preparing Your Data with <span class="g-blue">BigQuery SQL</span> & <span class="g-green">Studio</span>
 
-### Unlocking High-ROAS Google Ads Growth & Capturing Ray-Ban Meta Demand
+### Unlocking High-ROAS Google Ads Growth for Luxottica
 
-**Luxottica Global Analytics & Digital Commerce Workshop**
-
----
-
-## 🚨 CMO Emergency Briefing
-
-<div class="card-red">
-
-### 🔴 Ad Spend Surge: +35% (€4.8M Total Spend)
-Experimental spending on 3rd-party social networks (TikTok/Criteo) assorbe il budget in perdita.
-
-</div>
-
-<br>
-
-<div class="card-blue">
-
-### 🟡 E-Commerce Growth: FLAT (+2% Revenue)
-Fatturato online stagnante a €21.5M. Il CMO chiede un piano data-backed per azzerare gli sprechi!
-
-</div>
+**Google Cloud & Luxottica Executive Workshop**
 
 ---
 
-## 🏆 4 Brand Detective Teams
+## Agenda
 
-- 🕶️ **Team Ray-Ban** (Smart Glasses & Heritage Icons)
-- 🕶️ **Team Oakley** (Prizm Sport Technology)
-- 🕶️ **Team Persol** (Handcrafted Italian Luxury)
-- 🕶️ **Team Oliver Peoples** (High-AOV Luxury Eyewear)
-
-<br>
-
-| Sfida | Punteggio | Obiettivo |
-| :--- | :--- | :--- |
-| **Prima Query SQL** | <span style="color:#fbbc05; font-weight:bold;">+100 PTS</span> | Esegui per primo la query in BigQuery Studio |
-| **Migliore Insight** | <span style="color:#4285f4; font-weight:bold;">+50 PTS</span> | Interpreta i dati per il CMO |
-| **Looker Dashboard** | <span style="color:#34a853; font-weight:bold;">+100 PTS</span> | Crea la vista executive per il C-Level |
-
----
-
-## 🤖 BigQuery Studio Data Canvas & Gemini AI
-
-### Prompt in Linguaggio Naturale:
-> *"Calcola il totale ordini, il fatturato in Euro e lo scontrino medio per brand nel dataset luxottica_marketing_analytics"*
-
-<br>
-
-- **Gemini SQL Generator:** Traduce la domanda in codice SQL pulito.
-- **Grafo Visivo (DAG):** Collega tabelle CRM, ordini e spesa adv senza join manuali.
-- **AI Insights:** Evidenzia immediatamente i prodotti a margine più elevato.
-
----
-
-## 🔎 Chapter 1: High Margin Discovery
-
-<div class="card-green">
-
-### 🟢 Oliver Peoples: €396 AOV (Scontrino Medio)
-Brand di lusso ad altissimo margine che trascina la redditività e-commerce.
-
-</div>
-
-<br>
-
-<div class="card-blue">
-
-### 🔵 Ray-Ban Meta Smart Glasses: > €320 AOV
-Domanda di ricerca alle stelle su Google Search, ma il budget giornaliero si esaurisce troppo presto!
-
-</div>
-
----
-
-## 📊 Chapter 2: The Google Ads ROAS Revelation
-
-| Piattaforma Adv | Spesa / Giorno | Conversioni | ROAS Calcolato | Esito |
-| :--- | :--- | :--- | :--- | :--- |
-| **TikTok & Criteo** | €2,200 | 8 | <span style="color:#ea4335; font-weight:bold;">0.7x ROAS</span> | ❌ **Spreco** |
-| **Google Search & Shopping** | €450 | 120 | <span style="color:#34a853; font-weight:bold;">6.8x - 8.2x</span> | 🚀 **Hero** |
-| **YouTube & PMax** | €600 | 85 | <span style="color:#4285f4; font-weight:bold;">6.5x ROAS</span> | ⭐ **Scala** |
-
-> 💡 **Plot Twist:** Riallocando il 60% del budget dai social terzi a Google Ads, Luxottica cattura il 100% della domanda Smart Glasses!
-
----
-
-## 🧹 Chapter 3: Google Ads Customer Match
-
-1. **Raw Dirty Leads:** 1,000 lead disordinati con email sporche e formati valuta misti.
-2. **Visual Data Prep:** Pulizia automatica no-code con BigQuery Studio.
-3. **350+ VIP Customer Match:** Lead con spesa > €200 sbloccati per retargeting su YouTube Ads e Google Search!
-
----
-
-## 📊 The Q4 Google Growth Plan for CMO
-
-1. **Riallocare il 60% del Budget:** Spostare i fondi dai social terzi inefficienti a Google Search, Shopping e Performance Max.
-2. **100% Search Share:** Coprire sempre la domanda di ricerca su Ray-Ban Meta Smart Glasses.
-3. **Attivare Customer Match:** Reingaggiare i 350+ lead VIP su YouTube Ads.
-4. **Looker Studio Dashboard:** Monitoraggio in tempo reale per il C-Level!
+01. **CMO Emergency Briefing & Data Exploration**
+02. **AI SQL Generation with Gemini & BigQuery Studio**
+03. **High-Margin Discovery (AOV & Revenue Analysis)**
+04. **Cross-Channel Campaign Performance & Google ROAS**
+05. **Data Wrangling & Customer Match Activation**
 
 ---
 
 <!-- _class: lead -->
-<!-- _backgroundColor: #0b0f19 -->
+<!-- _backgroundColor: #4285f4 -->
+<!-- _color: #ffffff -->
 
-# 🏆 Premiazione Brand Detective Team Vincitore!
+# 01 | CMO Emergency Briefing & Data Exploration
 
-### Grazie per aver completato il workshop BigQuery Studio & Google Cloud!
+---
 
-**Repository GitHub:** `github.com/mauripsale/luxottica-bigquery-training`
+## Marketing Performance vs. Budget Growth
+
+<div class="card-red">
+
+### 🔴 Ad Budget Growth: +35% (€4.8M Total Spend)
+Heavy budget allocation across unverified 3rd-party social channels (TikTok, Criteo).
+
+</div>
+
+<br>
+
+<div class="card-blue">
+
+### 🟡 E-Commerce Revenue: FLAT (+2% to €21.5M)
+Flat conversion rates across flagship online storefronts. The CMO needs a data-backed plan!
+
+</div>
+
+---
+
+<!-- _class: lead -->
+<!-- _backgroundColor: #ea4335 -->
+<!-- _color: #ffffff -->
+
+# 02 | AI SQL Generation with Gemini & BigQuery Studio
+
+---
+
+## BigQuery Studio Data Canvas & Gemini AI
+
+### Natural Language Prompt:
+> *"Calculate total orders, total revenue in EUR, and average order value (AOV) grouped by brand in luxottica_marketing_analytics."*
+
+<div class="code-block">
+
+```sql
+SELECT 
+  brand_name,
+  COUNT(order_id) AS total_orders,
+  ROUND(SUM(order_value_eur), 2) AS total_revenue_eur,
+  ROUND(AVG(order_value_eur), 2) AS average_order_value_eur
+FROM `luxottica_marketing_analytics.orders`
+GROUP BY brand_name
+ORDER BY total_revenue_eur DESC;
+```
+
+</div>
+
+---
+
+<!-- _class: lead -->
+<!-- _backgroundColor: #fbbc05 -->
+<!-- _color: #ffffff -->
+
+# 03 | High-Margin Discovery & Brand Performance
+
+---
+
+## Brand Revenue & Average Order Value (AOV)
+
+<div class="card-green">
+
+### 🟢 Oliver Peoples: €396.00 AOV (Luxury Leader)
+High-margin luxury brand driving e-commerce profitability.
+
+</div>
+
+<br>
+
+<div class="card-blue">
+
+### 🔵 Ray-Ban Meta Smart Glasses: > €320.00 AOV
+Google Search demand surging, but daily campaign budgets run out too early in the day!
+
+</div>
+
+---
+
+<!-- _class: lead -->
+<!-- _backgroundColor: #34a853 -->
+<!-- _color: #ffffff -->
+
+# 04 | Cross-Channel Campaign Performance & Google ROAS
+
+---
+
+## Comparing Advertising ROAS Across Channels
+
+| Platform | Daily Spend | Conversions | ROAS | Esito |
+| :--- | :--- | :--- | :--- | :--- |
+| **TikTok & Criteo** | €2,200/day | 8 | <span class="g-red" style="font-weight:bold;">0.7x ROAS</span> | ❌ **Wasted Spend** |
+| **Google Search & Shopping** | €450/day | 120 | <span class="g-green" style="font-weight:bold;">6.8x - 8.2x</span> | 🚀 **High ROI Hero** |
+| **YouTube & PMax** | €600/day | 85 | <span class="g-blue" style="font-weight:bold;">6.5x ROAS</span> | ⭐ **Scale** |
+
+> 💡 **Key Finding:** Reallocating 60% budget from 0.7x ROAS social ads to Google Ads captures 100% of Ray-Ban Meta search demand!
+
+---
+
+<!-- _class: lead -->
+<!-- _backgroundColor: #4285f4 -->
+<!-- _color: #ffffff -->
+
+# 05 | Data Wrangling & Customer Match Activation
+
+---
+
+## Preparing Leads for Google Ads Customer Match
+
+1. **Raw Lead Ingestion:** 1,000 uncleaned records with malformed emails and mixed currency formats.
+2. **Visual Data Prep:** Automated no-code cleaning rules in BigQuery Studio.
+3. **Google Customer Match:** 350+ VIP leads activated for retargeting on YouTube & Search!
+
+---
+
+## The Q4 Google Growth Strategy for CMO
+
+1. **Reallocate 60% Budget:** Shift funds from 0.7x ROAS social channels to Google Search & Performance Max.
+2. **Capture 100% Search Share:** Eliminate budget caps on Ray-Ban Meta Smart Glasses search queries.
+3. **Activate Customer Match:** Target 350+ VIP leads on YouTube Ads.
+4. **Looker Studio Dashboards:** Real-time ROAS monitoring for C-Level executives.
+
+---
+
+<!-- _class: lead -->
+
+# 🏆 Congratulations to the Winning Brand Detective Team!
+
+### Thank you for completing the BigQuery Studio & Google Cloud Masterclass!
+
+**GitHub Repository:** `github.com/mauripsale/luxottica-bigquery-training`
