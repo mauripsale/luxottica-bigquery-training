@@ -97,16 +97,23 @@ flowchart TD
 > 3. **Lagging Brands (Vogue Eyewear - 1.29M €):** *Sulle linee fashion a basso scontrino stiamo concedendo troppi sconti.*
 > 4. **Il Mistero di Ray-Ban (1.8M €):** *Ray-Ban registra 1.8M € di vendite, ma è sotto le sue potenzialità online. Perché il brand leader non sta dominando?*"
 
-- **15:52 - 16:00 (8m) | 🎙️ COPIONE DEMO LIVE: Prima Query Guidata (Verifica Spesa vs Fatturato Generale)**
+- **15:52 - 16:00 (8m) | 🎙️ COPIONE DEMO LIVE: Prima Query Guidata con Gemini SQL Generator (Verifica Spesa vs Fatturato)**
 
 > **[Azione Docente]:** Clicca sul pulsante **`+` -> `SQL query`** in alto a sinistra per aprire una nuova scheda dell'editor SQL in BigQuery Studio.
 >
 > **[Parla il Docente]:**  
-> *"Perfetto! Ora che abbiamo visto la potenza del Data Canvas, facciamo un passo fondamentale: impariamo a usare l'editor SQL standard di BigQuery Studio. Cliccate tutti in alto a sinistra sul tasto `+` e selezionate **SQL query**."*
+> *"Parliamoci chiaro: nessuno ci chiede di diventare programmatori o di imparare a memoria ogni virgola della sintassi SQL in 3 ore! BigQuery Studio integra **Gemini SQL Generator**, che scrive il codice al posto nostro a partire da una semplice domanda in italiano."*
 >
-> **[Azione Docente]:** Incolla o digita nell'editor la seguente query:
+> *"Facciamo subito una prova insieme: cliccate in alto a sinistra su **`+` -> `SQL query`**. Vedrete in alto nell'editor l'icona della matita o del brillantino con la scritta **Generate SQL** (oppure potete usare la combinazione `Ctrl + Shift + P`). Cliccatela!"*
+>
+> **[Azione Docente]:** Clicca sul pulsante **Generate SQL** nell'editor e digita il prompt in italiano:  
+> `Calcola il totale ordini, il fatturato totale in euro e la spesa adv totale dal dataset luxottica_marketing_analytics` e premi **Generate**.
+>
+> **[Parla il Docente]:**  
+> *"Guardate cosa ha fatto Gemini: ha interpretato la nostra richiesta di business e ha generato automaticamente la query SQL nell'editor!*
+>
 > ```sql
-> -- Query 1: Verifica Spesa Pubblicitaria Globale vs Fatturato Totale
+> -- Query generata da Gemini in BigQuery Studio
 > SELECT 
 >   'Totale Ordini Online' AS metric,
 >   COUNT(DISTINCT order_id) AS total_count,
@@ -122,16 +129,10 @@ flowchart TD
 > FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`;
 > ```
 >
-> **[Parla il Docente]:**  
-> *"Prima di addentrarci nelle singole sfide, verifichiamo i due numeri aggregati di partenza per il nostro CMO: quanto abbiamo incassato in totale dall'e-commerce e quanto abbiamo speso complessivamente in pubblicità."*
->
-> *"Osserviamo la sintassi:*
-> - `SELECT`: *Specifica le colonne da calcolare.*
-> - `COUNT(DISTINCT order_id)`: *Conta il numero unico di ordini (senza duplicati).*
-> - `SUM(revenue_eur)`: *Calcola il totale incassato in Euro.*
-> - `UNION ALL`: *Incolla sotto le righe relative alla spesa pubblicitaria.*
->
-> *Clicchiamo tutti sul tasto celeste **RUN** (o premiamo `Cmd/Ctrl + Enter`)."*
+> *"Il nostro unico compito come analisti è verificare la logica di quello che ha scritto Gemini:  
+> - `SUM(revenue_eur)` calcola il fatturato.  
+> - `SUM(spend_eur)` calcola la spesa pubblicitaria.  
+> Clicchiamo tutti sul tasto celeste **RUN** (o `Cmd/Ctrl + Enter`)."*
 >
 > **[Parla il Docente - Commentando il Risultato a Schermo]:**  
 > *"Guardiamo i risultati comparsi in basso:*
@@ -139,7 +140,7 @@ flowchart TD
 > - **Totale Spesa Pubblicitaria:** *~4,8 Milioni di Euro su 5.000 campagne.*
 >
 > *A prima vista sembra un ottimo risultato: incassiamo 21,5M € spendendone 4,8M € (ROAS complessivo di ~4.5x). Ma allora **perché il CMO si lamenta che il +35% di budget aggiuntivo nell'ultimo trimestre non ha fatto crescere le vendite?**  
-> La risposta è che questo numero aggregato **nasconde la verità**! Nelle prossime sfide andremo a fare lo 'zoom-in' per scoprire quali canali stanno sprecando denaro e quali stanno trascinando il business. Siete pronti per la Challenge #1?"*
+> La risposta è che questo numero aggregato **nasconde la verità**! Nelle prossime sfide useremo Gemini SQL Generator per fare lo 'zoom-in' e scoprire quali canali stanno sprecando denaro. Siete pronti per la Challenge #1?"*
 
 ---
 
