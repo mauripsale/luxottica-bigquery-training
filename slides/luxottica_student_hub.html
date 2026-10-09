@@ -226,25 +226,25 @@
       <!-- BLOCK TABS NAVIGATION (STRICTLY LOCKED BY DEFAULT) -->
       <div class="bg-white p-2 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-2">
         <button onclick="userSelectBlock('cover')" id="tab-cover" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold bg-blue-600 text-white shadow-xs">
-          🏠 Benvenuti / Intro
+          🏠 Welcome / Intro
         </button>
         <button onclick="userSelectBlock(1)" id="tab-b1" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
-          Blocco 1 (15:30): Data Canvas
+          Block 1: Data Canvas
         </button>
         <button onclick="userSelectBlock(2)" id="tab-b2" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
-          Blocco 2 (16:00): Sconti
+          Block 2: Discounts
         </button>
         <button onclick="userSelectBlock('break')" id="tab-break" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 hover:bg-amber-100">
-          ☕ Pausa Caffè (16:45)
+          ☕ Coffee Break
         </button>
         <button onclick="userSelectBlock(3)" id="tab-b3" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
-          Blocco 3 (17:00): ROAS & JOIN
+          Block 3: ROAS & JOIN
         </button>
         <button onclick="userSelectBlock(4)" id="tab-b4" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
-          Blocco 4 (17:45): Lead VIP
+          Block 4: VIP Leads
         </button>
         <button onclick="userSelectBlock(5)" id="tab-b5" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
-          Blocco 5 (18:15): Piano CMO
+          Block 5: CMO Plan
         </button>
       </div>
 
@@ -255,7 +255,7 @@
             <div>
               <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
                 <span>🎓</span>
-                <span id="cover-badge">Sessione Masterclass Live • 180 Minuti</span>
+                <span id="cover-badge">Live Masterclass Session • Interactive Lab</span>
               </span>
               <h2 class="text-2xl font-black text-slate-900 mt-2" id="cover-title">Benvenuti alla Masterclass BigQuery & Gemini</h2>
               <p class="text-sm text-slate-600 mt-1" id="cover-subtitle">Luxottica Digital Commerce & Marketing Analytics Team</p>
@@ -275,8 +275,8 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
               <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-bold text-blue-600">Blocco 1 (15:30)</span>
-                  <span class="text-slate-400 font-mono">30m</span>
+                  <span class="font-bold text-blue-600">Blocco 1</span>
+                  <span class="text-slate-400 font-mono">Setup & AI</span>
                 </div>
                 <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b1-title">BigQuery Data Canvas & Gemini</h4>
                 <p class="text-slate-600 leading-relaxed" id="cover-b1-desc">Esplorazione visuale senza codice e prompt in linguaggio naturale con Gemini in BigQuery.</p>
@@ -284,8 +284,8 @@
 
               <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-bold text-blue-600">Blocco 2 (16:00)</span>
-                  <span class="text-slate-400 font-mono">45m</span>
+                  <span class="font-bold text-blue-600">Blocco 2</span>
+                  <span class="text-amber-600 font-mono">Sfida #1</span>
                 </div>
                 <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b2-title">Challenge #1: Sconti & Margini</h4>
                 <p class="text-slate-600 leading-relaxed" id="cover-b2-desc">Aggregazioni SQL (GROUP BY, HAVING) per stanare le emorragie di sconti su Ray-Ban e Vogue.</p>
@@ -293,8 +293,8 @@
 
               <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-bold text-amber-700">Pausa (16:45)</span>
-                  <span class="text-amber-600 font-mono">15m</span>
+                  <span class="font-bold text-amber-700">Pausa</span>
+                  <span class="text-amber-600 font-mono">Break</span>
                 </div>
                 <h4 class="font-bold text-amber-900 text-sm mb-1" id="cover-break-title">☕ Coffee Break & Networking</h4>
                 <p class="text-amber-800 leading-relaxed" id="cover-break-desc">Pausa rigenerante prima dell'analisi avanzata del ROAS e del calcolo dei costi adv.</p>
@@ -302,8 +302,8 @@
 
               <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-bold text-blue-600">Blocco 3 (17:00)</span>
-                  <span class="text-slate-400 font-mono">45m</span>
+                  <span class="font-bold text-blue-600">Blocco 3</span>
+                  <span class="text-amber-600 font-mono">Sfida #2</span>
                 </div>
                 <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b3-title">Challenge #2: Multi-Platform ROAS</h4>
                 <p class="text-slate-600 leading-relaxed" id="cover-b3-desc">CTE e JOIN senza duplicazioni fan-out per confrontare il rendimento Google Ads vs TikTok.</p>
@@ -311,8 +311,8 @@
 
               <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-bold text-blue-600">Blocco 4 (17:45)</span>
-                  <span class="text-slate-400 font-mono">30m</span>
+                  <span class="font-bold text-blue-600">Blocco 4</span>
+                  <span class="text-amber-600 font-mono">Sfida #3</span>
                 </div>
                 <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b4-title">Challenge #3: Clean VIP Leads View</h4>
                 <p class="text-slate-600 leading-relaxed" id="cover-b4-desc">Data cleaning con funzioni stringa e creazione viste SQL sicure con il prefisso del tuo team.</p>
@@ -320,8 +320,8 @@
 
               <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-bold text-emerald-700">Blocco 5 (18:15)</span>
-                  <span class="text-emerald-600 font-mono">15m</span>
+                  <span class="font-bold text-emerald-700">Blocco 5</span>
+                  <span class="text-emerald-600 font-mono">Podio</span>
                 </div>
                 <h4 class="font-bold text-emerald-900 text-sm mb-1" id="cover-b5-title">🎉 Piano Strategico & Podio</h4>
                 <p class="text-emerald-800 leading-relaxed" id="cover-b5-desc">Presentazione delle 3 raccomandazioni al CMO e proclamazione del team vincitore!</p>
@@ -355,10 +355,10 @@
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div class="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
-              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">15:30 - 16:00</span>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Guided Lab</span>
               <h2 class="text-lg font-bold text-slate-800" id="b1-title">Blocco 1: Setup BigQuery & Esplorazione Data Canvas</h2>
             </div>
-            <span class="bg-slate-100 text-slate-600 text-xs px-3 py-1 rounded-full font-medium">30 Mins</span>
+            <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-semibold">Hands-on</span>
           </div>
 
           <div class="space-y-3">
@@ -386,7 +386,7 @@
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div class="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
-              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">16:00 - 16:45</span>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Challenge #1</span>
               <h2 class="text-lg font-bold text-slate-800" id="b2-title">Blocco 2: Challenge #1 - Analisi Sconti & Fuga Margini</h2>
             </div>
             <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">🏆 +100 Punti</span>
@@ -411,7 +411,7 @@
       <div id="block-break" class="block-section space-y-6 hidden">
         <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 shadow-sm text-center space-y-4">
           <span class="text-4xl">☕</span>
-          <h2 class="text-xl font-bold text-amber-900" id="break-title">15 Minuti di Pausa Caffè & Networking</h2>
+          <h2 class="text-xl font-bold text-amber-900" id="break-title">Pausa Caffè & Networking</h2>
           <p class="text-xs text-amber-700 max-w-md mx-auto" id="break-desc">Fai una pausa, assimila le scoperte del Blocco 2 e preparati per la Challenge avanzata sul ROAS con CTE & JOIN!</p>
         </div>
       </div>
@@ -421,7 +421,7 @@
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div class="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
-              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">17:00 - 17:45</span>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Challenge #2</span>
               <h2 class="text-lg font-bold text-slate-800" id="b3-title">Blocco 3: Challenge #2 - ROAS Multi-Canale con CTE & JOIN</h2>
             </div>
             <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">🏆 +100 Punti</span>
@@ -466,7 +466,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div class="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
-              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">17:45 - 18:15</span>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Challenge #3</span>
               <h2 class="text-lg font-bold text-slate-800" id="b4-title">Blocco 4: Challenge #3 - Creazione Vista Pulita Lead VIP</h2>
             </div>
             <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">🏆 +100 Punti</span>
@@ -491,7 +491,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div class="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
-              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">18:15 - 18:30</span>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Strategic Finale</span>
               <h2 class="text-lg font-bold text-slate-800" id="b5-title">Blocco 5: Piano Strategico Q4 per il CMO & Premiazione</h2>
             </div>
             <span class="bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold" id="b5-badge">🎉 Gran Finale</span>
@@ -586,14 +586,14 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         heroSubtitle: "Dominare i Dati Marketing con BigQuery Studio, Gemini AI & Google Ads",
         btnOpenBQ: "🚀 Apri BigQuery Studio",
         tabCover: "🏠 Benvenuti / Intro",
-        tabB1: "Blocco 1 (15:30): Data Canvas",
-        tabB2: "Blocco 2 (16:00): Sconti",
-        tabBreak: "☕ Pausa Caffè (16:45)",
-        tabB3: "Blocco 3 (17:00): ROAS & JOIN",
-        tabB4: "Blocco 4 (17:45): Lead VIP",
-        tabB5: "Blocco 5 (18:15): Piano CMO",
+        tabB1: "Blocco 1: Data Canvas",
+        tabB2: "Blocco 2: Sconti",
+        tabBreak: "☕ Pausa Caffè",
+        tabB3: "Blocco 3: ROAS & JOIN",
+        tabB4: "Blocco 4: Lead VIP",
+        tabB5: "Blocco 5: Piano CMO",
         // COVER PAGE IT
-        coverBadge: "Sessione Masterclass Live • 180 Minuti",
+        coverBadge: "Sessione Masterclass Live • Laboratorio Interattivo",
         coverTitle: "Benvenuti alla Masterclass BigQuery & Gemini",
         coverSubtitle: "Luxottica Digital Commerce & Marketing Analytics Team",
         coverWaitingStatus: "In attesa dell'inizio della sessione...",
@@ -626,8 +626,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         pB2S1: "Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.",
         b2DiscoveryTitle: "🚨 Scoperta Shock per il CMO:",
         b2DiscoveryDesc: "Vogue Eyewear su Wholesale Partner subisce <strong>28,50 € di sconto medio</strong>! Ray-Ban E-Commerce Direct subisce <strong>25,00 € di sconto medio</strong>!",
-        breakTitle: "15 Minuti di Pausa Caffè & Networking",
-        breakDesc: "Fai una pausa, assimilai le scoperte del Blocco 2 e preparati per la Challenge avanzata sul ROAS con CTE & JOIN!",
+        breakTitle: "Pausa Caffè & Networking",
+        breakDesc: "Fai una pausa, assimila le scoperte del Blocco 2 e preparati per la Challenge avanzata sul ROAS con CTE & JOIN!",
         b3Title: "Blocco 3: Challenge #2 - ROAS Multi-Canale con CTE & JOIN",
         b3Desc: "Per calcolare il ROAS senza errori di duplicazione (SQL fan-out), esegui questa query con CTE e JOIN:",
         b3RoasTitle: "🚀 Verdetto del ROAS per il CMO:",
@@ -681,14 +681,14 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         heroSubtitle: "Master Marketing Data with BigQuery Studio, Gemini AI & Google Ads",
         btnOpenBQ: "🚀 Open BigQuery Studio",
         tabCover: "🏠 Welcome / Intro",
-        tabB1: "Block 1 (15:30): Data Canvas",
-        tabB2: "Block 2 (16:00): Discounts",
-        tabBreak: "☕ Coffee Break (16:45)",
-        tabB3: "Block 3 (17:00): ROAS & JOIN",
-        tabB4: "Block 4 (17:45): VIP Leads",
-        tabB5: "Block 5 (18:15): CMO Plan",
+        tabB1: "Block 1: Data Canvas",
+        tabB2: "Block 2: Discounts",
+        tabBreak: "☕ Coffee Break",
+        tabB3: "Block 3: ROAS & JOIN",
+        tabB4: "Block 4: VIP Leads",
+        tabB5: "Block 5: CMO Plan",
         // COVER PAGE EN
-        coverBadge: "Live Masterclass Session • 180 Minutes",
+        coverBadge: "Live Masterclass Session • Interactive Lab",
         coverTitle: "Welcome to BigQuery & Gemini Masterclass",
         coverSubtitle: "Luxottica Digital Commerce & Marketing Analytics Team",
         coverWaitingStatus: "Waiting for session to begin...",
@@ -721,7 +721,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         pB2S1: "Calculate average discount in euros (discount_amount_eur) by brand and channel from lux_online_orders, ordering by average discount descending.",
         b2DiscoveryTitle: "🚨 Shock Discovery for CMO:",
         b2DiscoveryDesc: "Vogue Eyewear on Wholesale Partner suffers <strong>€28.50 average discount</strong>! Ray-Ban E-Commerce Direct suffers <strong>€25.00 average discount</strong>!",
-        breakTitle: "15-Minute Coffee & Networking Break",
+        breakTitle: "Coffee & Networking Break",
         breakDesc: "Take a break, digest Block 2 findings, and prepare for the advanced CTE + JOIN ROAS Challenge!",
         b3Title: "Block 3: Challenge #2 - Multi-Platform ROAS with CTE & JOIN",
         b3Desc: "To calculate ROAS without SQL fan-out multiplication, run this CTE + JOIN query:",
