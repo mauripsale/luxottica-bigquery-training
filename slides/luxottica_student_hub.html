@@ -270,8 +270,8 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
               <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-bold text-blue-600">Blocco 1</span>
-                  <span class="text-slate-400 font-mono">Setup & AI</span>
+                  <span class="font-bold text-blue-600" id="agenda-b1-lbl">Block 1</span>
+                  <span class="text-slate-400 font-mono" id="agenda-b1-tag">Setup & AI</span>
                 </div>
                 <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b1-title">BigQuery Data Canvas & Gemini</h4>
                 <p class="text-slate-600 leading-relaxed" id="cover-b1-desc">Esplorazione visuale senza codice e prompt in linguaggio naturale con Gemini in BigQuery.</p>
@@ -279,8 +279,8 @@
 
               <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-bold text-blue-600">Blocco 2</span>
-                  <span class="text-amber-600 font-mono">Sfida #1</span>
+                  <span class="font-bold text-blue-600" id="agenda-b2-lbl">Block 2</span>
+                  <span class="text-amber-600 font-mono" id="agenda-b2-tag">Challenge #1</span>
                 </div>
                 <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b2-title">Challenge #1: Sconti & Margini</h4>
                 <p class="text-slate-600 leading-relaxed" id="cover-b2-desc">Aggregazioni SQL (GROUP BY, HAVING) per stanare le emorragie di sconti su Ray-Ban e Vogue.</p>
@@ -288,8 +288,8 @@
 
               <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-bold text-amber-700">Pausa</span>
-                  <span class="text-amber-600 font-mono">Break</span>
+                  <span class="font-bold text-amber-700" id="agenda-break-lbl">Break</span>
+                  <span class="text-amber-600 font-mono" id="agenda-break-tag">Coffee</span>
                 </div>
                 <h4 class="font-bold text-amber-900 text-sm mb-1" id="cover-break-title">☕ Coffee Break & Networking</h4>
                 <p class="text-amber-800 leading-relaxed" id="cover-break-desc">Pausa rigenerante prima dell'analisi avanzata del ROAS e del calcolo dei costi adv.</p>
@@ -297,8 +297,8 @@
 
               <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-bold text-blue-600">Blocco 3</span>
-                  <span class="text-amber-600 font-mono">Sfida #2</span>
+                  <span class="font-bold text-blue-600" id="agenda-b3-lbl">Block 3</span>
+                  <span class="text-amber-600 font-mono" id="agenda-b3-tag">Challenge #2</span>
                 </div>
                 <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b3-title">Challenge #2: Multi-Platform ROAS</h4>
                 <p class="text-slate-600 leading-relaxed" id="cover-b3-desc">CTE e JOIN senza duplicazioni fan-out per confrontare il rendimento Google Ads vs TikTok.</p>
@@ -306,8 +306,8 @@
 
               <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-bold text-blue-600">Blocco 4</span>
-                  <span class="text-amber-600 font-mono">Sfida #3</span>
+                  <span class="font-bold text-blue-600" id="agenda-b4-lbl">Block 4</span>
+                  <span class="text-amber-600 font-mono" id="agenda-b4-tag">Challenge #3</span>
                 </div>
                 <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b4-title">Challenge #3: Clean VIP Leads View</h4>
                 <p class="text-slate-600 leading-relaxed" id="cover-b4-desc">Data cleaning con funzioni stringa e creazione viste SQL sicure con il prefisso del tuo team.</p>
@@ -315,8 +315,8 @@
 
               <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-bold text-emerald-700">Blocco 5</span>
-                  <span class="text-emerald-600 font-mono">Podio</span>
+                  <span class="font-bold text-emerald-700" id="agenda-b5-lbl">Block 5</span>
+                  <span class="text-emerald-600 font-mono" id="agenda-b5-tag">Podium</span>
                 </div>
                 <h4 class="font-bold text-emerald-900 text-sm mb-1" id="cover-b5-title">🎉 Piano Strategico & Podio</h4>
                 <p class="text-emerald-800 leading-relaxed" id="cover-b5-desc">Presentazione delle 3 raccomandazioni al CMO e proclamazione del team vincitore!</p>
@@ -593,6 +593,18 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         coverSubtitle: "Luxottica Digital Commerce & Marketing Analytics Team",
         coverWaitingStatus: "In attesa dell'inizio della sessione...",
         coverAgendaHdr: "Programma della Masterclass (5 Blocchi Guidati)",
+        agendaB1Lbl: "Blocco 1",
+        agendaB1Tag: "Setup & AI",
+        agendaB2Lbl: "Blocco 2",
+        agendaB2Tag: "Sfida #1",
+        agendaBreakLbl: "Pausa",
+        agendaBreakTag: "Caffè",
+        agendaB3Lbl: "Blocco 3",
+        agendaB3Tag: "Sfida #2",
+        agendaB4Lbl: "Blocco 4",
+        agendaB4Tag: "Sfida #3",
+        agendaB5Lbl: "Blocco 5",
+        agendaB5Tag: "Podio",
         coverB1Title: "BigQuery Data Canvas & Gemini",
         coverB1Desc: "Esplorazione visuale senza codice e prompt in linguaggio naturale con Gemini in BigQuery.",
         coverB2Title: "Challenge #1: Sconti & Margini",
@@ -688,6 +700,18 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         coverSubtitle: "Luxottica Digital Commerce & Marketing Analytics Team",
         coverWaitingStatus: "Waiting for session to begin...",
         coverAgendaHdr: "Masterclass Agenda (5 Guided Blocks)",
+        agendaB1Lbl: "Block 1",
+        agendaB1Tag: "Setup & AI",
+        agendaB2Lbl: "Block 2",
+        agendaB2Tag: "Challenge #1",
+        agendaBreakLbl: "Break",
+        agendaBreakTag: "Coffee",
+        agendaB3Lbl: "Block 3",
+        agendaB3Tag: "Challenge #2",
+        agendaB4Lbl: "Block 4",
+        agendaB4Tag: "Challenge #3",
+        agendaB5Lbl: "Block 5",
+        agendaB5Tag: "Podium",
         coverB1Title: "BigQuery Data Canvas & Gemini",
         coverB1Desc: "No-code visual exploration and natural language prompts with Gemini in BigQuery.",
         coverB2Title: "Challenge #1: Discounts & Margins",
@@ -997,16 +1021,28 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('cover-subtitle', t.coverSubtitle);
       setText('cover-waiting-status', t.coverWaitingStatus);
       setText('cover-agenda-hdr', t.coverAgendaHdr);
+      setText('agenda-b1-lbl', t.agendaB1Lbl);
+      setText('agenda-b1-tag', t.agendaB1Tag);
       setText('cover-b1-title', t.coverB1Title);
       setText('cover-b1-desc', t.coverB1Desc);
+      setText('agenda-b2-lbl', t.agendaB2Lbl);
+      setText('agenda-b2-tag', t.agendaB2Tag);
       setText('cover-b2-title', t.coverB2Title);
       setText('cover-b2-desc', t.coverB2Desc);
+      setText('agenda-break-lbl', t.agendaBreakLbl);
+      setText('agenda-break-tag', t.agendaBreakTag);
       setText('cover-break-title', t.coverBreakTitle);
       setText('cover-break-desc', t.coverBreakDesc);
+      setText('agenda-b3-lbl', t.agendaB3Lbl);
+      setText('agenda-b3-tag', t.agendaB3Tag);
       setText('cover-b3-title', t.coverB3Title);
       setText('cover-b3-desc', t.coverB3Desc);
+      setText('agenda-b4-lbl', t.agendaB4Lbl);
+      setText('agenda-b4-tag', t.agendaB4Tag);
       setText('cover-b4-title', t.coverB4Title);
       setText('cover-b4-desc', t.coverB4Desc);
+      setText('agenda-b5-lbl', t.agendaB5Lbl);
+      setText('agenda-b5-tag', t.agendaB5Tag);
       setText('cover-b5-title', t.coverB5Title);
       setText('cover-b5-desc', t.coverB5Desc);
       setText('cover-ready-hdr', t.coverReadyHdr);
