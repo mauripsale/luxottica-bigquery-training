@@ -17,7 +17,7 @@
   <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm px-6 py-3 flex flex-wrap items-center justify-between gap-4">
     <div class="flex items-center space-x-4">
       <!-- SECRET TRIPLE CLICK ON LOGO FOR TRAINER PIN PROMPT -->
-      <div class="flex items-center space-x-2 cursor-pointer select-none" id="logo-trigger" onclick="handleLogoClick()">
+      <div class="flex items-center space-x-2 cursor-pointer select-none" id="logo-trigger" onclick="handleLogoClick()" title="Triplo-clic per accedere alla Console Docente">
         <span class="text-2xl font-bold tracking-tight text-slate-800">Luxottica</span>
         <span class="text-slate-300 font-light text-xl">|</span>
         <span class="text-lg font-medium text-slate-600">Google Cloud Training</span>
@@ -34,7 +34,7 @@
     <div class="flex items-center space-x-3 flex-wrap">
 
       <!-- TRAINER MODE TOGGLE (HIDDEN BY DEFAULT FROM STUDENTS) -->
-      <button onclick="toggleTrainerMode()" id="btn-trainer-toggle" class="hidden text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-900 text-white border border-slate-800 transition">
+      <button onclick="toggleTrainerMode()" id="btn-trainer-toggle" class="hidden text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-900 text-white border border-slate-800 transition shadow-sm hover:bg-slate-800">
         🎓 Modalità Docente (ATTIVA)
       </button>
 
@@ -432,176 +432,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
   </div>
 
   <script>
-    let currentLang = 'it';
-    let isTrainerMode = false;
-    let isStrictLocked = true; // STRICT INSTRUCTOR LOCK BY DEFAULT
-    let logoClickCount = 0;
-    let logoClickTimer;
-    const BROADCAST_TOPIC = 'https://ntfy.sh/luxottica-bq-masterclass-sync';
-
-    // SAFE DOM HELPERS TO PREVENT SCRIPT CRASHES
-    function setText(id, text) {
-      const el = document.getElementById(id);
-      if (el && text !== undefined) el.innerText = text;
-    }
-
-    function setHTML(id, html) {
-      const el = document.getElementById(id);
-      if (el && html !== undefined) el.innerHTML = html;
-    }
-
-    // SECRET LOGO TRIPLE-CLICK FOR TRAINER ACCESS
-    function handleLogoClick() {
-      logoClickCount++;
-      clearTimeout(logoClickTimer);
-      logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1000);
-
-      if (logoClickCount >= 3) {
-        logoClickCount = 0;
-        const pin = prompt("🔐 Inserisci il PIN Docente per attivare la consolle:");
-        if (pin === "2026" || pin === "1234") {
-          enableTrainerMode();
-        } else if (pin) {
-          alert("❌ PIN errato!");
-        }
-      }
-    }
-
-    function enableTrainerMode() {
-      isTrainerMode = true;
-      const bar = document.getElementById('trainer-bar');
-      if (bar) bar.classList.remove('hidden');
-      const btn = document.getElementById('btn-trainer-toggle');
-      if (btn) {
-        btn.classList.remove('hidden');
-        btn.innerText = translations[currentLang].btnTrainerActive;
-      }
-      applyLockState(false);
-    }
-
-    // INITIALIZE REAL-TIME SSE LISTENER FOR ALL 50 STUDENTS
-    const eventSource = new EventSource(`${BROADCAST_TOPIC}/sse`);
-    eventSource.onmessage = function(event) {
-      try {
-        const data = JSON.parse(event.data);
-        if (data.message) {
-          const payload = JSON.parse(data.message);
-          if (payload.action === 'change_block') {
-            showBlock(payload.block, true);
-          } else if (payload.action === 'set_lock') {
-            applyLockState(payload.locked);
-          }
-        }
-      } catch(e) {
-        if (event.data) {
-          showBlock(event.data, true);
-        }
-      }
-    };
-
-    function toggleTrainerMode() {
-      isTrainerMode = !isTrainerMode;
-      const bar = document.getElementById('trainer-bar');
-      const btn = document.getElementById('btn-trainer-toggle');
-      if (isTrainerMode) {
-        if (bar) bar.classList.remove('hidden');
-        if (btn) btn.innerText = translations[currentLang].btnTrainerActive;
-        applyLockState(false);
-      } else {
-        if (bar) bar.classList.add('hidden');
-        if (btn) btn.innerText = translations[currentLang].btnTrainerInactive;
-        applyLockState(isStrictLocked);
-      }
-    }
-
-    // TRAINER BROADCAST BLOCK ACTION
-    function broadcastBlock(blockId) {
-      fetch(BROADCAST_TOPIC, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'change_block', block: blockId })
-      }).then(() => {
-        showBlock(blockId, false);
-      });
-    }
-
-    // TRAINER TOGGLE LOCK STATE
-    function toggleLockState() {
-      isStrictLocked = !isStrictLocked;
-      fetch(BROADCAST_TOPIC, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'set_lock', locked: isStrictLocked })
-      }).then(() => {
-        updateLockControlButton();
-      });
-    }
-
-    function updateLockControlButton() {
-      const btn = document.getElementById('btn-lock-control');
-      const text = document.getElementById('btn-lock-text');
-      const t = translations[currentLang];
-
-      if (btn && text) {
-        if (isStrictLocked) {
-          btn.className = "px-3 py-1 text-xs font-bold rounded bg-red-600 hover:bg-red-500 text-white transition flex items-center space-x-1";
-          text.innerText = t.btnLockLocked;
-        } else {
-          btn.className = "px-3 py-1 text-xs font-bold rounded bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center space-x-1";
-          text.innerText = t.btnLockUnlocked;
-        }
-      }
-    }
-
-    function applyLockState(locked) {
-      isStrictLocked = locked;
-      const tabs = document.querySelectorAll('.tab-btn');
-      tabs.forEach(tab => {
-        if (locked && !isTrainerMode) {
-          tab.classList.add('tab-disabled');
-        } else {
-          tab.classList.remove('tab-disabled');
-        }
-      });
-      updateSyncBadge(locked);
-      updateLockControlButton();
-    }
-
-    // USER MANUAL TAB CLICK (ALLOWED ONLY WHEN UNLOCKED OR IN TRAINER MODE)
-    function userSelectBlock(blockId) {
-      if (isStrictLocked && !isTrainerMode) {
-        showToast(currentLang === 'it' ? "🔒 Navigazione bloccata dal docente" : "🔒 Navigation is locked by trainer");
-        return;
-      }
-      showBlock(blockId, false);
-    }
-
-    function updateSyncBadge(locked) {
-      const badge = document.getElementById('sync-status-badge');
-      const text = document.getElementById('sync-status-text');
-
-      if (badge && text) {
-        if (locked) {
-          badge.className = "flex items-center space-x-2 bg-red-50 text-red-700 text-xs font-semibold px-3 py-1 rounded-full border border-red-200";
-          text.innerText = currentLang === 'it' ? "🔒 Navigazione Bloccata dal Docente" : "🔒 Navigation Locked by Trainer";
-        } else {
-          badge.className = "flex items-center space-x-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200";
-          text.innerText = currentLang === 'it' ? "🔓 Esplorazione Libera Sbloccata" : "🔓 Free Exploration Unlocked";
-        }
-      }
-    }
-
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      setText('toast-text', msg);
-      if (toast) {
-        toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
-        toast.classList.add('opacity-100', 'translate-y-0');
-        setTimeout(() => {
-          toast.classList.remove('opacity-100', 'translate-y-0');
-          toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
-        }, 2500);
-      }
-    }
-
+    // TRANSLATIONS DICTIONARY DEFINED AT TOP TO AVOID REFERENCE ERRORS
     const translations = {
       it: {
         lblClock: "Orologio:",
@@ -633,7 +464,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         b2DiscoveryTitle: "🚨 Scoperta Shock per il CMO:",
         b2DiscoveryDesc: "Vogue Eyewear su Wholesale Partner subisce <strong>28,50 € di sconto medio</strong>! Ray-Ban E-Commerce Direct subisce <strong>25,00 € di sconto medio</strong>!",
         breakTitle: "15 Minuti di Pausa Caffè & Networking",
-        breakDesc: "Fai una pausa, assimila le scoperte del Blocco 2 e preparati per la Challenge avanzata sul ROAS con CTE & JOIN!",
+        breakDesc: "Fai una pausa, assimilai le scoperte del Blocco 2 e preparati per la Challenge avanzata sul ROAS con CTE & JOIN!",
         b3Title: "Blocco 3: Challenge #2 - ROAS Multi-Canale con CTE & JOIN",
         b3Desc: "Per calcolare il ROAS senza errori di duplicazione (SQL fan-out), esegui questa query con CTE e JOIN:",
         b3RoasTitle: "🚀 Verdetto del ROAS per il CMO:",
@@ -736,6 +567,189 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         btnTrainerInactive: "🎓 Trainer Mode"
       }
     };
+
+    let currentLang = 'it';
+    let isTrainerMode = false;
+    let isStrictLocked = true;
+    let logoClickCount = 0;
+    let logoClickTimer;
+    const BROADCAST_TOPIC = 'https://ntfy.sh/luxottica-bq-masterclass-sync';
+
+    // SAFE DOM HELPERS TO PREVENT SCRIPT CRASHES
+    function setText(id, text) {
+      const el = document.getElementById(id);
+      if (el && text !== undefined) el.innerText = text;
+    }
+
+    function setHTML(id, html) {
+      const el = document.getElementById(id);
+      if (el && html !== undefined) el.innerHTML = html;
+    }
+
+    // ENABLE TRAINER MODE FUNCTION
+    function enableTrainerMode() {
+      isTrainerMode = true;
+      const bar = document.getElementById('trainer-bar');
+      if (bar) bar.classList.remove('hidden');
+      const btn = document.getElementById('btn-trainer-toggle');
+      if (btn) {
+        btn.classList.remove('hidden');
+        btn.innerText = translations[currentLang] ? translations[currentLang].btnTrainerActive : "🎓 Modalità Docente (ATTIVA)";
+      }
+      applyLockState(false);
+    }
+
+    function toggleTrainerMode() {
+      isTrainerMode = !isTrainerMode;
+      const bar = document.getElementById('trainer-bar');
+      const btn = document.getElementById('btn-trainer-toggle');
+      if (isTrainerMode) {
+        if (bar) bar.classList.remove('hidden');
+        if (btn) btn.innerText = translations[currentLang] ? translations[currentLang].btnTrainerActive : "🎓 Modalità Docente (ATTIVA)";
+        applyLockState(false);
+      } else {
+        if (bar) bar.classList.add('hidden');
+        if (btn) btn.innerText = translations[currentLang] ? translations[currentLang].btnTrainerInactive : "🎓 Modalità Docente";
+        applyLockState(isStrictLocked);
+      }
+    }
+
+    // SECRET LOGO TRIPLE-CLICK FOR TRAINER ACCESS
+    function handleLogoClick() {
+      logoClickCount++;
+      clearTimeout(logoClickTimer);
+      logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1000);
+
+      if (logoClickCount >= 3) {
+        logoClickCount = 0;
+        const pin = prompt("🔐 Inserisci il PIN Docente per attivare la consolle:");
+        if (pin === "2026" || pin === "1234" || pin === "trainer") {
+          enableTrainerMode();
+        } else if (pin) {
+          alert("❌ PIN errato!");
+        }
+      }
+    }
+
+    // KEYBOARD SHORTCUT (Ctrl + Alt + T) TO TOGGLE TRAINER MODE
+    window.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.altKey && (e.key === 't' || e.key === 'T')) {
+        const pin = prompt("🔐 Inserisci il PIN Docente per attivare la consolle:");
+        if (pin === "2026" || pin === "1234" || pin === "trainer") {
+          enableTrainerMode();
+        } else if (pin) {
+          alert("❌ PIN errato!");
+        }
+      }
+    });
+
+    // INITIALIZE REAL-TIME SSE LISTENER FOR ALL 50 STUDENTS
+    const eventSource = new EventSource(`${BROADCAST_TOPIC}/sse`);
+    eventSource.onmessage = function(event) {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.message) {
+          const payload = JSON.parse(data.message);
+          if (payload.action === 'change_block') {
+            showBlock(payload.block, true);
+          } else if (payload.action === 'set_lock') {
+            applyLockState(payload.locked);
+          }
+        }
+      } catch(e) {
+        if (event.data) {
+          showBlock(event.data, true);
+        }
+      }
+    };
+
+    // TRAINER BROADCAST BLOCK ACTION
+    function broadcastBlock(blockId) {
+      fetch(BROADCAST_TOPIC, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'change_block', block: blockId })
+      }).then(() => {
+        showBlock(blockId, false);
+      });
+    }
+
+    // TRAINER TOGGLE LOCK STATE
+    function toggleLockState() {
+      isStrictLocked = !isStrictLocked;
+      fetch(BROADCAST_TOPIC, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'set_lock', locked: isStrictLocked })
+      }).then(() => {
+        updateLockControlButton();
+      });
+    }
+
+    function updateLockControlButton() {
+      const btn = document.getElementById('btn-lock-control');
+      const text = document.getElementById('btn-lock-text');
+      const t = translations[currentLang];
+
+      if (btn && text && t) {
+        if (isStrictLocked) {
+          btn.className = "px-3 py-1 text-xs font-bold rounded bg-red-600 hover:bg-red-500 text-white transition flex items-center space-x-1";
+          text.innerText = t.btnLockLocked;
+        } else {
+          btn.className = "px-3 py-1 text-xs font-bold rounded bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center space-x-1";
+          text.innerText = t.btnLockUnlocked;
+        }
+      }
+    }
+
+    function applyLockState(locked) {
+      isStrictLocked = locked;
+      const tabs = document.querySelectorAll('.tab-btn');
+      tabs.forEach(tab => {
+        if (locked && !isTrainerMode) {
+          tab.classList.add('tab-disabled');
+        } else {
+          tab.classList.remove('tab-disabled');
+        }
+      });
+      updateSyncBadge(locked);
+      updateLockControlButton();
+    }
+
+    // USER MANUAL TAB CLICK (ALLOWED ONLY WHEN UNLOCKED OR IN TRAINER MODE)
+    function userSelectBlock(blockId) {
+      if (isStrictLocked && !isTrainerMode) {
+        showToast(currentLang === 'it' ? "🔒 Navigazione bloccata dal docente" : "🔒 Navigation is locked by trainer");
+        return;
+      }
+      showBlock(blockId, false);
+    }
+
+    function updateSyncBadge(locked) {
+      const badge = document.getElementById('sync-status-badge');
+      const text = document.getElementById('sync-status-text');
+
+      if (badge && text) {
+        if (locked) {
+          badge.className = "flex items-center space-x-2 bg-red-50 text-red-700 text-xs font-semibold px-3 py-1 rounded-full border border-red-200";
+          text.innerText = currentLang === 'it' ? "🔒 Navigazione Bloccata dal Docente" : "🔒 Navigation Locked by Trainer";
+        } else {
+          badge.className = "flex items-center space-x-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200";
+          text.innerText = currentLang === 'it' ? "🔓 Esplorazione Libera Sbloccata" : "🔓 Free Exploration Unlocked";
+        }
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      setText('toast-text', msg);
+      if (toast) {
+        toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        setTimeout(() => {
+          toast.classList.remove('opacity-100', 'translate-y-0');
+          toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+        }, 2500);
+      }
+    }
 
     function setLanguage(lang) {
       currentLang = lang;
@@ -887,8 +901,19 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('session-clock', now.toTimeString().split(' ')[0]);
     }, 1000);
 
-    // INITIAL LOCK APPLICATION ON LOAD
-    applyLockState(true);
+    // AUTO-INITIALIZE TRAINER MODE FROM URL PARAMETERS AT LOAD TIME
+    (function initTrainerModeCheck() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const role = urlParams.get('role');
+      const pin = urlParams.get('pin');
+      const trainer = urlParams.get('trainer');
+
+      if (role === 'trainer' || pin === '2026' || trainer === 'true' || trainer === '1') {
+        enableTrainerMode();
+      } else {
+        applyLockState(true);
+      }
+    })();
   </script>
 </body>
 </html>
