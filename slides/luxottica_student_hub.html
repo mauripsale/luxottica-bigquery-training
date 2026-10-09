@@ -357,21 +357,39 @@
           </div>
 
           <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase text-slate-500" id="b1-step1-title">Passo 1.1: Prompt Data Canvas Gemini</h4>
-            <p class="text-xs text-slate-600" id="b1-step1-desc">Apri Data Canvas (tasto `+`) e incolla questo prompt nella barra di ricerca:</p>
-            <div class="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs flex items-center justify-between gap-2">
-              <span id="p-b1-s1">Mostrami le vendite totali e lo scontrino medio per brand nel dataset luxottica_marketing_analytics</span>
-              <button onclick="copyToClipboard(document.getElementById('p-b1-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+            <h4 class="text-xs font-bold uppercase text-slate-500" id="b1-step1-title">Passo 1.1: Esplorazione con BigQuery Data Canvas</h4>
+            <div class="p-3 bg-blue-50/60 border border-blue-200 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-blue-900" id="b1-s1-brief-title">🎯 Obiettivo di Business per il CMO:</span>
+              <p class="text-blue-800" id="b1-s1-brief-desc">Apri Data Canvas (tasto `+`) e chiedi a Gemini in linguaggio naturale di analizzare il dataset <code>luxottica_marketing_analytics</code>: calcolare le vendite complessive e lo scontrino medio per ciascun brand.</p>
             </div>
+            <details class="group bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <summary class="cursor-pointer font-sans text-xs text-blue-400 hover:text-blue-300 select-none flex items-center justify-between">
+                <span id="b1-s1-toggle-lbl">💡 Serve un aiuto? Mostra un esempio di prompt efficace</span>
+                <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+                <span id="p-b1-s1">Mostrami le vendite totali e lo scontrino medio per brand nel dataset luxottica_marketing_analytics</span>
+                <button onclick="copyToClipboard(document.getElementById('p-b1-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+              </div>
+            </details>
           </div>
 
           <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase text-slate-500" id="b1-step2-title">Passo 1.2: Prompt Verifica Macro Vendite</h4>
-            <p class="text-xs text-slate-600" id="b1-step2-desc">Apri l'Editor SQL (`+ -> SQL query`), premi `Ctrl + Shift + P` ed esegui il prompt:</p>
-            <div class="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs flex items-center justify-between gap-2">
-              <span id="p-b1-s2">Calcola il totale ordini, il fatturato totale in euro e la spesa adv totale dal dataset luxottica_marketing_analytics</span>
-              <button onclick="copyToClipboard(document.getElementById('p-b1-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+            <h4 class="text-xs font-bold uppercase text-slate-500" id="b1-step2-title">Passo 1.2: Verifica Macro Vendite in SQL Studio</h4>
+            <div class="p-3 bg-blue-50/60 border border-blue-200 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-blue-900" id="b1-s2-brief-title">🎯 Obiettivo di Business per il CMO:</span>
+              <p class="text-blue-800" id="b1-s2-brief-desc">Apri l'Editor SQL (`+ -> SQL query`), premi <code>Ctrl + Shift + P</code> e istruisci Gemini a calcolare i 3 totali aggregati: ordini complessivi, fatturato totale e spesa adv totale.</p>
             </div>
+            <details class="group bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <summary class="cursor-pointer font-sans text-xs text-blue-400 hover:text-blue-300 select-none flex items-center justify-between">
+                <span id="b1-s2-toggle-lbl">💡 Serve un aiuto? Mostra un esempio di prompt efficace</span>
+                <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+                <span id="p-b1-s2">Calcola il totale ordini, il fatturato totale in euro e la spesa adv totale dal dataset luxottica_marketing_analytics</span>
+                <button onclick="copyToClipboard(document.getElementById('p-b1-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+              </div>
+            </details>
           </div>
         </div>
       </div>
@@ -388,19 +406,39 @@
           </div>
 
           <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase text-slate-500" id="b2-prompt-title">Passo 2.1: Prompt Gemini per AOV & Canali E-Commerce</h4>
-            <div class="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs flex items-center justify-between gap-2">
-              <span id="p-b2-s1">Mostrami il fatturato totale, gli ordini e lo scontrino medio per brand e canale dalla tabella lux_online_orders, filtrando ordini ad alto valore con fatturato > 300 euro.</span>
-              <button onclick="copyToClipboard(document.getElementById('p-b2-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+            <h4 class="text-xs font-bold uppercase text-slate-500" id="b2-prompt-title">Passo 2.1: Trovare le Vendite ad Alto Scontrino (AOV > 300 €)</h4>
+            <div class="p-3 bg-amber-50/60 border border-amber-200 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-amber-900" id="b2-s1-brief-title">🎯 Brief per il Detective:</span>
+              <p class="text-amber-800" id="b2-s1-brief-desc">Interroga la tabella <code>lux_online_orders</code> con Gemini per analizzare ricavi e scontrino medio per brand e canale. Trova dove si concentrano gli ordini ad alto valore (superiori a 300 €)!</p>
             </div>
+            <details class="group bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <summary class="cursor-pointer font-sans text-xs text-amber-400 hover:text-amber-300 select-none flex items-center justify-between">
+                <span id="b2-s1-toggle-lbl">💡 Serve un aiuto? Mostra un esempio di prompt efficace</span>
+                <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+                <span id="p-b2-s1">Mostrami il fatturato totale, gli ordini e lo scontrino medio per brand e canale dalla tabella lux_online_orders, filtrando ordini ad alto valore con fatturato > 300 euro.</span>
+                <button onclick="copyToClipboard(document.getElementById('p-b2-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+              </div>
+            </details>
           </div>
 
           <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase text-slate-500" id="b2-prompt2-title">Passo 2.2: Prompt Verifica Erosione Sconti</h4>
-            <div class="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs flex items-center justify-between gap-2">
-              <span id="p-b2-s2">Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.</span>
-              <button onclick="copyToClipboard(document.getElementById('p-b2-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+            <h4 class="text-xs font-bold uppercase text-slate-500" id="b2-prompt2-title">Passo 2.2: Stanare l'Erosione dei Margini (Sconti per Canale)</h4>
+            <div class="p-3 bg-amber-50/60 border border-amber-200 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-amber-900" id="b2-s2-brief-title">🎯 Brief per il Detective:</span>
+              <p class="text-amber-800" id="b2-s2-brief-desc">Chiedi a Gemini di calcolare la media degli sconti in euro per brand e canale di vendita da <code>lux_online_orders</code>, e ordina i risultati in modo da vedere chi regala più margine in cima!</p>
             </div>
+            <details class="group bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <summary class="cursor-pointer font-sans text-xs text-amber-400 hover:text-amber-300 select-none flex items-center justify-between">
+                <span id="b2-s2-toggle-lbl">💡 Serve un aiuto? Mostra un esempio di prompt efficace</span>
+                <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+                <span id="p-b2-s2">Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.</span>
+                <button onclick="copyToClipboard(document.getElementById('p-b2-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+              </div>
+            </details>
           </div>
 
           <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs space-y-1">
@@ -430,10 +468,18 @@
             <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">🏆 +100 Punti</span>
           </div>
 
-          <p class="text-xs text-slate-600" id="b3-desc">Per calcolare il ROAS senza errori di duplicazione (SQL fan-out), esegui questa query con CTE e JOIN:</p>
+          <div class="p-3 bg-blue-50/60 border border-blue-200 rounded-xl text-xs space-y-1">
+            <span class="font-bold text-blue-900" id="b3-brief-title">🎯 La Sfida dell'Attribution (Evitare il SQL Fan-Out):</span>
+            <p class="text-blue-800" id="b3-desc">I dati di spesa (<code>lux_ad_spend</code>) e di vendita (<code>lux_online_orders</code>) hanno granularità diverse. Un JOIN diretto causerebbe duplicazioni moltiplicando i ricavi! Usa le CTE (Common Table Expressions) per pre-aggregare i totali per brand, poi unisci con JOIN e calcola il ROAS (Ricavi / Spesa).</p>
+          </div>
 
-          <div class="relative">
-            <pre class="p-4 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs overflow-x-auto">
+          <details class="group bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+            <summary class="cursor-pointer font-sans text-xs text-blue-400 hover:text-blue-300 select-none flex items-center justify-between">
+              <span id="b3-toggle-lbl">💡 Mostra Query SQL di Soluzione (Anti Fan-Out)</span>
+              <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
+            </summary>
+            <div class="relative mt-2 pt-2 border-t border-slate-800">
+              <pre class="font-mono text-xs overflow-x-auto text-slate-200 leading-relaxed">
 WITH revenue_by_brand AS (
   SELECT brand, SUM(revenue_eur) AS total_revenue_eur
   FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
@@ -452,10 +498,11 @@ SELECT
 FROM spend_by_platform s
 JOIN revenue_by_brand r ON s.brand = r.brand
 GROUP BY s.platform ORDER BY roas DESC;</pre>
-            <button onclick="copyToClipboard(`WITH revenue_by_brand AS (\n  SELECT brand, SUM(revenue_eur) AS total_revenue_eur\n  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`\n  GROUP BY brand\n),\nspend_by_platform AS (\n  SELECT platform, brand, SUM(spend_eur) AS total_spend_eur\n  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend\`\n  GROUP BY platform, brand\n)\nSELECT \n  s.platform,\n  ROUND(SUM(s.total_spend_eur), 2) AS total_spend_eur,\n  ROUND(SUM(r.total_revenue_eur), 2) AS total_revenue_eur,\n  ROUND(SAFE_DIVIDE(SUM(r.total_revenue_eur), SUM(s.total_spend_eur)), 2) AS roas\nFROM spend_by_platform s\nJOIN revenue_by_brand r ON s.brand = r.brand\nGROUP BY s.platform ORDER BY roas DESC;`)" class="absolute top-3 right-3 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans shadow">
-              Copia SQL 📋
-            </button>
-          </div>
+              <button onclick="copyToClipboard(`WITH revenue_by_brand AS (\n  SELECT brand, SUM(revenue_eur) AS total_revenue_eur\n  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`\n  GROUP BY brand\n),\nspend_by_platform AS (\n  SELECT platform, brand, SUM(spend_eur) AS total_spend_eur\n  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend\`\n  GROUP BY platform, brand\n)\nSELECT \n  s.platform,\n  ROUND(SUM(s.total_spend_eur), 2) AS total_spend_eur,\n  ROUND(SUM(r.total_revenue_eur), 2) AS total_revenue_eur,\n  ROUND(SAFE_DIVIDE(SUM(r.total_revenue_eur), SUM(s.total_spend_eur)), 2) AS roas\nFROM spend_by_platform s\nJOIN revenue_by_brand r ON s.brand = r.brand\nGROUP BY s.platform ORDER BY roas DESC;`)" class="absolute top-2 right-2 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans shadow">
+                Copia SQL 📋
+              </button>
+            </div>
+          </details>
 
           <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs space-y-1">
             <span class="font-bold text-emerald-800" id="b3-roas-title">🚀 Verdetto del ROAS per il CMO:</span>
@@ -480,11 +527,21 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
           </div>
 
           <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase text-slate-500" id="b4-prompt-title">Prompt Gemini per Creazione Vista Pulita</h4>
-            <div class="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs flex items-center justify-between gap-2">
-              <span id="prompt-view-text">Crea la vista luxottica_marketing_analytics.v_clean_marketing_leads_team_rayban prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.</span>
-              <button onclick="copyToClipboard(document.getElementById('prompt-view-text').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+            <h4 class="text-xs font-bold uppercase text-slate-500" id="b4-prompt-title">Brief Data Cleaning: Creazione Vista per Google Ads Customer Match</h4>
+            <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-emerald-900" id="b4-brief-title">🎯 Cosa deve fare il tuo prompt per Gemini:</span>
+              <p class="text-emerald-800" id="b4-brief-desc">Partendo dalla tabella sporca <code>lux_raw_marketing_leads_dirty</code>, crea una View SQL per il tuo team che normalizzi le email (senza spazi e tutte in minuscolo) e selezioni solo i clienti VIP con storico di spesa > 200 euro.</p>
             </div>
+            <details class="group bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <summary class="cursor-pointer font-sans text-xs text-emerald-400 hover:text-emerald-300 select-none flex items-center justify-between">
+                <span id="b4-toggle-lbl">💡 Serve un aiuto? Mostra un esempio di prompt efficace</span>
+                <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+                <span id="prompt-view-text">Crea la vista luxottica_marketing_analytics.v_clean_marketing_leads_team_rayban prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.</span>
+                <button onclick="copyToClipboard(document.getElementById('prompt-view-text').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+              </div>
+            </details>
           </div>
         </div>
       </div>
@@ -630,28 +687,43 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         coverStep2: "Apri BigQuery Studio cliccando il pulsante blu",
         coverStep3: "Il docente attiverà i blocchi di lavoro in sequenza",
         b1Title: "Blocco 1: Setup BigQuery & Esplorazione Data Canvas",
-        b1Step1Title: "Passo 1.1: Prompt Data Canvas Gemini",
-        b1Step1Desc: "Apri Data Canvas (tasto `+`) e incolla questo prompt nella barra di ricerca:",
+        b1Step1Title: "Passo 1.1: Esplorazione con BigQuery Data Canvas",
+        b1S1BriefTitle: "🎯 Obiettivo di Business per il CMO:",
+        b1S1BriefDesc: "Apri Data Canvas (tasto `+`) e chiedi a Gemini in linguaggio naturale di analizzare il dataset <code>luxottica_marketing_analytics</code>: calcolare le vendite complessive e lo scontrino medio per ciascun brand.",
+        b1S1ToggleLbl: "💡 Serve un aiuto? Mostra un esempio di prompt efficace",
         pB1S1: "Mostrami le vendite totali e lo scontrino medio per brand nel dataset luxottica_marketing_analytics",
-        b1Step2Title: "Passo 1.2: Prompt Verifica Macro Vendite",
-        b1Step2Desc: "Apri l'Editor SQL (`+ -> SQL query`), premi `Ctrl + Shift + P` ed esegui il prompt:",
+        b1Step2Title: "Passo 1.2: Verifica Macro Vendite in SQL Studio",
+        b1S2BriefTitle: "🎯 Obiettivo di Business per il CMO:",
+        b1S2BriefDesc: "Apri l'Editor SQL (`+ -> SQL query`), premi <code>Ctrl + Shift + P</code> e istruisci Gemini a calcolare i 3 totali aggregati: ordini complessivi, fatturato totale e spesa adv totale.",
+        b1S2ToggleLbl: "💡 Serve un aiuto? Mostra un esempio di prompt efficace",
         pB1S2: "Calcola il totale ordini, il fatturato totale in euro e la spesa adv totale dal dataset luxottica_marketing_analytics",
         b2Title: "Blocco 2: Challenge #1 - High Margin Discovery & Analisi Sconti",
-        b2PromptTitle: "Passo 2.1: Prompt Gemini per AOV & Canali E-Commerce",
+        b2PromptTitle: "Passo 2.1: Trovare le Vendite ad Alto Scontrino (AOV > 300 €)",
+        b2S1BriefTitle: "🎯 Brief per il Detective:",
+        b2S1BriefDesc: "Interroga la tabella <code>lux_online_orders</code> con Gemini per analizzare ricavi e scontrino medio per brand e canale. Trova dove si concentrano gli ordini ad alto valore (superiori a 300 €)!",
+        b2S1ToggleLbl: "💡 Serve un aiuto? Mostra un esempio di prompt efficace",
         pB2S1: "Mostrami il fatturato totale, gli ordini e lo scontrino medio per brand e canale dalla tabella lux_online_orders, filtrando ordini ad alto valore con fatturato > 300 euro.",
-        b2Prompt2Title: "Passo 2.2: Prompt Verifica Erosione Sconti",
+        b2Prompt2Title: "Passo 2.2: Stanare l'Erosione dei Margini (Sconti per Canale)",
+        b2S2BriefTitle: "🎯 Brief per il Detective:",
+        b2S2BriefDesc: "Chiedi a Gemini di calcolare la media degli sconti in euro per brand e canale di vendita da <code>lux_online_orders</code>, e ordina i risultati in modo da vedere chi regala più margine in cima!",
+        b2S2ToggleLbl: "💡 Serve un aiuto? Mostra un esempio di prompt efficace",
         pB2S2: "Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.",
         b2DiscoveryTitle: "💎 Plot Twist #1 per il CMO (High Margin Discovery):",
         b2DiscoveryDesc: "I <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> registrano lo scontrino medio più alto in assoluto (<strong>AOV > 300 €</strong>) su E-Commerce Direct! Al contempo, i partner wholesale erodono margini con sconti fino a <strong>28,50 €</strong> su Vogue.",
         breakTitle: "Pausa Caffè & Networking",
         breakDesc: "Fai una pausa, assimila le scoperte del Blocco 2 e preparati per la Challenge avanzata sul ROAS con CTE & JOIN!",
         b3Title: "Blocco 3: Challenge #2 - ROAS Multi-Canale con CTE & JOIN",
-        b3Desc: "Per calcolare il ROAS senza errori di duplicazione (SQL fan-out), esegui questa query con CTE e JOIN:",
+        b3BriefTitle: "🎯 La Sfida dell'Attribution (Evitare il SQL Fan-Out):",
+        b3Desc: "I dati di spesa (<code>lux_ad_spend</code>) e di vendita (<code>lux_online_orders</code>) hanno granularità diverse. Un JOIN diretto causerebbe duplicazioni moltiplicando i ricavi! Usa le CTE (Common Table Expressions) per pre-aggregare i totali per brand, poi unisci con JOIN e calcola il ROAS (Ricavi / Spesa).",
+        b3ToggleLbl: "💡 Mostra Query SQL di Soluzione (Anti Fan-Out)",
         b3RoasTitle: "🚀 Verdetto del ROAS per il CMO:",
         b3RoasDesc: "<strong>Google Ads = 7,08x ROAS 🚀</strong> | Meta Ads = 3,80x | TikTok Ads = <strong>0,52x ROAS 💸 (Voragine di budget!)</strong>",
         b4Title: "Blocco 4: Challenge #3 - Creazione Vista Pulita Lead VIP",
         b4TeamRule: "<strong>Regola Suffisso Team:</strong> Aggiungi sempre il suffisso del tuo team (es. <code id=\"suffix-example\">v_clean_marketing_leads_team_rayban</code>)!",
-        b4PromptTitle: "Prompt Gemini per Creazione Vista Pulita",
+        b4PromptTitle: "Brief Data Cleaning: Creazione Vista per Google Ads Customer Match",
+        b4BriefTitle: "🎯 Cosa deve fare il tuo prompt per Gemini:",
+        b4BriefDesc: "Partendo dalla tabella sporca <code>lux_raw_marketing_leads_dirty</code>, crea una View SQL per il tuo team che normalizzi le email (senza spazi e tutte in minuscolo) e selezioni solo i clienti VIP con storico di spesa > 200 euro.",
+        b4ToggleLbl: "💡 Serve un aiuto? Mostra un esempio di prompt efficace",
         b5Title: "Blocco 5: Piano Strategico Q4 per il CMO & Premiazione",
         b5Badge: "🎉 Gran Finale",
         b5P1Title: "1. Riallocare Budget Adv",
@@ -739,28 +811,43 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         coverStep2: "Open BigQuery Studio by clicking the blue button",
         coverStep3: "The trainer will activate working blocks in sequence",
         b1Title: "Block 1: BigQuery Setup & Data Canvas Exploration",
-        b1Step1Title: "Step 1.1: Gemini Data Canvas Prompt",
-        b1Step1Desc: "Open Data Canvas (`+` button) and copy this prompt into search bar:",
+        b1Step1Title: "Step 1.1: Visual Exploration with BigQuery Data Canvas",
+        b1S1BriefTitle: "🎯 Business Objective for CMO:",
+        b1S1BriefDesc: "Open Data Canvas (`+` button) and ask Gemini in natural language to analyze the <code>luxottica_marketing_analytics</code> dataset: calculate total sales and average order value across brands.",
+        b1S1ToggleLbl: "💡 Need a hint? Show an effective prompt example",
         pB1S1: "Show me total sales and average order value by brand in the luxottica_marketing_analytics dataset",
-        b1Step2Title: "Step 1.2: Macro Sales Verification Prompt",
-        b1Step2Desc: "Open SQL Editor (`+ -> SQL query`), press `Ctrl + Shift + P` and prompt:",
+        b1Step2Title: "Step 1.2: Macro Sales Verification in SQL Studio",
+        b1S2BriefTitle: "🎯 Business Objective for CMO:",
+        b1S2BriefDesc: "Open SQL Editor (`+ -> SQL query`), press <code>Ctrl + Shift + P</code> and prompt Gemini to calculate the 3 macro totals: total orders, total revenue, and total ad spend.",
+        b1S2ToggleLbl: "💡 Need a hint? Show an effective prompt example",
         pB1S2: "Calculate total orders, total revenue in euros, and total ad spend from the luxottica_marketing_analytics dataset",
         b2Title: "Block 2: Challenge #1 - High Margin Discovery & Discounts",
-        b2PromptTitle: "Step 2.1: Gemini Prompt for AOV & E-Commerce Channels",
+        b2PromptTitle: "Step 2.1: Find High-Value Transactions (AOV > €300)",
+        b2S1BriefTitle: "🎯 Detective Brief:",
+        b2S1BriefDesc: "Query table <code>lux_online_orders</code> with Gemini to analyze revenue and average order value by brand and channel. Identify where high-value orders (> €300) are clustered!",
+        b2S1ToggleLbl: "💡 Need a hint? Show an effective prompt example",
         pB2S1: "Show me total revenue, order count and average order value by brand and channel from lux_online_orders, filtering high-value orders with revenue > 300 euros.",
-        b2Prompt2Title: "Step 2.2: Prompt for Discount Erosion Analysis",
+        b2Prompt2Title: "Step 2.2: Expose Margin Erosion (Discounts by Channel)",
+        b2S2BriefTitle: "🎯 Detective Brief:",
+        b2S2BriefDesc: "Ask Gemini to calculate average discount in euros by brand and sales channel from <code>lux_online_orders</code>, ordering results descending to spotlight heavy margin giveaways!",
+        b2S2ToggleLbl: "💡 Need a hint? Show an effective prompt example",
         pB2S2: "Calculate average discount in euros (discount_amount_eur) by brand and channel from lux_online_orders, ordering by average discount descending.",
         b2DiscoveryTitle: "💎 Plot Twist #1 for CMO (High Margin Discovery):",
         b2DiscoveryDesc: "<strong>Ray-Ban Meta Smart Glasses</strong> and <strong>Oliver Peoples</strong> drive the highest Average Order Value (<strong>AOV > €300</strong>) on E-Commerce Direct! Meanwhile, wholesale partners erode margins with discounts up to <strong>€28.50</strong> on Vogue.",
         breakTitle: "Coffee & Networking Break",
         breakDesc: "Take a break, digest Block 2 findings, and prepare for the advanced CTE + JOIN ROAS Challenge!",
         b3Title: "Block 3: Challenge #2 - Multi-Platform ROAS with CTE & JOIN",
-        b3Desc: "To calculate ROAS without SQL fan-out multiplication, run this CTE + JOIN query:",
+        b3BriefTitle: "🎯 The Attribution Challenge (Avoid SQL Fan-Out):",
+        b3Desc: "Ad spend data (<code>lux_ad_spend</code>) and sales data (<code>lux_online_orders</code>) have different granularities. Direct JOINs cause duplicate rows and inflated revenue! Use CTEs to pre-aggregate totals by brand, then JOIN and calculate ROAS (Revenue / Spend).",
+        b3ToggleLbl: "💡 Show Anti Fan-Out SQL Solution",
         b3RoasTitle: "🚀 ROAS Verdict for CMO:",
         b3RoasDesc: "<strong>Google Ads = 7.08x ROAS 🚀</strong> | Meta Ads = 3.80x | TikTok Ads = <strong>0.52x ROAS 💸 (Money Pit!)</strong>",
         b4Title: "Block 4: Challenge #3 - Clean VIP Leads View Creation",
         b4TeamRule: "<strong>Team Suffix Rule:</strong> Always append your team suffix (e.g. <code id=\"suffix-example\">v_clean_marketing_leads_team_rayban</code>)!",
-        b4PromptTitle: "Gemini Prompt for Clean View Creation",
+        b4PromptTitle: "Data Cleaning Brief: Create Clean View for Google Ads Customer Match",
+        b4BriefTitle: "🎯 What your prompt to Gemini must achieve:",
+        b4BriefDesc: "Starting from raw table <code>lux_raw_marketing_leads_dirty</code>, create a SQL View for your team that normalizes emails (trimmed and lowercase) and filters VIP customers with spend > €200.",
+        b4ToggleLbl: "💡 Need a hint? Show an effective prompt example",
         b5Title: "Block 5: Q4 Strategic Plan for CMO & Awarding",
         b5Badge: "🎉 Grand Finale",
         b5P1Title: "1. Reallocate Ad Budget",
@@ -1064,16 +1151,26 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
       setText('b1-title', t.b1Title);
       setText('b1-step1-title', t.b1Step1Title);
-      setText('b1-step1-desc', t.b1Step1Desc);
+      setText('b1-s1-brief-title', t.b1S1BriefTitle);
+      setHTML('b1-s1-brief-desc', t.b1S1BriefDesc);
+      setText('b1-s1-toggle-lbl', t.b1S1ToggleLbl);
       setText('p-b1-s1', t.pB1S1);
       setText('b1-step2-title', t.b1Step2Title);
-      setText('b1-step2-desc', t.b1Step2Desc);
+      setText('b1-s2-brief-title', t.b1S2BriefTitle);
+      setHTML('b1-s2-brief-desc', t.b1S2BriefDesc);
+      setText('b1-s2-toggle-lbl', t.b1S2ToggleLbl);
       setText('p-b1-s2', t.pB1S2);
 
       setText('b2-title', t.b2Title);
       setText('b2-prompt-title', t.b2PromptTitle);
+      setText('b2-s1-brief-title', t.b2S1BriefTitle);
+      setHTML('b2-s1-brief-desc', t.b2S1BriefDesc);
+      setText('b2-s1-toggle-lbl', t.b2S1ToggleLbl);
       setText('p-b2-s1', t.pB2S1);
       setText('b2-prompt2-title', t.b2Prompt2Title);
+      setText('b2-s2-brief-title', t.b2S2BriefTitle);
+      setHTML('b2-s2-brief-desc', t.b2S2BriefDesc);
+      setText('b2-s2-toggle-lbl', t.b2S2ToggleLbl);
       setText('p-b2-s2', t.pB2S2);
       setText('b2-discovery-title', t.b2DiscoveryTitle);
       setHTML('b2-discovery-desc', t.b2DiscoveryDesc);
@@ -1082,13 +1179,18 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('break-desc', t.breakDesc);
 
       setText('b3-title', t.b3Title);
-      setText('b3-desc', t.b3Desc);
+      setText('b3-brief-title', t.b3BriefTitle);
+      setHTML('b3-desc', t.b3Desc);
+      setText('b3-toggle-lbl', t.b3ToggleLbl);
       setText('b3-roas-title', t.b3RoasTitle);
       setHTML('b3-roas-desc', t.b3RoasDesc);
 
       setText('b4-title', t.b4Title);
       setHTML('b4-team-rule', t.b4TeamRule);
       setText('b4-prompt-title', t.b4PromptTitle);
+      setText('b4-brief-title', t.b4BriefTitle);
+      setHTML('b4-brief-desc', t.b4BriefDesc);
+      setText('b4-toggle-lbl', t.b4ToggleLbl);
 
       setText('b5-title', t.b5Title);
       setText('b5-badge', t.b5Badge);
