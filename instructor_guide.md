@@ -61,15 +61,15 @@ flowchart TD
 
 ---
 
-## ⏱️ 4. 180-Minute Master Schedule & Live Teleprompter Script
+## ⏱️ 4. Master Schedule & Live Teleprompter Script (Guided Blocks)
 
-### 🕒 15:30 - 16:00 | Block 1: Executive Briefing & LIVE DATA CANVAS DEMO (30 Mins)
+### 🚀 Block 1: Executive Briefing & LIVE DATA CANVAS DEMO
 
-- **15:30 - 15:40 (10m) | Emergency Briefing & Icebreaker**
+- **Part 1.1 | Emergency Briefing & Icebreaker**
   - Present the CMO Dilemma: Ad Spend +35%, Revenue +2%.
   - Icebreaker Poll: *"Where do you suspect the marketing money is being wasted?"*
 
-- **15:40 - 15:52 (12m) | 🎙️ TELEPROMPTER SCRIPT: BigQuery Data Canvas, Data Insights & Gemini**
+- **Part 1.2 | 🎙️ TELEPROMPTER SCRIPT: BigQuery Data Canvas, Data Insights & Gemini**
 
 > **[Trainer Action]:** Share screen showing BigQuery Studio console in project `qwiklabs-gcp-04-9efaa47f1d21`.
 >
@@ -91,51 +91,53 @@ flowchart TD
 > 3. **Lagging Brands (Vogue Eyewear - €1.29M):** *Low-AOV fashion lines are heavily discounted, eating into profitability.*
 > 4. **The Ray-Ban Mystery (€1.8M):** *Ray-Ban records €1.8M in online sales but is underperforming its full potential. Why is Luxottica's flagship brand not dominating online?*"
 
-- **15:52 - 16:00 (8m) | First Code-Along Query (Checking Total Revenue vs Spend)**
+- **Part 1.3 | First Code-Along Query (Checking Total Revenue vs Spend)**
 
 ---
 
-### 🕒 16:00 - 16:45 | Block 2: Chapter 1 - "High Margin Discovery" (45 Mins)
+### 🔍 Block 2: Chapter 1 - "High Margin Discovery & Discount Analysis"
 
-- **16:00 - 16:15 (15m) | 🎙️ SCRIPT: Core SQL Building Blocks (`SELECT`, `WHERE`, `GROUP BY`)**
+- **Part 2.1 | 🎙️ SCRIPT: Core SQL Building Blocks (`SELECT`, `WHERE`, `GROUP BY`)**
   - **Rosetta Stone Metaphor:** `GROUP BY` = Excel Pivot Table!
-- **16:15 - 16:40 (25m) | 🏆 Challenge #1: "The Data Explorer" (8 Clues)**
+- **Part 2.2 | 🏆 Challenge #1: "The Data Explorer" (8 Clues)**
   - Teams run `challenges/challenge_1_data_explorer.sql`.
-  - **Plot Twist #1 Discovered:** *Ray-Ban Meta Smart Glasses* and *Oliver Peoples* have massive Average Order Values (> €300), representing Luxottica's biggest growth opportunity!
-- **16:40 - 16:45 (5m) | Chapter 1 Debrief & Scoreboard Update**
+  - **Plot Twist #1 Discovered:** 
+    1. *Ray-Ban Meta Smart Glasses* and *Oliver Peoples* have massive Average Order Values (> €300) on E-Commerce Direct, representing Luxottica's biggest growth opportunity!
+    2. *Vogue Eyewear* and third-party wholesale partners suffer severe margin leakage due to excessive discounts (up to €28.50 average discount).
+- **Part 2.3 | Chapter 1 Debrief & Scoreboard Update**
 
 ---
 
-### ☕ 16:45 - 17:00 | Coffee Break (15 Mins)
+### ☕ Break: Coffee & Networking
 
 ---
 
-### 🕒 17:00 - 17:45 | Block 3: Chapter 2 - "The Google ROAS Revelation" (45 Mins)
+### 📊 Block 3: Chapter 2 - "The Google ROAS Revelation"
 
-- **17:00 - 17:20 (20m) | 🎙️ SCRIPT: Advanced SQL (UNIONS, JOINS & CTEs)**
+- **Part 3.1 | 🎙️ SCRIPT: Advanced SQL (UNIONS, JOINS & CTEs)**
   - Explain `JOIN` as an instant VLOOKUP across millions of rows.
-- **17:20 - 17:40 (20m) | 🏆 Challenge #2: "Cross-Channel Intelligence" (4 Clues)**
+- **Part 3.2 | 🏆 Challenge #2: "Cross-Channel Intelligence" (4 Clues)**
   - Teams run `challenges/challenge_2_cross_channel.sql`.
   - **Plot Twist #2 Discovered:** Third-party social networks (TikTok / Criteo) have a wasteful **0.7x ROAS**, while **Google Search & Google Shopping** generate a massive **6.8x - 8.2x ROAS**!
-- **17:40 - 17:45 (5m) | Chapter 2 Debrief & Scoreboard Update**
+- **Part 3.3 | Chapter 2 Debrief & Scoreboard Update**
 
 ---
 
-### 🕒 17:45 - 18:15 | Block 4: Chapter 3 - "Google Ads Customer Match" (30 Mins)
+### 🎯 Block 4: Chapter 3 - "Google Ads Customer Match"
 
-- **17:45 - 17:55 (10m) | DEMO: BigQuery Studio Visual Data Prep**
+- **Part 4.1 | DEMO: BigQuery Studio Visual Data Prep**
   - Show Gemini suggestion cards and few-shot cell editing for data wrangling.
-- **17:55 - 18:10 (15m) | 🏆 Challenge #3: "The Clean Slate" (Automated View & Looker Studio)**
+- **Part 4.2 | 🏆 Challenge #3: "The Clean Slate" (Automated View & Looker Studio)**
   - Teams run `challenges/challenge_3_clean_slate.sql` and build `v_clean_marketing_leads`.
   - **Plot Twist #3 Discovered:** Cleaning dirty leads recovers **350+ valid VIP leads** for **Google Ads Customer Match**!
   - **1-Click Looker Studio Demo:** Connect the View to Looker Studio to display the **CMO Executive Rescue Dashboard**!
-- **18:10 - 18:15 (5m) | Chapter 3 Debrief**
+- **Part 4.3 | Chapter 3 Debrief**
 
 ---
 
-### 🕒 18:15 - 18:30 | Block 5: The Q4 Google Growth Plan & Award Ceremony (15 Mins)
+### 🏆 Block 5: The Q4 Google Growth Plan & Award Ceremony
 
-- **18:15 - 18:25 (10m) | 🎙️ SCRIPT: Executive Summary & Security Spotlight**
+- **Part 5.1 | 🎙️ SCRIPT: Executive Summary & Security Spotlight**
   - Summarize the Q4 Growth Plan: Reallocate 60% of budget from third-party social networks to **Google Search, Google Shopping, YouTube Ads, and Performance Max**.
   - Security Spotlight: Row/Column-level security and PII masking.
-- **18:25 - 18:30 (5m) | Awarding the Winning Brand Detective Team!**
+- **Part 5.2 | Awarding the Winning Brand Detective Team!**

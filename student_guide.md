@@ -49,21 +49,23 @@
 
 ## 🏆 4. The 3 Investigation Chapters (Challenges)
 
-### Chapter 1: "High Margin Discovery" (16:15 - 16:40)
+### Chapter 1: "High Margin Discovery & Discount Analysis"
 **File:** `challenges/challenge_1_data_explorer.sql`
-- **Goal:** Uncover sales performance, brand revenue ranking, and high-margin product categories.
-- **Key Clue:** Compare Ray-Ban Meta Smart Glasses & Oliver Peoples AOV (> €300) vs Vogue Eyewear sales.
+- **Goal:** Uncover sales performance, brand revenue ranking, high-AOV product categories, and discount leakage.
+- **Key Clue:** 
+  1. *Ray-Ban Meta Smart Glasses* & *Oliver Peoples* drive the highest Average Order Value (> €300/order) on E-Commerce Direct.
+  2. *Vogue Eyewear* and third-party wholesale partners suffer severe margin leakage due to excessive discounts (up to €28.50 average discount).
 
 ---
 
-### Chapter 2: "The Google ROAS Revelation" (17:20 - 17:40)
+### Chapter 2: "The Google ROAS Revelation"
 **File:** `challenges/challenge_2_cross_channel.sql`
 - **Goal:** Calculate Customer LTV and Multi-Platform Brand ROAS.
 - **Key Clue:** Discover why third-party social networks (TikTok / Criteo) have a wasteful 0.7x ROAS while **Google Search & Shopping** generate a massive **6.8x - 8.2x ROAS**!
 
 ---
 
-### Chapter 3: "Google Ads Customer Match" (17:55 - 18:10)
+### Chapter 3: "Google Ads Customer Match"
 **File:** `challenges/challenge_3_clean_slate.sql`
 - **Goal:** Clean `lux_raw_marketing_leads_dirty` into `v_clean_marketing_leads`.
 - **Key Clue:** Unlock 350+ valid VIP leads for **Google Ads Customer Match**, and build the Looker Studio Executive Dashboard!
