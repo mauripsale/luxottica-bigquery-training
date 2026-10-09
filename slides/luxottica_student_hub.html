@@ -382,22 +382,30 @@
           <div class="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
               <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Challenge #1</span>
-              <h2 class="text-lg font-bold text-slate-800" id="b2-title">Blocco 2: Challenge #1 - Analisi Sconti & Fuga Margini</h2>
+              <h2 class="text-lg font-bold text-slate-800" id="b2-title">Blocco 2: Challenge #1 - High Margin Discovery & Analisi Sconti</h2>
             </div>
             <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">🏆 +100 Punti</span>
           </div>
 
           <div class="space-y-3">
-            <h4 class="text-xs font-bold uppercase text-slate-500" id="b2-prompt-title">Prompt Gemini per Challenge #1</h4>
+            <h4 class="text-xs font-bold uppercase text-slate-500" id="b2-prompt-title">Passo 2.1: Prompt Gemini per AOV & Canali E-Commerce</h4>
             <div class="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs flex items-center justify-between gap-2">
-              <span id="p-b2-s1">Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.</span>
+              <span id="p-b2-s1">Mostrami il fatturato totale, gli ordini e lo scontrino medio per brand e canale dalla tabella lux_online_orders, filtrando ordini ad alto valore con fatturato > 300 euro.</span>
               <button onclick="copyToClipboard(document.getElementById('p-b2-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
             </div>
           </div>
 
-          <div class="p-4 bg-red-50 border border-red-200 rounded-xl text-xs space-y-1">
-            <span class="font-bold text-red-700" id="b2-discovery-title">🚨 Scoperta Shock per il CMO:</span>
-            <p class="text-red-900" id="b2-discovery-desc">Vogue Eyewear su Wholesale Partner subisce <strong>28,50 € di sconto medio</strong>! Ray-Ban E-Commerce Direct subisce <strong>25,00 € di sconto medio</strong>!</p>
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold uppercase text-slate-500" id="b2-prompt2-title">Passo 2.2: Prompt Verifica Erosione Sconti</h4>
+            <div class="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs flex items-center justify-between gap-2">
+              <span id="p-b2-s2">Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.</span>
+              <button onclick="copyToClipboard(document.getElementById('p-b2-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+            </div>
+          </div>
+
+          <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs space-y-1">
+            <span class="font-bold text-emerald-800" id="b2-discovery-title">💎 Plot Twist #1 per il CMO (High Margin Discovery):</span>
+            <p class="text-emerald-900" id="b2-discovery-desc">I <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> registrano lo scontrino medio più alto in assoluto (<strong>AOV > 300 €</strong>) su E-Commerce Direct! Al contempo, i partner wholesale erodono margini con sconti fino a <strong>28,50 €</strong> su Vogue.</p>
           </div>
         </div>
       </div>
@@ -628,11 +636,13 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         b1Step2Title: "Passo 1.2: Prompt Verifica Macro Vendite",
         b1Step2Desc: "Apri l'Editor SQL (`+ -> SQL query`), premi `Ctrl + Shift + P` ed esegui il prompt:",
         pB1S2: "Calcola il totale ordini, il fatturato totale in euro e la spesa adv totale dal dataset luxottica_marketing_analytics",
-        b2Title: "Blocco 2: Challenge #1 - Analisi Sconti & Fuga Margini",
-        b2PromptTitle: "Prompt Gemini per Challenge #1",
-        pB2S1: "Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.",
-        b2DiscoveryTitle: "🚨 Scoperta Shock per il CMO:",
-        b2DiscoveryDesc: "Vogue Eyewear su Wholesale Partner subisce <strong>28,50 € di sconto medio</strong>! Ray-Ban E-Commerce Direct subisce <strong>25,00 € di sconto medio</strong>!",
+        b2Title: "Blocco 2: Challenge #1 - High Margin Discovery & Analisi Sconti",
+        b2PromptTitle: "Passo 2.1: Prompt Gemini per AOV & Canali E-Commerce",
+        pB2S1: "Mostrami il fatturato totale, gli ordini e lo scontrino medio per brand e canale dalla tabella lux_online_orders, filtrando ordini ad alto valore con fatturato > 300 euro.",
+        b2Prompt2Title: "Passo 2.2: Prompt Verifica Erosione Sconti",
+        pB2S2: "Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.",
+        b2DiscoveryTitle: "💎 Plot Twist #1 per il CMO (High Margin Discovery):",
+        b2DiscoveryDesc: "I <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> registrano lo scontrino medio più alto in assoluto (<strong>AOV > 300 €</strong>) su E-Commerce Direct! Al contempo, i partner wholesale erodono margini con sconti fino a <strong>28,50 €</strong> su Vogue.",
         breakTitle: "Pausa Caffè & Networking",
         breakDesc: "Fai una pausa, assimila le scoperte del Blocco 2 e preparati per la Challenge avanzata sul ROAS con CTE & JOIN!",
         b3Title: "Blocco 3: Challenge #2 - ROAS Multi-Canale con CTE & JOIN",
@@ -689,7 +699,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         btnOpenBQ: "🚀 Open BigQuery Studio",
         tabCover: "🏠 Welcome / Intro",
         tabB1: "Block 1: Data Canvas",
-        tabB2: "Block 2: Discounts",
+        tabB2: "Block 2: High Margin & Discounts",
         tabBreak: "☕ Coffee Break",
         tabB3: "Block 3: ROAS & JOIN",
         tabB4: "Block 4: VIP Leads",
@@ -714,8 +724,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         agendaB5Tag: "Podium",
         coverB1Title: "BigQuery Data Canvas & Gemini",
         coverB1Desc: "No-code visual exploration and natural language prompts with Gemini in BigQuery.",
-        coverB2Title: "Challenge #1: Discounts & Margins",
-        coverB2Desc: "SQL aggregations (GROUP BY, HAVING) to expose discount erosion on Ray-Ban and Vogue.",
+        coverB2Title: "Challenge #1: High Margin Discovery & Discounts",
+        coverB2Desc: "Discover high AOV on Ray-Ban Meta (> €300) and expose discount erosion on wholesale partners.",
         coverBreakTitle: "☕ Coffee Break & Networking",
         coverBreakDesc: "Refreshing break before advanced ROAS analysis and ad spend calculations.",
         coverB3Title: "Challenge #2: Multi-Platform ROAS",
@@ -735,11 +745,13 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         b1Step2Title: "Step 1.2: Macro Sales Verification Prompt",
         b1Step2Desc: "Open SQL Editor (`+ -> SQL query`), press `Ctrl + Shift + P` and prompt:",
         pB1S2: "Calculate total orders, total revenue in euros, and total ad spend from the luxottica_marketing_analytics dataset",
-        b2Title: "Block 2: Challenge #1 - Discount Erosion Explorer",
-        b2PromptTitle: "Gemini Prompt for Challenge #1",
-        pB2S1: "Calculate average discount in euros (discount_amount_eur) by brand and channel from lux_online_orders, ordering by average discount descending.",
-        b2DiscoveryTitle: "🚨 Shock Discovery for CMO:",
-        b2DiscoveryDesc: "Vogue Eyewear on Wholesale Partner suffers <strong>€28.50 average discount</strong>! Ray-Ban E-Commerce Direct suffers <strong>€25.00 average discount</strong>!",
+        b2Title: "Block 2: Challenge #1 - High Margin Discovery & Discounts",
+        b2PromptTitle: "Step 2.1: Gemini Prompt for AOV & E-Commerce Channels",
+        pB2S1: "Show me total revenue, order count and average order value by brand and channel from lux_online_orders, filtering high-value orders with revenue > 300 euros.",
+        b2Prompt2Title: "Step 2.2: Prompt for Discount Erosion Analysis",
+        pB2S2: "Calculate average discount in euros (discount_amount_eur) by brand and channel from lux_online_orders, ordering by average discount descending.",
+        b2DiscoveryTitle: "💎 Plot Twist #1 for CMO (High Margin Discovery):",
+        b2DiscoveryDesc: "<strong>Ray-Ban Meta Smart Glasses</strong> and <strong>Oliver Peoples</strong> drive the highest Average Order Value (<strong>AOV > €300</strong>) on E-Commerce Direct! Meanwhile, wholesale partners erode margins with discounts up to <strong>€28.50</strong> on Vogue.",
         breakTitle: "Coffee & Networking Break",
         breakDesc: "Take a break, digest Block 2 findings, and prepare for the advanced CTE + JOIN ROAS Challenge!",
         b3Title: "Block 3: Challenge #2 - Multi-Platform ROAS with CTE & JOIN",
@@ -1061,6 +1073,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('b2-title', t.b2Title);
       setText('b2-prompt-title', t.b2PromptTitle);
       setText('p-b2-s1', t.pB2S1);
+      setText('b2-prompt2-title', t.b2Prompt2Title);
+      setText('p-b2-s2', t.pB2S2);
       setText('b2-discovery-title', t.b2DiscoveryTitle);
       setHTML('b2-discovery-desc', t.b2DiscoveryDesc);
 
