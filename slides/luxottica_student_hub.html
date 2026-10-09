@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxottica BigQuery Masterclass - Google Cloud Student Hub</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap');
+    body { font-family: 'Google Sans', 'Roboto', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+  <!-- TOP GOOGLE CLOUD NAVBAR -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm px-6 py-3 flex flex-wrap items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-2">
+        <span class="text-2xl font-bold tracking-tight text-slate-800">Luxottica</span>
+        <span class="text-slate-300 font-light text-xl">|</span>
+        <span class="text-lg font-medium text-slate-600">Google Cloud Training</span>
+      </div>
+      <span class="bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-full border border-blue-200">
+        Live Masterclass
+      </span>
+    </div>
+
+    <!-- COURSE TIMER & ACTIVE TEAM -->
+    <div class="flex items-center space-x-6 my-2 sm:my-0">
+      <div class="flex items-center space-x-2 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+        <span class="text-xs text-slate-500 font-medium">Session Clock:</span>
+        <span id="session-clock" class="text-sm font-bold text-slate-800 font-mono">15:30:00</span>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <label for="team-select" class="text-xs text-slate-500 font-medium">Select Team:</label>
+        <select id="team-select" onchange="switchTeam(this.value)" class="bg-white border border-slate-300 text-slate-800 text-xs rounded-lg px-3 py-1.5 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="rayban">🕶️ Team Ray-Ban</option>
+          <option value="oakley">🕶️ Team Oakley</option>
+          <option value="persol">🕶️ Team Persol</option>
+          <option value="oliver">🕶️ Team Oliver Peoples</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <div class="max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1">
+
+    <!-- LEFT SIDEBAR: NAVIGATION & QUICK STATS -->
+    <aside class="lg:col-span-1 space-y-6">
+      
+      <!-- QUICK CONNECT CARD -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Environment Specs</h3>
+        <div class="p-3 bg-slate-50 rounded-lg text-xs space-y-2 border border-slate-200">
+          <div class="flex justify-between">
+            <span class="text-slate-500">GCP Project:</span>
+            <span class="font-mono font-bold text-blue-600">bigquery-luxottica</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500">Project ID:</span>
+            <span class="font-mono text-slate-700">qwiklabs-gcp-04...</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500">Dataset:</span>
+            <span class="font-mono font-semibold text-emerald-600">luxottica_marketing...</span>
+          </div>
+        </div>
+        <button onclick="copyToClipboard('qwiklabs-gcp-04-9efaa47f1d21')" class="w-full bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium py-2 rounded-lg transition flex items-center justify-center space-x-2">
+          <span>📋 Copy Project ID</span>
+        </button>
+      </div>
+
+      <!-- KEYBOARD SHORTCUTS CARD -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Essential Shortcuts</h3>
+        <div class="space-y-2 text-xs">
+          <div class="flex justify-between items-center p-2 bg-blue-50/50 rounded border border-blue-100">
+            <span class="font-semibold text-slate-700">Gemini Generator</span>
+            <kbd class="px-2 py-1 bg-white font-mono text-slate-800 rounded border border-slate-300 text-xs shadow-xs">Ctrl + Shift + P</kbd>
+          </div>
+          <div class="flex justify-between items-center p-2 bg-emerald-50/50 rounded border border-emerald-100">
+            <span class="font-semibold text-slate-700">Run SQL Query</span>
+            <kbd class="px-2 py-1 bg-white font-mono text-slate-800 rounded border border-slate-300 text-xs shadow-xs">Ctrl + Enter</kbd>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE TEAM LEADERBOARD -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Team Leaderboard</h3>
+          <span class="text-xs text-amber-500 font-bold">🏆 3 Challenges</span>
+        </div>
+        <div class="space-y-3 text-xs">
+          <div class="flex items-center justify-between p-2 rounded bg-amber-50 border border-amber-200">
+            <span class="font-bold text-slate-800">🕶️ Team Ray-Ban</span>
+            <span class="font-bold text-amber-700 font-mono text-sm" id="score-rayban">350 pts</span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-slate-50 border border-slate-200">
+            <span class="font-medium text-slate-700">🕶️ Team Oakley</span>
+            <span class="font-bold text-slate-600 font-mono text-sm" id="score-oakley">200 pts</span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-slate-50 border border-slate-200">
+            <span class="font-medium text-slate-700">🕶️ Team Persol</span>
+            <span class="font-bold text-slate-600 font-mono text-sm" id="score-persol">150 pts</span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded bg-slate-50 border border-slate-200">
+            <span class="font-medium text-slate-700">🕶️ Team Oliver Peoples</span>
+            <span class="font-bold text-slate-600 font-mono text-sm" id="score-oliver">150 pts</span>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- RIGHT MAIN CONTENT: INTERACTIVE MODULES & CODE LAUNCHER -->
+    <main class="lg:col-span-3 space-y-6">
+
+      <!-- WELCOME HERO BANNER -->
+      <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-6 text-white shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold">Interactive Student Portal</h1>
+          <p class="text-blue-100 text-sm mt-1">Master Marketing Data with BigQuery Studio, Gemini AI & Google Ads</p>
+        </div>
+        <a href="https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21" target="_blank" class="bg-white text-blue-700 font-bold px-4 py-2.5 rounded-xl hover:bg-blue-50 transition text-xs shadow flex items-center space-x-2">
+          <span>🚀 Open BigQuery Studio</span>
+        </a>
+      </div>
+
+      <!-- BLOCK TABS NAVIGATION -->
+      <div class="bg-white p-2 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-2">
+        <button onclick="showBlock(1)" id="tab-b1" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold bg-blue-600 text-white shadow-xs">
+          Block 1 (15:30): Data Canvas
+        </button>
+        <button onclick="showBlock(2)" id="tab-b2" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          Block 2 (16:00): Discounts
+        </button>
+        <button onclick="showBlock('break')" id="tab-break" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 hover:bg-amber-100">
+          ☕ Coffee Break (16:45)
+        </button>
+        <button onclick="showBlock(3)" id="tab-b3" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          Block 3 (17:00): ROAS & JOIN
+        </button>
+        <button onclick="showBlock(4)" id="tab-b4" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          Block 4 (17:45): VIP Leads
+        </button>
+        <button onclick="showBlock(5)" id="tab-b5" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          Block 5 (18:15): CMO Plan
+        </button>
+      </div>
+
+      <!-- BLOCK 1 CONTENT -->
+      <div id="block-1" class="block-section space-y-6">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">15:30 - 16:00</span>
+              <h2 class="text-lg font-bold text-slate-800">Block 1: BigQuery Setup & Data Canvas Exploration</h2>
+            </div>
+            <span class="bg-slate-100 text-slate-600 text-xs px-3 py-1 rounded-full font-medium">30 Mins</span>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold uppercase text-slate-500">Step 1.1: Gemini Data Canvas Prompt</h4>
+            <p class="text-xs text-slate-600">Open Data Canvas (`+` button) and copy this prompt into Gemini search:</p>
+            <div class="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs flex items-center justify-between">
+              <span>Mostrami le vendite totali e lo scontrino medio per brand nel dataset luxottica_marketing_analytics</span>
+              <button onclick="copyToClipboard('Mostrami le vendite totali e lo scontrino medio per brand nel dataset luxottica_marketing_analytics')" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans">Copy 📋</button>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold uppercase text-slate-500">Step 1.2: Macro Sales Verification Prompt</h4>
+            <p class="text-xs text-slate-600">Open SQL Editor (`+ -> SQL query`), press `Ctrl + Shift + P` and prompt:</p>
+            <div class="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs flex items-center justify-between">
+              <span>Calcola il totale ordini, il fatturato totale in euro e la spesa adv totale dal dataset luxottica_marketing_analytics</span>
+              <button onclick="copyToClipboard('Calcola il totale ordini, il fatturato totale in euro e la spesa adv totale dal dataset luxottica_marketing_analytics')" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans">Copy 📋</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOCK 2 CONTENT -->
+      <div id="block-2" class="block-section space-y-6 hidden">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">16:00 - 16:45</span>
+              <h2 class="text-lg font-bold text-slate-800">Block 2: Challenge #1 - Discount Erosion Explorer</h2>
+            </div>
+            <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">🏆 +100 Points</span>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold uppercase text-slate-500">Gemini Prompt for Challenge #1</h4>
+            <div class="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs flex items-center justify-between">
+              <span>Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.</span>
+              <button onclick="copyToClipboard('Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.')" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans">Copy 📋</button>
+            </div>
+          </div>
+
+          <div class="p-4 bg-red-50 border border-red-200 rounded-xl text-xs space-y-1">
+            <span class="font-bold text-red-700">🚨 Key Discovery for CMO:</span>
+            <p class="text-red-900">Vogue Eyewear on Wholesale Partner suffers <strong>€28.50 average discount</strong>! Ray-Ban E-Commerce Direct suffers <strong>€25.00 average discount</strong>!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- COFFEE BREAK CONTENT -->
+      <div id="block-break" class="block-section space-y-6 hidden">
+        <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 shadow-sm text-center space-y-4">
+          <span class="text-4xl">☕</span>
+          <h2 class="text-xl font-bold text-amber-900">15-Minute Coffee & Networking Break</h2>
+          <p class="text-xs text-amber-700 max-w-md mx-auto">Take a break, digest Block 2 findings, and ensure your BigQuery Studio tab is ready for the CTE + JOIN ROAS Challenge!</p>
+        </div>
+      </div>
+
+      <!-- BLOCK 3 CONTENT -->
+      <div id="block-3" class="block-section space-y-6 hidden">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">17:00 - 17:45</span>
+              <h2 class="text-lg font-bold text-slate-800">Block 3: Challenge #2 - Multi-Platform ROAS with CTE & JOIN</h2>
+            </div>
+            <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">🏆 +100 Points</span>
+          </div>
+
+          <p class="text-xs text-slate-600">To calculate ROAS safely without SQL fan-out multiplication, run this CTE + JOIN query:</p>
+
+          <div class="relative">
+            <pre class="p-4 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs overflow-x-auto">
+WITH revenue_by_brand AS (
+  SELECT brand, SUM(revenue_eur) AS total_revenue_eur
+  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+  GROUP BY brand
+),
+spend_by_platform AS (
+  SELECT platform, brand, SUM(spend_eur) AS total_spend_eur
+  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
+  GROUP BY platform, brand
+)
+SELECT 
+  s.platform,
+  ROUND(SUM(s.total_spend_eur), 2) AS total_spend_eur,
+  ROUND(SUM(r.total_revenue_eur), 2) AS total_revenue_eur,
+  ROUND(SAFE_DIVIDE(SUM(r.total_revenue_eur), SUM(s.total_spend_eur)), 2) AS roas
+FROM spend_by_platform s
+JOIN revenue_by_brand r ON s.brand = r.brand
+GROUP BY s.platform ORDER BY roas DESC;</pre>
+            <button onclick="copyToClipboard(`WITH revenue_by_brand AS (\n  SELECT brand, SUM(revenue_eur) AS total_revenue_eur\n  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`\n  GROUP BY brand\n),\nspend_by_platform AS (\n  SELECT platform, brand, SUM(spend_eur) AS total_spend_eur\n  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend\`\n  GROUP BY platform, brand\n)\nSELECT \n  s.platform,\n  ROUND(SUM(s.total_spend_eur), 2) AS total_spend_eur,\n  ROUND(SUM(r.total_revenue_eur), 2) AS total_revenue_eur,\n  ROUND(SAFE_DIVIDE(SUM(r.total_revenue_eur), SUM(s.total_spend_eur)), 2) AS roas\nFROM spend_by_platform s\nJOIN revenue_by_brand r ON s.brand = r.brand\nGROUP BY s.platform ORDER BY roas DESC;`)" class="absolute top-3 right-3 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans shadow">
+              Copy SQL 📋
+            </button>
+          </div>
+
+          <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs space-y-1">
+            <span class="font-bold text-emerald-800">🚀 Massive ROAS Discovery:</span>
+            <p class="text-emerald-900"><strong>Google Ads = 7.08x ROAS 🚀</strong> | Meta Ads = 3.80x | TikTok Ads = <strong>0.52x ROAS 💸 (Money Pit!)</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOCK 4 CONTENT -->
+      <div id="block-4" class="block-section space-y-6 hidden">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">17:45 - 18:15</span>
+              <h2 class="text-lg font-bold text-slate-800">Block 4: Challenge #3 - Clean Leads View Creation</h2>
+            </div>
+            <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">🏆 +100 Points</span>
+          </div>
+
+          <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900 font-medium">
+            ⚠️ <strong>Team Suffix Rule:</strong> Always append your team suffix (e.g. <code id="suffix-example">v_clean_marketing_leads_team_rayban</code>)!
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold uppercase text-slate-500">Gemini Prompt for Clean View Creation</h4>
+            <div class="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs flex items-center justify-between">
+              <span id="prompt-view-text">Crea la vista luxottica_marketing_analytics.v_clean_marketing_leads_team_rayban prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.</span>
+              <button onclick="copyToClipboard(document.getElementById('prompt-view-text').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans">Copy 📋</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOCK 5 CONTENT -->
+      <div id="block-5" class="block-section space-y-6 hidden">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">18:15 - 18:30</span>
+              <h2 class="text-lg font-bold text-slate-800">Block 5: Q4 Growth Plan for CMO & Award Ceremony</h2>
+            </div>
+            <span class="bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold">🎉 Grand Finale</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+              <span class="text-2xl">💰</span>
+              <h4 class="font-bold text-slate-800">1. Reallocate Ad Budget</h4>
+              <p class="text-slate-600">Shift 60% of budget from TikTok Ads (0.52x ROAS) to Google Search, Shopping & YouTube Ads (7.08x ROAS).</p>
+            </div>
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+              <span class="text-2xl">🛡️</span>
+              <h4 class="font-bold text-slate-800">2. Protect Direct Margins</h4>
+              <p class="text-slate-600">Remove €25 direct discounts on Ray-Ban.com and regulate €28.50 wholesale discounts on Vogue.</p>
+            </div>
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+              <span class="text-2xl">🎯</span>
+              <h4 class="font-bold text-slate-800">3. Activate VIP Leads</h4>
+              <p class="text-slate-600">Upload 350+ cleaned VIP leads into Google Ads Customer Match for Ray-Ban Meta Smart Glasses.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROSETTA STONE SEARCHABLE CARD -->
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Excel vs BigQuery SQL Rosetta Stone Search</h3>
+          <input type="text" id="rosetta-search" onkeyup="filterRosetta()" placeholder="Search Excel terms (e.g. Pivot, VLOOKUP, Sum)..." class="bg-slate-50 border border-slate-300 text-xs rounded-lg px-3 py-1.5 w-64 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-700">
+            <thead class="bg-slate-50 text-slate-500 uppercase font-semibold text-[11px] border-b border-slate-200">
+              <tr>
+                <th class="p-2.5">Excel Feature</th>
+                <th class="p-2.5">BigQuery SQL Equivalent</th>
+                <th class="p-2.5">Example SQL Code</th>
+              </tr>
+            </thead>
+            <tbody id="rosetta-table-body" class="divide-y divide-slate-100 font-mono">
+              <tr class="rosetta-row">
+                <td class="p-2.5 font-sans font-medium text-slate-800">Pivot Table Rows</td>
+                <td class="p-2.5 font-bold text-blue-600">GROUP BY column</td>
+                <td class="p-2.5 text-slate-600">GROUP BY brand</td>
+              </tr>
+              <tr class="rosetta-row">
+                <td class="p-2.5 font-sans font-medium text-slate-800">VLOOKUP / CERCA.VERT</td>
+                <td class="p-2.5 font-bold text-blue-600">JOIN table ON key</td>
+                <td class="p-2.5 text-slate-600">JOIN lux_online_orders ON ...</td>
+              </tr>
+              <tr class="rosetta-row">
+                <td class="p-2.5 font-sans font-medium text-slate-800">Filter Column</td>
+                <td class="p-2.5 font-bold text-blue-600">WHERE condition</td>
+                <td class="p-2.5 text-slate-600">WHERE brand = 'Ray-Ban'</td>
+              </tr>
+              <tr class="rosetta-row">
+                <td class="p-2.5 font-sans font-medium text-slate-800">Sum Values</td>
+                <td class="p-2.5 font-bold text-blue-600">SUM(column)</td>
+                <td class="p-2.5 text-slate-600">SUM(revenue_eur)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-xl transition opacity-0 pointer-events-none transform translate-y-2 flex items-center space-x-2">
+    <span>✅ Copied to Clipboard!</span>
+  </div>
+
+  <script>
+    // COPY TO CLIPBOARD FUNCTION
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text);
+      const toast = document.getElementById('toast');
+      toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+      }, 2500);
+    }
+
+    // SWITCH BLOCK TABS
+    function showBlock(blockId) {
+      document.querySelectorAll('.block-section').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(el => {
+        el.classList.remove('bg-blue-600', 'text-white');
+        el.classList.add('text-slate-600', 'hover:bg-slate-100');
+      });
+
+      const activeTab = document.getElementById(`tab-b${blockId}`) || document.getElementById(`tab-${blockId}`);
+      if (activeTab) {
+        activeTab.classList.remove('text-slate-600', 'hover:bg-slate-100');
+        activeTab.classList.add('bg-blue-600', 'text-white');
+      }
+
+      const activeSection = document.getElementById(`block-${blockId}`);
+      if (activeSection) activeSection.classList.remove('hidden');
+    }
+
+    // TEAM SELECTOR SWITCH
+    function switchTeam(teamKey) {
+      const suffixMap = {
+        'rayban': 'v_clean_marketing_leads_team_rayban',
+        'oakley': 'v_clean_marketing_leads_team_oakley',
+        'persol': 'v_clean_marketing_leads_team_persol',
+        'oliver': 'v_clean_marketing_leads_team_oliver'
+      };
+      const suffix = suffixMap[teamKey] || 'v_clean_marketing_leads_team_rayban';
+      document.getElementById('suffix-example').innerText = suffix;
+      document.getElementById('prompt-view-text').innerText = `Crea la vista luxottica_marketing_analytics.${suffix} prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.`;
+    }
+
+    // ROSETTA SEARCH
+    function filterRosetta() {
+      const query = document.getElementById('rosetta-search').value.toLowerCase();
+      document.querySelectorAll('.rosetta-row').forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      });
+    }
+
+    // LIVE CLOCK SIMULATION
+    setInterval(() => {
+      const now = new Date();
+      document.getElementById('session-clock').innerText = now.toTimeString().split(' ')[0];
+    }, 1000);
+  </script>
+</body>
+</html>
