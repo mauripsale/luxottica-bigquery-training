@@ -20,14 +20,27 @@
         <span class="text-slate-300 font-light text-xl">|</span>
         <span class="text-lg font-medium text-slate-600">Google Cloud Training</span>
       </div>
-      <span class="bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-full border border-blue-200" id="badge-masterclass">
-        Live Masterclass
-      </span>
+      
+      <!-- LIVE SYNC BADGE -->
+      <div id="sync-status-badge" class="flex items-center space-x-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span id="sync-status-text">🟢 Sincronizzato con il Docente</span>
+      </div>
     </div>
 
-    <!-- CONTROLS: LANGUAGE TOGGLE, TIMER & ACTIVE TEAM -->
-    <div class="flex items-center space-x-4 flex-wrap">
+    <!-- CONTROLS: TRAINER TOGGLE, LANGUAGE TOGGLE, TIMER & ACTIVE TEAM -->
+    <div class="flex items-center space-x-3 flex-wrap">
       
+      <!-- RE-SYNC BUTTON FOR STUDENTS -->
+      <button id="btn-resync" onclick="enableLiveSync()" class="hidden text-xs font-bold px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition shadow-xs">
+        🔄 Ri-Sincronizza Aula
+      </button>
+
+      <!-- TRAINER MODE TOGGLE -->
+      <button onclick="toggleTrainerMode()" id="btn-trainer-toggle" class="text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 transition">
+        🎓 Modalità Docente
+      </button>
+
       <!-- LANGUAGE TOGGLE SWITCH -->
       <div class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
         <button id="lang-btn-it" onclick="setLanguage('it')" class="px-3 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition">
@@ -40,13 +53,13 @@
 
       <!-- TIMER -->
       <div class="flex items-center space-x-2 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
-        <span class="text-xs text-slate-500 font-medium" id="lbl-clock">Session Clock:</span>
+        <span class="text-xs text-slate-500 font-medium" id="lbl-clock">Orologio:</span>
         <span id="session-clock" class="text-sm font-bold text-slate-800 font-mono">15:30:00</span>
       </div>
 
       <!-- TEAM SELECTOR -->
       <div class="flex items-center space-x-2">
-        <label for="team-select" class="text-xs text-slate-500 font-medium" id="lbl-team">Select Team:</label>
+        <label for="team-select" class="text-xs text-slate-500 font-medium" id="lbl-team">Team:</label>
         <select id="team-select" onchange="switchTeam(this.value)" class="bg-white border border-slate-300 text-slate-800 text-xs rounded-lg px-3 py-1.5 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="rayban">🕶️ Team Ray-Ban</option>
           <option value="oakley">🕶️ Team Oakley</option>
@@ -57,6 +70,39 @@
     </div>
   </header>
 
+  <!-- TRAINER LIVE BROADCAST CONTROL BAR (VISIBLE ONLY IN TRAINER MODE) -->
+  <div id="trainer-bar" class="hidden bg-slate-900 text-white px-6 py-3 border-b border-slate-800 shadow-md">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <span class="text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-950/80 px-2.5 py-1 rounded border border-amber-800/80">
+          📡 Console Comando Docente
+        </span>
+        <span class="text-xs text-slate-300">Cambia blocco qui sotto per spingere l'avanzamento sui 50 schermi degli studenti in tempo reale:</span>
+      </div>
+
+      <div class="flex items-center space-x-2 flex-wrap">
+        <button onclick="broadcastBlock(1)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition">
+          ▶️ Spingi Blocco 1
+        </button>
+        <button onclick="broadcastBlock(2)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition">
+          ▶️ Spingi Blocco 2
+        </button>
+        <button onclick="broadcastBlock('break')" class="px-3 py-1 text-xs font-bold rounded bg-amber-600 hover:bg-amber-500 text-white transition">
+          ☕ Spingi Pausa
+        </button>
+        <button onclick="broadcastBlock(3)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition">
+          ▶️ Spingi Blocco 3
+        </button>
+        <button onclick="broadcastBlock(4)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition">
+          ▶️ Spingi Blocco 4
+        </button>
+        <button onclick="broadcastBlock(5)" class="px-3 py-1 text-xs font-bold rounded bg-emerald-600 hover:bg-emerald-500 text-white transition">
+          🎉 Spingi Finale
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- MAIN CONTAINER -->
   <div class="max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1">
 
@@ -65,7 +111,7 @@
       
       <!-- QUICK CONNECT CARD -->
       <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
-        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="hdr-env-specs">Environment Specs</h3>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="hdr-env-specs">Specifiche Ambiente</h3>
         <div class="p-3 bg-slate-50 rounded-lg text-xs space-y-2 border border-slate-200">
           <div class="flex justify-between">
             <span class="text-slate-500">GCP Project:</span>
@@ -81,20 +127,20 @@
           </div>
         </div>
         <button onclick="copyToClipboard('qwiklabs-gcp-04-9efaa47f1d21')" class="w-full bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium py-2 rounded-lg transition flex items-center justify-center space-x-2">
-          <span id="btn-copy-project">📋 Copy Project ID</span>
+          <span id="btn-copy-project">📋 Copia ID Progetto</span>
         </button>
       </div>
 
       <!-- KEYBOARD SHORTCUTS CARD -->
       <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
-        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="hdr-shortcuts">Essential Shortcuts</h3>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="hdr-shortcuts">Scorciatoie Essenziali</h3>
         <div class="space-y-2 text-xs">
           <div class="flex justify-between items-center p-2 bg-blue-50/50 rounded border border-blue-100">
-            <span class="font-semibold text-slate-700">Gemini Generator</span>
+            <span class="font-semibold text-slate-700">Generatore Gemini</span>
             <kbd class="px-2 py-1 bg-white font-mono text-slate-800 rounded border border-slate-300 text-xs shadow-xs">Ctrl + Shift + P</kbd>
           </div>
           <div class="flex justify-between items-center p-2 bg-emerald-50/50 rounded border border-emerald-100">
-            <span class="font-semibold text-slate-700">Run SQL Query</span>
+            <span class="font-semibold text-slate-700">Esegui Query SQL</span>
             <kbd class="px-2 py-1 bg-white font-mono text-slate-800 rounded border border-slate-300 text-xs shadow-xs">Ctrl + Enter</kbd>
           </div>
         </div>
@@ -103,8 +149,8 @@
       <!-- LIVE TEAM LEADERBOARD -->
       <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
         <div class="flex items-center justify-between">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="hdr-leaderboard">Team Leaderboard</h3>
-          <span class="text-xs text-amber-500 font-bold" id="badge-challenges">🏆 3 Challenges</span>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="hdr-leaderboard">Classifica Team</h3>
+          <span class="text-xs text-amber-500 font-bold" id="badge-challenges">🏆 3 Sfide</span>
         </div>
         <div class="space-y-3 text-xs">
           <div class="flex items-center justify-between p-2 rounded bg-amber-50 border border-amber-200">
@@ -144,22 +190,22 @@
 
       <!-- BLOCK TABS NAVIGATION -->
       <div class="bg-white p-2 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-2">
-        <button onclick="showBlock(1)" id="tab-b1" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold bg-blue-600 text-white shadow-xs">
+        <button onclick="userSelectBlock(1)" id="tab-b1" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold bg-blue-600 text-white shadow-xs">
           Blocco 1 (15:30): Data Canvas
         </button>
-        <button onclick="showBlock(2)" id="tab-b2" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+        <button onclick="userSelectBlock(2)" id="tab-b2" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
           Blocco 2 (16:00): Sconti
         </button>
-        <button onclick="showBlock('break')" id="tab-break" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 hover:bg-amber-100">
+        <button onclick="userSelectBlock('break')" id="tab-break" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 hover:bg-amber-100">
           ☕ Pausa Caffè (16:45)
         </button>
-        <button onclick="showBlock(3)" id="tab-b3" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+        <button onclick="userSelectBlock(3)" id="tab-b3" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
           Blocco 3 (17:00): ROAS & JOIN
         </button>
-        <button onclick="showBlock(4)" id="tab-b4" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+        <button onclick="userSelectBlock(4)" id="tab-b4" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
           Blocco 4 (17:45): Lead VIP
         </button>
-        <button onclick="showBlock(5)" id="tab-b5" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+        <button onclick="userSelectBlock(5)" id="tab-b5" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
           Blocco 5 (18:15): Piano CMO
         </button>
       </div>
@@ -383,11 +429,92 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
   <script>
     let currentLang = 'it';
+    let isTrainerMode = false;
+    let isLiveSync = true;
+    const BROADCAST_TOPIC = 'https://ntfy.sh/luxottica-bq-masterclass-sync';
+
+    // CHECK URL PARAMETERS FOR ROLE
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('role') === 'trainer') {
+      isTrainerMode = true;
+    }
+
+    // INITIALIZE REAL-TIME SSE LISTENER FOR ALL 50 STUDENTS
+    const eventSource = new EventSource(`${BROADCAST_TOPIC}/sse`);
+    eventSource.onmessage = function(event) {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.message) {
+          const payload = JSON.parse(data.message);
+          if (payload.action === 'change_block' && isLiveSync) {
+            showBlock(payload.block, true);
+          }
+        }
+      } catch(e) {
+        // Fallback for plain text messages
+        if (isLiveSync && event.data) {
+          showBlock(event.data, true);
+        }
+      }
+    };
+
+    function toggleTrainerMode() {
+      isTrainerMode = !isTrainerMode;
+      const bar = document.getElementById('trainer-bar');
+      const btn = document.getElementById('btn-trainer-toggle');
+      if (isTrainerMode) {
+        bar.classList.remove('hidden');
+        btn.classList.add('bg-slate-900', 'text-white', 'border-slate-800');
+        btn.innerText = '🎓 Modalità Docente (ATTIVA)';
+      } else {
+        bar.classList.add('hidden');
+        btn.classList.remove('bg-slate-900', 'text-white', 'border-slate-800');
+        btn.innerText = '🎓 Modalità Docente';
+      }
+    }
+
+    // TRAINER BROADCAST ACTION
+    function broadcastBlock(blockId) {
+      fetch(BROADCAST_TOPIC, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'change_block', block: blockId })
+      }).then(() => {
+        showBlock(blockId, false);
+      });
+    }
+
+    // USER MANUAL TAB CLICK
+    function userSelectBlock(blockId) {
+      isLiveSync = false;
+      updateSyncBadge(false);
+      showBlock(blockId, false);
+    }
+
+    function enableLiveSync() {
+      isLiveSync = true;
+      updateSyncBadge(true);
+    }
+
+    function updateSyncBadge(synced) {
+      const badge = document.getElementById('sync-status-badge');
+      const text = document.getElementById('sync-status-text');
+      const btn = document.getElementById('btn-resync');
+
+      if (synced) {
+        badge.className = "flex items-center space-x-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200";
+        text.innerText = currentLang === 'it' ? "🟢 Sincronizzato con il Docente" : "🟢 Synced with Trainer";
+        btn.classList.add('hidden');
+      } else {
+        badge.className = "flex items-center space-x-2 bg-amber-50 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full border border-amber-200";
+        text.innerText = currentLang === 'it' ? "⏸️ Navigazione Manuale" : "⏸️ Manual Navigation";
+        btn.classList.remove('hidden');
+      }
+    }
 
     const translations = {
       it: {
-        lblClock: "Orologio Sessione:",
-        lblTeam: "Seleziona Team:",
+        lblClock: "Orologio:",
+        lblTeam: "Team:",
         hdrEnvSpecs: "Specifiche Ambiente",
         btnCopyProject: "📋 Copia ID Progetto",
         hdrShortcuts: "Scorciatoie Essenziali",
@@ -429,8 +556,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         toastText: "✅ Copiato negli Appunti!"
       },
       en: {
-        lblClock: "Session Clock:",
-        lblTeam: "Select Team:",
+        lblClock: "Clock:",
+        lblTeam: "Team:",
         hdrEnvSpecs: "Environment Specs",
         btnCopyProject: "📋 Copy Project ID",
         hdrShortcuts: "Essential Shortcuts",
@@ -529,6 +656,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       document.getElementById('th-example').innerText = t.thExample;
       document.getElementById('toast-text').innerText = t.toastText;
 
+      updateSyncBadge(isLiveSync);
       switchTeam(document.getElementById('team-select').value);
     }
 
@@ -545,7 +673,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     }
 
     // SWITCH BLOCK TABS
-    function showBlock(blockId) {
+    function showBlock(blockId, isBroadcast) {
       document.querySelectorAll('.block-section').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.tab-btn').forEach(el => {
         el.classList.remove('bg-blue-600', 'text-white');
@@ -560,6 +688,10 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
       const activeSection = document.getElementById(`block-${blockId}`);
       if (activeSection) activeSection.classList.remove('hidden');
+
+      if (isBroadcast) {
+        updateSyncBadge(true);
+      }
     }
 
     // TEAM SELECTOR SWITCH
@@ -594,6 +726,10 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const now = new Date();
       document.getElementById('session-clock').innerText = now.toTimeString().split(' ')[0];
     }, 1000);
+
+    if (isTrainerMode) {
+      toggleTrainerMode();
+    }
   </script>
 </body>
 </html>
