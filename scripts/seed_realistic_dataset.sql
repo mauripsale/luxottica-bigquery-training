@@ -1,7 +1,8 @@
 -- ============================================================================
--- LUXOTTICA MARKETING ANALYTICS - REALISTIC MULTI-BRAND & ROAS DATASET
+-- LUXOTTICA MARKETING ANALYTICS - REALISTIC DATASET (TEACHABLE MOMENT READY)
 -- ============================================================================
--- Execute this script in BigQuery Studio to create realistic sales, AOV, discounts, and campaign ROAS.
+-- Execute this script in BigQuery Studio to create realistic sales, AOVs, discounts, and campaign spend.
+-- lux_ad_spend stores ad spend and conversions, prompting Gemini to guide students to JOIN with lux_online_orders!
 -- ============================================================================
 
 CREATE OR REPLACE TABLE `luxottica_marketing_analytics.lux_online_orders` AS
@@ -109,26 +110,27 @@ SELECT * FROM base_orders;
 
 
 -- ============================================================================
--- RE-CREATE TABLE: lux_ad_spend (With Direct Campaign Revenue for Flawless ROAS)
+-- RE-CREATE TABLE: lux_ad_spend
+-- Stores campaign costs and conversions. Requires CTE + JOIN with lux_online_orders for ROAS!
 -- ============================================================================
 CREATE OR REPLACE TABLE `luxottica_marketing_analytics.lux_ad_spend` AS
 WITH ad_data AS (
-  -- GOOGLE ADS (High ROAS: ~7.08x Leader!)
-  SELECT 1 AS id, 'CMP-GGL-01' AS campaign_id, 'Google_Search_RayBan_Meta_SmartGlasses' AS campaign_name, 'Google Ads' AS platform, DATE('2026-05-01') AS date, 'Ray-Ban' AS brand, 45000 AS impressions, 3800 AS clicks, 450.00 AS spend_eur, 120 AS conversions, 3840.00 AS revenue_generated_eur
+  -- GOOGLE ADS (High Conversion Efficiency)
+  SELECT 1 AS id, 'CMP-GGL-01' AS campaign_id, 'Google_Search_RayBan_Meta_SmartGlasses' AS campaign_name, 'Google Ads' AS platform, DATE('2026-05-01') AS date, 'Ray-Ban' AS brand, 45000 AS impressions, 3800 AS clicks, 450.00 AS spend_eur, 120 AS conversions
 
-  UNION ALL SELECT 2, 'CMP-GGL-02', 'Google_Shopping_Oakley_Prizm', 'Google Ads', DATE('2026-05-01'), 'Oakley', 38000, 2900, 380.00, 85, 2040.00
+  UNION ALL SELECT 2, 'CMP-GGL-02', 'Google_Shopping_Oakley_Prizm', 'Google Ads', DATE('2026-05-01'), 'Oakley', 38000, 2900, 380.00, 85
 
-  UNION ALL SELECT 3, 'CMP-GGL-03', 'Google_PMax_OliverPeoples_Luxury', 'Google Ads', DATE('2026-05-01'), 'Oliver Peoples', 18000, 1200, 250.00, 42, 1764.00
+  UNION ALL SELECT 3, 'CMP-GGL-03', 'Google_PMax_OliverPeoples_Luxury', 'Google Ads', DATE('2026-05-01'), 'Oliver Peoples', 18000, 1200, 250.00, 42
 
-  -- TIKTOK ADS (Wasted Budget: 0.52x ROAS Loss!)
-  UNION ALL SELECT 4, 'CMP-TTK-01', 'TikTok_GenZ_Awareness_Campaign', 'TikTok Ads', DATE('2026-05-01'), 'Vogue Eyewear', 120000, 15000, 2200.00, 8, 960.00
+  -- TIKTOK ADS (High Spend, Low Conversions - Money Pit!)
+  UNION ALL SELECT 4, 'CMP-TTK-01', 'TikTok_GenZ_Awareness_Campaign', 'TikTok Ads', DATE('2026-05-01'), 'Vogue Eyewear', 120000, 15000, 2200.00, 8
 
-  UNION ALL SELECT 5, 'CMP-TTK-02', 'TikTok_Influencer_RayBan_Trendy', 'TikTok Ads', DATE('2026-05-01'), 'Ray-Ban', 95000, 11000, 1800.00, 12, 1140.00
+  UNION ALL SELECT 5, 'CMP-TTK-02', 'TikTok_Influencer_RayBan_Trendy', 'TikTok Ads', DATE('2026-05-01'), 'Ray-Ban', 95000, 11000, 1800.00, 12
 
-  -- CRITEO SOCIAL (Retargeting Leakage: 1.12x ROAS)
-  UNION ALL SELECT 6, 'CMP-CRT-01', 'Criteo_Dynamic_Retargeting_Global', 'Criteo Social', DATE('2026-05-01'), 'Ray-Ban', 65000, 4200, 1200.00, 9, 1350.00
+  -- CRITEO SOCIAL (Retargeting Leakage)
+  UNION ALL SELECT 6, 'CMP-CRT-01', 'Criteo_Dynamic_Retargeting_Global', 'Criteo Social', DATE('2026-05-01'), 'Ray-Ban', 65000, 4200, 1200.00, 9
 
-  -- META ADS (Instagram / Facebook: 3.80x ROAS)
-  UNION ALL SELECT 7, 'CMP-MTA-01', 'Meta_Instagram_Persol_Craftsmanship', 'Meta Ads', DATE('2026-05-01'), 'Persol', 42000, 3100, 550.00, 38, 2090.00
+  -- META ADS (Instagram / Facebook)
+  UNION ALL SELECT 7, 'CMP-MTA-01', 'Meta_Instagram_Persol_Craftsmanship', 'Meta Ads', DATE('2026-05-01'), 'Persol', 42000, 3100, 550.00, 38
 )
 SELECT * FROM ad_data;

@@ -156,27 +156,57 @@ flowchart TD
 
 ---
 
-### ☕ 16:45 - 17:00 | Coffee Break (15 Mins)
+### ☕ 16:45 - 17:00 | Coffee Break & Buffer Time (15 Mins)
+> ⚠️ **IMPOSTAZIONE RITMO (PACING TIP FOR TRAINER):** Non saltare mai questa pausa! Serve a far assimilare i dati del Blocco 2, far allineare chi è in ritardo con l'ambiente BigQuery Studio e rispondere alle domande individuali.
 
 ---
 
-### 🕒 17:00 - 17:45 | Blocco 3: Capitolo 2 - "La Rivelazione del ROAS Google Ads" (45 Mins)
+### 🕒 17:00 - 17:45 | Blocco 3: Capitolo 2 - "La Rivelazione del ROAS Google Ads con CTE e JOIN" (45 Mins)
 
 - **17:00 - 17:20 (20m) | 🎙️ COPIONE: SQL Avanzato (UNIONS, JOINS & CTE `WITH`)**
-  - Spiega il `JOIN` come un **VLOOKUP (CERCA.VERT)** istantaneo su milioni di righe.
+  - **MOMENTO DIDATTICO GEMINI ROAS:** Quando gli studenti chiedono a Gemini di calcolare il ROAS direttamente su `lux_ad_spend`, Gemini segnala che la spesa e il fatturato risiedono in due tabelle diverse.
+  - **Spiegazione Fan-Out SQL:** Spiega perché non fare mai una `JOIN` diretta tra ordini e campagne senza pre-aggregazione (evita di triplicare la spesa calcolata!).
+  - **La Soluzione Elegante con CTE (`WITH`):**
+    ```sql
+    WITH revenue_by_brand AS (
+      SELECT 
+        brand, 
+        SUM(revenue_eur) AS total_revenue_eur
+      FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+      GROUP BY brand
+    ),
+    spend_by_platform AS (
+      SELECT 
+        platform,
+        brand,
+        SUM(spend_eur) AS total_spend_eur
+      FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
+      GROUP BY platform, brand
+    )
+    SELECT 
+      s.platform,
+      ROUND(SUM(s.total_spend_eur), 2) AS total_spend_eur,
+      ROUND(SUM(r.total_revenue_eur), 2) AS total_revenue_eur,
+      ROUND(SAFE_DIVIDE(SUM(r.total_revenue_eur), SUM(s.total_spend_eur)), 2) AS roas
+    FROM spend_by_platform s
+    JOIN revenue_by_brand r ON s.brand = r.brand
+    GROUP BY s.platform
+    ORDER BY roas DESC;
+    ```
 - **17:20 - 17:40 (20m) | 🏆 Challenge #2: "Intelligence Cross-Canale" (4 Indizi)**
   - Le squadre eseguono `challenges/challenge_2_cross_channel.sql`.
-  - **Colpo di Scena #2 Dati:** I social terzi (TikTok / Criteo) hanno un ROAS fallimentare di **0.7x**, mentre **Google Search e Google Shopping** generano un **ROAS stellare compreso tra 6.8x e 8.2x**!
+  - **Colpo di Scena #2 Dati:** I social terzi (TikTok / Criteo) hanno un ROAS fallimentare di **0.5x - 1.1x**, mentre **Google Search e Google Shopping** generano un **ROAS stellare compreso tra 6.8x e 8.2x**!
 - **17:40 - 17:45 (5m) | Debrief Capitolo 2 e Aggiornamento Classifica**
 
 ---
 
-### 🕒 17:45 - 18:15 | Blocco 4: Capitolo 3 - "Google Ads Customer Match" (30 Mins)
+### 🕒 17:45 - 18:15 | Blocco 4: Capitolo 3 - "Google Ads Customer Match & Data Wrangling" (30 Mins)
 
 - **17:45 - 17:55 (10m) | DEMO: BigQuery Studio Visual Data Prep**
-  - Mostra le schede di suggerimento Gemini e l'editing cellulare few-shot per la pulizia dati senza codice.
+  - Mostra le schede di suggerimento Gemini per la pulizia dati senza codice.
 - **17:55 - 18:10 (15m) | 🏆 Challenge #3: "The Clean Slate" (Vista Automatica e Looker Studio)**
-  - Le squadre eseguono `challenges/challenge_3_clean_slate.sql` e creano la Vista `v_clean_marketing_leads`.
+  - 👥 **REGOLA MULTI-TENANCY SUFFISSO TEAM:** Instruct gli studenti ad aggiungere sempre il proprio suffisso team (es. `v_clean_marketing_leads_team_rayban`) per evitare di sovrascrivere le Viste degli altri partecipanti nello stesso dataset!
+  - Le squadre eseguono `challenges/challenge_3_clean_slate.sql` e creano la Vista `v_clean_marketing_leads_<suffix>`.
   - **Colpo di Scena #3 Dati:** La pulizia sblocca **350+ lead VIP** pronti per **Google Ads Customer Match**!
   - **Demo Looker Studio 1-Click:** Connetti la Vista a Looker Studio per mostrare il **Dashboard di Crescita Q4** al CMO!
 - **18:10 - 18:15 (5m) | Debrief Capitolo 3**

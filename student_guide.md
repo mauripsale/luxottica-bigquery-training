@@ -58,14 +58,15 @@
 
 ### Chapter 2: "The Google ROAS Revelation" (17:20 - 17:40)
 **File:** `challenges/challenge_2_cross_channel.sql`
-- **Goal:** Calculate Customer LTV and Multi-Platform Brand ROAS.
-- **Key Clue:** Discover why third-party social networks (TikTok / Criteo) have a wasteful 0.7x ROAS while **Google Search & Shopping** generate a massive **6.8x - 8.2x ROAS**!
+- **Goal:** Combine `lux_ad_spend` (Spend) and `lux_online_orders` (Revenue) using CTEs (`WITH`) and `JOIN` on `brand`.
+- **Key Clue:** Discover why third-party social networks (TikTok / Criteo) have a wasteful 0.5x - 1.1x ROAS while **Google Search & Shopping** generate a massive **6.8x - 8.2x ROAS**!
 
 ---
 
-### Chapter 3: "Google Ads Customer Match" (17:55 - 18:10)
+### Chapter 3: "Google Ads Customer Match & Data Wrangling" (17:55 - 18:10)
 **File:** `challenges/challenge_3_clean_slate.sql`
-- **Goal:** Clean `lux_raw_marketing_leads_dirty` into `v_clean_marketing_leads`.
+- **Goal:** Clean `lux_raw_marketing_leads_dirty` into `v_clean_marketing_leads_<team_name>`.
+- **Team Suffix Rule:** Always append your team name or initial (e.g., `v_clean_marketing_leads_team_rayban`) so you don't overwrite other teams' views in the shared dataset!
 - **Key Clue:** Unlock 350+ valid VIP leads for **Google Ads Customer Match**, and build the Looker Studio Executive Dashboard!
 
 ---

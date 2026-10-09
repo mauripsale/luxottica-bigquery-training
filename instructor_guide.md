@@ -149,27 +149,57 @@ flowchart TD
 
 ---
 
-### ☕ 16:45 - 17:00 | Coffee Break (15 Mins)
+### ☕ 16:45 - 17:00 | Coffee Break & Buffer Time (15 Mins)
+> ⚠️ **PACING TIP FOR TRAINER:** Never skip this break! It allows participants to digest Block 2 findings, catch up with any BigQuery Studio steps, and ask individual Q&A.
 
 ---
 
-### 🕒 17:00 - 17:45 | Block 3: Chapter 2 - "The Google ROAS Revelation" (45 Mins)
+### 🕒 17:00 - 17:45 | Block 3: Chapter 2 - "The Google ROAS Revelation with CTEs & JOINs" (45 Mins)
 
 - **17:00 - 17:20 (20m) | 🎙️ SCRIPT: Advanced SQL (UNIONS, JOINS & CTEs)**
-  - Explain `JOIN` as an instant VLOOKUP across millions of rows.
+  - **GEMINI ROAS TEACHABLE MOMENT:** When students ask Gemini to calculate ROAS on `lux_ad_spend` alone, Gemini points out that ad spend and revenue live in separate tables.
+  - **SQL Fan-Out Warning:** Explain why joining orders and ad spend directly on brand without pre-aggregation causes fan-out multiplication (tripling spend!).
+  - **The Elegant CTE (`WITH`) Solution:**
+    ```sql
+    WITH revenue_by_brand AS (
+      SELECT 
+        brand, 
+        SUM(revenue_eur) AS total_revenue_eur
+      FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+      GROUP BY brand
+    ),
+    spend_by_platform AS (
+      SELECT 
+        platform,
+        brand,
+        SUM(spend_eur) AS total_spend_eur
+      FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
+      GROUP BY platform, brand
+    )
+    SELECT 
+      s.platform,
+      ROUND(SUM(s.total_spend_eur), 2) AS total_spend_eur,
+      ROUND(SUM(r.total_revenue_eur), 2) AS total_revenue_eur,
+      ROUND(SAFE_DIVIDE(SUM(r.total_revenue_eur), SUM(s.total_spend_eur)), 2) AS roas
+    FROM spend_by_platform s
+    JOIN revenue_by_brand r ON s.brand = r.brand
+    GROUP BY s.platform
+    ORDER BY roas DESC;
+    ```
 - **17:20 - 17:40 (20m) | 🏆 Challenge #2: "Cross-Channel Intelligence" (4 Clues)**
   - Teams run `challenges/challenge_2_cross_channel.sql`.
-  - **Plot Twist #2 Discovered:** Third-party social networks (TikTok / Criteo) have a wasteful **0.7x ROAS**, while **Google Search & Google Shopping** generate a massive **6.8x - 8.2x ROAS**!
+  - **Plot Twist #2 Discovered:** Third-party social networks (TikTok / Criteo) have a wasteful **0.5x - 1.1x ROAS**, while **Google Search & Google Shopping** generate a massive **6.8x - 8.2x ROAS**!
 - **17:40 - 17:45 (5m) | Chapter 2 Debrief & Scoreboard Update**
 
 ---
 
-### 🕒 17:45 - 18:15 | Block 4: Chapter 3 - "Google Ads Customer Match" (30 Mins)
+### 🕒 17:45 - 18:15 | Block 4: Chapter 3 - "Google Ads Customer Match & Data Wrangling" (30 Mins)
 
 - **17:45 - 17:55 (10m) | DEMO: BigQuery Studio Visual Data Prep**
   - Show Gemini suggestion cards and few-shot cell editing for data wrangling.
 - **17:55 - 18:10 (15m) | 🏆 Challenge #3: "The Clean Slate" (Automated View & Looker Studio)**
-  - Teams run `challenges/challenge_3_clean_slate.sql` and build `v_clean_marketing_leads`.
+  - 👥 **MULTI-TENANCY TEAM SUFFIX RULE:** Instruct students to always append their team suffix (e.g. `v_clean_marketing_leads_team_rayban`) so views never overwrite each other in the shared dataset!
+  - Teams run `challenges/challenge_3_clean_slate.sql` and build `v_clean_marketing_leads_<suffix>`.
   - **Plot Twist #3 Discovered:** Cleaning dirty leads recovers **350+ valid VIP leads** for **Google Ads Customer Match**!
   - **1-Click Looker Studio Demo:** Connect the View to Looker Studio to display the **CMO Executive Rescue Dashboard**!
 - **18:10 - 18:15 (5m) | Chapter 3 Debrief**
