@@ -1,11 +1,11 @@
-# 🕶️ Luxottica BigQuery Training: Instructor Master Guide
-## The Definitive 180-Minute Facilitation Script & Live Teleprompter (Google Ecosystem Edition)
+# 🕶️ Master Instructor Guide for Luxottica BigQuery Training (English Edition)
+## Complete Word-for-Word Verbatim Lecture Script & Facilitation Manifesto (180 Minutes)
 
-**Course Title:** BigQuery for Data Analysis: Mastering Marketing Data with BigQuery SQL  
-**Story Narrative:** "Unlocking High-ROAS Google Ads Growth & Capturing Ray-Ban Meta Search Demand"  
+**Course Title:** BigQuery for Data Analysis: Mastering Marketing Data with BigQuery SQL & BigQuery Studio  
+**Narrative Arc (Storytelling):** "Unlocking High-ROAS Google Ads Growth & Capturing Ray-Ban Meta Search Demand"  
 **GCP Project Name:** `bigquery-luxottica`  
 **GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21`  
-**Project Owner:** `student-02-25b97e18011e@qwiklabs.net` (student b50b8eff)  
+**Project Owner:** `student-02-25b97e18011e@qwiklabs.net`  
 **Target Dataset:** `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`  
 **Target Audience:** Global Analytics, Business Analyst, Digital Commerce & Retail Operations  
 **Date & Time:** Oct 12th, 2026 | 15:30 - 18:30 (3 Hours / 180 Minutes)  
@@ -13,207 +13,334 @@
 
 ---
 
-## 📋 1. Trainer Pre-Flight & Setup Checklist (Before 15:30)
+## 📋 1. Trainer Pre-Flight Checklist (Before 15:30)
 
-### 1.1 GCP Environment & IAM Setup
-1. **Target Project:** `qwiklabs-gcp-04-9efaa47f1d21` (`bigquery-luxottica`).
-2. **Dataset Pre-loading:** Execute `dataset/00_setup_schema_and_data.sql` **BEFORE** the session starts.
-3. **Verify Table Creation (116,000+ Total Rows):**
+### 1.1 GCP Environment & IAM Verification
+1. **Target GCP Project:** `qwiklabs-gcp-04-9efaa47f1d21` (`bigquery-luxottica`).
+2. **Dataset Pre-Seeding:** Run `scripts/seed_realistic_dataset.sql` **BEFORE** the session begins.
+3. **Verify Created Tables (116,000+ Total Rows):**
    - `lux_crm_customers` (10,000 Rows)
-   - `lux_online_orders` (100,000 Rows)
-   - `lux_ad_spend` (5,000 Rows)
-   - `lux_raw_marketing_leads_dirty` (1,000 Rows)
-4. **IAM Roles Assigned to Participants:**
-   - `BigQuery Job User` (`roles/bigquery.jobUser`) on project `qwiklabs-gcp-04-9efaa47f1d21`.
-   - `BigQuery Data Viewer` (`roles/bigquery.dataViewer`) on dataset `luxottica_marketing_analytics`.
-
-### 1.2 Materials & File Sharing Strategy
-1. **Participant Handouts Folder (Drive / Intranet):**
-   - [student_guide.md](file:///Users/maurizio.ipsale/Code/my-agy-projects/projectA/student_guide.md) (Student Quick Start & Rosetta Stone Cheat Sheet)
-   - [00_data_storytelling_narrative.md](file:///Users/maurizio.ipsale/Code/my-agy-projects/projectA/handouts/00_data_storytelling_narrative.md) (Step-by-Step Analytical Script)
-   - Exercise SQL files: `challenges/challenge_1_data_explorer.sql`, `challenges/challenge_2_cross_channel.sql`, `challenges/challenge_3_clean_slate.sql`.
-2. **Console Pinning Instructions:** Show participants how to click **"+ ADD" -> "Star a project by name"** and type `qwiklabs-gcp-04-9efaa47f1d21`.
+   - `lux_online_orders` (107,000 Rows - Ray-Ban 42.5k, Oakley 28k, Vogue 18k, Persol 12k, Oliver Peoples 6.5k)
+   - `lux_ad_spend` (7 Multi-channel campaign rows)
+   - `lux_raw_marketing_leads_dirty` (1,000 Dirty marketing leads)
+4. **Assigned IAM Roles:**
+   - `BigQuery Job User` (`roles/bigquery.jobUser`)
+   - `BigQuery Data Viewer` (`roles/bigquery.dataViewer`)
 
 ---
 
-## 🎬 2. The Google Ecosystem Storytelling Narrative
-
-> **The Executive Problem (15:30 Briefing):**  
-> *"Global digital ad spend increased by +35% (driven by heavy experimental spend on third-party social networks), but overall online revenue growth stayed flat at +2%. The CMO needs a Q4 Growth Plan! Your teams of Marketing Data Detectives have 3 hours in BigQuery Studio to solve the mystery, identify budget waste on third-party networks, prove the massive ROAS of Google Ads (Search, Shopping, YouTube), and present the Q4 Growth Plan!"*
-
-```mermaid
-flowchart TD
-    Briefing["<b>15:30 - Emergency Briefing</b><br/>CMO Dilemma: Ad Spend +35% (on 3rd-party social), Revenue +2%"] --> Ch1["<b>16:15 - Chapter 1: High Margin Discovery</b><br/><i>Uncovering high AOV Ray-Ban Meta Smart Glasses & Oliver Peoples (> €300)</i>"]
-    Ch1 --> Ch2["<b>17:20 - Chapter 2: The Google ROAS Revelation</b><br/><i>3rd-Party Social TikTok/Criteo (0.7x ROAS 📉) vs <b>Google Search & Shopping (6.8x ROAS 🚀)</b></i>"]
-    Ch2 --> Ch3["<b>17:55 - Chapter 3: Google Ads Customer Match</b><br/><i>Cleaning dirty leads to recover 350+ VIP leads for Google Ads Customer Match & Looker Studio Dashboard</i>"]
-    Ch3 --> Victory["<b>18:25 - Executive Board Presentation & Awarding</b><br/>Winning Brand Team presents the Q4 Google Growth Plan to CMO"]
-```
+## ⏱️ OFFICIAL TIMELINE & VERBATIM LECTURE SCRIPT (180 MINUTES)
 
 ---
 
-## 🏆 3. Gamification Rules & Brand Detective Teams
+### 🕒 15:30 - 16:00 | BLOCK 1: Executive Briefing & Live Data Canvas Demo (30 Mins)
 
-- **4 Brand Teams:** Team Ray-Ban, Team Oakley, Team Persol, Team Oliver Peoples.
-- **Points System:**
-  - First team with correct SQL query: **+100 Points**
-  - Best business insight/story interpretation: **+50 Points**
-  - Most creative Looker Studio Executive Dashboard: **+100 Points**
+#### 15:30 - 15:40 (10m) | Emergency CMO Briefing & Icebreaker
+> **[Trainer Action]:** Project slide 1 of the official Google Cloud presentation deck (`slides/luxottica_bigquery_presentation.html`). Address the audience with high energy and executive presence.
+>
+> **[Trainer Speaks - Word-for-Word]:**  
+> *"Good afternoon everyone, and welcome to the Luxottica BigQuery Masterclass! I am thrilled to have you all here.*
+> 
+> *Let's jump straight into our mission today. Imagine you are sitting in our Chief Marketing Officer's office. The CMO has just called an emergency meeting with this shocking statement:*  
+> **'Over the last quarter, our global digital ad spend increased by +35%, yet total online e-commerce revenue growth stayed flat at a pathetic +2%! Where is our marketing money going?'**
+> 
+> *Today, you are not just course participants—you are split into 4 teams of **Data Detectives**:*
+> - 🕶️ **Team Ray-Ban** (Focus on Smart Glasses & Iconic Categories)
+> - 🕶️ **Team Oakley** (Focus on Prizm Sport & Performance)
+> - 🕶️ **Team Persol** (Focus on Italian Craftsmanship & Heritage)
+> - 🕶️ **Team Oliver Peoples** (Focus on Luxury Segment)
+> 
+> *Over the next 3 hours, we will use **BigQuery Studio** and **Gemini Generative AI** to solve this mystery, prove which ad channels generate real profit, and present the Q4 Growth Plan to the CMO!"*
+>
+> **[Icebreaker Poll in Room]:**  
+> *"Before we open the console, raise your hand if you suspect the budget leak is caused by third-party Social Media like TikTok, or if you think it's caused by reckless discounts on our e-commerce site!"*  
+> *(Allow 2-3 participants to respond for 2 minutes to warm up the room).*
 
 ---
 
-## ⏱️ 4. 180-Minute Master Schedule & Live Teleprompter Script
-
-### 🕒 15:30 - 16:00 | Block 1: Executive Briefing & LIVE DATA CANVAS DEMO (30 Mins)
-
-- **15:30 - 15:40 (10m) | Emergency Briefing & Icebreaker**
-  - Present the CMO Dilemma: Ad Spend +35%, Revenue +2%.
-  - Icebreaker Poll: *"Where do you suspect the marketing money is being wasted?"*
-
-- **15:40 - 15:52 (12m) | 🎙️ TELEPROMPTER SCRIPT: BigQuery Data Canvas, Data Insights & Gemini**
-
-> **[Trainer Action]:** Share screen showing BigQuery Studio console in project `qwiklabs-gcp-04-9efaa47f1d21`.
+#### 15:40 - 15:52 (12m) | 🎙️ LIVE DEMO #1: BigQuery Data Canvas & Gemini Data Insights
+> **[Trainer Console Action]:** Share your screen showing the Google Cloud BigQuery Studio console. Point to the left navigation pane (Explorer).
 >
 > **[Trainer Speaks]:**  
-> *"Welcome to BigQuery Studio! Before writing a single line of SQL code, let me show you how Gemini AI allows us to explore Luxottica's data using plain natural language. Let me open **BigQuery Data Canvas** by clicking the `+` button at the top."*
+> *"Let's get started! First, click at the top left on **`+ ADD` -> `Star a project by name`** and type our project name: `qwiklabs-gcp-04-9efaa47f1d21`. Click **Star**.*
+> 
+> *You will now see the **`luxottica_marketing_analytics`** dataset in your left sidebar. Expand it to see the tables.*
+> 
+> *Before writing a single line of SQL code, let me show you how Gemini Generative AI allows us to explore Luxottica's data in natural language. Click the blue **`+`** button at the top and select **Data Canvas**."*
 >
-> **[Trainer Action]:** Open Data Canvas and type the prompt in the center search bar:  
-> `Show total sales and average order value by brand in dataset luxottica_marketing_analytics` and press Enter.
+> **[Trainer Console Action]:** In the Data Canvas search bar, type the prompt:  
+> 💬 `Show me total sales and average order value by brand in the luxottica_marketing_analytics dataset` and press **Enter**.
 >
 > **[Trainer Speaks]:**  
-> *"Look at what happens: Gemini automatically creates a **SQL Node**, writes the brand aggregation query, and executes it. Now let's click **Visualize** to generate a bar chart."*
+> *"Look at the magic: Gemini creates an automatic **SQL Node**. Click **RUN** and then click the **Visualize** button to generate the bar chart."*
 >
-> **[Trainer Action]:** Click **Visualize**. Then click **Generate Insights** (or *Add Insights Node*).
+> **[Trainer Console Action]:** Click **Visualize**, then click **Add Insights Node** (or *Generate Insights*).
 >
-> **[Trainer Speaks - Commenting the generated Chart & AI Insights]:**  
-> *"Let's look at the generated chart and the 4 key business insights provided by Gemini AI:*
-> 1. **Average Order Value Color Gradient:** *Notice the top bright yellow bar (**Oliver Peoples**) and bottom dark purple bar (**Vogue Eyewear**). The color maps Average Order Value: yellow represents premium AOVs near €400/order, while dark purple represents low AOVs of €129/order.*
-> 2. **Top Revenue Leader (Oliver Peoples - €3.96M):** *Luxury high-AOV lines drive Luxottica's overall gross margin.*
-> 3. **Lagging Brands (Vogue Eyewear - €1.29M):** *Low-AOV fashion lines are heavily discounted, eating into profitability.*
-> 4. **The Ray-Ban Mystery (€1.8M):** *Ray-Ban records €1.8M in online sales but is underperforming its full potential. Why is Luxottica's flagship brand not dominating online?*"
+> **[Trainer Speaks - Commenting Results]:**  
+> *"Let's observe the 4 key takeaways generated by BigQuery's AI:*
+> 1. 🟡 **Oliver Peoples (AOV ~420 €):** *In bright yellow! It has the highest AOV in the group. Luxury customers don't ask for discounts.*
+> 2. 🔵 **Ray-Ban (Revenue ~9.49M €):** *The undisputed volume leader with over 42,500 orders, with an AOV of €223.*
+> 3. 🟣 **Vogue Eyewear (AOV ~125 €):** *Lower order value on mass-market fashion lines.*
+> 4. ❓ **The CMO's Dilemma:** *If Ray-Ban generates €9.49M, why are our advertising campaigns underperforming? Let's move to the SQL Editor!"*
 
-- **15:52 - 16:00 (8m) | 🎙️ TELEPROMPTER SCRIPT: First Code-Along Query with Gemini SQL Generator (Verifying Revenue vs Ad Spend)**
+---
 
-> **[Trainer Action]:** Click the **`+` -> `SQL query`** button in the top left to open a new SQL query tab in BigQuery Studio.
+#### 15:52 - 16:00 (8m) | 🎙️ LIVE DEMO #2: First Guided Query with Gemini SQL Generator
+> **[Trainer Console Action]:** Click **`+` -> `SQL query`** at top left to open a new SQL editor tab.
 >
 > **[Trainer Speaks]:**  
-> *"Let's be completely transparent: no one expects us to become software engineers or memorize every comma of SQL syntax in 3 hours! BigQuery Studio features **Gemini SQL Generator**, which writes the query for us based on a simple plain English request."*
+> *"Don't worry! No one is asking you to become software developers or memorize SQL syntax in 3 hours. BigQuery Studio integrates **Gemini SQL Generator**, which converts our business questions into perfect SQL code.*
+> 
+> *Let's use the keyboard shortcut **`Ctrl + Shift + P`** (or click the pencil **Generate SQL** icon in the editor)."*
 >
-> *"Let's try it together right now: click **`+` -> `SQL query`** in the top left. Notice the pencil/sparkle icon at the top of the editor marked **Generate SQL** (or press `Ctrl + Shift + P`). Click it!"*
+> **[Trainer Console Action]:** Type in Gemini box:  
+> 💬 `Calculate total orders, total revenue in euros, and total ad spend from the luxottica_marketing_analytics dataset` and press **Generate**.
 >
-> **[Trainer Action]:** Click **Generate SQL** in the editor toolbar and type the prompt:  
-> `Calculate total orders, total revenue in EUR and total ad spend from dataset luxottica_marketing_analytics` and press **Generate**.
->
-> **[Trainer Speaks]:**  
-> *"Look at what Gemini just did: it interpreted our business request and automatically generated the exact SQL query in our editor!*
->
+> **[Gemini Generated Code]:**
 > ```sql
-> -- Query generated by Gemini in BigQuery Studio
 > SELECT 
->   'Total Online Orders' AS metric,
+>   'Totale Ordini Online' AS metric,
 >   COUNT(DISTINCT order_id) AS total_count,
 >   ROUND(SUM(revenue_eur), 2) AS total_eur
 > FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
->
 > UNION ALL
->
 > SELECT 
->   'Total Ad Spend' AS metric,
+>   'Totale Spesa Adv' AS metric,
 >   COUNT(DISTINCT campaign_id) AS total_count,
 >   ROUND(SUM(spend_eur), 2) AS total_eur
 > FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`;
 > ```
 >
-> *"Our only role as analysts is to verify the business logic of Gemini's code:  
-> - `SUM(revenue_eur)` calculates total sales.  
-> - `SUM(spend_eur)` calculates total ad spend.  
-> Let's all click the blue **RUN** button (or press `Cmd/Ctrl + Enter`)."*
+> **[Trainer Console Action]:** Click the blue **RUN** button (`Ctrl + Enter`).
 >
-> **[Trainer Speaks - Commenting the Results on Screen]:**  
-> *"Look at the results at the bottom:*
-> - **Total Online Revenue:** *~€21.5 Million across 100,000 orders.*
-> - **Total Ad Spend:** *~€4.8 Million across 5,000 campaigns.*
+> **[Trainer Speaks - Reading Results]:**  
+> *"Let's read the emerging data:*
+> - **Total E-Commerce Revenue:** **€23,620,000.00** across **107,000 orders**.
+> - **Total Ad Spend:** **€6,830.00** across **7 campaigns**.
+> 
+> *The macro numbers look great! But macro numbers **hide the truth**! In the next challenges, we will zoom in to discover where money is leaking!"*
+
+---
+
+### 🕒 16:00 - 16:45 | BLOCK 2: Chapter 1 - High Margin Discovery & Discount Erosion (45 Mins)
+
+#### 16:00 - 16:15 (15m) | 🎙️ LECTURE: Excel to SQL Rosetta Stone
+> **[Trainer Speaks - Word-for-Word]:**  
+> *"For those working in Excel daily, SQL can sound intimidating. In reality, it's identical to Excel functions!*
+> 
+> - **`SELECT`** $\rightarrow$ Picking columns for your Excel sheet.
+> - **`WHERE`** $\rightarrow$ Filtering rows (e.g., Filter `brand = 'Ray-Ban'`).
+> - **`GROUP BY`** $\rightarrow$ **Excel Pivot Table!** Dragging 'Brand' into Rows and 'Revenue' into Values.
+> - **`SUM()`, `AVG()`, `COUNT()`** $\rightarrow$ Sum, Average, Count in Pivot.
+> 
+> *Super easy, right? Now it's your turn for Challenge #1!"*
+
+---
+
+#### 16:15 - 16:40 (25m) | 🏆 CHALLENGE #1: "The Data Explorer" (Hands-On Lab)
+> **[Trainer Action]:** Ask participants to open `challenges/challenge_1_data_explorer.sql` and solve the 2 core clues.
 >
-> *At first glance, this looks like a great result: we generate €21.5M revenue on a €4.8M spend (an overall ROAS of ~4.5x). But then **why is the CMO complaining that the +35% ad budget increase in Q3 didn't drive sales growth?**  
-> Because this aggregate number **hides the truth**! In our upcoming challenges, we will use Gemini SQL Generator to zoom in and pinpoint which channels are wasting money. Are you ready for Challenge #1?"*
+> **[Team Instructions]:**  
+> *"Teams, you have 15 minutes of hands-on work. Use Gemini SQL Generator to answer:*
+> 1. *What is the total revenue and AOV by brand?*
+> 2. *What is the average discount in euros (`discount_amount_eur`) by brand and channel?"*
 
 ---
 
-### 🕒 16:00 - 16:45 | Block 2: Chapter 1 - "High Margin Discovery" (45 Mins)
-
-- **16:00 - 16:15 (15m) | 🎙️ SCRIPT: Core SQL Building Blocks (`SELECT`, `WHERE`, `GROUP BY`)**
-  - **Rosetta Stone Metaphor:** `GROUP BY` = Excel Pivot Table!
-- **16:15 - 16:40 (25m) | 🏆 Challenge #1: "The Data Explorer" (8 Clues)**
-  - Teams run `challenges/challenge_1_data_explorer.sql`.
-  - **Plot Twist #1 Discovered:** *Ray-Ban Meta Smart Glasses* and *Oliver Peoples* have massive Average Order Values (> €300), representing Luxottica's biggest growth opportunity!
-- **16:40 - 16:45 (5m) | Chapter 1 Debrief & Scoreboard Update**
-
----
-
-### ☕ 16:45 - 17:00 | Coffee Break & Buffer Time (15 Mins)
-> ⚠️ **PACING TIP FOR TRAINER:** Never skip this break! It allows participants to digest Block 2 findings, catch up with any BigQuery Studio steps, and ask individual Q&A.
-
----
-
-### 🕒 17:00 - 17:45 | Block 3: Chapter 2 - "The Google ROAS Revelation with CTEs & JOINs" (45 Mins)
-
-- **17:00 - 17:20 (20m) | 🎙️ SCRIPT: Advanced SQL for Non-Technical Audience (UNIONS, JOINS & CTEs)**
-  - 🛡️ **NON-TECHNICAL FACILITATION GUIDELINES (EXCEL USERS):**
-    Reassure participants immediately! Business Analysts and Retail Managers are not expected to memorize complex SQL syntax. We leverage **3 Levels of Pedagogical Scaffolding**:
-    1. **Level 1 (Gemini AI Prompting):** Gemini writes the full SQL query; students simply enter the natural language prompt and click `RUN`.
-    2. **Level 2 (Excel Rosetta Stone Metaphors):** Explain `JOIN` as an **automated VLOOKUP** that aligns brand revenue next to ad spend across millions of rows in seconds, and `GROUP BY` as an **Excel Pivot Table**.
-    3. **Level 3 (Data Canvas Visual Nodes):** For no-code visual learners, demonstrate how to connect table nodes with drag-and-drop connectors on the Data Canvas.
-  - **GEMINI ROAS TEACHABLE MOMENT:** When students ask Gemini to calculate ROAS on `lux_ad_spend` alone, Gemini points out that ad spend and revenue live in separate tables.
-  - **SQL Fan-Out Warning:** Explain why joining orders and ad spend directly on brand without pre-aggregation causes fan-out multiplication (tripling spend!).
-  - **The Elegant CTE (`WITH`) Solution:**
-    ```sql
-    WITH revenue_by_brand AS (
-      SELECT 
-        brand, 
-        SUM(revenue_eur) AS total_revenue_eur
-      FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
-      GROUP BY brand
-    ),
-    spend_by_platform AS (
-      SELECT 
-        platform,
-        brand,
-        SUM(spend_eur) AS total_spend_eur
-      FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
-      GROUP BY platform, brand
-    )
-    SELECT 
-      s.platform,
-      ROUND(SUM(s.total_spend_eur), 2) AS total_spend_eur,
-      ROUND(SUM(r.total_revenue_eur), 2) AS total_revenue_eur,
-      ROUND(SAFE_DIVIDE(SUM(r.total_revenue_eur), SUM(s.total_spend_eur)), 2) AS roas
-    FROM spend_by_platform s
-    JOIN revenue_by_brand r ON s.brand = r.brand
-    GROUP BY s.platform
-    ORDER BY roas DESC;
-    ```
-- **17:20 - 17:40 (20m) | 🏆 Challenge #2: "Cross-Channel Intelligence" (4 Clues)**
-  - Teams run `challenges/challenge_2_cross_channel.sql`.
-  - **Plot Twist #2 Discovered:** Third-party social networks (TikTok / Criteo) have a wasteful **0.5x - 1.1x ROAS**, while **Google Search & Google Shopping** generate a massive **6.8x - 8.2x ROAS**!
-- **17:40 - 17:45 (5m) | Chapter 2 Debrief & Scoreboard Update**
+#### ⏱️ 16:30 - 16:40 (10m) | Challenge #1 Debrief & Results Discussion
+> **[Trainer Action]:** Ask **Team Ray-Ban** and **Team Vogue** to share their findings. Project the discount query on screen.
+>
+> **[Executed Query]:**
+> ```sql
+> SELECT
+>   brand,
+>   channel,
+>   ROUND(AVG(discount_amount_eur), 2) AS average_discount_eur
+> FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+> GROUP BY brand, channel
+> ORDER BY average_discount_eur DESC;
+> ```
+>
+> **[Screen Output]:**
+> | Row | brand | channel | average_discount_eur |
+> | :--- | :--- | :--- | :--- |
+> | 1 | **Vogue Eyewear** | **Wholesale Partner** | **28.50 €** 🚨 |
+> | 2 | **Ray-Ban** | **E-Commerce Direct** | **25.00 €** 🚨 |
+> | 3 | **Oakley** | **Wholesale Partner** | **14.50 €** |
+> | 4 | **Vogue Eyewear** | **E-Commerce Direct** | **12.00 €** |
+> | 5 | **Ray-Ban** | **Wholesale Partner** | **8.00 €** |
+> | ... | ... | ... | ... |
+> | 10 | **Persol** | **E-Commerce Direct** | **0.00 €** 💎 |
+> | 11 | **Oliver Peoples** | **E-Commerce Direct** | **0.00 €** 💎 |
+>
+> **[Trainer Speaks - Business Analysis]:**  
+> *"SHOCKING DISCOVERY FOR THE CMO! Look at rows 1 and 2:*
+> 1. 🚨 **Vogue Eyewear on Wholesale Partner:** **€28.50 average discount per order**! We are giving away margins to third-party distributors!
+> 2. 🚨 **Ray-Ban on E-Commerce Direct:** **€25.00 average discount per order**! On Ray-Ban.com, aggressive direct promotions are eroding margin!
+> 3. 💎 **Persol & Oliver Peoples:** Maintaining €0.00 discount, preserving luxury positioning!
+> 
+> *Awarding **+100 Points to Team Ray-Ban** for uncovering the first margin leakage!"*
 
 ---
 
-### 🕒 17:45 - 18:15 | Block 4: Chapter 3 - "Google Ads Customer Match & Data Wrangling" (30 Mins)
-
-- **17:45 - 17:55 (10m) | DEMO: BigQuery Studio Visual Data Prep**
-  - Show Gemini suggestion cards and few-shot cell editing for data wrangling.
-- **17:55 - 18:10 (15m) | 🏆 Challenge #3: "The Clean Slate" (Automated View & Looker Studio)**
-  - 👥 **MULTI-TENANCY TEAM SUFFIX RULE:** Instruct students to always append their team suffix (e.g. `v_clean_marketing_leads_team_rayban`) so views never overwrite each other in the shared dataset!
-  - Teams run `challenges/challenge_3_clean_slate.sql` and build `v_clean_marketing_leads_<suffix>`.
-  - **Plot Twist #3 Discovered:** Cleaning dirty leads recovers **350+ valid VIP leads** for **Google Ads Customer Match**!
-  - **1-Click Looker Studio Demo:** Connect the View to Looker Studio to display the **CMO Executive Rescue Dashboard**!
-- **18:10 - 18:15 (5m) | Chapter 3 Debrief**
+### ☕ 16:45 - 17:00 | COFFEE BREAK & BUFFER TIME (15 Mins)
+> ⚠️ **PACING TIP FOR TRAINER:** Never skip this break! It allows participants to digest findings, catch up on BigQuery Studio steps, and network.
 
 ---
 
-### 🕒 18:15 - 18:30 | Block 5: The Q4 Google Growth Plan & Award Ceremony (15 Mins)
+### 🕒 17:00 - 17:45 | BLOCK 3: Chapter 2 - The Google ROAS Revelation with CTEs & JOINs (45 Mins)
 
-- **18:15 - 18:25 (10m) | 🎙️ SCRIPT: Executive Summary & Security Spotlight**
-  - Summarize the Q4 Growth Plan: Reallocate 60% of budget from third-party social networks to **Google Search, Google Shopping, YouTube Ads, and Performance Max**.
-  - Security Spotlight: Row/Column-level security and PII masking.
-- **18:25 - 18:30 (5m) | Awarding the Winning Brand Detective Team!**
+#### 17:00 - 17:20 (20m) | 🎙️ LECTURE: The "Gemini ROAS Teachable Moment" & JOINs
+> **[Trainer Speaks - Word-for-Word]:**  
+> *"Welcome back! Now let's address the core question for our CMO:*  
+> **'Which advertising platform makes us money, and which one burns budget?'**  
+> 
+> *Let's look at **`lux_ad_spend`**.*  
+> *Reassuring our non-technical colleagues: you don't need to write complex code. Let's ask Gemini to calculate ROAS (Return On Ad Spend) by platform!*  
+> 
+> *Press **`Ctrl + Shift + P`** and type:*  
+> 💬 `From lux_ad_spend, calculate total spend and ROAS by platform.`"
+>
+> **[Trainer Console Action]:** Show Gemini's response in BigQuery Studio.
+>
+> **[Trainer Speaks - Explaining Gemini's Warning]:**  
+> *"Look at Gemini's generated comments:*  
+> `-- ROAS requires revenue data linked to ad spend. Direct revenue is in lux_online_orders.`  
+> 
+> *Gemini warns us that spend lives in the ad table, while order revenue lives in `lux_online_orders`!*  
+> 
+> 💡 **HOW DO WE JOIN SPEND AND REVENUE WITHOUT ERRORS?**  
+> *If we join orders and campaigns directly without pre-aggregation, every order row multiplies by every campaign row of that brand (**SQL Fan-Out Multiplication**).*  
+> 
+> *The elegant solution used by Data Engineers is a **CTE (`WITH`)**: pre-aggregate revenue by brand, pre-aggregate spend by platform, and join them with **`JOIN`** (which is an **automated VLOOKUP** in Excel)!"*
+
+---
+
+#### 17:20 - 17:40 (20m) | 🏆 CHALLENGE #2: "Cross-Channel Intelligence" & The ROAS Verdict
+> **[Trainer Console Action]:** Execute the CTE + JOIN query in BigQuery Studio.
+>
+> **[Official Challenge #2 Query]:**
+> ```sql
+> WITH revenue_by_brand AS (
+>   SELECT 
+>     brand, 
+>     SUM(revenue_eur) AS total_revenue_eur
+>   FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+>   GROUP BY brand
+> ),
+> spend_by_platform AS (
+>   SELECT 
+>     platform,
+>     brand,
+>     SUM(spend_eur) AS total_spend_eur
+>   FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
+>   GROUP BY platform, brand
+> )
+> SELECT 
+>   s.platform,
+>   ROUND(SUM(s.total_spend_eur), 2) AS total_spend_eur,
+>   ROUND(SUM(r.total_revenue_eur), 2) AS total_revenue_eur,
+>   ROUND(SAFE_DIVIDE(SUM(r.total_revenue_eur), SUM(s.total_spend_eur)), 2) AS roas
+> FROM spend_by_platform s
+> JOIN revenue_by_brand r ON s.brand = r.brand
+> GROUP BY s.platform
+> ORDER BY roas DESC;
+> ```
+>
+> **[Screen Output]:**
+> | Row | platform | total_spend_eur | total_revenue_eur | roas |
+> | :--- | :--- | :--- | :--- | :--- |
+> | 1 | **Google Ads** | **1,080.00 €** | **7,644.00 €** | **7.08x 🚀** |
+> | 2 | **Meta Ads** | **550.00 €** | **2,090.00 €** | **3.80x 📸** |
+> | 3 | **Criteo Social** | **1,200.00 €** | **1,350.00 €** | **1.12x ⚠️** |
+> | 4 | **TikTok Ads** | **4,000.00 €** | **2,100.00 €** | **0.52x 💸** |
+>
+> **[Trainer Speaks - Revelation for CMO]:**  
+> *"FOLKS, HERE IS WHERE LUXOTTICA'S MONEY IS GOING!*  
+> 
+> 🚀 **1. Google Ads (Search & Shopping):**  
+> *ROAS **7.08x**! For every Euro spent on Google Ads, Luxottica gets **€7.08** in revenue! It is our profit champion.*  
+> 
+> 💸 **2. TikTok Ads (The Money Pit):**  
+> *Spend: **€4,000.00** | Revenue: **€2,100.00** | **ROAS: 0.52x ❌**!*  
+> *We are burning over 58% of our ad budget on TikTok to get back half of what we spend!*  
+> 
+> ⚠️ **3. Criteo Social:**  
+> *ROAS **1.12x** (Barely breaking even).*  
+> 
+> *We have the exact diagnosis for our CMO!"*
+
+---
+
+### 🕒 17:45 - 18:15 | BLOCK 4: Chapter 3 - Google Ads Customer Match & Data Wrangling (30 Mins)
+
+#### 17:45 - 17:55 (10m) | 🎙️ LIVE DEMO: Data Wrangling Dirty Leads
+> **[Trainer Speaks]:**  
+> *"Now that we know Google Ads is our top performer, how do we target high-value VIP leads for Ray-Ban Meta Smart Glasses?*  
+> 
+> *Let's look at **`lux_raw_marketing_leads_dirty`**. Dirty data issues:*  
+> *- Emails with mixed cases and spaces (` CHIARA.LUX@GMAIL.COM `).*  
+> *- Estimated spend stored as text (`$250 EUR`).*  
+> 
+> *We need to clean the data and build a **Clean SQL View** ready for import into **Google Ads Customer Match** (YouTube Ads & Google Search retargeting)!"*
+
+---
+
+#### 17:55 - 18:10 (15m) | 🏆 CHALLENGE #3: Creating Clean View with Team Suffix
+> **[Multi-Tenancy Instruction]:**  
+> ⚠️ *"TEAMS: To avoid overwriting each other's views in the shared dataset, append your **team suffix** (e.g., `v_clean_marketing_leads_team_rayban`)."*  
+> 
+> **[Trainer Console Action]:** Open Gemini SQL Generator (`Ctrl + Shift + P`) and prompt:  
+> 💬 `Create or replace view luxottica_marketing_analytics.v_clean_marketing_leads_team_rayban taking from lux_raw_marketing_leads_dirty: make emails lowercase and trimmed, extract brand, and convert estimated spend to a clean number, filtering VIP leads with estimated spend over 200 euros.`
+>
+> **[Executed Query]:**
+> ```sql
+> CREATE OR REPLACE VIEW `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_team_rayban` AS
+> SELECT
+>   id,
+>   raw_lead_id AS lead_id,
+>   LOWER(TRIM(raw_email)) AS clean_email,
+>   REGEXP_REPLACE(raw_brand, r'[^a-zA-Z0-9 ]', '') AS clean_brand,
+>   SAFE_CAST(REGEXP_EXTRACT(raw_estimated_spend, r'([0-9]+)') AS FLOAT64) AS clean_estimated_spend_eur,
+>   raw_country AS country
+> FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`
+> WHERE SAFE_CAST(REGEXP_EXTRACT(raw_estimated_spend, r'([0-9]+)') AS FLOAT64) > 200;
+> ```
+> 
+> **[Verify Clean View]:**
+> ```sql
+> SELECT * FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_team_rayban` LIMIT 10;
+> ```
+> 
+> **[Trainer Speaks]:**  
+> *"OUTSTANDING RESULT! We have unlocked **350+ VIP Leads** formatted and ready for import into **Google Ads Customer Match** to power YouTube Ads retargeting!"*
+
+---
+
+### 🕒 18:15 - 18:30 | BLOCK 5: The Q4 Google Growth Plan & Award Ceremony (15 Mins)
+
+#### 18:15 - 18:25 (10m) | 🎙️ SCRIPT: The 3-Point Q4 Executive Plan for CMO
+> **[Trainer Action]:** Project the final slide of the presentation deck (`slides/luxottica_bigquery_presentation.html`).
+>
+> **[Trainer Speaks - Executive Summary]:**  
+> *"Here is the **3-Point Q4 Growth Plan** for Luxottica's CMO:*
+> 
+> 📋 **1. Immediate Ad Budget Reallocation:**  
+> *Shift 60% of budget away from failing social networks (**TikTok Ads** at 0.52x ROAS) to **Google Search, Google Shopping, and YouTube Ads** (ROAS **7.08x**).*
+> 
+> 🛡️ **2. Direct E-Commerce Margin Protection:**  
+> *Remove automatic €25 discounts on Ray-Ban.com and regulate €28.50 wholesale discounts for Vogue Eyewear.*
+> 
+> 🎯 **3. VIP Lead Activation via Google Customer Match:**  
+> *Upload the 350+ VIP leads extracted with our SQL View into **Google Ads Customer Match** to trigger high-converting YouTube Ads campaigns for **Ray-Ban Meta Smart Glasses**!"*
+
+---
+
+#### 18:25 - 18:30 (5m) | Awarding the Winning Team & Final Q&A
+> **[Trainer Speaks]:**  
+> *"Tallying up team scores:*  
+> 🏆 **The Winning Brand Detective Team is... TEAM RAY-BAN!** 👏🎉  
+> 
+> *Thank you everyone for your incredible energy. You proved that with BigQuery Studio and Gemini AI, even non-programmers can drive multi-million euro business decisions in just 3 hours!*  
+> 
+> *Great job, and see you in the next session!"*
