@@ -143,17 +143,39 @@
         </button>
       </div>
 
-      <!-- KEYBOARD SHORTCUTS CARD -->
+      <!-- KEYBOARD SHORTCUTS CARD (BIGQUERY STUDIO) -->
       <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
-        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="hdr-shortcuts">Scorciatoie Essenziali</h3>
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="hdr-shortcuts">Scorciatoie BigQuery Studio</h3>
+          <span class="text-[10px] font-mono text-slate-400">Win / Mac</span>
+        </div>
         <div class="space-y-2 text-xs">
-          <div class="flex justify-between items-center p-2 bg-blue-50/50 rounded border border-blue-100">
-            <span class="font-semibold text-slate-700">Generatore Gemini</span>
-            <kbd class="px-2 py-1 bg-white font-mono text-slate-800 rounded border border-slate-300 text-xs shadow-xs">Ctrl + Shift + P</kbd>
+          <!-- GEMINI GENERATOR SHORTCUT -->
+          <div class="p-2.5 bg-blue-50/60 rounded-lg border border-blue-100 space-y-1">
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-blue-900 flex items-center space-x-1">
+                <span>✨</span>
+                <span id="sc-gemini-title">Generatore SQL con Gemini</span>
+              </span>
+            </div>
+            <div class="flex items-center justify-between pt-1">
+              <span class="text-[11px] text-slate-500" id="sc-gemini-desc">Apri prompt AI nell'editor</span>
+              <kbd class="px-2 py-0.5 bg-white font-mono text-slate-800 rounded border border-slate-300 text-[11px] font-semibold shadow-xs">Ctrl / ⌘ + Shift + P</kbd>
+            </div>
           </div>
-          <div class="flex justify-between items-center p-2 bg-emerald-50/50 rounded border border-emerald-100">
-            <span class="font-semibold text-slate-700">Esegui Query SQL</span>
-            <kbd class="px-2 py-1 bg-white font-mono text-slate-800 rounded border border-slate-300 text-xs shadow-xs">Ctrl + Enter</kbd>
+
+          <!-- EXECUTE QUERY SHORTCUT -->
+          <div class="p-2.5 bg-emerald-50/60 rounded-lg border border-emerald-100 space-y-1">
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-emerald-900 flex items-center space-x-1">
+                <span>▶️</span>
+                <span id="sc-run-title">Esegui Query SQL (Run)</span>
+              </span>
+            </div>
+            <div class="flex items-center justify-between pt-1">
+              <span class="text-[11px] text-slate-500" id="sc-run-desc">Lancia query senza mouse</span>
+              <kbd class="px-2 py-0.5 bg-white font-mono text-slate-800 rounded border border-slate-300 text-[11px] font-semibold shadow-xs">Ctrl / ⌘ + Enter</kbd>
+            </div>
           </div>
         </div>
       </div>
@@ -552,7 +574,11 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         lblTeam: "Team:",
         hdrEnvSpecs: "Specifiche Ambiente",
         btnCopyProject: "📋 Copia ID Progetto",
-        hdrShortcuts: "Scorciatoie Essenziali",
+        hdrShortcuts: "Scorciatoie BigQuery Studio",
+        scGeminiTitle: "Generatore SQL con Gemini",
+        scGeminiDesc: "Apri prompt AI nell'editor",
+        scRunTitle: "Esegui Query SQL (Run)",
+        scRunDesc: "Lancia query senza mouse",
         hdrLeaderboard: "Classifica Team",
         badgeChallenges: "🏆 3 Sfide",
         heroTitle: "Portale Interattivo Studente",
@@ -643,7 +669,11 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         lblTeam: "Team:",
         hdrEnvSpecs: "Environment Specs",
         btnCopyProject: "📋 Copy Project ID",
-        hdrShortcuts: "Essential Shortcuts",
+        hdrShortcuts: "BigQuery Studio Shortcuts",
+        scGeminiTitle: "Gemini SQL Generator",
+        scGeminiDesc: "Open AI prompt bar in editor",
+        scRunTitle: "Run SQL Query",
+        scRunDesc: "Execute query hands-free",
         hdrLeaderboard: "Team Leaderboard",
         badgeChallenges: "🏆 3 Challenges",
         heroTitle: "Interactive Student Portal",
@@ -947,6 +977,10 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('hdr-env-specs', t.hdrEnvSpecs);
       setText('btn-copy-project', t.btnCopyProject);
       setText('hdr-shortcuts', t.hdrShortcuts);
+      setText('sc-gemini-title', t.scGeminiTitle);
+      setText('sc-gemini-desc', t.scGeminiDesc);
+      setText('sc-run-title', t.scRunTitle);
+      setText('sc-run-desc', t.scRunDesc);
       setText('hdr-leaderboard', t.hdrLeaderboard);
       setText('badge-challenges', t.badgeChallenges);
       setText('hero-title', t.heroTitle);
