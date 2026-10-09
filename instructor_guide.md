@@ -27,6 +27,16 @@
    - `BigQuery Job User` (`roles/bigquery.jobUser`)
    - `BigQuery Data Viewer` (`roles/bigquery.dataViewer`)
 
+### 1.2 Large Audience Facilitation Playbook (50 Participants & Hybrid)
+1. **Division into 4 Brand Teams (12-13 People per Table):**
+   - Assign each table/row of 12 people to one of the 4 teams (**Team Ray-Ban**, **Team Oakley**, **Team Persol**, **Team Oliver Peoples**).
+   - Nominate 1 **Team Captain** per table (a data-savvy participant or co-facilitator/T.A.) who acts as the primary contact to assist table colleagues.
+2. **"Table Buddy" System (Paired Seating):**
+   - Participants work in pairs. If someone misses a shortcut or button click, their buddy aligns them immediately without interrupting the room flow.
+3. **Student Desk Kit Materials:**
+   - **1-Page Desk Cheat Sheet Placemat (`handouts/00_student_placemat_cheat_sheet.md`):** Printed on every desk with Project ID, `Ctrl + Shift + P` shortcut, Rosetta Stone table, and fallback queries.
+   - **Step-by-Step Student Participant Guide (`student_guide.md` / `student_guide_it.md`):** Digital workbook following the instructor step-by-step.
+
 ---
 
 ## ⏱️ OFFICIAL TIMELINE & VERBATIM LECTURE SCRIPT (180 MINUTES)

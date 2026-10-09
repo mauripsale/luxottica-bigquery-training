@@ -27,6 +27,16 @@
    - `BigQuery Job User` (`roles/bigquery.jobUser`)
    - `BigQuery Data Viewer` (`roles/bigquery.dataViewer`)
 
+### 1.2 Playbook Gestione Grande Aula (50 Partecipanti & Ibrido)
+1. **Divisione in 4 Brand Teams (12-13 Persone per Tavolo):**
+   - Assegna ogni tavolo/fila di 12 persone a una delle 4 squadre (**Team Ray-Ban**, **Team Oakley**, **Team Persol**, **Team Oliver Peoples**).
+   - Nomina 1 **Caposquadra / Team Captain** per tavolo (il partecipante più orientato ai dati o un co-facilitatore/T.A.) che fa da punto di riferimento per sbloccare i colleghi di tavolo.
+2. **Sistema "Tavolo Buddy" (Coppie di Banco):**
+   - Gli studenti lavorano a coppie. Se un partecipante sbaglia a digitare la scorciatoia o perde un passaggio, il vicino di banco lo riallinea immediatamente senza interrompere la spiegazione generale.
+3. **Materiali Distribuiti su Ogni Banco (Kit dello Studente):**
+   - **Foglio Cheat Sheet / Placemat 1 Pagina (`handouts/00_student_placemat_cheat_sheet.md`):** Stampato e posizionato su ogni banco con ID Progetto, scorciatoia `Ctrl + Shift + P`, tabella Rosetta Stone e query di emergenza.
+   - **Guida Studente Passo-Passo (`student_guide_it.md`):** File digitale consultabile durante la sessione.
+
 ---
 
 ## ⏱️ CRONOPROGRAMMA UFFICIALE & COPIONE INTEGRALE (180 MINUTI)
