@@ -439,10 +439,15 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     let logoClickTimer;
     const BROADCAST_TOPIC = 'https://ntfy.sh/luxottica-bq-masterclass-sync';
 
-    // CHECK URL PARAMETERS FOR ROLE
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('role') === 'trainer' || urlParams.get('pin') === '2026') {
-      enableTrainerMode();
+    // SAFE DOM HELPERS TO PREVENT SCRIPT CRASHES
+    function setText(id, text) {
+      const el = document.getElementById(id);
+      if (el && text !== undefined) el.innerText = text;
+    }
+
+    function setHTML(id, html) {
+      const el = document.getElementById(id);
+      if (el && html !== undefined) el.innerHTML = html;
     }
 
     // SECRET LOGO TRIPLE-CLICK FOR TRAINER ACCESS
@@ -464,10 +469,13 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
     function enableTrainerMode() {
       isTrainerMode = true;
-      document.getElementById('trainer-bar').classList.remove('hidden');
+      const bar = document.getElementById('trainer-bar');
+      if (bar) bar.classList.remove('hidden');
       const btn = document.getElementById('btn-trainer-toggle');
-      btn.classList.remove('hidden');
-      btn.innerText = translations[currentLang].btnTrainerActive;
+      if (btn) {
+        btn.classList.remove('hidden');
+        btn.innerText = translations[currentLang].btnTrainerActive;
+      }
       applyLockState(false);
     }
 
@@ -496,12 +504,12 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const bar = document.getElementById('trainer-bar');
       const btn = document.getElementById('btn-trainer-toggle');
       if (isTrainerMode) {
-        bar.classList.remove('hidden');
-        btn.innerText = translations[currentLang].btnTrainerActive;
+        if (bar) bar.classList.remove('hidden');
+        if (btn) btn.innerText = translations[currentLang].btnTrainerActive;
         applyLockState(false);
       } else {
-        bar.classList.add('hidden');
-        btn.innerText = translations[currentLang].btnTrainerInactive;
+        if (bar) bar.classList.add('hidden');
+        if (btn) btn.innerText = translations[currentLang].btnTrainerInactive;
         applyLockState(isStrictLocked);
       }
     }
@@ -532,12 +540,14 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const text = document.getElementById('btn-lock-text');
       const t = translations[currentLang];
 
-      if (isStrictLocked) {
-        btn.className = "px-3 py-1 text-xs font-bold rounded bg-red-600 hover:bg-red-500 text-white transition flex items-center space-x-1";
-        text.innerText = t.btnLockLocked;
-      } else {
-        btn.className = "px-3 py-1 text-xs font-bold rounded bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center space-x-1";
-        text.innerText = t.btnLockUnlocked;
+      if (btn && text) {
+        if (isStrictLocked) {
+          btn.className = "px-3 py-1 text-xs font-bold rounded bg-red-600 hover:bg-red-500 text-white transition flex items-center space-x-1";
+          text.innerText = t.btnLockLocked;
+        } else {
+          btn.className = "px-3 py-1 text-xs font-bold rounded bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center space-x-1";
+          text.innerText = t.btnLockUnlocked;
+        }
       }
     }
 
@@ -568,24 +578,28 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const badge = document.getElementById('sync-status-badge');
       const text = document.getElementById('sync-status-text');
 
-      if (locked) {
-        badge.className = "flex items-center space-x-2 bg-red-50 text-red-700 text-xs font-semibold px-3 py-1 rounded-full border border-red-200";
-        text.innerText = currentLang === 'it' ? "🔒 Navigazione Bloccata dal Docente" : "🔒 Navigation Locked by Trainer";
-      } else {
-        badge.className = "flex items-center space-x-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200";
-        text.innerText = currentLang === 'it' ? "🔓 Esplorazione Libera Sbloccata" : "🔓 Free Exploration Unlocked";
+      if (badge && text) {
+        if (locked) {
+          badge.className = "flex items-center space-x-2 bg-red-50 text-red-700 text-xs font-semibold px-3 py-1 rounded-full border border-red-200";
+          text.innerText = currentLang === 'it' ? "🔒 Navigazione Bloccata dal Docente" : "🔒 Navigation Locked by Trainer";
+        } else {
+          badge.className = "flex items-center space-x-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200";
+          text.innerText = currentLang === 'it' ? "🔓 Esplorazione Libera Sbloccata" : "🔓 Free Exploration Unlocked";
+        }
       }
     }
 
     function showToast(msg) {
       const toast = document.getElementById('toast');
-      document.getElementById('toast-text').innerText = msg;
-      toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
-      toast.classList.add('opacity-100', 'translate-y-0');
-      setTimeout(() => {
-        toast.classList.remove('opacity-100', 'translate-y-0');
-        toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
-      }, 2500);
+      setText('toast-text', msg);
+      if (toast) {
+        toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        setTimeout(() => {
+          toast.classList.remove('opacity-100', 'translate-y-0');
+          toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+        }, 2500);
+      }
     }
 
     const translations = {
@@ -614,17 +628,27 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         b1Step2Desc: "Apri l'Editor SQL (`+ -> SQL query`), premi `Ctrl + Shift + P` ed esegui il prompt:",
         pB1S2: "Calcola il totale ordini, il fatturato totale in euro e la spesa adv totale dal dataset luxottica_marketing_analytics",
         b2Title: "Blocco 2: Challenge #1 - Analisi Sconti & Fuga Margini",
+        b2PromptTitle: "Prompt Gemini per Challenge #1",
         pB2S1: "Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.",
         b2DiscoveryTitle: "🚨 Scoperta Shock per il CMO:",
-        b2DiscoveryDesc: "Vogue Eyewear su Wholesale Partner subisce 28,50 € di sconto medio! Ray-Ban E-Commerce Direct subisce 25,00 € di sconto medio!",
+        b2DiscoveryDesc: "Vogue Eyewear su Wholesale Partner subisce <strong>28,50 € di sconto medio</strong>! Ray-Ban E-Commerce Direct subisce <strong>25,00 € di sconto medio</strong>!",
         breakTitle: "15 Minuti di Pausa Caffè & Networking",
         breakDesc: "Fai una pausa, assimila le scoperte del Blocco 2 e preparati per la Challenge avanzata sul ROAS con CTE & JOIN!",
         b3Title: "Blocco 3: Challenge #2 - ROAS Multi-Canale con CTE & JOIN",
         b3Desc: "Per calcolare il ROAS senza errori di duplicazione (SQL fan-out), esegui questa query con CTE e JOIN:",
         b3RoasTitle: "🚀 Verdetto del ROAS per il CMO:",
-        b3RoasDesc: "Google Ads = 7,08x ROAS 🚀 | Meta Ads = 3,80x | TikTok Ads = 0,52x ROAS 💸 (Voragine di budget!)",
+        b3RoasDesc: "<strong>Google Ads = 7,08x ROAS 🚀</strong> | Meta Ads = 3,80x | TikTok Ads = <strong>0,52x ROAS 💸 (Voragine di budget!)</strong>",
         b4Title: "Blocco 4: Challenge #3 - Creazione Vista Pulita Lead VIP",
+        b4TeamRule: "<strong>Regola Suffisso Team:</strong> Aggiungi sempre il suffisso del tuo team (es. <code id=\"suffix-example\">v_clean_marketing_leads_team_rayban</code>)!",
         b4PromptTitle: "Prompt Gemini per Creazione Vista Pulita",
+        b5Title: "Blocco 5: Piano Strategico Q4 per il CMO & Premiazione",
+        b5Badge: "🎉 Gran Finale",
+        b5P1Title: "1. Riallocare Budget Adv",
+        b5P1Desc: "Spostare il 60% del budget da TikTok Ads (0,52x ROAS) verso Google Search, Shopping e YouTube Ads (7,08x ROAS).",
+        b5P2Title: "2. Proteggere i Margini",
+        b5P2Desc: "Rimuovere gli sconti automatici del 25 € su Ray-Ban.com e regolare i sconti del 28,50 € su Wholesale Vogue.",
+        b5P3Title: "3. Attivare Lead VIP",
+        b5P3Desc: "Caricare i 350+ lead VIP estratti in Google Ads Customer Match per il lancio dei Ray-Ban Meta Smart Glasses.",
         hdrRosetta: "Ricerca Rosetta Stone Excel vs BigQuery SQL",
         searchPlaceholder: "Cerca termini Excel (es. Pivot, VLOOKUP, Somma)...",
         thExcel: "Funzione Excel",
@@ -670,17 +694,27 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         b1Step2Desc: "Open SQL Editor (`+ -> SQL query`), press `Ctrl + Shift + P` and prompt:",
         pB1S2: "Calculate total orders, total revenue in euros, and total ad spend from the luxottica_marketing_analytics dataset",
         b2Title: "Block 2: Challenge #1 - Discount Erosion Explorer",
+        b2PromptTitle: "Gemini Prompt for Challenge #1",
         pB2S1: "Calculate average discount in euros (discount_amount_eur) by brand and channel from lux_online_orders, ordering by average discount descending.",
         b2DiscoveryTitle: "🚨 Shock Discovery for CMO:",
-        b2DiscoveryDesc: "Vogue Eyewear on Wholesale Partner suffers €28.50 average discount! Ray-Ban E-Commerce Direct suffers €25.00 average discount!",
+        b2DiscoveryDesc: "Vogue Eyewear on Wholesale Partner suffers <strong>€28.50 average discount</strong>! Ray-Ban E-Commerce Direct suffers <strong>€25.00 average discount</strong>!",
         breakTitle: "15-Minute Coffee & Networking Break",
         breakDesc: "Take a break, digest Block 2 findings, and prepare for the advanced CTE + JOIN ROAS Challenge!",
         b3Title: "Block 3: Challenge #2 - Multi-Platform ROAS with CTE & JOIN",
         b3Desc: "To calculate ROAS without SQL fan-out multiplication, run this CTE + JOIN query:",
         b3RoasTitle: "🚀 ROAS Verdict for CMO:",
-        b3RoasDesc: "Google Ads = 7.08x ROAS 🚀 | Meta Ads = 3.80x | TikTok Ads = 0.52x ROAS 💸 (Money Pit!)",
+        b3RoasDesc: "<strong>Google Ads = 7.08x ROAS 🚀</strong> | Meta Ads = 3.80x | TikTok Ads = <strong>0.52x ROAS 💸 (Money Pit!)</strong>",
         b4Title: "Block 4: Challenge #3 - Clean VIP Leads View Creation",
+        b4TeamRule: "<strong>Team Suffix Rule:</strong> Always append your team suffix (e.g. <code id=\"suffix-example\">v_clean_marketing_leads_team_rayban</code>)!",
         b4PromptTitle: "Gemini Prompt for Clean View Creation",
+        b5Title: "Block 5: Q4 Strategic Plan for CMO & Awarding",
+        b5Badge: "🎉 Grand Finale",
+        b5P1Title: "1. Reallocate Ad Budget",
+        b5P1Desc: "Shift 60% of budget from TikTok Ads (0.52x ROAS) to Google Search, Shopping, and YouTube Ads (7.08x ROAS).",
+        b5P2Title: "2. Protect Margins",
+        b5P2Desc: "Remove €25 automatic discounts on Ray-Ban.com and cap €28.50 discounts on Wholesale Vogue.",
+        b5P3Title: "3. Activate VIP Leads",
+        b5P3Desc: "Upload 350+ VIP leads extracted into Google Ads Customer Match for Ray-Ban Meta Smart Glasses launch.",
         hdrRosetta: "Excel vs BigQuery SQL Rosetta Stone Search",
         searchPlaceholder: "Search Excel terms (e.g. Pivot, VLOOKUP, Sum)...",
         thExcel: "Excel Feature",
@@ -706,78 +740,92 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     function setLanguage(lang) {
       currentLang = lang;
       const t = translations[lang];
+      if (!t) return;
 
-      document.getElementById('lang-btn-it').className = lang === 'it' ? "px-3 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition" : "px-3 py-1 text-xs font-bold rounded-md text-slate-600 hover:text-slate-900 transition";
-      document.getElementById('lang-btn-en').className = lang === 'en' ? "px-3 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition" : "px-3 py-1 text-xs font-bold rounded-md text-slate-600 hover:text-slate-900 transition";
+      const btnIt = document.getElementById('lang-btn-it');
+      const btnEn = document.getElementById('lang-btn-en');
+      if (btnIt) btnIt.className = lang === 'it' ? "px-3 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition" : "px-3 py-1 text-xs font-bold rounded-md text-slate-600 hover:text-slate-900 transition";
+      if (btnEn) btnEn.className = lang === 'en' ? "px-3 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition" : "px-3 py-1 text-xs font-bold rounded-md text-slate-600 hover:text-slate-900 transition";
 
-      document.getElementById('lbl-clock').innerText = t.lblClock;
-      document.getElementById('lbl-team').innerText = t.lblTeam;
-      document.getElementById('hdr-env-specs').innerText = t.hdrEnvSpecs;
-      document.getElementById('btn-copy-project').innerText = t.btnCopyProject;
-      document.getElementById('hdr-shortcuts').innerText = t.hdrShortcuts;
-      document.getElementById('hdr-leaderboard').innerText = t.hdrLeaderboard;
-      document.getElementById('badge-challenges').innerText = t.badgeChallenges;
-      document.getElementById('hero-title').innerText = t.heroTitle;
-      document.getElementById('hero-subtitle').innerText = t.heroSubtitle;
-      document.getElementById('btn-open-bq').innerText = t.btnOpenBQ;
+      setText('lbl-clock', t.lblClock);
+      setText('lbl-team', t.lblTeam);
+      setText('hdr-env-specs', t.hdrEnvSpecs);
+      setText('btn-copy-project', t.btnCopyProject);
+      setText('hdr-shortcuts', t.hdrShortcuts);
+      setText('hdr-leaderboard', t.hdrLeaderboard);
+      setText('badge-challenges', t.badgeChallenges);
+      setText('hero-title', t.heroTitle);
+      setText('hero-subtitle', t.heroSubtitle);
+      setText('btn-open-bq', t.btnOpenBQ);
 
-      document.getElementById('tab-b1').innerText = t.tabB1;
-      document.getElementById('tab-b2').innerText = t.tabB2;
-      document.getElementById('tab-break').innerText = t.tabBreak;
-      document.getElementById('tab-b3').innerText = t.tabB3;
-      document.getElementById('tab-b4').innerText = t.tabB4;
-      document.getElementById('tab-b5').innerText = t.tabB5;
+      setText('tab-b1', t.tabB1);
+      setText('tab-b2', t.tabB2);
+      setText('tab-break', t.tabBreak);
+      setText('tab-b3', t.tabB3);
+      setText('tab-b4', t.tabB4);
+      setText('tab-b5', t.tabB5);
 
-      document.getElementById('b1-title').innerText = t.b1Title;
-      document.getElementById('b1-step1-title').innerText = t.b1Step1Title;
-      document.getElementById('b1-step1-desc').innerText = t.b1Step1Desc;
-      document.getElementById('p-b1-s1').innerText = t.pB1S1;
-      document.getElementById('b1-step2-title').innerText = t.b1Step2Title;
-      document.getElementById('b1-step2-desc').innerText = t.b1Step2Desc;
-      document.getElementById('p-b1-s2').innerText = t.pB1S2;
+      setText('b1-title', t.b1Title);
+      setText('b1-step1-title', t.b1Step1Title);
+      setText('b1-step1-desc', t.b1Step1Desc);
+      setText('p-b1-s1', t.pB1S1);
+      setText('b1-step2-title', t.b1Step2Title);
+      setText('b1-step2-desc', t.b1Step2Desc);
+      setText('p-b1-s2', t.pB1S2);
 
-      document.getElementById('b2-title').innerText = t.b2Title;
-      document.getElementById('p-b2-s1').innerText = t.pB2S1;
-      document.getElementById('b2-discovery-title').innerText = t.b2DiscoveryTitle;
-      document.getElementById('b2-discovery-desc').innerHTML = t.b2DiscoveryDesc;
+      setText('b2-title', t.b2Title);
+      setText('b2-prompt-title', t.b2PromptTitle);
+      setText('p-b2-s1', t.pB2S1);
+      setText('b2-discovery-title', t.b2DiscoveryTitle);
+      setHTML('b2-discovery-desc', t.b2DiscoveryDesc);
 
-      document.getElementById('break-title').innerText = t.breakTitle;
-      document.getElementById('break-desc').innerText = t.breakDesc;
+      setText('break-title', t.breakTitle);
+      setText('break-desc', t.breakDesc);
 
-      document.getElementById('b3-title').innerText = t.b3Title;
-      document.getElementById('b3-desc').innerText = t.b3Desc;
-      document.getElementById('b3-roas-title').innerText = t.b3RoasTitle;
-      document.getElementById('b3-roas-desc').innerHTML = t.b3RoasDesc;
+      setText('b3-title', t.b3Title);
+      setText('b3-desc', t.b3Desc);
+      setText('b3-roas-title', t.b3RoasTitle);
+      setHTML('b3-roas-desc', t.b3RoasDesc);
 
-      document.getElementById('b4-title').innerText = t.b4Title;
-      document.getElementById('b4-prompt-title').innerText = t.b4PromptTitle;
+      setText('b4-title', t.b4Title);
+      setHTML('b4-team-rule', t.b4TeamRule);
+      setText('b4-prompt-title', t.b4PromptTitle);
 
-      document.getElementById('hdr-rosetta').innerText = t.hdrRosetta;
-      document.getElementById('rosetta-search').placeholder = t.searchPlaceholder;
-      document.getElementById('th-excel').innerText = t.thExcel;
-      document.getElementById('th-sql').innerText = t.thSql;
-      document.getElementById('th-example').innerText = t.thExample;
-      document.getElementById('toast-text').innerText = t.toastText;
+      setText('b5-title', t.b5Title);
+      setText('b5-badge', t.b5Badge);
+      setText('b5-p1-title', t.b5P1Title);
+      setText('b5-p1-desc', t.b5P1Desc);
+      setText('b5-p2-title', t.b5P2Title);
+      setText('b5-p2-desc', t.b5P2Desc);
+      setText('b5-p3-title', t.b5P3Title);
+      setText('b5-p3-desc', t.b5P3Desc);
 
-      // UPDATE TRAINER BAR TRANSLATIONS
-      document.getElementById('tb-badge').innerText = t.tbBadge;
-      document.getElementById('tb-desc').innerText = t.tbDesc;
-      document.getElementById('tb-btn-b1').innerText = t.tbBtnB1;
-      document.getElementById('tb-btn-b2').innerText = t.tbBtnB2;
-      document.getElementById('tb-btn-break').innerText = t.tbBtnBreak;
-      document.getElementById('tb-btn-b3').innerText = t.tbBtnB3;
-      document.getElementById('tb-btn-b4').innerText = t.tbBtnB4;
-      document.getElementById('tb-btn-b5').innerText = t.tbBtnB5;
+      setText('hdr-rosetta', t.hdrRosetta);
+      const searchInput = document.getElementById('rosetta-search');
+      if (searchInput) searchInput.placeholder = t.searchPlaceholder;
+      setText('th-excel', t.thExcel);
+      setText('th-sql', t.thSql);
+      setText('th-example', t.thExample);
+      setText('toast-text', t.toastText);
+
+      // TRAINER BAR
+      setText('tb-badge', t.tbBadge);
+      setText('tb-desc', t.tbDesc);
+      setText('tb-btn-b1', t.tbBtnB1);
+      setText('tb-btn-b2', t.tbBtnB2);
+      setText('tb-btn-break', t.tbBtnBreak);
+      setText('tb-btn-b3', t.tbBtnB3);
+      setText('tb-btn-b4', t.tbBtnB4);
+      setText('tb-btn-b5', t.tbBtnB5);
 
       const trainerBtn = document.getElementById('btn-trainer-toggle');
-      if (isTrainerMode) {
-        trainerBtn.innerText = t.btnTrainerActive;
-      } else {
-        trainerBtn.innerText = t.btnTrainerInactive;
+      if (trainerBtn) {
+        trainerBtn.innerText = isTrainerMode ? t.btnTrainerActive : t.btnTrainerInactive;
       }
 
       applyLockState(isStrictLocked);
-      switchTeam(document.getElementById('team-select').value);
+      const teamSelect = document.getElementById('team-select');
+      if (teamSelect) switchTeam(teamSelect.value);
     }
 
     // COPY TO CLIPBOARD FUNCTION
@@ -813,18 +861,20 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         'oliver': 'v_clean_marketing_leads_team_oliver'
       };
       const suffix = suffixMap[teamKey] || 'v_clean_marketing_leads_team_rayban';
-      document.getElementById('suffix-example').innerText = suffix;
+      setText('suffix-example', suffix);
       
       if (currentLang === 'it') {
-        document.getElementById('prompt-view-text').innerText = `Crea la vista luxottica_marketing_analytics.${suffix} prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.`;
+        setText('prompt-view-text', `Crea la vista luxottica_marketing_analytics.${suffix} prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.`);
       } else {
-        document.getElementById('prompt-view-text').innerText = `Create view luxottica_marketing_analytics.${suffix} taking from lux_raw_marketing_leads_dirty: clean emails with LOWER and TRIM, extract brand and convert spend to number, filtering VIP leads with spend > 200 euros.`;
+        setText('prompt-view-text', `Create view luxottica_marketing_analytics.${suffix} taking from lux_raw_marketing_leads_dirty: clean emails with LOWER and TRIM, extract brand and convert spend to number, filtering VIP leads with spend > 200 euros.`);
       }
     }
 
     // ROSETTA SEARCH
     function filterRosetta() {
-      const query = document.getElementById('rosetta-search').value.toLowerCase();
+      const searchEl = document.getElementById('rosetta-search');
+      if (!searchEl) return;
+      const query = searchEl.value.toLowerCase();
       document.querySelectorAll('.rosetta-row').forEach(row => {
         const text = row.innerText.toLowerCase();
         row.style.display = text.includes(query) ? '' : 'none';
@@ -834,7 +884,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     // LIVE CLOCK SIMULATION
     setInterval(() => {
       const now = new Date();
-      document.getElementById('session-clock').innerText = now.toTimeString().split(' ')[0];
+      setText('session-clock', now.toTimeString().split(' ')[0]);
     }, 1000);
 
     // INITIAL LOCK APPLICATION ON LOAD
