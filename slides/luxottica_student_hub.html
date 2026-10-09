@@ -362,16 +362,23 @@
               <span class="font-bold text-blue-900" id="b1-s1-brief-title">🎯 Obiettivo di Business per il CMO:</span>
               <p class="text-blue-800" id="b1-s1-brief-desc">Apri Data Canvas (tasto `+`) e chiedi a Gemini in linguaggio naturale di analizzare il dataset <code>luxottica_marketing_analytics</code>: calcolare le vendite complessive e lo scontrino medio per ciascun brand.</p>
             </div>
-            <details class="group bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
-              <summary class="cursor-pointer font-sans text-xs text-blue-400 hover:text-blue-300 select-none flex items-center justify-between">
-                <span id="b1-s1-toggle-lbl">💡 Serve un aiuto? Mostra un esempio di prompt efficace</span>
-                <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
-              </summary>
-              <div class="mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+            <!-- LOCKED HINT 1.1 -->
+            <div id="hint-box-b1-s1" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <div id="lock-state-b1-s1" class="flex items-center justify-between gap-2 flex-wrap">
+                <div class="flex items-center space-x-2">
+                  <span class="text-amber-400">🔒</span>
+                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b1s1">Suggerimento Protetto da PIN:</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="password" id="pin-b1-s1" placeholder="PIN" maxlength="4" class="bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center tracking-widest focus:outline-none focus:border-blue-500">
+                  <button onclick="unlockHint('b1-s1')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b1s1">Sblocca 🔓</button>
+                </div>
+              </div>
+              <div id="content-b1-s1" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
                 <span id="p-b1-s1">Mostrami le vendite totali e lo scontrino medio per brand nel dataset luxottica_marketing_analytics</span>
                 <button onclick="copyToClipboard(document.getElementById('p-b1-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
               </div>
-            </details>
+            </div>
           </div>
 
           <div class="space-y-3">
@@ -380,16 +387,23 @@
               <span class="font-bold text-blue-900" id="b1-s2-brief-title">🎯 Obiettivo di Business per il CMO:</span>
               <p class="text-blue-800" id="b1-s2-brief-desc">Apri l'Editor SQL (`+ -> SQL query`), premi <code>Ctrl + Shift + P</code> e istruisci Gemini a calcolare i 3 totali aggregati: ordini complessivi, fatturato totale e spesa adv totale.</p>
             </div>
-            <details class="group bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
-              <summary class="cursor-pointer font-sans text-xs text-blue-400 hover:text-blue-300 select-none flex items-center justify-between">
-                <span id="b1-s2-toggle-lbl">💡 Serve un aiuto? Mostra un esempio di prompt efficace</span>
-                <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
-              </summary>
-              <div class="mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+            <!-- LOCKED HINT 1.2 -->
+            <div id="hint-box-b1-s2" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <div id="lock-state-b1-s2" class="flex items-center justify-between gap-2 flex-wrap">
+                <div class="flex items-center space-x-2">
+                  <span class="text-amber-400">🔒</span>
+                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b1s2">Suggerimento Protetto da PIN:</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="password" id="pin-b1-s2" placeholder="PIN" maxlength="4" class="bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center tracking-widest focus:outline-none focus:border-blue-500">
+                  <button onclick="unlockHint('b1-s2')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b1s2">Sblocca 🔓</button>
+                </div>
+              </div>
+              <div id="content-b1-s2" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
                 <span id="p-b1-s2">Calcola il totale ordini, il fatturato totale in euro e la spesa adv totale dal dataset luxottica_marketing_analytics</span>
                 <button onclick="copyToClipboard(document.getElementById('p-b1-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
               </div>
-            </details>
+            </div>
           </div>
         </div>
       </div>
@@ -411,16 +425,23 @@
               <span class="font-bold text-amber-900" id="b2-s1-brief-title">🎯 Brief per il Detective:</span>
               <p class="text-amber-800" id="b2-s1-brief-desc">Interroga la tabella <code>lux_online_orders</code> con Gemini per analizzare ricavi e scontrino medio per brand e canale. Trova dove si concentrano gli ordini ad alto valore (superiori a 300 €)!</p>
             </div>
-            <details class="group bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
-              <summary class="cursor-pointer font-sans text-xs text-amber-400 hover:text-amber-300 select-none flex items-center justify-between">
-                <span id="b2-s1-toggle-lbl">💡 Serve un aiuto? Mostra un esempio di prompt efficace</span>
-                <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
-              </summary>
-              <div class="mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+            <!-- LOCKED HINT 2.1 -->
+            <div id="hint-box-b2-s1" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <div id="lock-state-b2-s1" class="flex items-center justify-between gap-2 flex-wrap">
+                <div class="flex items-center space-x-2">
+                  <span class="text-amber-400">🔒</span>
+                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b2s1">Suggerimento Protetto da PIN:</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="password" id="pin-b2-s1" placeholder="PIN" maxlength="4" class="bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center tracking-widest focus:outline-none focus:border-blue-500">
+                  <button onclick="unlockHint('b2-s1')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b2s1">Sblocca 🔓</button>
+                </div>
+              </div>
+              <div id="content-b2-s1" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
                 <span id="p-b2-s1">Mostrami il fatturato totale, gli ordini e lo scontrino medio per brand e canale dalla tabella lux_online_orders, filtrando ordini ad alto valore con fatturato > 300 euro.</span>
                 <button onclick="copyToClipboard(document.getElementById('p-b2-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
               </div>
-            </details>
+            </div>
           </div>
 
           <div class="space-y-3">
@@ -429,16 +450,23 @@
               <span class="font-bold text-amber-900" id="b2-s2-brief-title">🎯 Brief per il Detective:</span>
               <p class="text-amber-800" id="b2-s2-brief-desc">Chiedi a Gemini di calcolare la media degli sconti in euro per brand e canale di vendita da <code>lux_online_orders</code>, e ordina i risultati in modo da vedere chi regala più margine in cima!</p>
             </div>
-            <details class="group bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
-              <summary class="cursor-pointer font-sans text-xs text-amber-400 hover:text-amber-300 select-none flex items-center justify-between">
-                <span id="b2-s2-toggle-lbl">💡 Serve un aiuto? Mostra un esempio di prompt efficace</span>
-                <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
-              </summary>
-              <div class="mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+            <!-- LOCKED HINT 2.2 -->
+            <div id="hint-box-b2-s2" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <div id="lock-state-b2-s2" class="flex items-center justify-between gap-2 flex-wrap">
+                <div class="flex items-center space-x-2">
+                  <span class="text-amber-400">🔒</span>
+                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b2s2">Suggerimento Protetto da PIN:</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="password" id="pin-b2-s2" placeholder="PIN" maxlength="4" class="bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center tracking-widest focus:outline-none focus:border-blue-500">
+                  <button onclick="unlockHint('b2-s2')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b2s2">Sblocca 🔓</button>
+                </div>
+              </div>
+              <div id="content-b2-s2" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
                 <span id="p-b2-s2">Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.</span>
                 <button onclick="copyToClipboard(document.getElementById('p-b2-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
               </div>
-            </details>
+            </div>
           </div>
 
           <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs space-y-1">
@@ -473,12 +501,19 @@
             <p class="text-blue-800" id="b3-desc">I dati di spesa (<code>lux_ad_spend</code>) e di vendita (<code>lux_online_orders</code>) hanno granularità diverse. Un JOIN diretto causerebbe duplicazioni moltiplicando i ricavi! Usa le CTE (Common Table Expressions) per pre-aggregare i totali per brand, poi unisci con JOIN e calcola il ROAS (Ricavi / Spesa).</p>
           </div>
 
-          <details class="group bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
-            <summary class="cursor-pointer font-sans text-xs text-blue-400 hover:text-blue-300 select-none flex items-center justify-between">
-              <span id="b3-toggle-lbl">💡 Mostra Query SQL di Soluzione (Anti Fan-Out)</span>
-              <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
-            </summary>
-            <div class="relative mt-2 pt-2 border-t border-slate-800">
+          <!-- LOCKED HINT 3 -->
+          <div id="hint-box-b3" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+            <div id="lock-state-b3" class="flex items-center justify-between gap-2 flex-wrap">
+              <div class="flex items-center space-x-2">
+                <span class="text-amber-400">🔒</span>
+                <span class="text-slate-300 font-sans" id="lbl-hint-locked-b3">Query Soluzione Protetta da PIN:</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="password" id="pin-b3" placeholder="PIN" maxlength="4" class="bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center tracking-widest focus:outline-none focus:border-blue-500">
+                <button onclick="unlockHint('b3')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b3">Sblocca 🔓</button>
+              </div>
+            </div>
+            <div id="content-b3" class="hidden relative mt-2 pt-2 border-t border-slate-800">
               <pre class="font-mono text-xs overflow-x-auto text-slate-200 leading-relaxed">
 WITH revenue_by_brand AS (
   SELECT brand, SUM(revenue_eur) AS total_revenue_eur
@@ -502,7 +537,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
                 Copia SQL 📋
               </button>
             </div>
-          </details>
+          </div>
 
           <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs space-y-1">
             <span class="font-bold text-emerald-800" id="b3-roas-title">🚀 Verdetto del ROAS per il CMO:</span>
@@ -532,16 +567,23 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
               <span class="font-bold text-emerald-900" id="b4-brief-title">🎯 Cosa deve fare il tuo prompt per Gemini:</span>
               <p class="text-emerald-800" id="b4-brief-desc">Partendo dalla tabella sporca <code>lux_raw_marketing_leads_dirty</code>, crea una View SQL per il tuo team che normalizzi le email (senza spazi e tutte in minuscolo) e selezioni solo i clienti VIP con storico di spesa > 200 euro.</p>
             </div>
-            <details class="group bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
-              <summary class="cursor-pointer font-sans text-xs text-emerald-400 hover:text-emerald-300 select-none flex items-center justify-between">
-                <span id="b4-toggle-lbl">💡 Serve un aiuto? Mostra un esempio di prompt efficace</span>
-                <span class="text-slate-500 group-open:rotate-180 transition-transform">▼</span>
-              </summary>
-              <div class="mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+            <!-- LOCKED HINT 4 -->
+            <div id="hint-box-b4" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <div id="lock-state-b4" class="flex items-center justify-between gap-2 flex-wrap">
+                <div class="flex items-center space-x-2">
+                  <span class="text-amber-400">🔒</span>
+                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b4">Suggerimento Protetto da PIN:</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="password" id="pin-b4" placeholder="PIN" maxlength="4" class="bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center tracking-widest focus:outline-none focus:border-blue-500">
+                  <button onclick="unlockHint('b4')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b4">Sblocca 🔓</button>
+                </div>
+              </div>
+              <div id="content-b4" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
                 <span id="prompt-view-text">Crea la vista luxottica_marketing_analytics.v_clean_marketing_leads_team_rayban prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.</span>
                 <button onclick="copyToClipboard(document.getElementById('prompt-view-text').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
               </div>
-            </details>
+            </div>
           </div>
         </div>
       </div>
@@ -594,23 +636,23 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             </thead>
             <tbody id="rosetta-table-body" class="divide-y divide-slate-100 font-mono">
               <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800">Righe Tabella Pivot</td>
-                <td class="p-2.5 font-bold text-blue-600">GROUP BY colonna</td>
+                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row1-excel">Righe Tabella Pivot</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row1-sql">GROUP BY colonna</td>
                 <td class="p-2.5 text-slate-600">GROUP BY brand</td>
               </tr>
               <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800">CERCA.VERT / VLOOKUP</td>
-                <td class="p-2.5 font-bold text-blue-600">JOIN tabella ON chiave</td>
+                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row2-excel">CERCA.VERT / VLOOKUP</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row2-sql">JOIN tabella ON chiave</td>
                 <td class="p-2.5 text-slate-600">JOIN lux_online_orders ON ...</td>
               </tr>
               <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800">Filtro Colonna</td>
-                <td class="p-2.5 font-bold text-blue-600">WHERE condizione</td>
+                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row3-excel">Filtro Colonna</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row3-sql">WHERE condizione</td>
                 <td class="p-2.5 text-slate-600">WHERE brand = 'Ray-Ban'</td>
               </tr>
               <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800">Somma Valori</td>
-                <td class="p-2.5 font-bold text-blue-600">SUM(colonna)</td>
+                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row4-excel">Somma Valori</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row4-sql">SUM(colonna)</td>
                 <td class="p-2.5 text-slate-600">SUM(revenue_eur)</td>
               </tr>
             </tbody>
@@ -737,6 +779,17 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         thExcel: "Funzione Excel",
         thSql: "Equivalente BigQuery SQL",
         thExample: "Esempio Codice SQL",
+        rsRow1Excel: "Righe Tabella Pivot",
+        rsRow1Sql: "GROUP BY colonna",
+        rsRow2Excel: "CERCA.VERT / VLOOKUP",
+        rsRow2Sql: "JOIN tabella ON chiave",
+        rsRow3Excel: "Filtro Colonna",
+        rsRow3Sql: "WHERE condizione",
+        rsRow4Excel: "Somma Valori",
+        rsRow4Sql: "SUM(colonna)",
+        lblHintLocked: "Suggerimento Protetto da PIN:",
+        lblHintLockedQuery: "Query Soluzione Protetta da PIN:",
+        btnUnlock: "Sblocca 🔓",
         toastText: "✅ Copiato negli Appunti!",
         // TRAINER BAR TRANSLATIONS
         tbBadge: "📡 Console Comando Docente",
@@ -861,6 +914,17 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         thExcel: "Excel Feature",
         thSql: "BigQuery SQL Equivalent",
         thExample: "Example SQL Code",
+        rsRow1Excel: "Pivot Table Rows",
+        rsRow1Sql: "GROUP BY column",
+        rsRow2Excel: "VLOOKUP / XLOOKUP",
+        rsRow2Sql: "JOIN table ON key",
+        rsRow3Excel: "Column Filter",
+        rsRow3Sql: "WHERE condition",
+        rsRow4Excel: "Sum of Values",
+        rsRow4Sql: "SUM(column)",
+        lblHintLocked: "PIN-Protected Hint:",
+        lblHintLockedQuery: "PIN-Protected Solution Query:",
+        btnUnlock: "Unlock 🔓",
         toastText: "✅ Copied to Clipboard!",
         // TRAINER BAR TRANSLATIONS
         tbBadge: "📡 Trainer Command Console",
@@ -1207,6 +1271,29 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('th-excel', t.thExcel);
       setText('th-sql', t.thSql);
       setText('th-example', t.thExample);
+      setText('rs-row1-excel', t.rsRow1Excel);
+      setText('rs-row1-sql', t.rsRow1Sql);
+      setText('rs-row2-excel', t.rsRow2Excel);
+      setText('rs-row2-sql', t.rsRow2Sql);
+      setText('rs-row3-excel', t.rsRow3Excel);
+      setText('rs-row3-sql', t.rsRow3Sql);
+      setText('rs-row4-excel', t.rsRow4Excel);
+      setText('rs-row4-sql', t.rsRow4Sql);
+
+      // PIN LOCKED HINTS TRANSLATIONS
+      setText('lbl-hint-locked-b1s1', t.lblHintLocked);
+      setText('btn-unlock-b1s1', t.btnUnlock);
+      setText('lbl-hint-locked-b1s2', t.lblHintLocked);
+      setText('btn-unlock-b1s2', t.btnUnlock);
+      setText('lbl-hint-locked-b2s1', t.lblHintLocked);
+      setText('btn-unlock-b2s1', t.btnUnlock);
+      setText('lbl-hint-locked-b2s2', t.lblHintLocked);
+      setText('btn-unlock-b2s2', t.btnUnlock);
+      setText('lbl-hint-locked-b3', t.lblHintLockedQuery);
+      setText('btn-unlock-b3', t.btnUnlock);
+      setText('lbl-hint-locked-b4', t.lblHintLocked);
+      setText('btn-unlock-b4', t.btnUnlock);
+
       setText('toast-text', t.toastText);
 
       // TRAINER BAR
@@ -1283,6 +1370,33 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         row.style.display = text.includes(query) ? '' : 'none';
       });
     }
+
+    // UNLOCK HINT WITH PIN
+    function unlockHint(stepKey) {
+      const pinInput = document.getElementById(`pin-${stepKey}`);
+      if (!pinInput) return;
+      const enteredPin = pinInput.value.trim();
+
+      if (enteredPin === '2026') {
+        const lockState = document.getElementById(`lock-state-${stepKey}`);
+        const content = document.getElementById(`content-${stepKey}`);
+        if (lockState) lockState.classList.add('hidden');
+        if (content) content.classList.remove('hidden');
+        showToast(currentLang === 'it' ? "🔓 Suggerimento sbloccato!" : "🔓 Hint unlocked!");
+      } else {
+        pinInput.classList.add('ring-2', 'ring-red-500', 'bg-red-950');
+        setTimeout(() => pinInput.classList.remove('ring-2', 'ring-red-500', 'bg-red-950'), 1500);
+        showToast(currentLang === 'it' ? "❌ PIN errato! Chiedi al docente" : "❌ Invalid PIN! Ask the trainer");
+      }
+    }
+
+    // ALLOW ENTER KEY ON PIN INPUTS
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.target && e.target.id && e.target.id.startsWith('pin-')) {
+        const stepKey = e.target.id.replace('pin-', '');
+        unlockHint(stepKey);
+      }
+    });
 
 
     // AUTO-INITIALIZE TRAINER MODE FROM URL PARAMETERS AT LOAD TIME
