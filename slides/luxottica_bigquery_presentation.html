@@ -201,12 +201,12 @@
           <div class="space-y-3">
             <span class="text-xs font-bold uppercase text-green-600">2. Generated BigQuery SQL</span>
             <div class="code-box p-4 text-xs text-blue-800 leading-relaxed font-mono">
-              <span class="text-blue-600 font-bold">SELECT</span> brand_name,<br>
+              <span class="text-blue-600 font-bold">SELECT</span> brand,<br>
               &nbsp;&nbsp;<span class="text-blue-600 font-bold">COUNT</span>(order_id) <span class="text-blue-600 font-bold">AS</span> total_orders,<br>
-              &nbsp;&nbsp;<span class="text-blue-600 font-bold">ROUND</span>(<span class="text-blue-600 font-bold">SUM</span>(order_value_eur), 2) <span class="text-blue-600 font-bold">AS</span> total_revenue_eur,<br>
-              &nbsp;&nbsp;<span class="text-blue-600 font-bold">ROUND</span>(<span class="text-blue-600 font-bold">AVG</span>(order_value_eur), 2) <span class="text-blue-600 font-bold">AS</span> average_order_value_eur<br>
-              <span class="text-blue-600 font-bold">FROM</span> `luxottica_marketing_analytics.orders`<br>
-              <span class="text-blue-600 font-bold">GROUP BY</span> brand_name<br>
+              &nbsp;&nbsp;<span class="text-blue-600 font-bold">ROUND</span>(<span class="text-blue-600 font-bold">SUM</span>(revenue_eur), 2) <span class="text-blue-600 font-bold">AS</span> total_revenue_eur,<br>
+              &nbsp;&nbsp;<span class="text-blue-600 font-bold">ROUND</span>(<span class="text-blue-600 font-bold">AVG</span>(revenue_eur), 2) <span class="text-blue-600 font-bold">AS</span> average_order_value_eur<br>
+              <span class="text-blue-600 font-bold">FROM</span> `luxottica_marketing_analytics.lux_online_orders`<br>
+              <span class="text-blue-600 font-bold">GROUP BY</span> brand<br>
               <span class="text-blue-600 font-bold">ORDER BY</span> total_revenue_eur <span class="text-blue-600 font-bold">DESC</span>;
             </div>
           </div>

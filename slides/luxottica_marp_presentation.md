@@ -154,12 +154,12 @@ Flat conversion rates across flagship online storefronts. The CMO needs a data-b
 
 ```sql
 SELECT 
-  brand_name,
+  brand,
   COUNT(order_id) AS total_orders,
-  ROUND(SUM(order_value_eur), 2) AS total_revenue_eur,
-  ROUND(AVG(order_value_eur), 2) AS average_order_value_eur
-FROM `luxottica_marketing_analytics.orders`
-GROUP BY brand_name
+  ROUND(SUM(revenue_eur), 2) AS total_revenue_eur,
+  ROUND(AVG(revenue_eur), 2) AS average_order_value_eur
+FROM `luxottica_marketing_analytics.lux_online_orders`
+GROUP BY brand
 ORDER BY total_revenue_eur DESC;
 ```
 
