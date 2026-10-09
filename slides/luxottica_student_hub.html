@@ -48,11 +48,6 @@
         </button>
       </div>
 
-      <!-- TIMER -->
-      <div class="flex items-center space-x-2 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
-        <span class="text-xs text-slate-500 font-medium" id="lbl-clock">Orologio:</span>
-        <span id="session-clock" class="text-sm font-bold text-slate-800 font-mono">15:30:00</span>
-      </div>
 
       <!-- TEAM SELECTOR -->
       <div class="flex items-center space-x-2">
@@ -1137,11 +1132,6 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       });
     }
 
-    // LIVE CLOCK SIMULATION
-    setInterval(() => {
-      const now = new Date();
-      setText('session-clock', now.toTimeString().split(' ')[0]);
-    }, 1000);
 
     // AUTO-INITIALIZE TRAINER MODE FROM URL PARAMETERS AT LOAD TIME
     (function initTrainerModeCheck() {
