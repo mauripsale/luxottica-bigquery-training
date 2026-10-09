@@ -74,27 +74,30 @@
         <span class="text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-950/80 px-2.5 py-1 rounded border border-amber-800/80" id="tb-badge">
           📡 Console Comando Docente
         </span>
-        <span class="text-xs text-slate-300" id="tb-desc">Spingi i blocchi sugli schermi degli studenti in tempo reale:</span>
+        <span class="text-xs text-slate-300" id="tb-desc">Attiva i blocchi sugli schermi degli studenti in tempo reale:</span>
       </div>
 
       <div class="flex items-center space-x-2 flex-wrap">
+        <button onclick="broadcastBlock('cover')" class="px-3 py-1 text-xs font-bold rounded bg-slate-700 hover:bg-slate-600 text-white transition" id="tb-btn-cover">
+          🏠 Attiva Copertina
+        </button>
         <button onclick="broadcastBlock(1)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition" id="tb-btn-b1">
-          ▶️ Spingi Blocco 1
+          ▶️ Attiva Blocco 1
         </button>
         <button onclick="broadcastBlock(2)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition" id="tb-btn-b2">
-          ▶️ Spingi Blocco 2
+          ▶️ Attiva Blocco 2
         </button>
         <button onclick="broadcastBlock('break')" class="px-3 py-1 text-xs font-bold rounded bg-amber-600 hover:bg-amber-500 text-white transition" id="tb-btn-break">
-          ☕ Spingi Pausa
+          ☕ Attiva Pausa
         </button>
         <button onclick="broadcastBlock(3)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition" id="tb-btn-b3">
-          ▶️ Spingi Blocco 3
+          ▶️ Attiva Blocco 3
         </button>
         <button onclick="broadcastBlock(4)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition" id="tb-btn-b4">
-          ▶️ Spingi Blocco 4
+          ▶️ Attiva Blocco 4
         </button>
         <button onclick="broadcastBlock(5)" class="px-3 py-1 text-xs font-bold rounded bg-emerald-600 hover:bg-emerald-500 text-white transition" id="tb-btn-b5">
-          🎉 Spingi Finale
+          🎉 Attiva Finale
         </button>
 
         <span class="text-slate-600">|</span>
@@ -199,7 +202,10 @@
 
       <!-- BLOCK TABS NAVIGATION (STRICTLY LOCKED BY DEFAULT) -->
       <div class="bg-white p-2 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-2">
-        <button onclick="userSelectBlock(1)" id="tab-b1" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold bg-blue-600 text-white shadow-xs">
+        <button onclick="userSelectBlock('cover')" id="tab-cover" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold bg-blue-600 text-white shadow-xs">
+          🏠 Benvenuti / Intro
+        </button>
+        <button onclick="userSelectBlock(1)" id="tab-b1" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
           Blocco 1 (15:30): Data Canvas
         </button>
         <button onclick="userSelectBlock(2)" id="tab-b2" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
@@ -219,8 +225,110 @@
         </button>
       </div>
 
+      <!-- COVER / LANDING PAGE (DEFAULT ACTIVE SECTION ON LOAD) -->
+      <div id="block-cover" class="block-section space-y-6">
+        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-100 pb-6">
+            <div>
+              <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
+                <span>🎓</span>
+                <span id="cover-badge">Sessione Masterclass Live • 180 Minuti</span>
+              </span>
+              <h2 class="text-2xl font-black text-slate-900 mt-2" id="cover-title">Benvenuti alla Masterclass BigQuery & Gemini</h2>
+              <p class="text-sm text-slate-600 mt-1" id="cover-subtitle">Luxottica Digital Commerce & Marketing Analytics Team</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="relative flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+              </span>
+              <span class="text-xs font-bold text-slate-700 font-mono" id="cover-waiting-status">In attesa dell'inizio della sessione...</span>
+            </div>
+          </div>
+
+          <!-- AGENDA OVERVIEW TILES -->
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3" id="cover-agenda-hdr">Programma della Masterclass (5 Blocchi Guidati)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-blue-600">Blocco 1 (15:30)</span>
+                  <span class="text-slate-400 font-mono">30m</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b1-title">BigQuery Data Canvas & Gemini</h4>
+                <p class="text-slate-600 leading-relaxed" id="cover-b1-desc">Esplorazione visuale senza codice e prompt in linguaggio naturale con Gemini in BigQuery.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-blue-600">Blocco 2 (16:00)</span>
+                  <span class="text-slate-400 font-mono">45m</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b2-title">Challenge #1: Sconti & Margini</h4>
+                <p class="text-slate-600 leading-relaxed" id="cover-b2-desc">Aggregazioni SQL (GROUP BY, HAVING) per stanare le emorragie di sconti su Ray-Ban e Vogue.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-amber-700">Pausa (16:45)</span>
+                  <span class="text-amber-600 font-mono">15m</span>
+                </div>
+                <h4 class="font-bold text-amber-900 text-sm mb-1" id="cover-break-title">☕ Coffee Break & Networking</h4>
+                <p class="text-amber-800 leading-relaxed" id="cover-break-desc">Pausa rigenerante prima dell'analisi avanzata del ROAS e del calcolo dei costi adv.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-blue-600">Blocco 3 (17:00)</span>
+                  <span class="text-slate-400 font-mono">45m</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b3-title">Challenge #2: Multi-Platform ROAS</h4>
+                <p class="text-slate-600 leading-relaxed" id="cover-b3-desc">CTE e JOIN senza duplicazioni fan-out per confrontare il rendimento Google Ads vs TikTok.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-blue-600">Blocco 4 (17:45)</span>
+                  <span class="text-slate-400 font-mono">30m</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b4-title">Challenge #3: Clean VIP Leads View</h4>
+                <p class="text-slate-600 leading-relaxed" id="cover-b4-desc">Data cleaning con funzioni stringa e creazione viste SQL sicure con il prefisso del tuo team.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-emerald-700">Blocco 5 (18:15)</span>
+                  <span class="text-emerald-600 font-mono">15m</span>
+                </div>
+                <h4 class="font-bold text-emerald-900 text-sm mb-1" id="cover-b5-title">🎉 Piano Strategico & Podio</h4>
+                <p class="text-emerald-800 leading-relaxed" id="cover-b5-desc">Presentazione delle 3 raccomandazioni al CMO e proclamazione del team vincitore!</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- GETTING READY CHECKLIST -->
+          <div class="p-5 rounded-xl bg-blue-50/60 border border-blue-200 space-y-3">
+            <h4 class="text-xs font-bold uppercase text-blue-800" id="cover-ready-hdr">📋 Check-in Rapido Prima di Iniziare:</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-blue-950">
+              <div class="flex items-center space-x-2">
+                <span class="text-emerald-600 font-bold">✓</span>
+                <span id="cover-step1">Seleziona il tuo brand in alto a destra (Ray-Ban, Oakley, etc.)</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="text-emerald-600 font-bold">✓</span>
+                <span id="cover-step2">Apri BigQuery Studio cliccando il pulsante blu</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="text-emerald-600 font-bold">✓</span>
+                <span id="cover-step3">Il docente attiverà i blocchi di lavoro in sequenza</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- BLOCK 1 CONTENT -->
-      <div id="block-1" class="block-section space-y-6">
+      <div id="block-1" class="block-section hidden space-y-6">
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div class="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
@@ -450,12 +558,35 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         heroTitle: "Portale Interattivo Studente",
         heroSubtitle: "Dominare i Dati Marketing con BigQuery Studio, Gemini AI & Google Ads",
         btnOpenBQ: "🚀 Apri BigQuery Studio",
+        tabCover: "🏠 Benvenuti / Intro",
         tabB1: "Blocco 1 (15:30): Data Canvas",
         tabB2: "Blocco 2 (16:00): Sconti",
         tabBreak: "☕ Pausa Caffè (16:45)",
         tabB3: "Blocco 3 (17:00): ROAS & JOIN",
         tabB4: "Blocco 4 (17:45): Lead VIP",
         tabB5: "Blocco 5 (18:15): Piano CMO",
+        // COVER PAGE IT
+        coverBadge: "Sessione Masterclass Live • 180 Minuti",
+        coverTitle: "Benvenuti alla Masterclass BigQuery & Gemini",
+        coverSubtitle: "Luxottica Digital Commerce & Marketing Analytics Team",
+        coverWaitingStatus: "In attesa dell'inizio della sessione...",
+        coverAgendaHdr: "Programma della Masterclass (5 Blocchi Guidati)",
+        coverB1Title: "BigQuery Data Canvas & Gemini",
+        coverB1Desc: "Esplorazione visuale senza codice e prompt in linguaggio naturale con Gemini in BigQuery.",
+        coverB2Title: "Challenge #1: Sconti & Margini",
+        coverB2Desc: "Aggregazioni SQL (GROUP BY, HAVING) per stanare le emorragie di sconti su Ray-Ban e Vogue.",
+        coverBreakTitle: "☕ Coffee Break & Networking",
+        coverBreakDesc: "Pausa rigenerante prima dell'analisi avanzata del ROAS e del calcolo dei costi adv.",
+        coverB3Title: "Challenge #2: Multi-Platform ROAS",
+        coverB3Desc: "CTE e JOIN senza duplicazioni fan-out per confrontare il rendimento Google Ads vs TikTok.",
+        coverB4Title: "Challenge #3: Clean VIP Leads View",
+        coverB4Desc: "Data cleaning con funzioni stringa e creazione viste SQL sicure con il prefisso del tuo team.",
+        coverB5Title: "🎉 Piano Strategico & Podio",
+        coverB5Desc: "Presentazione delle 3 raccomandazioni al CMO e proclamazione del team vincitore!",
+        coverReadyHdr: "📋 Check-in Rapido Prima di Iniziare:",
+        coverStep1: "Seleziona il tuo brand in alto a destra (Ray-Ban, Oakley, etc.)",
+        coverStep2: "Apri BigQuery Studio cliccando il pulsante blu",
+        coverStep3: "Il docente attiverà i blocchi di lavoro in sequenza",
         b1Title: "Blocco 1: Setup BigQuery & Esplorazione Data Canvas",
         b1Step1Title: "Passo 1.1: Prompt Data Canvas Gemini",
         b1Step1Desc: "Apri Data Canvas (tasto `+`) e incolla questo prompt nella barra di ricerca:",
@@ -493,13 +624,14 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         toastText: "✅ Copiato negli Appunti!",
         // TRAINER BAR TRANSLATIONS
         tbBadge: "📡 Console Comando Docente",
-        tbDesc: "Spingi i blocchi sugli schermi degli studenti in tempo reale:",
-        tbBtnB1: "▶️ Spingi Blocco 1",
-        tbBtnB2: "▶️ Spingi Blocco 2",
-        tbBtnBreak: "☕ Spingi Pausa",
-        tbBtnB3: "▶️ Spingi Blocco 3",
-        tbBtnB4: "▶️ Spingi Blocco 4",
-        tbBtnB5: "🎉 Spingi Finale",
+        tbDesc: "Attiva i blocchi sugli schermi degli studenti in tempo reale:",
+        tbBtnCover: "🏠 Attiva Copertina",
+        tbBtnB1: "▶️ Attiva Blocco 1",
+        tbBtnB2: "▶️ Attiva Blocco 2",
+        tbBtnBreak: "☕ Attiva Pausa",
+        tbBtnB3: "▶️ Attiva Blocco 3",
+        tbBtnB4: "▶️ Attiva Blocco 4",
+        tbBtnB5: "🎉 Attiva Finale",
         btnLockLocked: "🔒 Tab Studenti BLOCCATI",
         btnLockUnlocked: "🔓 Esplorazione LIBERA",
         btnExitTrainer: "❌ Esci da Docente",
@@ -517,12 +649,35 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         heroTitle: "Interactive Student Portal",
         heroSubtitle: "Master Marketing Data with BigQuery Studio, Gemini AI & Google Ads",
         btnOpenBQ: "🚀 Open BigQuery Studio",
+        tabCover: "🏠 Welcome / Intro",
         tabB1: "Block 1 (15:30): Data Canvas",
         tabB2: "Block 2 (16:00): Discounts",
         tabBreak: "☕ Coffee Break (16:45)",
         tabB3: "Block 3 (17:00): ROAS & JOIN",
         tabB4: "Block 4 (17:45): VIP Leads",
         tabB5: "Block 5 (18:15): CMO Plan",
+        // COVER PAGE EN
+        coverBadge: "Live Masterclass Session • 180 Minutes",
+        coverTitle: "Welcome to BigQuery & Gemini Masterclass",
+        coverSubtitle: "Luxottica Digital Commerce & Marketing Analytics Team",
+        coverWaitingStatus: "Waiting for session to begin...",
+        coverAgendaHdr: "Masterclass Agenda (5 Guided Blocks)",
+        coverB1Title: "BigQuery Data Canvas & Gemini",
+        coverB1Desc: "No-code visual exploration and natural language prompts with Gemini in BigQuery.",
+        coverB2Title: "Challenge #1: Discounts & Margins",
+        coverB2Desc: "SQL aggregations (GROUP BY, HAVING) to expose discount erosion on Ray-Ban and Vogue.",
+        coverBreakTitle: "☕ Coffee Break & Networking",
+        coverBreakDesc: "Refreshing break before advanced ROAS analysis and ad spend calculations.",
+        coverB3Title: "Challenge #2: Multi-Platform ROAS",
+        coverB3Desc: "CTEs and JOINs without fan-out multiplications to compare Google Ads vs TikTok.",
+        coverB4Title: "Challenge #3: Clean VIP Leads View",
+        coverB4Desc: "Data cleaning with string functions and secure SQL views created with your team prefix.",
+        coverB5Title: "🎉 Strategic Plan & Awarding",
+        coverB5Desc: "Presenting the 3 CMO recommendations and crowning the winning team!",
+        coverReadyHdr: "📋 Quick Check-in Before Starting:",
+        coverStep1: "Select your brand in the top right (Ray-Ban, Oakley, etc.)",
+        coverStep2: "Open BigQuery Studio by clicking the blue button",
+        coverStep3: "The trainer will activate working blocks in sequence",
         b1Title: "Block 1: BigQuery Setup & Data Canvas Exploration",
         b1Step1Title: "Step 1.1: Gemini Data Canvas Prompt",
         b1Step1Desc: "Open Data Canvas (`+` button) and copy this prompt into search bar:",
@@ -560,13 +715,14 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         toastText: "✅ Copied to Clipboard!",
         // TRAINER BAR TRANSLATIONS
         tbBadge: "📡 Trainer Command Console",
-        tbDesc: "Broadcast blocks to student screens in real-time:",
-        tbBtnB1: "▶️ Push Block 1",
-        tbBtnB2: "▶️ Push Block 2",
-        tbBtnBreak: "☕ Push Break",
-        tbBtnB3: "▶️ Push Block 3",
-        tbBtnB4: "▶️ Push Block 4",
-        tbBtnB5: "🎉 Push Final",
+        tbDesc: "Activate blocks on student screens in real-time:",
+        tbBtnCover: "🏠 Activate Cover",
+        tbBtnB1: "▶️ Activate Block 1",
+        tbBtnB2: "▶️ Activate Block 2",
+        tbBtnBreak: "☕ Activate Break",
+        tbBtnB3: "▶️ Activate Block 3",
+        tbBtnB4: "▶️ Activate Block 4",
+        tbBtnB5: "🎉 Activate Final",
         btnLockLocked: "🔒 Student Tabs LOCKED",
         btnLockUnlocked: "🔓 Free Exploration",
         btnExitTrainer: "❌ Exit Trainer",
@@ -797,12 +953,36 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('hero-subtitle', t.heroSubtitle);
       setText('btn-open-bq', t.btnOpenBQ);
 
+      setText('tab-cover', t.tabCover);
       setText('tab-b1', t.tabB1);
       setText('tab-b2', t.tabB2);
       setText('tab-break', t.tabBreak);
       setText('tab-b3', t.tabB3);
       setText('tab-b4', t.tabB4);
       setText('tab-b5', t.tabB5);
+
+      // COVER PAGE ELEMENTS
+      setText('cover-badge', t.coverBadge);
+      setText('cover-title', t.coverTitle);
+      setText('cover-subtitle', t.coverSubtitle);
+      setText('cover-waiting-status', t.coverWaitingStatus);
+      setText('cover-agenda-hdr', t.coverAgendaHdr);
+      setText('cover-b1-title', t.coverB1Title);
+      setText('cover-b1-desc', t.coverB1Desc);
+      setText('cover-b2-title', t.coverB2Title);
+      setText('cover-b2-desc', t.coverB2Desc);
+      setText('cover-break-title', t.coverBreakTitle);
+      setText('cover-break-desc', t.coverBreakDesc);
+      setText('cover-b3-title', t.coverB3Title);
+      setText('cover-b3-desc', t.coverB3Desc);
+      setText('cover-b4-title', t.coverB4Title);
+      setText('cover-b4-desc', t.coverB4Desc);
+      setText('cover-b5-title', t.coverB5Title);
+      setText('cover-b5-desc', t.coverB5Desc);
+      setText('cover-ready-hdr', t.coverReadyHdr);
+      setText('cover-step1', t.coverStep1);
+      setText('cover-step2', t.coverStep2);
+      setText('cover-step3', t.coverStep3);
 
       setText('b1-title', t.b1Title);
       setText('b1-step1-title', t.b1Step1Title);
@@ -850,6 +1030,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       // TRAINER BAR
       setText('tb-badge', t.tbBadge);
       setText('tb-desc', t.tbDesc);
+      setText('tb-btn-cover', t.tbBtnCover);
       setText('tb-btn-b1', t.tbBtnB1);
       setText('tb-btn-b2', t.tbBtnB2);
       setText('tb-btn-break', t.tbBtnBreak);
@@ -939,6 +1120,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       } else {
         applyLockState(true);
       }
+      showBlock('cover', false);
     })();
   </script>
 </body>
