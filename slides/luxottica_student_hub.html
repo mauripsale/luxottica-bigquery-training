@@ -16,25 +16,26 @@
   <!-- TOP GOOGLE CLOUD NAVBAR -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm px-6 py-3 flex flex-wrap items-center justify-between gap-4">
     <div class="flex items-center space-x-4">
-      <div class="flex items-center space-x-2">
+      <!-- SECRET TRIPLE CLICK ON LOGO FOR TRAINER PIN PIN PROMPT -->
+      <div class="flex items-center space-x-2 cursor-pointer select-none" id="logo-trigger" onclick="handleLogoClick()">
         <span class="text-2xl font-bold tracking-tight text-slate-800">Luxottica</span>
         <span class="text-slate-300 font-light text-xl">|</span>
         <span class="text-lg font-medium text-slate-600">Google Cloud Training</span>
       </div>
       
       <!-- LIVE SYNC / LOCK STATUS BADGE -->
-      <div id="sync-status-badge" class="flex items-center space-x-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200">
-        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      <div id="sync-status-badge" class="flex items-center space-x-2 bg-red-50 text-red-700 text-xs font-semibold px-3 py-1 rounded-full border border-red-200">
+        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
         <span id="sync-status-text">🔒 Navigazione Bloccata dal Docente</span>
       </div>
     </div>
 
-    <!-- CONTROLS: TRAINER TOGGLE, LANGUAGE TOGGLE, TIMER & ACTIVE TEAM -->
+    <!-- CONTROLS: LANGUAGE TOGGLE, TIMER & ACTIVE TEAM -->
     <div class="flex items-center space-x-3 flex-wrap">
 
-      <!-- TRAINER MODE TOGGLE -->
-      <button onclick="toggleTrainerMode()" id="btn-trainer-toggle" class="text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 transition">
-        🎓 Modalità Docente
+      <!-- TRAINER MODE TOGGLE (HIDDEN BY DEFAULT FROM STUDENTS) -->
+      <button onclick="toggleTrainerMode()" id="btn-trainer-toggle" class="hidden text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-900 text-white border border-slate-800 transition">
+        🎓 Modalità Docente (ATTIVA)
       </button>
 
       <!-- LANGUAGE TOGGLE SWITCH -->
@@ -100,7 +101,7 @@
 
         <!-- LOCK TOGGLE BUTTON FOR TRAINER -->
         <button id="btn-lock-control" onclick="toggleLockState()" class="px-3 py-1 text-xs font-bold rounded bg-red-600 hover:bg-red-500 text-white transition flex items-center space-x-1">
-          <span>🔒 Blocca Tab Studente</span>
+          <span>🔒 Tab Studente BLOCCATI</span>
         </button>
       </div>
     </div>
@@ -434,12 +435,39 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     let currentLang = 'it';
     let isTrainerMode = false;
     let isStrictLocked = true; // STRICT INSTRUCTOR LOCK BY DEFAULT
+    let logoClickCount = 0;
+    let logoClickTimer;
     const BROADCAST_TOPIC = 'https://ntfy.sh/luxottica-bq-masterclass-sync';
 
     // CHECK URL PARAMETERS FOR ROLE
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('role') === 'trainer') {
+    if (urlParams.get('role') === 'trainer' || urlParams.get('pin') === '2026') {
+      enableTrainerMode();
+    }
+
+    // SECRET LOGO TRIPLE-CLICK FOR TRAINER ACCESS
+    function handleLogoClick() {
+      logoClickCount++;
+      clearTimeout(logoClickTimer);
+      logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1000);
+
+      if (logoClickCount >= 3) {
+        logoClickCount = 0;
+        const pin = prompt("🔐 Inserisci il PIN Docente per attivare la consolle:");
+        if (pin === "2026" || pin === "1234") {
+          enableTrainerMode();
+        } else if (pin) {
+          alert("❌ PIN errato!");
+        }
+      }
+    }
+
+    function enableTrainerMode() {
       isTrainerMode = true;
+      document.getElementById('trainer-bar').classList.remove('hidden');
+      const btn = document.getElementById('btn-trainer-toggle');
+      btn.classList.remove('hidden');
+      applyLockState(false);
     }
 
     // INITIALIZE REAL-TIME SSE LISTENER FOR ALL 50 STUDENTS
@@ -468,13 +496,10 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const btn = document.getElementById('btn-trainer-toggle');
       if (isTrainerMode) {
         bar.classList.remove('hidden');
-        btn.classList.add('bg-slate-900', 'text-white', 'border-slate-800');
         btn.innerText = '🎓 Modalità Docente (ATTIVA)';
-        // Unlock tabs for the trainer
         applyLockState(false);
       } else {
         bar.classList.add('hidden');
-        btn.classList.remove('bg-slate-900', 'text-white', 'border-slate-800');
         btn.innerText = '🎓 Modalità Docente';
         applyLockState(isStrictLocked);
       }
@@ -766,10 +791,6 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
     // INITIAL LOCK APPLICATION ON LOAD
     applyLockState(true);
-
-    if (isTrainerMode) {
-      toggleTrainerMode();
-    }
   </script>
 </body>
 </html>
