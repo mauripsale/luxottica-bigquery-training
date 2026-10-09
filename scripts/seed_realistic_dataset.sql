@@ -1,7 +1,7 @@
 -- ============================================================================
--- LUXOTTICA MARKETING ANALYTICS - MULTI-BRAND REALISTIC DATASET (RE-SEEDING)
+-- LUXOTTICA MARKETING ANALYTICS - REALISTIC MULTI-BRAND & ROAS DATASET
 -- ============================================================================
--- Execute this script in BigQuery Studio to create realistic sales, AOV, and discount structures.
+-- Execute this script in BigQuery Studio to create realistic sales, AOV, discounts, and campaign ROAS.
 -- ============================================================================
 
 CREATE OR REPLACE TABLE `luxottica_marketing_analytics.lux_online_orders` AS
@@ -30,7 +30,6 @@ WITH base_orders AS (
       WHEN 1 THEN 185.00  -- Aviator / Wayfarer
       ELSE 165.00         -- Optical Frames
     END AS revenue_eur,
-    -- Multi-channel discount structure: High discount leakage on Direct Online Promo Sales
     CASE 
       WHEN MOD(idx, 4) = 0 THEN ROUND(20.00 + (MOD(idx, 5) * 2.5), 2) -- €20.00 - €30.00 discount on Direct
       WHEN MOD(idx, 4) = 3 THEN 8.00                                   -- €8.00 discount on Wholesale
@@ -51,8 +50,8 @@ WITH base_orders AS (
     1 AS units_sold,
     CASE MOD(idx, 3) WHEN 0 THEN 240.00 WHEN 1 THEN 195.00 ELSE 210.00 END AS revenue_eur,
     CASE 
-      WHEN MOD(idx, 3) = 0 THEN 14.50 -- €14.50 discount on Wholesale Partner
-      WHEN MOD(idx, 3) = 1 THEN 5.00  -- €5.00 on Direct
+      WHEN MOD(idx, 3) = 0 THEN 14.50
+      WHEN MOD(idx, 3) = 1 THEN 5.00
       ELSE 0.00
     END AS discount_amount_eur
   FROM UNNEST(GENERATE_ARRAY(1, 28000)) AS idx
@@ -70,8 +69,8 @@ WITH base_orders AS (
     1 AS units_sold,
     CASE MOD(idx, 2) WHEN 0 THEN 135.00 ELSE 115.00 END AS revenue_eur,
     CASE 
-      WHEN MOD(idx, 3) = 0 THEN 28.50 -- €28.50 discount leakage on Wholesale/Outlets (~22% off!)
-      WHEN MOD(idx, 3) = 1 THEN 12.00 -- €12.00 discount on Direct
+      WHEN MOD(idx, 3) = 0 THEN 28.50
+      WHEN MOD(idx, 3) = 1 THEN 12.00
       ELSE 5.00
     END AS discount_amount_eur
   FROM UNNEST(GENERATE_ARRAY(1, 18000)) AS idx
@@ -88,10 +87,7 @@ WITH base_orders AS (
     CASE MOD(idx, 3) WHEN 0 THEN 'E-Commerce Direct' WHEN 1 THEN 'Retail Store' ELSE 'Wholesale Partner' END AS channel,
     1 AS units_sold,
     CASE MOD(idx, 2) WHEN 0 THEN 320.00 ELSE 285.00 END AS revenue_eur,
-    CASE 
-      WHEN MOD(idx, 10) = 0 THEN 10.00 -- Very rare €10.00 seasonal promo
-      ELSE 0.00
-    END AS discount_amount_eur
+    CASE WHEN MOD(idx, 10) = 0 THEN 10.00 ELSE 0.00 END AS discount_amount_eur
   FROM UNNEST(GENERATE_ARRAY(1, 12000)) AS idx
 
   UNION ALL
@@ -106,21 +102,33 @@ WITH base_orders AS (
     CASE MOD(idx, 2) WHEN 0 THEN 'E-Commerce Direct' ELSE 'Retail Store' END AS channel,
     1 AS units_sold,
     CASE MOD(idx, 3) WHEN 0 THEN 450.00 WHEN 1 THEN 390.00 ELSE 420.00 END AS revenue_eur,
-    0.00 AS discount_amount_eur -- Strict zero-discount luxury policy
+    0.00 AS discount_amount_eur
   FROM UNNEST(GENERATE_ARRAY(1, 6500)) AS idx
 )
 SELECT * FROM base_orders;
 
 
--- RE-CREATE TABLE: lux_ad_spend
+-- ============================================================================
+-- RE-CREATE TABLE: lux_ad_spend (With Direct Campaign Revenue for Flawless ROAS)
+-- ============================================================================
 CREATE OR REPLACE TABLE `luxottica_marketing_analytics.lux_ad_spend` AS
 WITH ad_data AS (
-  SELECT 1 AS id, 'CMP-GGL-01' AS campaign_id, 'Google_Search_RayBan_Meta_SmartGlasses' AS campaign_name, 'Google Ads' AS platform, DATE('2026-05-01') AS date, 'Ray-Ban' AS brand, 45000 AS impressions, 3800 AS clicks, 450.00 AS spend_eur, 120 AS conversions
-  UNION ALL SELECT 2, 'CMP-GGL-02', 'Google_Shopping_Oakley_Prizm', 'Google Ads', DATE('2026-05-01'), 'Oakley', 38000, 2900, 380.00, 85
-  UNION ALL SELECT 3, 'CMP-GGL-03', 'Google_PMax_OliverPeoples_Luxury', 'Google Ads', DATE('2026-05-01'), 'Oliver Peoples', 18000, 1200, 250.00, 42
-  UNION ALL SELECT 4, 'CMP-TTK-01', 'TikTok_GenZ_Awareness_Campaign', 'TikTok Ads', DATE('2026-05-01'), 'Vogue Eyewear', 120000, 15000, 2200.00, 8
-  UNION ALL SELECT 5, 'CMP-TTK-02', 'TikTok_Influencer_RayBan_Trendy', 'TikTok Ads', DATE('2026-05-01'), 'Ray-Ban', 95000, 11000, 1800.00, 12
-  UNION ALL SELECT 6, 'CMP-CRT-01', 'Criteo_Dynamic_Retargeting_Global', 'Criteo Social', DATE('2026-05-01'), 'Ray-Ban', 65000, 4200, 1200.00, 9
-  UNION ALL SELECT 7, 'CMP-MTA-01', 'Meta_Instagram_Persol_Craftsmanship', 'Meta Ads', DATE('2026-05-01'), 'Persol', 42000, 3100, 550.00, 38
+  -- GOOGLE ADS (High ROAS: ~7.08x Leader!)
+  SELECT 1 AS id, 'CMP-GGL-01' AS campaign_id, 'Google_Search_RayBan_Meta_SmartGlasses' AS campaign_name, 'Google Ads' AS platform, DATE('2026-05-01') AS date, 'Ray-Ban' AS brand, 45000 AS impressions, 3800 AS clicks, 450.00 AS spend_eur, 120 AS conversions, 3840.00 AS revenue_generated_eur
+
+  UNION ALL SELECT 2, 'CMP-GGL-02', 'Google_Shopping_Oakley_Prizm', 'Google Ads', DATE('2026-05-01'), 'Oakley', 38000, 2900, 380.00, 85, 2040.00
+
+  UNION ALL SELECT 3, 'CMP-GGL-03', 'Google_PMax_OliverPeoples_Luxury', 'Google Ads', DATE('2026-05-01'), 'Oliver Peoples', 18000, 1200, 250.00, 42, 1764.00
+
+  -- TIKTOK ADS (Wasted Budget: 0.52x ROAS Loss!)
+  UNION ALL SELECT 4, 'CMP-TTK-01', 'TikTok_GenZ_Awareness_Campaign', 'TikTok Ads', DATE('2026-05-01'), 'Vogue Eyewear', 120000, 15000, 2200.00, 8, 960.00
+
+  UNION ALL SELECT 5, 'CMP-TTK-02', 'TikTok_Influencer_RayBan_Trendy', 'TikTok Ads', DATE('2026-05-01'), 'Ray-Ban', 95000, 11000, 1800.00, 12, 1140.00
+
+  -- CRITEO SOCIAL (Retargeting Leakage: 1.12x ROAS)
+  UNION ALL SELECT 6, 'CMP-CRT-01', 'Criteo_Dynamic_Retargeting_Global', 'Criteo Social', DATE('2026-05-01'), 'Ray-Ban', 65000, 4200, 1200.00, 9, 1350.00
+
+  -- META ADS (Instagram / Facebook: 3.80x ROAS)
+  UNION ALL SELECT 7, 'CMP-MTA-01', 'Meta_Instagram_Persol_Craftsmanship', 'Meta Ads', DATE('2026-05-01'), 'Persol', 42000, 3100, 550.00, 38, 2090.00
 )
 SELECT * FROM ad_data;
