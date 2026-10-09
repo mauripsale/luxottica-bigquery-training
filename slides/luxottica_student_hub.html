@@ -145,36 +145,37 @@
 
       <!-- KEYBOARD SHORTCUTS CARD (BIGQUERY STUDIO) -->
       <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
-        <div class="flex items-center justify-between">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="hdr-shortcuts">Scorciatoie BigQuery Studio</h3>
-          <span class="text-[10px] font-mono text-slate-400">Win / Mac</span>
-        </div>
-        <div class="space-y-2 text-xs">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="hdr-shortcuts">Scorciatoie BigQuery Studio</h3>
+        <div class="space-y-2.5 text-xs">
           <!-- GEMINI GENERATOR SHORTCUT -->
-          <div class="p-2.5 bg-blue-50/60 rounded-lg border border-blue-100 space-y-1">
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-blue-900 flex items-center space-x-1">
+          <div class="p-3 bg-blue-50/70 rounded-xl border border-blue-100 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-blue-950 flex items-center space-x-1.5 text-xs">
                 <span>✨</span>
                 <span id="sc-gemini-title">Generatore SQL con Gemini</span>
               </span>
             </div>
-            <div class="flex items-center justify-between pt-1">
-              <span class="text-[11px] text-slate-500" id="sc-gemini-desc">Apri prompt AI nell'editor</span>
-              <kbd class="px-2 py-0.5 bg-white font-mono text-slate-800 rounded border border-slate-300 text-[11px] font-semibold shadow-xs">Ctrl / ⌘ + Shift + P</kbd>
+            <p class="text-[11px] text-slate-600 leading-tight" id="sc-gemini-desc">Apri il prompt AI nell'editor per creare query</p>
+            <div class="flex items-center space-x-1.5 pt-0.5">
+              <kbd class="px-2 py-1 bg-white font-mono text-slate-800 rounded-md border border-slate-300 text-[11px] font-bold shadow-xs">Ctrl + Shift + P</kbd>
+              <span class="text-[10px] text-slate-400">oppure</span>
+              <kbd class="px-2 py-1 bg-white font-mono text-slate-800 rounded-md border border-slate-300 text-[11px] font-bold shadow-xs">⌘ + Shift + P</kbd>
             </div>
           </div>
 
           <!-- EXECUTE QUERY SHORTCUT -->
-          <div class="p-2.5 bg-emerald-50/60 rounded-lg border border-emerald-100 space-y-1">
-            <div class="flex justify-between items-center">
-              <span class="font-bold text-emerald-900 flex items-center space-x-1">
+          <div class="p-3 bg-emerald-50/70 rounded-xl border border-emerald-100 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-emerald-950 flex items-center space-x-1.5 text-xs">
                 <span>▶️</span>
                 <span id="sc-run-title">Esegui Query SQL (Run)</span>
               </span>
             </div>
-            <div class="flex items-center justify-between pt-1">
-              <span class="text-[11px] text-slate-500" id="sc-run-desc">Lancia query senza mouse</span>
-              <kbd class="px-2 py-0.5 bg-white font-mono text-slate-800 rounded border border-slate-300 text-[11px] font-semibold shadow-xs">Ctrl / ⌘ + Enter</kbd>
+            <p class="text-[11px] text-slate-600 leading-tight" id="sc-run-desc">Lancia ed esegue la query senza toccare il mouse</p>
+            <div class="flex items-center space-x-1.5 pt-0.5">
+              <kbd class="px-2 py-1 bg-white font-mono text-slate-800 rounded-md border border-slate-300 text-[11px] font-bold shadow-xs">Ctrl + Enter</kbd>
+              <span class="text-[10px] text-slate-400">oppure</span>
+              <kbd class="px-2 py-1 bg-white font-mono text-slate-800 rounded-md border border-slate-300 text-[11px] font-bold shadow-xs">⌘ + Enter</kbd>
             </div>
           </div>
         </div>
