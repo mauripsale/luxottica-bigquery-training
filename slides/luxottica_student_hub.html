@@ -16,7 +16,7 @@
   <!-- TOP GOOGLE CLOUD NAVBAR -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm px-6 py-3 flex flex-wrap items-center justify-between gap-4">
     <div class="flex items-center space-x-4">
-      <!-- SECRET TRIPLE CLICK ON LOGO FOR TRAINER PIN PIN PROMPT -->
+      <!-- SECRET TRIPLE CLICK ON LOGO FOR TRAINER PIN PROMPT -->
       <div class="flex items-center space-x-2 cursor-pointer select-none" id="logo-trigger" onclick="handleLogoClick()">
         <span class="text-2xl font-bold tracking-tight text-slate-800">Luxottica</span>
         <span class="text-slate-300 font-light text-xl">|</span>
@@ -67,33 +67,33 @@
     </div>
   </header>
 
-  <!-- TRAINER LIVE BROADCAST CONTROL BAR (VISIBLE ONLY IN TRAINER MODE) -->
+  <!-- TRAINER LIVE BROADCAST CONTROL BAR (FULLY BILINGUAL) -->
   <div id="trainer-bar" class="hidden bg-slate-900 text-white px-6 py-3 border-b border-slate-800 shadow-md">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center space-x-3">
-        <span class="text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-950/80 px-2.5 py-1 rounded border border-amber-800/80">
+        <span class="text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-950/80 px-2.5 py-1 rounded border border-amber-800/80" id="tb-badge">
           📡 Console Comando Docente
         </span>
-        <span class="text-xs text-slate-300">Spingi i blocchi sugli schermi degli studenti in tempo reale:</span>
+        <span class="text-xs text-slate-300" id="tb-desc">Spingi i blocchi sugli schermi degli studenti in tempo reale:</span>
       </div>
 
       <div class="flex items-center space-x-2 flex-wrap">
-        <button onclick="broadcastBlock(1)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition">
+        <button onclick="broadcastBlock(1)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition" id="tb-btn-b1">
           ▶️ Spingi Blocco 1
         </button>
-        <button onclick="broadcastBlock(2)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition">
+        <button onclick="broadcastBlock(2)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition" id="tb-btn-b2">
           ▶️ Spingi Blocco 2
         </button>
-        <button onclick="broadcastBlock('break')" class="px-3 py-1 text-xs font-bold rounded bg-amber-600 hover:bg-amber-500 text-white transition">
+        <button onclick="broadcastBlock('break')" class="px-3 py-1 text-xs font-bold rounded bg-amber-600 hover:bg-amber-500 text-white transition" id="tb-btn-break">
           ☕ Spingi Pausa
         </button>
-        <button onclick="broadcastBlock(3)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition">
+        <button onclick="broadcastBlock(3)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition" id="tb-btn-b3">
           ▶️ Spingi Blocco 3
         </button>
-        <button onclick="broadcastBlock(4)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition">
+        <button onclick="broadcastBlock(4)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition" id="tb-btn-b4">
           ▶️ Spingi Blocco 4
         </button>
-        <button onclick="broadcastBlock(5)" class="px-3 py-1 text-xs font-bold rounded bg-emerald-600 hover:bg-emerald-500 text-white transition">
+        <button onclick="broadcastBlock(5)" class="px-3 py-1 text-xs font-bold rounded bg-emerald-600 hover:bg-emerald-500 text-white transition" id="tb-btn-b5">
           🎉 Spingi Finale
         </button>
 
@@ -101,7 +101,7 @@
 
         <!-- LOCK TOGGLE BUTTON FOR TRAINER -->
         <button id="btn-lock-control" onclick="toggleLockState()" class="px-3 py-1 text-xs font-bold rounded bg-red-600 hover:bg-red-500 text-white transition flex items-center space-x-1">
-          <span>🔒 Tab Studente BLOCCATI</span>
+          <span id="btn-lock-text">🔒 Tab Studente BLOCCATI</span>
         </button>
       </div>
     </div>
@@ -467,6 +467,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       document.getElementById('trainer-bar').classList.remove('hidden');
       const btn = document.getElementById('btn-trainer-toggle');
       btn.classList.remove('hidden');
+      btn.innerText = translations[currentLang].btnTrainerActive;
       applyLockState(false);
     }
 
@@ -496,11 +497,11 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const btn = document.getElementById('btn-trainer-toggle');
       if (isTrainerMode) {
         bar.classList.remove('hidden');
-        btn.innerText = '🎓 Modalità Docente (ATTIVA)';
+        btn.innerText = translations[currentLang].btnTrainerActive;
         applyLockState(false);
       } else {
         bar.classList.add('hidden');
-        btn.innerText = '🎓 Modalità Docente';
+        btn.innerText = translations[currentLang].btnTrainerInactive;
         applyLockState(isStrictLocked);
       }
     }
@@ -528,12 +529,15 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
     function updateLockControlButton() {
       const btn = document.getElementById('btn-lock-control');
+      const text = document.getElementById('btn-lock-text');
+      const t = translations[currentLang];
+
       if (isStrictLocked) {
         btn.className = "px-3 py-1 text-xs font-bold rounded bg-red-600 hover:bg-red-500 text-white transition flex items-center space-x-1";
-        btn.innerHTML = "<span>🔒 Tab Studente BLOCCATI</span>";
+        text.innerText = t.btnLockLocked;
       } else {
         btn.className = "px-3 py-1 text-xs font-bold rounded bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center space-x-1";
-        btn.innerHTML = "<span>🔓 Tab Studente SBLOCCATI</span>";
+        text.innerText = t.btnLockUnlocked;
       }
     }
 
@@ -548,6 +552,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         }
       });
       updateSyncBadge(locked);
+      updateLockControlButton();
     }
 
     // USER MANUAL TAB CLICK (ALLOWED ONLY WHEN UNLOCKED OR IN TRAINER MODE)
@@ -625,7 +630,20 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         thExcel: "Funzione Excel",
         thSql: "Equivalente BigQuery SQL",
         thExample: "Esempio Codice SQL",
-        toastText: "✅ Copiato negli Appunti!"
+        toastText: "✅ Copiato negli Appunti!",
+        // TRAINER BAR TRANSLATIONS
+        tbBadge: "📡 Console Comando Docente",
+        tbDesc: "Spingi i blocchi sugli schermi degli studenti in tempo reale:",
+        tbBtnB1: "▶️ Spingi Blocco 1",
+        tbBtnB2: "▶️ Spingi Blocco 2",
+        tbBtnBreak: "☕ Spingi Pausa",
+        tbBtnB3: "▶️ Spingi Blocco 3",
+        tbBtnB4: "▶️ Spingi Blocco 4",
+        tbBtnB5: "🎉 Spingi Finale",
+        btnLockLocked: "🔒 Tab Studente BLOCCATI",
+        btnLockUnlocked: "🔓 Tab Studente SBLOCCATI",
+        btnTrainerActive: "🎓 Modalità Docente (ATTIVA)",
+        btnTrainerInactive: "🎓 Modalità Docente"
       },
       en: {
         lblClock: "Clock:",
@@ -668,7 +686,20 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         thExcel: "Excel Feature",
         thSql: "BigQuery SQL Equivalent",
         thExample: "Example SQL Code",
-        toastText: "✅ Copied to Clipboard!"
+        toastText: "✅ Copied to Clipboard!",
+        // TRAINER BAR TRANSLATIONS
+        tbBadge: "📡 Trainer Command Console",
+        tbDesc: "Broadcast blocks to student screens in real-time:",
+        tbBtnB1: "▶️ Push Block 1",
+        tbBtnB2: "▶️ Push Block 2",
+        tbBtnBreak: "☕ Push Break",
+        tbBtnB3: "▶️ Push Block 3",
+        tbBtnB4: "▶️ Push Block 4",
+        tbBtnB5: "🎉 Push Final",
+        btnLockLocked: "🔒 Student Tabs LOCKED",
+        btnLockUnlocked: "🔓 Student Tabs UNLOCKED",
+        btnTrainerActive: "🎓 Trainer Mode (ACTIVE)",
+        btnTrainerInactive: "🎓 Trainer Mode"
       }
     };
 
@@ -727,6 +758,23 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       document.getElementById('th-sql').innerText = t.thSql;
       document.getElementById('th-example').innerText = t.thExample;
       document.getElementById('toast-text').innerText = t.toastText;
+
+      // UPDATE TRAINER BAR TRANSLATIONS
+      document.getElementById('tb-badge').innerText = t.tbBadge;
+      document.getElementById('tb-desc').innerText = t.tbDesc;
+      document.getElementById('tb-btn-b1').innerText = t.tbBtnB1;
+      document.getElementById('tb-btn-b2').innerText = t.tbBtnB2;
+      document.getElementById('tb-btn-break').innerText = t.tbBtnBreak;
+      document.getElementById('tb-btn-b3').innerText = t.tbBtnB3;
+      document.getElementById('tb-btn-b4').innerText = t.tbBtnB4;
+      document.getElementById('tb-btn-b5').innerText = t.tbBtnB5;
+
+      const trainerBtn = document.getElementById('btn-trainer-toggle');
+      if (isTrainerMode) {
+        trainerBtn.innerText = t.btnTrainerActive;
+      } else {
+        trainerBtn.innerText = t.btnTrainerInactive;
+      }
 
       applyLockState(isStrictLocked);
       switchTeam(document.getElementById('team-select').value);
