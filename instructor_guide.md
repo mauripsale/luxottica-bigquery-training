@@ -156,7 +156,12 @@ flowchart TD
 
 ### 🕒 17:00 - 17:45 | Block 3: Chapter 2 - "The Google ROAS Revelation with CTEs & JOINs" (45 Mins)
 
-- **17:00 - 17:20 (20m) | 🎙️ SCRIPT: Advanced SQL (UNIONS, JOINS & CTEs)**
+- **17:00 - 17:20 (20m) | 🎙️ SCRIPT: Advanced SQL for Non-Technical Audience (UNIONS, JOINS & CTEs)**
+  - 🛡️ **NON-TECHNICAL FACILITATION GUIDELINES (EXCEL USERS):**
+    Reassure participants immediately! Business Analysts and Retail Managers are not expected to memorize complex SQL syntax. We leverage **3 Levels of Pedagogical Scaffolding**:
+    1. **Level 1 (Gemini AI Prompting):** Gemini writes the full SQL query; students simply enter the natural language prompt and click `RUN`.
+    2. **Level 2 (Excel Rosetta Stone Metaphors):** Explain `JOIN` as an **automated VLOOKUP** that aligns brand revenue next to ad spend across millions of rows in seconds, and `GROUP BY` as an **Excel Pivot Table**.
+    3. **Level 3 (Data Canvas Visual Nodes):** For no-code visual learners, demonstrate how to connect table nodes with drag-and-drop connectors on the Data Canvas.
   - **GEMINI ROAS TEACHABLE MOMENT:** When students ask Gemini to calculate ROAS on `lux_ad_spend` alone, Gemini points out that ad spend and revenue live in separate tables.
   - **SQL Fan-Out Warning:** Explain why joining orders and ad spend directly on brand without pre-aggregation causes fan-out multiplication (tripling spend!).
   - **The Elegant CTE (`WITH`) Solution:**

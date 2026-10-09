@@ -59,6 +59,7 @@
 ### Chapter 2: "The Google ROAS Revelation" (17:20 - 17:40)
 **File:** `challenges/challenge_2_cross_channel.sql`
 - **Goal:** Combine `lux_ad_spend` (Spend) and `lux_online_orders` (Revenue) using CTEs (`WITH`) and `JOIN` on `brand`.
+- **💡 Excel Mental Anchor:** A `JOIN` is just an automated **VLOOKUP**! You don't need to write complex SQL manually—use **Gemini SQL Generator** (`Ctrl + Shift + P`) to write the query for you!
 - **Key Clue:** Discover why third-party social networks (TikTok / Criteo) have a wasteful 0.5x - 1.1x ROAS while **Google Search & Shopping** generate a massive **6.8x - 8.2x ROAS**!
 
 ---

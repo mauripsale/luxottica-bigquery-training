@@ -163,7 +163,12 @@ flowchart TD
 
 ### 🕒 17:00 - 17:45 | Blocco 3: Capitolo 2 - "La Rivelazione del ROAS Google Ads con CTE e JOIN" (45 Mins)
 
-- **17:00 - 17:20 (20m) | 🎙️ COPIONE: SQL Avanzato (UNIONS, JOINS & CTE `WITH`)**
+- **17:00 - 17:20 (20m) | 🎙️ COPIONE: SQL Avanzato per Pubblico Non-Tecnico (UNIONS, JOINS & CTE `WITH`)**
+  - 🛡️ **LINEE GUIDA FACILITAZIONE PUBBLICO NON-TECNICO (EXCEL USERS):**
+    Rassicura subito l'aula! I Business Analyst e Retail Manager non devono memorizzare codice complesso. Sfruttiamo **3 Livelli di Scaffolding Didattico**:
+    1. **Livello 1 (Gemini AI Prompting):** Gemini scrive la query completa; gli studenti devono solo fare il prompt in italiano e cliccare `RUN`.
+    2. **Livello 2 (Metafora Rosetta Stone Excel):** Spiega che la `JOIN` è semplicemente un **`CERCA.VERT` (VLOOKUP) automatico** che affianca il fatturato del brand alla sua spesa pubblicitaria su milioni di righe in un secondo, e che il `GROUP BY` equivale alla **Tabella Pivot**!
+    3. **Livello 3 (Data Canvas Visual Nodes):** Per chi predilige l'esplorazione no-code visuale, mostra come collegare i nodi delle due tabelle con un connettore visuale drag-and-drop.
   - **MOMENTO DIDATTICO GEMINI ROAS:** Quando gli studenti chiedono a Gemini di calcolare il ROAS direttamente su `lux_ad_spend`, Gemini segnala che la spesa e il fatturato risiedono in due tabelle diverse.
   - **Spiegazione Fan-Out SQL:** Spiega perché non fare mai una `JOIN` diretta tra ordini e campagne senza pre-aggregazione (evita di triplicare la spesa calcolata!).
   - **La Soluzione Elegante con CTE (`WITH`):**
