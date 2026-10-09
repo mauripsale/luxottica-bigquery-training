@@ -40,10 +40,10 @@
 
       <!-- LANGUAGE TOGGLE SWITCH -->
       <div class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
-        <button id="lang-btn-it" onclick="setLanguage('it')" class="px-3 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition">
+        <button id="lang-btn-it" onclick="setLanguage('it')" class="px-3 py-1 text-xs font-bold rounded-md text-slate-600 hover:text-slate-900 transition">
           🇮🇹 IT
         </button>
-        <button id="lang-btn-en" onclick="setLanguage('en')" class="px-3 py-1 text-xs font-bold rounded-md text-slate-600 hover:text-slate-900 transition">
+        <button id="lang-btn-en" onclick="setLanguage('en')" class="px-3 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition">
           🇬🇧 EN
         </button>
       </div>
@@ -762,7 +762,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       }
     };
 
-    let currentLang = 'it';
+    let currentLang = 'en';
     let isTrainerMode = false;
     let isStrictLocked = true;
     let logoClickCount = 0;
@@ -1155,6 +1155,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       } else {
         applyLockState(true);
       }
+      setLanguage('en');
       showBlock('cover', false);
     })();
   </script>
