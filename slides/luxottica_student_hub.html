@@ -150,6 +150,36 @@
     </div>
   </div>
 
+  <!-- CUSTOM MASKED MODAL FOR TRAINER PIN (AVOIDS BROWSER CLEAR-TEXT PROMPT) -->
+  <div id="trainer-pin-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center hidden p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl max-w-sm w-full p-6 text-white space-y-4 animate-in fade-in zoom-in duration-150">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-xl">
+          🔐
+        </div>
+        <div>
+          <h3 class="font-bold text-sm text-slate-100" id="t-modal-title">Accesso Console Docente</h3>
+          <p class="text-xs text-slate-400" id="t-modal-desc">Inserisci il PIN per attivare i controlli</p>
+        </div>
+      </div>
+
+      <div>
+        <input type="password" id="trainer-modal-pin" maxlength="6" placeholder="••••" autocomplete="off"
+          class="pin-input w-full bg-slate-950 border border-slate-700 text-center text-white text-lg rounded-xl py-2.5 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/30 transition">
+        <p id="trainer-modal-error" class="text-[11px] text-red-400 text-center hidden mt-1.5 font-medium">❌ PIN errato!</p>
+      </div>
+
+      <div class="flex items-center justify-end space-x-2 pt-1">
+        <button onclick="closeTrainerPinModal()" type="button" class="px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition">
+          Annulla
+        </button>
+        <button onclick="submitTrainerPinModal()" type="button" class="px-5 py-2 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md">
+          Accedi 🔓
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- MAIN CONTAINER -->
   <div class="max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1">
 
@@ -1059,6 +1089,43 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       }
     }
 
+    // TRAINER PIN CUSTOM MODAL CONTROLS (REPLACES BROWSER PROMPT SO PIN IS MASKED)
+    function openTrainerPinModal() {
+      const modal = document.getElementById('trainer-pin-modal');
+      const input = document.getElementById('trainer-modal-pin');
+      const errorMsg = document.getElementById('trainer-modal-error');
+      if (!modal || !input) return;
+
+      if (errorMsg) errorMsg.classList.add('hidden');
+      input.value = '';
+      modal.classList.remove('hidden');
+      setTimeout(() => input.focus(), 50);
+    }
+
+    function closeTrainerPinModal() {
+      const modal = document.getElementById('trainer-pin-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function submitTrainerPinModal() {
+      const input = document.getElementById('trainer-modal-pin');
+      const errorMsg = document.getElementById('trainer-modal-error');
+      if (!input) return;
+
+      const entered = input.value.trim();
+      if (entered === "1926" || entered === "2026" || entered === "1234" || entered === "trainer") {
+        closeTrainerPinModal();
+        enableTrainerMode();
+        showToast(currentLang === 'it' ? "🎓 Modalità Docente Attivata!" : "🎓 Trainer Mode Activated!");
+      } else {
+        if (errorMsg) errorMsg.classList.remove('hidden');
+        input.classList.add('ring-2', 'ring-red-500', 'bg-red-950');
+        setTimeout(() => {
+          input.classList.remove('ring-2', 'ring-red-500', 'bg-red-950');
+        }, 1200);
+      }
+    }
+
     // SECRET LOGO TRIPLE-CLICK FOR TRAINER ACCESS
     function handleLogoClick() {
       logoClickCount++;
@@ -1067,23 +1134,33 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
       if (logoClickCount >= 3) {
         logoClickCount = 0;
-        const pin = prompt("🔐 Inserisci il PIN Docente per attivare la consolle:");
-        if (pin === "1926" || pin === "2026" || pin === "1234" || pin === "trainer") {
-          enableTrainerMode();
-        } else if (pin) {
-          alert("❌ PIN errato!");
-        }
+        openTrainerPinModal();
       }
     }
 
     // KEYBOARD SHORTCUT (Ctrl + Alt + T) TO TOGGLE TRAINER MODE
     window.addEventListener('keydown', (e) => {
+      // Enter or Escape inside Trainer PIN modal
+      const modal = document.getElementById('trainer-pin-modal');
+      if (modal && !modal.classList.contains('hidden')) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          submitTrainerPinModal();
+          return;
+        }
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          closeTrainerPinModal();
+          return;
+        }
+      }
+
       if (e.ctrlKey && e.altKey && (e.key === 't' || e.key === 'T')) {
-        const pin = prompt("🔐 Inserisci il PIN Docente per attivare la consolle:");
-        if (pin === "1926" || pin === "2026" || pin === "1234" || pin === "trainer") {
-          enableTrainerMode();
-        } else if (pin) {
-          alert("❌ PIN errato!");
+        e.preventDefault();
+        if (isTrainerMode) {
+          disableTrainerMode();
+        } else {
+          openTrainerPinModal();
         }
       }
     });
