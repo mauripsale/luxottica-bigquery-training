@@ -9,6 +9,11 @@
     @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap');
     body { font-family: 'Google Sans', 'Roboto', sans-serif; }
     .tab-disabled { opacity: 0.5; cursor: not-allowed !important; pointer-events: none; }
+    .pin-input {
+      -webkit-text-security: disc;
+      letter-spacing: 0.35em;
+      font-size: 1rem;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
@@ -405,7 +410,7 @@
                   <span class="text-slate-300 font-sans" id="lbl-hint-locked-b1s1">Suggerimento Protetto da PIN:</span>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <input type="password" id="pin-b1-s1" placeholder="PIN" maxlength="4" class="bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center tracking-widest focus:outline-none focus:border-blue-500">
+                  <input type="password" id="pin-b1-s1" placeholder="PIN" maxlength="4" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
                   <button onclick="unlockHint('b1-s1')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b1s1">Sblocca 🔓</button>
                 </div>
               </div>
@@ -430,7 +435,7 @@
                   <span class="text-slate-300 font-sans" id="lbl-hint-locked-b1s2">Suggerimento Protetto da PIN:</span>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <input type="password" id="pin-b1-s2" placeholder="PIN" maxlength="4" class="bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center tracking-widest focus:outline-none focus:border-blue-500">
+                  <input type="password" id="pin-b1-s2" placeholder="PIN" maxlength="4" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
                   <button onclick="unlockHint('b1-s2')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b1s2">Sblocca 🔓</button>
                 </div>
               </div>
@@ -468,7 +473,7 @@
                   <span class="text-slate-300 font-sans" id="lbl-hint-locked-b2s1">Suggerimento Protetto da PIN:</span>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <input type="password" id="pin-b2-s1" placeholder="PIN" maxlength="4" class="bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center tracking-widest focus:outline-none focus:border-blue-500">
+                  <input type="password" id="pin-b2-s1" placeholder="PIN" maxlength="4" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
                   <button onclick="unlockHint('b2-s1')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b2s1">Sblocca 🔓</button>
                 </div>
               </div>
@@ -493,7 +498,7 @@
                   <span class="text-slate-300 font-sans" id="lbl-hint-locked-b2s2">Suggerimento Protetto da PIN:</span>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <input type="password" id="pin-b2-s2" placeholder="PIN" maxlength="4" class="bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center tracking-widest focus:outline-none focus:border-blue-500">
+                  <input type="password" id="pin-b2-s2" placeholder="PIN" maxlength="4" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
                   <button onclick="unlockHint('b2-s2')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b2s2">Sblocca 🔓</button>
                 </div>
               </div>
@@ -544,7 +549,7 @@
                 <span class="text-slate-300 font-sans" id="lbl-hint-locked-b3">Query Soluzione Protetta da PIN:</span>
               </div>
               <div class="flex items-center space-x-2">
-                <input type="password" id="pin-b3" placeholder="PIN" maxlength="4" class="bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center tracking-widest focus:outline-none focus:border-blue-500">
+                <input type="password" id="pin-b3" placeholder="PIN" maxlength="4" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
                 <button onclick="unlockHint('b3')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b3">Sblocca 🔓</button>
               </div>
             </div>
@@ -610,7 +615,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
                   <span class="text-slate-300 font-sans" id="lbl-hint-locked-b4">Suggerimento Protetto da PIN:</span>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <input type="password" id="pin-b4" placeholder="PIN" maxlength="4" class="bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center tracking-widest focus:outline-none focus:border-blue-500">
+                  <input type="password" id="pin-b4" placeholder="PIN" maxlength="4" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
                   <button onclick="unlockHint('b4')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b4">Sblocca 🔓</button>
                 </div>
               </div>
@@ -1063,7 +1068,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       if (logoClickCount >= 3) {
         logoClickCount = 0;
         const pin = prompt("🔐 Inserisci il PIN Docente per attivare la consolle:");
-        if (pin === "2026" || pin === "1234" || pin === "trainer") {
+        if (pin === "1926" || pin === "2026" || pin === "1234" || pin === "trainer") {
           enableTrainerMode();
         } else if (pin) {
           alert("❌ PIN errato!");
@@ -1075,7 +1080,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     window.addEventListener('keydown', (e) => {
       if (e.ctrlKey && e.altKey && (e.key === 't' || e.key === 'T')) {
         const pin = prompt("🔐 Inserisci il PIN Docente per attivare la consolle:");
-        if (pin === "2026" || pin === "1234" || pin === "trainer") {
+        if (pin === "1926" || pin === "2026" || pin === "1234" || pin === "trainer") {
           enableTrainerMode();
         } else if (pin) {
           alert("❌ PIN errato!");
@@ -1604,7 +1609,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       if (!pinInput) return;
       const enteredPin = pinInput.value.trim();
 
-      if (enteredPin === '2026') {
+      if (enteredPin === '1926' || enteredPin === '2026') {
         const lockState = document.getElementById(`lock-state-${stepKey}`);
         const content = document.getElementById(`content-${stepKey}`);
         if (lockState) lockState.classList.add('hidden');
@@ -1634,7 +1639,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const pin = urlParams.get('pin');
       const trainer = urlParams.get('trainer');
 
-      if (role === 'trainer' || pin === '2026' || trainer === 'true' || trainer === '1') {
+      if (role === 'trainer' || pin === '1926' || pin === '2026' || trainer === 'true' || trainer === '1') {
         enableTrainerMode();
       } else {
         applyLockState(true);
