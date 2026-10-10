@@ -62,68 +62,77 @@
     </div>
   </header>
 
-  <!-- TRAINER LIVE BROADCAST CONTROL BAR (FULLY BILINGUAL) -->
-  <div id="trainer-bar" class="hidden bg-slate-900 text-white px-6 py-3 border-b border-slate-800 shadow-md">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center space-x-3">
-        <span class="text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-950/80 px-2.5 py-1 rounded border border-amber-800/80" id="tb-badge">
-          📡 Console Comando Docente
+  <!-- TRAINER LIVE BROADCAST CONTROL BAR (REDESIGNED: CLEAN, GROUPED & ELEGANT) -->
+  <div id="trainer-bar" class="hidden bg-slate-950 text-white px-5 py-2.5 border-b border-amber-500/30 shadow-2xl backdrop-blur-md">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+
+      <!-- LEFT: TRAINER BADGE & BROADCAST BLOCKS -->
+      <div class="flex items-center space-x-2 flex-wrap">
+        <span class="font-extrabold uppercase tracking-wider text-amber-400 bg-amber-950/90 px-2 py-1 rounded border border-amber-600/60 shadow-sm flex items-center space-x-1" id="tb-badge">
+          <span>🎓</span> <span>Console Docente</span>
         </span>
-        <span class="text-xs text-slate-300" id="tb-desc">Attiva i blocchi sugli schermi degli studenti in tempo reale:</span>
+
+        <!-- BLOCK SELECTOR BUTTONS (PILL GROUP) -->
+        <div class="inline-flex rounded-lg bg-slate-900 p-0.5 border border-slate-800">
+          <button onclick="broadcastBlock('cover')" class="px-2.5 py-1 rounded font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition" id="tb-btn-cover" title="Mostra Copertina">
+            🏠 Intro
+          </button>
+          <button onclick="broadcastBlock(1)" class="px-2.5 py-1 rounded font-medium text-slate-300 hover:text-white hover:bg-blue-600 transition" id="tb-btn-b1" title="Attiva Blocco 1">
+            B1: Canvas
+          </button>
+          <button onclick="broadcastBlock(2)" class="px-2.5 py-1 rounded font-medium text-slate-300 hover:text-white hover:bg-blue-600 transition" id="tb-btn-b2" title="Attiva Blocco 2">
+            B2: Sconti
+          </button>
+          <button onclick="broadcastBlock('break')" class="px-2.5 py-1 rounded font-medium text-amber-300 hover:text-white hover:bg-amber-600 transition" id="tb-btn-break" title="Pausa Caffè">
+            ☕ Pausa
+          </button>
+          <button onclick="broadcastBlock(3)" class="px-2.5 py-1 rounded font-medium text-slate-300 hover:text-white hover:bg-blue-600 transition" id="tb-btn-b3" title="Attiva Blocco 3">
+            B3: ROAS
+          </button>
+          <button onclick="broadcastBlock(4)" class="px-2.5 py-1 rounded font-medium text-slate-300 hover:text-white hover:bg-blue-600 transition" id="tb-btn-b4" title="Attiva Blocco 4">
+            B4: Leads
+          </button>
+          <button onclick="broadcastBlock(5)" class="px-2.5 py-1 rounded font-medium text-emerald-300 hover:text-white hover:bg-emerald-600 transition" id="tb-btn-b5" title="Attiva Finale">
+            🎉 Finale
+          </button>
+        </div>
       </div>
 
+      <!-- RIGHT: HINT CONTROLS (SELECT + OK + HIDE) & CLASS LOCK & EXIT -->
       <div class="flex items-center space-x-2 flex-wrap">
-        <button onclick="broadcastBlock('cover')" class="px-3 py-1 text-xs font-bold rounded bg-slate-700 hover:bg-slate-600 text-white transition" id="tb-btn-cover">
-          🏠 Attiva Copertina
-        </button>
-        <button onclick="broadcastBlock(1)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition" id="tb-btn-b1">
-          ▶️ Attiva Blocco 1
-        </button>
-        <button onclick="broadcastBlock(2)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition" id="tb-btn-b2">
-          ▶️ Attiva Blocco 2
-        </button>
-        <button onclick="broadcastBlock('break')" class="px-3 py-1 text-xs font-bold rounded bg-amber-600 hover:bg-amber-500 text-white transition" id="tb-btn-break">
-          ☕ Attiva Pausa
-        </button>
-        <button onclick="broadcastBlock(3)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition" id="tb-btn-b3">
-          ▶️ Attiva Blocco 3
-        </button>
-        <button onclick="broadcastBlock(4)" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 hover:bg-blue-500 text-white transition" id="tb-btn-b4">
-          ▶️ Attiva Blocco 4
-        </button>
-        <button onclick="broadcastBlock(5)" class="px-3 py-1 text-xs font-bold rounded bg-emerald-600 hover:bg-emerald-500 text-white transition" id="tb-btn-b5">
-          🎉 Attiva Finale
-        </button>
-
-        <span class="text-slate-600">|</span>
-
-        <!-- LOCK TOGGLE BUTTON FOR TRAINER -->
-        <button id="btn-lock-control" onclick="toggleLockState()" class="px-3 py-1 text-xs font-bold rounded bg-red-600 hover:bg-red-500 text-white transition flex items-center space-x-1" title="Blocca o sblocca la navigazione per tutti gli studenti">
-          <span id="btn-lock-text">🔒 Tab Studenti BLOCCATI</span>
-        </button>
-
-        <span class="text-slate-600">|</span>
-
-        <!-- UNLOCK HINTS FOR ALL STUDENTS DROPDOWN -->
-        <div class="flex items-center space-x-1.5 bg-slate-800/90 px-2 py-1 rounded border border-slate-700">
-          <span class="text-[11px] text-amber-300 font-semibold" id="tb-lbl-hints">💡 Sblocca Hint:</span>
-          <select id="trainer-hint-select" onchange="if(this.value){ broadcastUnlockHint(this.value); this.value=''; }" class="bg-slate-900 border border-slate-700 text-amber-400 text-xs rounded px-2 py-0.5 focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer">
-            <option value="" id="opt-hint-choose">-- Scegli Step --</option>
+        
+        <!-- HINTS MANAGER GROUP -->
+        <div class="flex items-center space-x-1.5 bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800 shadow-sm">
+          <span class="text-amber-400 font-semibold" id="tb-lbl-hints">💡 Suggerimenti:</span>
+          <select id="trainer-hint-select" class="bg-slate-950 border border-slate-700 text-amber-300 text-xs rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer">
+            <option value="" id="opt-hint-choose">-- Seleziona Step --</option>
             <option value="b1-s1">Step 1.1 (Data Canvas)</option>
             <option value="b1-s2">Step 1.2 (Macro Sales)</option>
             <option value="b2-s1">Step 2.1 (AOV > 300€)</option>
             <option value="b2-s2">Step 2.2 (Sconti / Discounts)</option>
-            <option value="b3">Block 3 (ROAS Query)</option>
-            <option value="b4">Block 4 (VIP Leads View)</option>
-            <option value="all" id="opt-hint-all">✨ Sblocca TUTTI gli Hint</option>
+            <option value="b3">Block 3 (Query ROAS)</option>
+            <option value="b4">Block 4 (Vista Lead VIP)</option>
+            <option value="all" id="opt-hint-all">✨ TUTTI gli Hint</option>
           </select>
+          <button onclick="trainerUnlockSelectedHint()" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-2.5 py-1 rounded transition shadow flex items-center space-x-1" title="Sblocca lo step selezionato per tutta l'aula">
+            <span id="btn-hint-confirm">Sblocca 🔓</span>
+          </button>
+          <button onclick="trainerHideSelectedHint()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-medium px-2 py-1 rounded border border-slate-700 transition" title="Nascondi nuovamente lo step selezionato (richiederà di nuovo il PIN)">
+            <span id="btn-hint-hide">Nascondi 🔒</span>
+          </button>
         </div>
 
+        <!-- NAVIGATION LOCK CONTROL -->
+        <button id="btn-lock-control" onclick="toggleLockState()" class="px-2.5 py-1 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold transition flex items-center space-x-1 shadow-sm" title="Blocca o sblocca la navigazione autonoma degli studenti">
+          <span id="btn-lock-text">🔒 Tab BLOCCATI</span>
+        </button>
+
         <!-- EXIT TRAINER BUTTON -->
-        <button id="btn-exit-trainer" onclick="disableTrainerMode()" class="px-3 py-1 text-xs font-bold rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center space-x-1 border border-slate-700" title="Chiudi consolle docente e torna alla vista studente reale">
-          <span id="btn-exit-trainer-text">❌ Esci da Docente</span>
+        <button id="btn-exit-trainer" onclick="disableTrainerMode()" class="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition flex items-center space-x-1 border border-slate-800" title="Chiudi consolle docente e passa a vista studente">
+          <span id="btn-exit-trainer-text">✕ Esci</span>
         </button>
       </div>
+
     </div>
   </div>
 
@@ -809,23 +818,24 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         btnUnlock: "Sblocca 🔓",
         toastText: "✅ Copiato negli Appunti!",
         // TRAINER BAR TRANSLATIONS
-        tbBadge: "📡 Console Comando Docente",
-        tbDesc: "Attiva i blocchi sugli schermi degli studenti in tempo reale:",
-        tbBtnCover: "🏠 Attiva Copertina",
-        tbBtnB1: "▶️ Attiva Blocco 1",
-        tbBtnB2: "▶️ Attiva Blocco 2",
-        tbBtnBreak: "☕ Attiva Pausa",
-        tbBtnB3: "▶️ Attiva Blocco 3",
-        tbBtnB4: "▶️ Attiva Blocco 4",
-        tbBtnB5: "🎉 Attiva Finale",
-        btnLockLocked: "🔒 Tab Studenti BLOCCATI",
+        tbBadge: "🎓 Console Docente",
+        tbBtnCover: "🏠 Intro",
+        tbBtnB1: "B1: Canvas",
+        tbBtnB2: "B2: Sconti",
+        tbBtnBreak: "☕ Pausa",
+        tbBtnB3: "B3: ROAS",
+        tbBtnB4: "B4: Leads",
+        tbBtnB5: "🎉 Finale",
+        btnLockLocked: "🔒 Tab BLOCCATI",
         btnLockUnlocked: "🔓 Esplorazione LIBERA",
-        btnExitTrainer: "❌ Esci da Docente",
+        btnExitTrainer: "✕ Esci",
         btnTrainerActive: "🎓 Modalità Docente (ATTIVA)",
         btnTrainerInactive: "🎓 Modalità Docente",
-        tbLblHints: "💡 Sblocca Hint:",
-        optHintChoose: "-- Scegli Step --",
-        optHintAll: "✨ Sblocca TUTTI gli Hint"
+        tbLblHints: "💡 Suggerimenti:",
+        optHintChoose: "-- Seleziona Step --",
+        optHintAll: "✨ TUTTI gli Hint",
+        btnHintConfirm: "Sblocca 🔓",
+        btnHintHide: "Nascondi 🔒"
       },
       en: {
         lblClock: "Clock:",
@@ -947,23 +957,24 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         btnUnlock: "Unlock 🔓",
         toastText: "✅ Copied to Clipboard!",
         // TRAINER BAR TRANSLATIONS
-        tbBadge: "📡 Trainer Command Console",
-        tbDesc: "Activate blocks on student screens in real-time:",
-        tbBtnCover: "🏠 Activate Cover",
-        tbBtnB1: "▶️ Activate Block 1",
-        tbBtnB2: "▶️ Activate Block 2",
-        tbBtnBreak: "☕ Activate Break",
-        tbBtnB3: "▶️ Activate Block 3",
-        tbBtnB4: "▶️ Activate Block 4",
-        tbBtnB5: "🎉 Activate Final",
-        btnLockLocked: "🔒 Student Tabs LOCKED",
+        tbBadge: "🎓 Trainer Console",
+        tbBtnCover: "🏠 Intro",
+        tbBtnB1: "B1: Canvas",
+        tbBtnB2: "B2: Discounts",
+        tbBtnBreak: "☕ Break",
+        tbBtnB3: "B3: ROAS",
+        tbBtnB4: "B4: Leads",
+        tbBtnB5: "🎉 Finale",
+        btnLockLocked: "🔒 Student LOCKED",
         btnLockUnlocked: "🔓 Free Exploration",
-        btnExitTrainer: "❌ Exit Trainer",
+        btnExitTrainer: "✕ Exit",
         btnTrainerActive: "🎓 Trainer Mode (ACTIVE)",
         btnTrainerInactive: "🎓 Trainer Mode",
-        tbLblHints: "💡 Unlock Hint:",
+        tbLblHints: "💡 Hints Manager:",
         optHintChoose: "-- Choose Step --",
-        optHintAll: "✨ Unlock ALL Hints"
+        optHintAll: "✨ ALL Hints",
+        btnHintConfirm: "Unlock 🔓",
+        btnHintHide: "Hide 🔒"
       }
     };
 
@@ -1070,6 +1081,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             applyLockState(payload.locked);
           } else if (payload.action === 'unlock_hint') {
             applyRemoteHintUnlock(payload.hintId);
+          } else if (payload.action === 'hide_hint') {
+            applyRemoteHintHide(payload.hintId);
           }
         }
       } catch(e) {
@@ -1097,17 +1110,56 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       showToast(msg);
     }
 
-    // TRAINER BROADCAST UNLOCK HINT ACTION
-    function broadcastUnlockHint(hintId) {
-      if (!hintId) return;
-      applyRemoteHintUnlock(hintId); // Immediately unlock locally
+    // REMOTE HIDE HINT DISPATCHER (LOCKS HINT BACK BEHIND PIN)
+    function applyRemoteHintHide(hintId) {
+      const allHintIds = ['b1-s1', 'b1-s2', 'b2-s1', 'b2-s2', 'b3', 'b4'];
+      const targets = (hintId === 'all') ? allHintIds : [hintId];
+
+      targets.forEach(id => {
+        const lockState = document.getElementById(`lock-state-${id}`);
+        const content = document.getElementById(`content-${id}`);
+        const pinInput = document.getElementById(`pin-${id}`);
+        if (content) content.classList.add('hidden');
+        if (lockState) lockState.classList.remove('hidden');
+        if (pinInput) pinInput.value = '';
+      });
+
+      const msg = (hintId === 'all')
+        ? (currentLang === 'it' ? "🔒 Il Docente ha ri-bloccato TUTTI gli aiuti!" : "🔒 The Trainer re-locked ALL hints!")
+        : (currentLang === 'it' ? `🔒 Il Docente ha ri-bloccato l'aiuto (${hintId})!` : `🔒 The Trainer re-locked hint (${hintId})!`);
+      showToast(msg);
+    }
+
+    // TRAINER ACTIONS TRIGGERED BY BUTTONS
+    function trainerUnlockSelectedHint() {
+      const select = document.getElementById('trainer-hint-select');
+      const val = select ? select.value : '';
+      if (!val) {
+        showToast(currentLang === 'it' ? "⚠️ Seleziona prima uno step da sbloccare" : "⚠️ Please select a step to unlock first");
+        return;
+      }
+      applyRemoteHintUnlock(val);
       fetch(BROADCAST_TOPIC, {
         method: 'POST',
-        body: JSON.stringify({ action: 'unlock_hint', hintId: hintId })
+        body: JSON.stringify({ action: 'unlock_hint', hintId: val })
       }).then(() => {
-        showToast(currentLang === 'it' ? `📡 Aiuto ${hintId} sbloccato per tutta l'aula!` : `📡 Hint ${hintId} broadcasted to all students!`);
-      }).catch(err => {
-        console.error("Broadcast hint error:", err);
+        showToast(currentLang === 'it' ? `📡 Aiuto ${val} sbloccato per tutta l'aula!` : `📡 Hint ${val} unlocked for all students!`);
+      });
+    }
+
+    function trainerHideSelectedHint() {
+      const select = document.getElementById('trainer-hint-select');
+      const val = select ? select.value : '';
+      if (!val) {
+        showToast(currentLang === 'it' ? "⚠️ Seleziona prima uno step da nascondere" : "⚠️ Please select a step to hide first");
+        return;
+      }
+      applyRemoteHintHide(val);
+      fetch(BROADCAST_TOPIC, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'hide_hint', hintId: val })
+      }).then(() => {
+        showToast(currentLang === 'it' ? `🔒 Aiuto ${val} ri-nascosto per tutta l'aula!` : `🔒 Hint ${val} hidden again for all students!`);
       });
     }
 
@@ -1142,10 +1194,10 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
       if (btn && text && t) {
         if (isStrictLocked) {
-          btn.className = "px-3 py-1 text-xs font-bold rounded bg-red-600 hover:bg-red-500 text-white transition flex items-center space-x-1";
+          btn.className = "px-2.5 py-1 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold transition flex items-center space-x-1 shadow-sm";
           text.innerText = t.btnLockLocked;
         } else {
-          btn.className = "px-3 py-1 text-xs font-bold rounded bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center space-x-1";
+          btn.className = "px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition flex items-center space-x-1 shadow-sm";
           text.innerText = t.btnLockUnlocked;
         }
       }
@@ -1367,6 +1419,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('tb-lbl-hints', t.tbLblHints);
       setText('opt-hint-choose', t.optHintChoose);
       setText('opt-hint-all', t.optHintAll);
+      setText('btn-hint-confirm', t.btnHintConfirm);
+      setText('btn-hint-hide', t.btnHintHide);
 
       const trainerBtn = document.getElementById('btn-trainer-toggle');
       if (trainerBtn) {
