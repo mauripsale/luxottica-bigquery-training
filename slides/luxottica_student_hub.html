@@ -14,6 +14,15 @@
       letter-spacing: 0.35em;
       font-size: 1rem;
     }
+    #trainer-sidebar {
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @media (min-width: 1024px) {
+      body.trainer-mode-active #app-main-layout {
+        margin-left: 280px;
+        transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
@@ -67,88 +76,171 @@
     </div>
   </header>
 
-  <!-- TRAINER LIVE BROADCAST CONTROL BAR (REDESIGNED: CLEAN, GROUPED & ELEGANT) -->
-  <div id="trainer-bar" class="hidden bg-slate-950 text-white px-5 py-2.5 border-b border-amber-500/30 shadow-2xl backdrop-blur-md">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+  <!-- TRAINER VERTICAL CONTROL SIDEBAR (CLEAN, ELEGANT, DEDICATED LEFT CONSOLE) -->
+  <aside id="trainer-sidebar" class="hidden fixed top-0 left-0 bottom-0 w-[280px] z-50 bg-slate-950 text-white border-r border-amber-500/30 shadow-2xl flex flex-col overflow-y-auto">
+    <!-- SIDEBAR HEADER -->
+    <div class="p-4 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between sticky top-0 z-10 backdrop-blur-xs">
+      <div class="flex items-center space-x-2">
+        <span class="text-lg">🎓</span>
+        <div>
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-amber-400" id="tb-badge">Console Docente</h2>
+          <p class="text-[10px] text-slate-400">Controllo Aula & Broadcast</p>
+        </div>
+      </div>
+      <button onclick="disableTrainerMode()" class="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition text-xs" title="Esci dalla modalità docente">
+        ✕
+      </button>
+    </div>
 
-      <!-- LEFT: TRAINER BADGE & BROADCAST BLOCKS -->
-      <div class="flex items-center space-x-2 flex-wrap">
-        <span class="font-extrabold uppercase tracking-wider text-amber-400 bg-amber-950/90 px-2 py-1 rounded border border-amber-600/60 shadow-sm flex items-center space-x-1" id="tb-badge">
-          <span>🎓</span> <span>Console Docente</span>
-        </span>
+    <!-- SIDEBAR BODY -->
+    <div class="p-4 space-y-5 flex-1 text-xs">
 
-        <!-- BLOCK SELECTOR BUTTONS (PILL GROUP) -->
-        <div class="inline-flex rounded-lg bg-slate-900 p-0.5 border border-slate-800">
-          <button onclick="broadcastBlock('cover')" class="px-2.5 py-1 rounded font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition" id="tb-btn-cover" title="Mostra Copertina">
-            🏠 Intro
+      <!-- SECTION 1: GLOBAL CLASS LOCK -->
+      <div class="space-y-1.5">
+        <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Controllo Studenti</span>
+        <button id="btn-lock-control" onclick="toggleLockState()" class="w-full py-2 px-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold transition flex items-center justify-center space-x-2 shadow-sm text-xs">
+          <span id="btn-lock-text">🔒 Tab BLOCCATI</span>
+        </button>
+        <p class="text-[10px] text-slate-400 text-center leading-tight">Quando bloccato, gli studenti seguono il blocco che selezioni sotto</p>
+      </div>
+
+      <!-- SECTION 2: LIVE BROADCAST BLOCKS -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Cambia Blocco Aula</span>
+          <span class="text-[10px] text-amber-400 font-mono font-semibold">Live Sync</span>
+        </div>
+        <div class="grid grid-cols-1 gap-1">
+          <button onclick="broadcastBlock('cover')" id="tb-btn-cover" class="w-full text-left px-3 py-2 rounded-lg font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center justify-between">
+            <span>🏠 Intro Masterclass</span>
           </button>
-          <button onclick="broadcastBlock(1)" class="px-2.5 py-1 rounded font-medium text-slate-300 hover:text-white hover:bg-blue-600 transition" id="tb-btn-b1" title="Attiva Blocco 1">
-            B1: Canvas
+          <button onclick="broadcastBlock(1)" id="tb-btn-b1" class="w-full text-left px-3 py-2 rounded-lg font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center justify-between">
+            <span>B1: Data Canvas & Setup</span>
           </button>
-          <button onclick="broadcastBlock(2)" class="px-2.5 py-1 rounded font-medium text-slate-300 hover:text-white hover:bg-blue-600 transition" id="tb-btn-b2" title="Attiva Blocco 2">
-            B2: Sconti
+          <button onclick="broadcastBlock(2)" id="tb-btn-b2" class="w-full text-left px-3 py-2 rounded-lg font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center justify-between">
+            <span>B2: Sconti & High Margin</span>
           </button>
-          <button onclick="broadcastBlock('break')" class="px-2.5 py-1 rounded font-medium text-amber-300 hover:text-white hover:bg-amber-600 transition" id="tb-btn-break" title="Pausa Caffè">
-            ☕ Pausa
+          <button onclick="broadcastBlock('break')" id="tb-btn-break" class="w-full text-left px-3 py-2 rounded-lg font-medium text-amber-300 hover:text-white hover:bg-slate-800 transition flex items-center justify-between">
+            <span>☕ Pausa Caffè</span>
           </button>
-          <button onclick="broadcastBlock(3)" class="px-2.5 py-1 rounded font-medium text-slate-300 hover:text-white hover:bg-blue-600 transition" id="tb-btn-b3" title="Attiva Blocco 3">
-            B3: ROAS
+          <button onclick="broadcastBlock(3)" id="tb-btn-b3" class="w-full text-left px-3 py-2 rounded-lg font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center justify-between">
+            <span>B3: Attribution ROAS</span>
           </button>
-          <button onclick="broadcastBlock(4)" class="px-2.5 py-1 rounded font-medium text-slate-300 hover:text-white hover:bg-blue-600 transition" id="tb-btn-b4" title="Attiva Blocco 4">
-            B4: Leads
+          <button onclick="broadcastBlock(4)" id="tb-btn-b4" class="w-full text-left px-3 py-2 rounded-lg font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center justify-between">
+            <span>B4: Data Clean & View</span>
           </button>
-          <button onclick="broadcastBlock(5)" class="px-2.5 py-1 rounded font-medium text-emerald-300 hover:text-white hover:bg-emerald-600 transition" id="tb-btn-b5" title="Attiva Finale">
-            🎉 Finale
+          <button onclick="broadcastBlock(5)" id="tb-btn-b5" class="w-full text-left px-3 py-2 rounded-lg font-medium text-emerald-300 hover:text-white hover:bg-slate-800 transition flex items-center justify-between">
+            <span>🎉 Finale & Roadmap</span>
           </button>
         </div>
       </div>
 
-      <!-- RIGHT: HINT CONTROLS (SELECT + OK + HIDE) & CLASS LOCK & EXIT -->
-      <div class="flex items-center space-x-2 flex-wrap">
-        
-        <!-- HINTS MANAGER GROUP: INDIVIDUAL INTERACTIVE TOGGLE BUTTONS -->
-        <div class="flex items-center space-x-1.5 bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800 shadow-sm flex-wrap">
-          <span class="text-amber-400 font-semibold mr-1" id="tb-lbl-hints">💡 Hint:</span>
-          
-          <button id="btn-hint-b1-s1" onclick="trainerToggleHint('b1-s1')" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 transition cursor-pointer" title="Step 1.1 (Data Canvas) - Clicca per Sbloccare/Bloccare">
-            1.1 🔒
-          </button>
-          <button id="btn-hint-b1-s2" onclick="trainerToggleHint('b1-s2')" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 transition cursor-pointer" title="Step 1.2 (Macro Sales) - Clicca per Sbloccare/Bloccare">
-            1.2 🔒
-          </button>
-          <button id="btn-hint-b2-s1" onclick="trainerToggleHint('b2-s1')" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 transition cursor-pointer" title="Step 2.1 (AOV > 300€) - Clicca per Sbloccare/Bloccare">
-            2.1 🔒
-          </button>
-          <button id="btn-hint-b2-s2" onclick="trainerToggleHint('b2-s2')" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 transition cursor-pointer" title="Step 2.2 (Discounts) - Clicca per Sbloccare/Bloccare">
-            2.2 🔒
-          </button>
-          <button id="btn-hint-b3" onclick="trainerToggleHint('b3')" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 transition cursor-pointer" title="Block 3 (ROAS Query) - Clicca per Sbloccare/Bloccare">
-            B3 🔒
-          </button>
-          <button id="btn-hint-b4" onclick="trainerToggleHint('b4')" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 transition cursor-pointer" title="Block 4 (VIP Leads) - Clicca per Sbloccare/Bloccare">
-            B4 🔒
-          </button>
-
-          <span class="text-slate-600">|</span>
-
-          <button id="btn-hint-all-toggle" onclick="trainerToggleAllHints()" class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-600/30 text-amber-300 border border-amber-600/50 hover:bg-amber-600 hover:text-white transition cursor-pointer" title="Sblocca o Blocca TUTTI gli Hint insieme">
-            ✨ Tutti
-          </button>
+      <!-- SECTION 3: HINTS MANAGER & DEDICATED PINS -->
+      <div class="space-y-2 pt-2 border-t border-slate-800">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] uppercase font-bold text-amber-400 tracking-wider" id="tb-lbl-hints">💡 Gestione Hint & PIN</span>
         </div>
 
-        <!-- NAVIGATION LOCK CONTROL -->
-        <button id="btn-lock-control" onclick="toggleLockState()" class="px-2.5 py-1 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold transition flex items-center space-x-1 shadow-sm" title="Blocca o sblocca la navigazione autonoma degli studenti">
-          <span id="btn-lock-text">🔒 Tab BLOCCATI</span>
-        </button>
+        <div class="space-y-1.5" id="trainer-hints-list">
+          <!-- STEP 1.1 -->
+          <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
+            <div class="space-y-0.5">
+              <span class="font-bold text-slate-200">Step 1.1 (Canvas)</span>
+              <div class="flex items-center space-x-1">
+                <span class="text-[10px] text-slate-400">PIN:</span>
+                <code class="px-1 py-0.2 bg-slate-800 text-amber-300 font-mono text-[10px] font-bold rounded">1122</code>
+              </div>
+            </div>
+            <button id="btn-hint-b1-s1" onclick="trainerToggleHint('b1-s1')" class="px-2.5 py-1 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:border-slate-500 transition cursor-pointer">
+              1.1 🔒
+            </button>
+          </div>
 
-        <!-- EXIT TRAINER BUTTON -->
-        <button id="btn-exit-trainer" onclick="disableTrainerMode()" class="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition flex items-center space-x-1 border border-slate-800" title="Chiudi consolle docente e passa a vista studente">
-          <span id="btn-exit-trainer-text">✕ Esci</span>
+          <!-- STEP 1.2 -->
+          <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
+            <div class="space-y-0.5">
+              <span class="font-bold text-slate-200">Step 1.2 (Macro)</span>
+              <div class="flex items-center space-x-1">
+                <span class="text-[10px] text-slate-400">PIN:</span>
+                <code class="px-1 py-0.2 bg-slate-800 text-amber-300 font-mono text-[10px] font-bold rounded">1234</code>
+              </div>
+            </div>
+            <button id="btn-hint-b1-s2" onclick="trainerToggleHint('b1-s2')" class="px-2.5 py-1 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:border-slate-500 transition cursor-pointer">
+              1.2 🔒
+            </button>
+          </div>
+
+          <!-- STEP 2.1 -->
+          <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
+            <div class="space-y-0.5">
+              <span class="font-bold text-slate-200">Step 2.1 (AOV > 300)</span>
+              <div class="flex items-center space-x-1">
+                <span class="text-[10px] text-slate-400">PIN:</span>
+                <code class="px-1 py-0.2 bg-slate-800 text-amber-300 font-mono text-[10px] font-bold rounded">2144</code>
+              </div>
+            </div>
+            <button id="btn-hint-b2-s1" onclick="trainerToggleHint('b2-s1')" class="px-2.5 py-1 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:border-slate-500 transition cursor-pointer">
+              2.1 🔒
+            </button>
+          </div>
+
+          <!-- STEP 2.2 -->
+          <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
+            <div class="space-y-0.5">
+              <span class="font-bold text-slate-200">Step 2.2 (Sconti)</span>
+              <div class="flex items-center space-x-1">
+                <span class="text-[10px] text-slate-400">PIN:</span>
+                <code class="px-1 py-0.2 bg-slate-800 text-amber-300 font-mono text-[10px] font-bold rounded">2255</code>
+              </div>
+            </div>
+            <button id="btn-hint-b2-s2" onclick="trainerToggleHint('b2-s2')" class="px-2.5 py-1 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:border-slate-500 transition cursor-pointer">
+              2.2 🔒
+            </button>
+          </div>
+
+          <!-- BLOCK 3 -->
+          <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
+            <div class="space-y-0.5">
+              <span class="font-bold text-slate-200">Block 3 (ROAS CTE)</span>
+              <div class="flex items-center space-x-1">
+                <span class="text-[10px] text-slate-400">PIN:</span>
+                <code class="px-1 py-0.2 bg-slate-800 text-amber-300 font-mono text-[10px] font-bold rounded">3388</code>
+              </div>
+            </div>
+            <button id="btn-hint-b3" onclick="trainerToggleHint('b3')" class="px-2.5 py-1 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:border-slate-500 transition cursor-pointer">
+              B3 🔒
+            </button>
+          </div>
+
+          <!-- BLOCK 4 -->
+          <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 transition">
+            <div class="space-y-0.5">
+              <span class="font-bold text-slate-200">Block 4 (Clean Lead)</span>
+              <div class="flex items-center space-x-1">
+                <span class="text-[10px] text-slate-400">PIN:</span>
+                <code class="px-1 py-0.2 bg-slate-800 text-amber-300 font-mono text-[10px] font-bold rounded">4499</code>
+              </div>
+            </div>
+            <button id="btn-hint-b4" onclick="trainerToggleHint('b4')" class="px-2.5 py-1 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:border-slate-500 transition cursor-pointer">
+              B4 🔒
+            </button>
+          </div>
+        </div>
+
+        <!-- TOGGLE ALL BUTTON -->
+        <button id="btn-hint-all-toggle" onclick="trainerToggleAllHints()" class="w-full mt-2 py-2 px-3 rounded-xl text-xs font-bold bg-amber-600/30 text-amber-300 border border-amber-600/50 hover:bg-amber-600 hover:text-white transition cursor-pointer flex items-center justify-center space-x-1 shadow-sm">
+          <span>✨ Sblocca Tutti gli Hint</span>
         </button>
       </div>
 
     </div>
-  </div>
+
+    <!-- SIDEBAR FOOTER -->
+    <div class="p-3 border-t border-slate-800 bg-slate-900/50 flex items-center justify-between text-[11px] text-slate-400">
+      <span>Master PIN Docente: <code class="text-amber-400 font-mono font-bold">1926</code></span>
+      <button onclick="disableTrainerMode()" class="text-slate-400 hover:text-white font-medium" id="btn-exit-trainer-text">Esci ✕</button>
+    </div>
+  </aside>
 
   <!-- CUSTOM MASKED MODAL FOR TRAINER PIN (AVOIDS BROWSER CLEAR-TEXT PROMPT) -->
   <div id="trainer-pin-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center hidden p-4">
@@ -179,6 +271,9 @@
       </div>
     </div>
   </div>
+
+  <!-- MAIN APP LAYOUT (SHIFTS RIGHT WHEN TRAINER SIDEBAR IS OPEN) -->
+  <div id="app-main-layout" class="flex-1 flex flex-col transition-all duration-300">
 
   <!-- MAIN CONTAINER -->
   <div class="max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1">
@@ -734,6 +829,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
   </div>
 
+  </div> <!-- END APP MAIN LAYOUT -->
+
   <!-- TOAST NOTIFICATION -->
   <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-xl transition opacity-0 pointer-events-none transform translate-y-2 flex items-center space-x-2">
     <span id="toast-text">✅ Copiato negli Appunti!</span>
@@ -1043,8 +1140,10 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     // ENABLE TRAINER MODE FUNCTION
     function enableTrainerMode() {
       isTrainerMode = true;
-      const bar = document.getElementById('trainer-bar');
-      if (bar) bar.classList.remove('hidden');
+      const sidebar = document.getElementById('trainer-sidebar');
+      if (sidebar) sidebar.classList.remove('hidden');
+      document.body.classList.add('trainer-mode-active');
+
       const btn = document.getElementById('btn-trainer-toggle');
       if (btn) {
         btn.classList.remove('hidden');
@@ -1057,14 +1156,16 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         const bId = visibleBlock.id.replace('block-', '');
         updateTrainerBlockUI(bId);
       }
-      showToast(currentLang === 'it' ? "🎓 Modalità Docente Attivata" : "🎓 Trainer Mode Activated");
+      showToast(currentLang === 'it' ? "🎓 Modalità Docente Attivata (Console a Sinistra)" : "🎓 Trainer Mode Activated (Left Console)");
     }
 
     // DISABLE / EXIT TRAINER MODE FUNCTION (RETURNS TO REAL STUDENT VIEW)
     function disableTrainerMode() {
       isTrainerMode = false;
-      const bar = document.getElementById('trainer-bar');
-      if (bar) bar.classList.add('hidden');
+      const sidebar = document.getElementById('trainer-sidebar');
+      if (sidebar) sidebar.classList.add('hidden');
+      document.body.classList.remove('trainer-mode-active');
+
       const btn = document.getElementById('btn-trainer-toggle');
       if (btn) btn.classList.add('hidden');
 
@@ -1189,7 +1290,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       }
     };
 
-    // UPDATE VISUAL ACTIVE STATE OF TRAINER BLOCK BUTTONS
+    // UPDATE VISUAL ACTIVE STATE OF TRAINER BLOCK BUTTONS IN SIDEBAR
     function updateTrainerBlockUI(activeBlockId) {
       const blockButtonMap = {
         'cover': 'tb-btn-cover',
@@ -1206,9 +1307,9 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         if (!btn) return;
         const isActive = (String(bId) === String(activeBlockId));
         if (isActive) {
-          btn.className = "px-2.5 py-1 rounded font-bold text-white bg-blue-600 shadow-md ring-2 ring-amber-400 ring-offset-1 ring-offset-slate-900 transition flex items-center space-x-1";
+          btn.className = "w-full text-left px-3 py-2 rounded-lg font-bold text-white bg-blue-600 shadow-md ring-2 ring-amber-400 ring-offset-1 ring-offset-slate-900 transition flex items-center justify-between";
         } else {
-          btn.className = "px-2.5 py-1 rounded font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition";
+          btn.className = "w-full text-left px-3 py-2 rounded-lg font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center justify-between";
         }
       });
     }
@@ -1680,13 +1781,24 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       });
     }
 
+    // DEDICATED PIN CODES PER STEP HINT (ALSO MASTER PIN 1926 ALWAYS UNLOCKS)
+    const stepPins = {
+      'b1-s1': '1122',
+      'b1-s2': '1234',
+      'b2-s1': '2144',
+      'b2-s2': '2255',
+      'b3':    '3388',
+      'b4':    '4499'
+    };
+
     // UNLOCK HINT WITH PIN
     function unlockHint(stepKey) {
       const pinInput = document.getElementById(`pin-${stepKey}`);
       if (!pinInput) return;
       const enteredPin = pinInput.value.trim();
+      const expectedPin = stepPins[stepKey];
 
-      if (enteredPin === '1926' || enteredPin === '2026') {
+      if (enteredPin === expectedPin || enteredPin === '1926' || enteredPin === '2026') {
         const lockState = document.getElementById(`lock-state-${stepKey}`);
         const content = document.getElementById(`content-${stepKey}`);
         if (lockState) lockState.classList.add('hidden');
