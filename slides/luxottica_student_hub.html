@@ -101,9 +101,20 @@
       <!-- RIGHT: HINT CONTROLS (SELECT + OK + HIDE) & CLASS LOCK & EXIT -->
       <div class="flex items-center space-x-2 flex-wrap">
         
-        <!-- HINTS MANAGER GROUP -->
-        <div class="flex items-center space-x-1.5 bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800 shadow-sm">
+        <!-- HINTS MANAGER GROUP WITH REAL-TIME STATUS -->
+        <div class="flex items-center space-x-2 bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800 shadow-sm">
           <span class="text-amber-400 font-semibold" id="tb-lbl-hints">💡 Suggerimenti:</span>
+          
+          <!-- HINT PILL BADGES INDICATING REAL-TIME STATUS -->
+          <div class="hidden md:flex items-center space-x-1" id="hint-status-pills">
+            <span id="pill-b1-s1" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700" title="Step 1.1">1.1 🔒</span>
+            <span id="pill-b1-s2" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700" title="Step 1.2">1.2 🔒</span>
+            <span id="pill-b2-s1" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700" title="Step 2.1">2.1 🔒</span>
+            <span id="pill-b2-s2" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700" title="Step 2.2">2.2 🔒</span>
+            <span id="pill-b3" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700" title="Block 3">B3 🔒</span>
+            <span id="pill-b4" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700" title="Block 4">B4 🔒</span>
+          </div>
+
           <select id="trainer-hint-select" class="bg-slate-950 border border-slate-700 text-amber-300 text-xs rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer">
             <option value="" id="opt-hint-choose">-- Seleziona Step --</option>
             <option value="b1-s1">Step 1.1 (Data Canvas)</option>
@@ -1007,6 +1018,12 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         btn.innerText = translations[currentLang] ? translations[currentLang].btnTrainerActive : "🎓 Modalità Docente (ATTIVA)";
       }
       applyLockState(isStrictLocked);
+      updateTrainerHintUI();
+      const visibleBlock = Array.from(document.querySelectorAll('.block-section')).find(el => !el.classList.contains('hidden'));
+      if (visibleBlock) {
+        const bId = visibleBlock.id.replace('block-', '');
+        updateTrainerBlockUI(bId);
+      }
       showToast(currentLang === 'it' ? "🎓 Modalità Docente Attivata" : "🎓 Trainer Mode Activated");
     }
 
@@ -1092,6 +1109,70 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       }
     };
 
+    // UPDATE VISUAL ACTIVE STATE OF TRAINER BLOCK BUTTONS
+    function updateTrainerBlockUI(activeBlockId) {
+      const blockButtonMap = {
+        'cover': 'tb-btn-cover',
+        '1': 'tb-btn-b1',
+        '2': 'tb-btn-b2',
+        'break': 'tb-btn-break',
+        '3': 'tb-btn-b3',
+        '4': 'tb-btn-b4',
+        '5': 'tb-btn-b5'
+      };
+
+      Object.entries(blockButtonMap).forEach(([bId, btnId]) => {
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+        const isActive = (String(bId) === String(activeBlockId));
+        if (isActive) {
+          btn.className = "px-2.5 py-1 rounded font-bold text-white bg-blue-600 shadow-md ring-2 ring-amber-400 ring-offset-1 ring-offset-slate-900 transition flex items-center space-x-1";
+        } else {
+          btn.className = "px-2.5 py-1 rounded font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition";
+        }
+      });
+    }
+
+    // UPDATE REAL-TIME STATUS OF HINT BADGES AND DROPDOWN LABELS
+    function updateTrainerHintUI() {
+      const allHintKeys = [
+        { id: 'b1-s1', code: '1.1', label: 'Step 1.1 (Data Canvas)' },
+        { id: 'b1-s2', code: '1.2', label: 'Step 1.2 (Macro Sales)' },
+        { id: 'b2-s1', code: '2.1', label: 'Step 2.1 (AOV > 300€)' },
+        { id: 'b2-s2', code: '2.2', label: 'Step 2.2 (Sconti / Discounts)' },
+        { id: 'b3',    code: 'B3',  label: 'Block 3 (Query ROAS)' },
+        { id: 'b4',    code: 'B4',  label: 'Block 4 (Vista Lead VIP)' }
+      ];
+
+      allHintKeys.forEach(item => {
+        const content = document.getElementById(`content-${item.id}`);
+        const isUnlocked = content && !content.classList.contains('hidden');
+
+        // Update pill badge
+        const pill = document.getElementById(`pill-${item.id}`);
+        if (pill) {
+          if (isUnlocked) {
+            pill.className = "px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-600 shadow-sm animate-pulse";
+            pill.innerText = `${item.code} 🔓`;
+            pill.title = `${item.label}: SBLOCCATO / UNLOCKED`;
+          } else {
+            pill.className = "px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700";
+            pill.innerText = `${item.code} 🔒`;
+            pill.title = `${item.label}: BLOCCATO / LOCKED`;
+          }
+        }
+
+        // Update dropdown option text
+        const select = document.getElementById('trainer-hint-select');
+        if (select) {
+          const opt = select.querySelector(`option[value="${item.id}"]`);
+          if (opt) {
+            opt.innerText = isUnlocked ? `🟢 [APERTO] ${item.label}` : `🔒 [CHIUSO] ${item.label}`;
+          }
+        }
+      });
+    }
+
     // REMOTE UNLOCK HINT DISPATCHER (APPLIES TO LOCAL DOM)
     function applyRemoteHintUnlock(hintId) {
       const allHintIds = ['b1-s1', 'b1-s2', 'b2-s1', 'b2-s2', 'b3', 'b4'];
@@ -1103,6 +1184,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         if (lockState) lockState.classList.add('hidden');
         if (content) content.classList.remove('hidden');
       });
+
+      updateTrainerHintUI();
 
       const msg = (hintId === 'all')
         ? (currentLang === 'it' ? "📢 Il Docente ha sbloccato TUTTI gli aiuti!" : "📢 The Trainer unlocked ALL hints!")
@@ -1123,6 +1206,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         if (lockState) lockState.classList.remove('hidden');
         if (pinInput) pinInput.value = '';
       });
+
+      updateTrainerHintUI();
 
       const msg = (hintId === 'all')
         ? (currentLang === 'it' ? "🔒 Il Docente ha ri-bloccato TUTTI gli aiuti!" : "🔒 The Trainer re-locked ALL hints!")
@@ -1454,6 +1539,9 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
       const activeSection = document.getElementById(`block-${blockId}`);
       if (activeSection) activeSection.classList.remove('hidden');
+
+      // Sync active state on Trainer Command Bar
+      updateTrainerBlockUI(blockId);
     }
 
     // TEAM SELECTOR SWITCH
@@ -1496,6 +1584,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         const content = document.getElementById(`content-${stepKey}`);
         if (lockState) lockState.classList.add('hidden');
         if (content) content.classList.remove('hidden');
+        updateTrainerHintUI();
         showToast(currentLang === 'it' ? "🔓 Suggerimento sbloccato!" : "🔓 Hint unlocked!");
       } else {
         pinInput.classList.add('ring-2', 'ring-red-500', 'bg-red-950');
