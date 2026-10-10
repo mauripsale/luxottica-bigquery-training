@@ -101,35 +101,33 @@
       <!-- RIGHT: HINT CONTROLS (SELECT + OK + HIDE) & CLASS LOCK & EXIT -->
       <div class="flex items-center space-x-2 flex-wrap">
         
-        <!-- HINTS MANAGER GROUP WITH REAL-TIME STATUS -->
-        <div class="flex items-center space-x-2 bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800 shadow-sm">
-          <span class="text-amber-400 font-semibold" id="tb-lbl-hints">💡 Suggerimenti:</span>
+        <!-- HINTS MANAGER GROUP: INDIVIDUAL INTERACTIVE TOGGLE BUTTONS -->
+        <div class="flex items-center space-x-1.5 bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800 shadow-sm flex-wrap">
+          <span class="text-amber-400 font-semibold mr-1" id="tb-lbl-hints">💡 Hint:</span>
           
-          <!-- HINT PILL BADGES INDICATING REAL-TIME STATUS -->
-          <div class="hidden md:flex items-center space-x-1" id="hint-status-pills">
-            <span id="pill-b1-s1" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700" title="Step 1.1">1.1 🔒</span>
-            <span id="pill-b1-s2" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700" title="Step 1.2">1.2 🔒</span>
-            <span id="pill-b2-s1" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700" title="Step 2.1">2.1 🔒</span>
-            <span id="pill-b2-s2" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700" title="Step 2.2">2.2 🔒</span>
-            <span id="pill-b3" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700" title="Block 3">B3 🔒</span>
-            <span id="pill-b4" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700" title="Block 4">B4 🔒</span>
-          </div>
-
-          <select id="trainer-hint-select" class="bg-slate-950 border border-slate-700 text-amber-300 text-xs rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer">
-            <option value="" id="opt-hint-choose">-- Seleziona Step --</option>
-            <option value="b1-s1">Step 1.1 (Data Canvas)</option>
-            <option value="b1-s2">Step 1.2 (Macro Sales)</option>
-            <option value="b2-s1">Step 2.1 (AOV > 300€)</option>
-            <option value="b2-s2">Step 2.2 (Sconti / Discounts)</option>
-            <option value="b3">Block 3 (Query ROAS)</option>
-            <option value="b4">Block 4 (Vista Lead VIP)</option>
-            <option value="all" id="opt-hint-all">✨ TUTTI gli Hint</option>
-          </select>
-          <button onclick="trainerUnlockSelectedHint()" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-2.5 py-1 rounded transition shadow flex items-center space-x-1" title="Sblocca lo step selezionato per tutta l'aula">
-            <span id="btn-hint-confirm">Sblocca 🔓</span>
+          <button id="btn-hint-b1-s1" onclick="trainerToggleHint('b1-s1')" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 transition cursor-pointer" title="Step 1.1 (Data Canvas) - Clicca per Sbloccare/Bloccare">
+            1.1 🔒
           </button>
-          <button onclick="trainerHideSelectedHint()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-medium px-2 py-1 rounded border border-slate-700 transition" title="Nascondi nuovamente lo step selezionato (richiederà di nuovo il PIN)">
-            <span id="btn-hint-hide">Nascondi 🔒</span>
+          <button id="btn-hint-b1-s2" onclick="trainerToggleHint('b1-s2')" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 transition cursor-pointer" title="Step 1.2 (Macro Sales) - Clicca per Sbloccare/Bloccare">
+            1.2 🔒
+          </button>
+          <button id="btn-hint-b2-s1" onclick="trainerToggleHint('b2-s1')" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 transition cursor-pointer" title="Step 2.1 (AOV > 300€) - Clicca per Sbloccare/Bloccare">
+            2.1 🔒
+          </button>
+          <button id="btn-hint-b2-s2" onclick="trainerToggleHint('b2-s2')" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 transition cursor-pointer" title="Step 2.2 (Discounts) - Clicca per Sbloccare/Bloccare">
+            2.2 🔒
+          </button>
+          <button id="btn-hint-b3" onclick="trainerToggleHint('b3')" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 transition cursor-pointer" title="Block 3 (ROAS Query) - Clicca per Sbloccare/Bloccare">
+            B3 🔒
+          </button>
+          <button id="btn-hint-b4" onclick="trainerToggleHint('b4')" class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500 transition cursor-pointer" title="Block 4 (VIP Leads) - Clicca per Sbloccare/Bloccare">
+            B4 🔒
+          </button>
+
+          <span class="text-slate-600">|</span>
+
+          <button id="btn-hint-all-toggle" onclick="trainerToggleAllHints()" class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-600/30 text-amber-300 border border-amber-600/50 hover:bg-amber-600 hover:text-white transition cursor-pointer" title="Sblocca o Blocca TUTTI gli Hint insieme">
+            ✨ Tutti
           </button>
         </div>
 
@@ -1133,44 +1131,51 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       });
     }
 
-    // UPDATE REAL-TIME STATUS OF HINT BADGES AND DROPDOWN LABELS
+    // UPDATE REAL-TIME STATUS OF INDIVIDUAL HINT BUTTONS
     function updateTrainerHintUI() {
       const allHintKeys = [
         { id: 'b1-s1', code: '1.1', label: 'Step 1.1 (Data Canvas)' },
         { id: 'b1-s2', code: '1.2', label: 'Step 1.2 (Macro Sales)' },
         { id: 'b2-s1', code: '2.1', label: 'Step 2.1 (AOV > 300€)' },
-        { id: 'b2-s2', code: '2.2', label: 'Step 2.2 (Sconti / Discounts)' },
-        { id: 'b3',    code: 'B3',  label: 'Block 3 (Query ROAS)' },
-        { id: 'b4',    code: 'B4',  label: 'Block 4 (Vista Lead VIP)' }
+        { id: 'b2-s2', code: '2.2', label: 'Step 2.2 (Discounts)' },
+        { id: 'b3',    code: 'B3',  label: 'Block 3 (ROAS Query)' },
+        { id: 'b4',    code: 'B4',  label: 'Block 4 (VIP Leads)' }
       ];
+
+      let anyUnlocked = false;
 
       allHintKeys.forEach(item => {
         const content = document.getElementById(`content-${item.id}`);
         const isUnlocked = content && !content.classList.contains('hidden');
+        if (isUnlocked) anyUnlocked = true;
 
-        // Update pill badge
-        const pill = document.getElementById(`pill-${item.id}`);
-        if (pill) {
+        const btn = document.getElementById(`btn-hint-${item.id}`);
+        if (btn) {
           if (isUnlocked) {
-            pill.className = "px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-600 shadow-sm animate-pulse";
-            pill.innerText = `${item.code} 🔓`;
-            pill.title = `${item.label}: SBLOCCATO / UNLOCKED`;
+            btn.className = "px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-400 shadow-md ring-2 ring-emerald-400/60 transition cursor-pointer flex items-center space-x-1";
+            btn.innerHTML = `<span>${item.code}</span> <span>🔓</span>`;
+            btn.title = `${item.label}: SBLOCCATO! Clicca per RI-BLOCCARE`;
           } else {
-            pill.className = "px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700";
-            pill.innerText = `${item.code} 🔒`;
-            pill.title = `${item.label}: BLOCCATO / LOCKED`;
-          }
-        }
-
-        // Update dropdown option text
-        const select = document.getElementById('trainer-hint-select');
-        if (select) {
-          const opt = select.querySelector(`option[value="${item.id}"]`);
-          if (opt) {
-            opt.innerText = isUnlocked ? `🟢 [APERTO] ${item.label}` : `🔒 [CHIUSO] ${item.label}`;
+            btn.className = "px-2.5 py-0.5 rounded text-[11px] font-mono font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition cursor-pointer flex items-center space-x-1";
+            btn.innerHTML = `<span>${item.code}</span> <span>🔒</span>`;
+            btn.title = `${item.label}: BLOCCATO. Clicca per SBLOCCARE`;
           }
         }
       });
+
+      // Update the "✨ Tutti" button
+      const allBtn = document.getElementById('btn-hint-all-toggle');
+      if (allBtn) {
+        if (anyUnlocked) {
+          allBtn.className = "px-2.5 py-0.5 rounded text-[11px] font-bold bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-500 transition cursor-pointer";
+          allBtn.innerText = currentLang === 'it' ? "🔒 Nascondi Tutti" : "🔒 Hide All";
+          allBtn.title = currentLang === 'it' ? "Clicca per bloccare nuovamente tutti gli aiuti" : "Click to re-lock all hints";
+        } else {
+          allBtn.className = "px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-600 hover:bg-amber-500 text-white border border-amber-500 transition cursor-pointer shadow";
+          allBtn.innerText = currentLang === 'it' ? "✨ Sblocca Tutti" : "✨ Unlock All";
+          allBtn.title = currentLang === 'it' ? "Clicca per sbloccare tutti gli aiuti per tutta l'aula" : "Click to unlock all hints for students";
+        }
+      }
     }
 
     // REMOTE UNLOCK HINT DISPATCHER (APPLIES TO LOCAL DOM)
@@ -1215,37 +1220,59 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       showToast(msg);
     }
 
-    // TRAINER ACTIONS TRIGGERED BY BUTTONS
-    function trainerUnlockSelectedHint() {
-      const select = document.getElementById('trainer-hint-select');
-      const val = select ? select.value : '';
-      if (!val) {
-        showToast(currentLang === 'it' ? "⚠️ Seleziona prima uno step da sbloccare" : "⚠️ Please select a step to unlock first");
-        return;
+    // ONE-CLICK TRAINER TOGGLE FOR INDIVIDUAL HINT
+    function trainerToggleHint(hintId) {
+      const content = document.getElementById(`content-${hintId}`);
+      const isCurrentlyUnlocked = content && !content.classList.contains('hidden');
+
+      if (isCurrentlyUnlocked) {
+        // Was unlocked -> Hide / lock it
+        applyRemoteHintHide(hintId);
+        fetch(BROADCAST_TOPIC, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'hide_hint', hintId: hintId })
+        }).then(() => {
+          showToast(currentLang === 'it' ? `🔒 Aiuto ${hintId} ri-nascosto per tutta l'aula!` : `🔒 Hint ${hintId} hidden again for all students!`);
+        });
+      } else {
+        // Was locked -> Unlock it
+        applyRemoteHintUnlock(hintId);
+        fetch(BROADCAST_TOPIC, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'unlock_hint', hintId: hintId })
+        }).then(() => {
+          showToast(currentLang === 'it' ? `📡 Aiuto ${hintId} sbloccato per tutta l'aula!` : `📡 Hint ${hintId} unlocked for all students!`);
+        });
       }
-      applyRemoteHintUnlock(val);
-      fetch(BROADCAST_TOPIC, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'unlock_hint', hintId: val })
-      }).then(() => {
-        showToast(currentLang === 'it' ? `📡 Aiuto ${val} sbloccato per tutta l'aula!` : `📡 Hint ${val} unlocked for all students!`);
-      });
     }
 
-    function trainerHideSelectedHint() {
-      const select = document.getElementById('trainer-hint-select');
-      const val = select ? select.value : '';
-      if (!val) {
-        showToast(currentLang === 'it' ? "⚠️ Seleziona prima uno step da nascondere" : "⚠️ Please select a step to hide first");
-        return;
-      }
-      applyRemoteHintHide(val);
-      fetch(BROADCAST_TOPIC, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'hide_hint', hintId: val })
-      }).then(() => {
-        showToast(currentLang === 'it' ? `🔒 Aiuto ${val} ri-nascosto per tutta l'aula!` : `🔒 Hint ${val} hidden again for all students!`);
+    // ONE-CLICK TRAINER TOGGLE FOR ALL HINTS TOGETHER
+    function trainerToggleAllHints() {
+      const allHintIds = ['b1-s1', 'b1-s2', 'b2-s1', 'b2-s2', 'b3', 'b4'];
+      const anyUnlocked = allHintIds.some(id => {
+        const content = document.getElementById(`content-${id}`);
+        return content && !content.classList.contains('hidden');
       });
+
+      if (anyUnlocked) {
+        // If some or all are unlocked -> Hide all
+        applyRemoteHintHide('all');
+        fetch(BROADCAST_TOPIC, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'hide_hint', hintId: 'all' })
+        }).then(() => {
+          showToast(currentLang === 'it' ? "🔒 Tutti gli aiuti ri-nascosti per tutta l'aula!" : "🔒 All hints hidden again for all students!");
+        });
+      } else {
+        // All are locked -> Unlock all
+        applyRemoteHintUnlock('all');
+        fetch(BROADCAST_TOPIC, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'unlock_hint', hintId: 'all' })
+        }).then(() => {
+          showToast(currentLang === 'it' ? "📡 Tutti gli aiuti sbloccati per tutta l'aula!" : "📡 All hints unlocked for all students!");
+        });
+      }
     }
 
     // TRAINER BROADCAST BLOCK ACTION
@@ -1502,10 +1529,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('tb-btn-b5', t.tbBtnB5);
       setText('btn-exit-trainer-text', t.btnExitTrainer);
       setText('tb-lbl-hints', t.tbLblHints);
-      setText('opt-hint-choose', t.optHintChoose);
-      setText('opt-hint-all', t.optHintAll);
-      setText('btn-hint-confirm', t.btnHintConfirm);
-      setText('btn-hint-hide', t.btnHintHide);
+
+      updateTrainerHintUI();
 
       const trainerBtn = document.getElementById('btn-trainer-toggle');
       if (trainerBtn) {
