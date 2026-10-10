@@ -17,10 +17,18 @@
     #trainer-sidebar {
       transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    header {
+      transition: padding-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #app-main-layout {
+      transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    body.trainer-mode-active header {
+      padding-left: 295px !important;
+    }
     @media (min-width: 1024px) {
       body.trainer-mode-active #app-main-layout {
         margin-left: 280px;
-        transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       }
     }
   </style>
