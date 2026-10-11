@@ -260,7 +260,7 @@
       <div class="space-y-2 pt-2 border-t border-slate-800">
         <div class="flex items-center justify-between">
           <span class="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">👥 Studenti Connessi (<span id="trainer-student-count">0</span>)</span>
-          <button onclick="refreshTrainerStudents()" class="text-[10px] text-slate-400 hover:text-white" title="Ricarica lista">🔄</button>
+          <button onclick="pingStudentsFromTrainer(); showToast('📡 Ping inviato agli studenti!');" class="text-[10px] bg-slate-800 hover:bg-slate-700 px-1.5 py-0.5 rounded text-slate-300 hover:text-white transition font-mono font-bold" title="Invia Ping a tutti gli studenti per aggiornare la presenza">🔄 Ping</button>
         </div>
 
         <div id="trainer-students-container" class="space-y-1.5 max-h-48 overflow-y-auto pr-1">
@@ -1497,7 +1497,16 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         const bId = visibleBlock.id.replace('block-', '');
         updateTrainerBlockUI(bId);
       }
+      refreshTrainerStudents();
+      pingStudentsFromTrainer(); // PING ALL EXISTING STUDENTS TO REPORT THEIR PRESENCE & SCORE
       showToast(currentLang === 'it' ? "🎓 Modalità Docente Attivata (Console a Sinistra)" : "🎓 Trainer Mode Activated (Left Console)");
+    }
+
+    function pingStudentsFromTrainer() {
+      fetch(BROADCAST_TOPIC, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'ping_students' })
+      }).catch(e => console.warn(e));
     }
 
     // DISABLE / EXIT TRAINER MODE FUNCTION (RETURNS TO REAL STUDENT VIEW)
@@ -1634,6 +1643,11 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             applyRemoteHintHide(payload.hintId);
           } else if (payload.action === 'score_update' || payload.action === 'student_checkin') {
             handleRemoteStudentUpdate(payload);
+          } else if (payload.action === 'ping_students') {
+            // Trainer asked all connected students to report their profile & scores
+            if (currentStudent && currentStudent.id && currentStudent.name) {
+              broadcastStudentCheckin();
+            }
           } else if (payload.action === 'trainer_override') {
             handleTrainerScoreOverride(payload);
           } else if (payload.action === 'reset_scores') {
@@ -2827,6 +2841,13 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setLanguage('en');
       showBlock('cover', false);
       loadStudentProfile();
+
+      // Periodic check-in / heartbeat every 15s so late-joining trainers automatically discover already connected students
+      setInterval(() => {
+        if (currentStudent && currentStudent.id && currentStudent.name && !isTrainerMode) {
+          broadcastStudentCheckin();
+        }
+      }, 15000);
     })();
   </script>
 </body>
