@@ -425,6 +425,51 @@
           <span>Entra nel Workshop 🚀</span>
         </button>
       </div>
+
+      <!-- RESUME SESSION LINK -->
+      <div class="pt-2 border-t border-slate-100 text-center">
+        <button onclick="openResumeStudentModal()" type="button" class="text-xs text-blue-600 hover:text-blue-800 font-semibold hover:underline inline-flex items-center space-x-1 cursor-pointer">
+          <span>🔑</span>
+          <span id="ob-lbl-resume">Sei già registrato? Recupera profilo con PIN del docente</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESUME STUDENT PROFILE MODAL (SECURED BY TRAINER PIN) -->
+  <div id="student-resume-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
+    <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 space-y-5 animate-in fade-in zoom-in duration-200">
+      <div class="text-center space-y-2">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-600 text-2xl shadow-sm">
+          🔑
+        </div>
+        <h2 class="text-xl font-black text-slate-900" id="res-title">Recupera il tuo Profilo</h2>
+        <p class="text-xs text-slate-500" id="res-subtitle">Hai chiuso il browser o fatto logout per sbaglio? Chiedi il PIN di recupero di 4 cifre al docente per ripristinare il tuo punteggio.</p>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label for="resume-select-student" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1" id="res-lbl-student">Seleziona il tuo nome:</label>
+          <select id="resume-select-student" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+            <option value="">-- Seleziona studente da ripristinare --</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="resume-input-pin" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1" id="res-lbl-pin">PIN di Recupero (fornito dal Docente):</label>
+          <input type="text" inputmode="numeric" id="resume-input-pin" maxlength="4" placeholder="••••" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-center font-mono text-lg font-bold tracking-widest text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition">
+          <p id="resume-error-msg" class="text-[11px] text-red-500 text-center hidden mt-1 font-semibold">❌ PIN non valido o errato per questo studente!</p>
+        </div>
+      </div>
+
+      <div class="pt-2 flex items-center space-x-2">
+        <button onclick="closeResumeStudentModal()" type="button" class="py-3 px-4 rounded-xl font-bold text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 transition">
+          ← Annulla
+        </button>
+        <button onclick="submitStudentResume()" id="btn-submit-resume" class="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg shadow-amber-500/25 transition cursor-pointer flex items-center justify-center space-x-1.5">
+          <span>Ripristina Sessione 🚀</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1726,6 +1771,10 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
                 handleRemoteStudentUpdate(payload);
               } else if (payload.action === 'student_logout') {
                 handleRemoteStudentLogout(payload);
+              } else if (payload.action === 'student_kick') {
+                handleRemoteStudentKick(payload);
+              } else if (payload.action === 'student_resume') {
+                handleRemoteStudentResume(payload);
               } else if (payload.action === 'ping_students') {
                 // Trainer asked all connected students to report their profile & scores
                 // Use randomized jitter (0 to 2800ms) to spread requests across 3 seconds and avoid 429 bursts
@@ -2421,6 +2470,96 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       if (modal) modal.classList.add('hidden');
     }
 
+    function openResumeStudentModal() {
+      closeOnboardingModal();
+      const modal = document.getElementById('student-resume-modal');
+      const select = document.getElementById('resume-select-student');
+      const pinInput = document.getElementById('resume-input-pin');
+      const errEl = document.getElementById('resume-error-msg');
+      if (errEl) errEl.classList.add('hidden');
+      if (pinInput) pinInput.value = '';
+
+      if (select) {
+        // Populate select with students currently registered in classroom
+        const students = Object.values(classroomStudents);
+        select.innerHTML = '<option value="">-- Seleziona il tuo nome --</option>' +
+          students.map(s => {
+            const tObj = TEAMS.find(t => t.key === s.teamKey) || TEAMS[0];
+            return `<option value="${s.id}">${s.name} (${tObj.name.replace('Team ', '')} - ${s.score || 0} pt${s.loggedOut ? ' - Logout' : ''})</option>`;
+          }).join('');
+      }
+
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeResumeStudentModal() {
+      const modal = document.getElementById('student-resume-modal');
+      if (modal) modal.classList.add('hidden');
+      openOnboardingModal(false);
+    }
+
+    function submitStudentResume() {
+      const select = document.getElementById('resume-select-student');
+      const pinInput = document.getElementById('resume-input-pin');
+      const errEl = document.getElementById('resume-error-msg');
+      if (errEl) errEl.classList.add('hidden');
+
+      const studentId = select ? select.value : '';
+      const enteredPin = (pinInput ? pinInput.value : '').trim();
+
+      if (!studentId) {
+        showToast(currentLang === 'it' ? "Seleziona il tuo nome dall'elenco!" : "Select your name from the list!");
+        return;
+      }
+
+      const expectedPin = getStudentRecoveryPin(studentId);
+      if (enteredPin !== expectedPin) {
+        if (errEl) errEl.classList.remove('hidden');
+        if (pinInput) {
+          pinInput.classList.add('ring-2', 'ring-red-500');
+          setTimeout(() => pinInput.classList.remove('ring-2', 'ring-red-500'), 1500);
+        }
+        return;
+      }
+
+      // PIN MATCHED! Restore student session
+      const target = classroomStudents[studentId];
+      if (!target) {
+        showToast("Profilo non trovato!");
+        return;
+      }
+
+      currentStudent = {
+        id: target.id,
+        name: target.name,
+        teamKey: target.teamKey,
+        score: target.score || 0,
+        completedChallenges: { ...(target.completedChallenges || {}) }
+      };
+
+      try {
+        localStorage.setItem(getRoleStorageKey(), 'student');
+      } catch (e) {}
+
+      saveStudentProfile();
+      applyStudentProfileUI();
+      registerStudentInClassroom(currentStudent);
+
+      // Broadcast student_resume so trainer console sees student back online
+      publishBroadcast({
+        action: 'student_resume',
+        targetStudentId: target.id
+      });
+      broadcastStudentCheckin();
+
+      const modal = document.getElementById('student-resume-modal');
+      if (modal) modal.classList.add('hidden');
+
+      showToast(currentLang === 'it' 
+        ? `🎉 Bentornato/a ${target.name}! Profilo e ${target.score || 0} punti ripristinati con successo!` 
+        : `🎉 Welcome back ${target.name}! Profile and ${target.score || 0} points restored!`);
+    }
+
     function sanitizeForSql(name) {
       return (name || 'student')
         .toLowerCase()
@@ -2518,6 +2657,19 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       }
     }
 
+    function getStudentRecoveryPin(studentId) {
+      if (!studentId) return '1111';
+      // Deterministic 4-digit PIN based on studentId
+      let hash = 0;
+      for (let i = 0; i < studentId.length; i++) {
+        hash = ((hash << 5) - hash) + studentId.charCodeAt(i);
+        hash |= 0;
+      }
+      const positive = Math.abs(hash);
+      const pin = 1000 + (positive % 9000);
+      return String(pin);
+    }
+
     function registerStudentInClassroom(student) {
       if (!student.id) return;
       classroomStudents[student.id] = {
@@ -2527,6 +2679,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         score: student.score || 0,
         completedChallenges: { ...(student.completedChallenges || {}) },
         loggedOut: false,
+        recoveryPin: getStudentRecoveryPin(student.id),
         lastActive: Date.now()
       };
       saveClassroomState();
@@ -2546,6 +2699,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         if (payload.completedChallenges) {
           classroomStudents[studentId].completedChallenges = payload.completedChallenges;
         }
+        classroomStudents[studentId].recoveryPin = classroomStudents[studentId].recoveryPin || getStudentRecoveryPin(studentId);
         classroomStudents[studentId].lastActive = Date.now();
       } else if (payload.name) {
         // Even if not seen previously, register as logged-out student with final score
@@ -2556,8 +2710,53 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
           score: payload.score || 0,
           completedChallenges: payload.completedChallenges || {},
           loggedOut: true,
+          recoveryPin: getStudentRecoveryPin(studentId),
           lastActive: Date.now()
         };
+      }
+      saveClassroomState();
+      renderSidebarTeamLeaderboard();
+      refreshTrainerStudents();
+    }
+
+    function handleRemoteStudentKick(payload) {
+      const targetId = payload.targetStudentId;
+      if (!targetId) return;
+
+      // 1) If this browser IS the kicked student, force logout
+      if (currentStudent && currentStudent.id === targetId) {
+        try {
+          localStorage.removeItem(getStudentStorageKey());
+          localStorage.removeItem(getRoleStorageKey());
+        } catch (e) {}
+        currentStudent = { id: '', name: '', teamKey: '', score: 0, completedChallenges: {} };
+        setText('student-display-name', 'Detective');
+        setText('student-display-team', 'Team Ray-Ban');
+        setText('student-display-score', '0');
+        alert(currentLang === 'it' 
+          ? "⚠️ Sei stato disconnesso dal docente. Puoi rientrare o recuperare la tua sessione con il PIN."
+          : "⚠️ You were logged out by the trainer. You may re-enter or recover your session with a PIN.");
+        openRoleSelectionModal();
+      }
+
+      // 2) Update local classroom state
+      if (payload.permanent) {
+        delete classroomStudents[targetId];
+      } else if (classroomStudents[targetId]) {
+        classroomStudents[targetId].loggedOut = true;
+        classroomStudents[targetId].recoveryPin = classroomStudents[targetId].recoveryPin || getStudentRecoveryPin(targetId);
+      }
+      saveClassroomState();
+      renderSidebarTeamLeaderboard();
+      refreshTrainerStudents();
+    }
+
+    function handleRemoteStudentResume(payload) {
+      const targetId = payload.targetStudentId;
+      if (!targetId) return;
+      if (classroomStudents[targetId]) {
+        classroomStudents[targetId].loggedOut = false;
+        classroomStudents[targetId].lastActive = Date.now();
       }
       saveClassroomState();
       renderSidebarTeamLeaderboard();
@@ -2909,10 +3108,37 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             <div class="flex items-center space-x-1 pt-1 border-t border-slate-800/80">
               <button onclick="trainerAwardBonus('${s.id}', 50)" class="flex-1 py-0.5 bg-slate-800 hover:bg-slate-700 text-amber-300 rounded text-[9px] font-bold" title="Assegna 50 punti bonus">+50</button>
               <button onclick="trainerAwardBonus('${s.id}', 100)" class="flex-1 py-0.5 bg-slate-800 hover:bg-slate-700 text-emerald-300 rounded text-[9px] font-bold" title="Assegna 100 punti bonus">+100</button>
+              <button onclick="trainerShowRecoveryPin('${s.id}')" class="py-0.5 px-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded text-[9px] font-mono font-bold" title="Vedi PIN di recupero per lo studente">🔑 ${s.recoveryPin || getStudentRecoveryPin(s.id)}</button>
+              <button onclick="trainerKickStudent('${s.id}', '${s.name.replace(/'/g, "\\'")}')" class="py-0.5 px-1.5 bg-red-950/60 hover:bg-red-900/80 text-red-400 rounded text-[9px] font-bold" title="Espelli o disconnetti studente">⛔</button>
             </div>
           </div>
         `;
       }).join('');
+    }
+
+    function trainerShowRecoveryPin(studentId) {
+      const s = classroomStudents[studentId];
+      if (!s) return;
+      const pin = s.recoveryPin || getStudentRecoveryPin(studentId);
+      prompt(`🔑 PIN di Recupero per lo studente "${s.name}":\n\nDì questo codice di 4 cifre allo studente per fargli riprendere il profilo:`, pin);
+    }
+
+    function trainerKickStudent(studentId, studentName) {
+      const s = classroomStudents[studentId];
+      if (!s) return;
+
+      const choice = confirm(`Vuoi DISCONNETTERE lo studente "${studentName}"?\n\n- OK: Disconnetti da remoto (mantiene il punteggio, sposta in Logout e richiede PIN per rientrare)\n- Annulla: Chiudi senza modifiche`);
+      if (!choice) return;
+
+      // Broadcast kick to student's browser and to the classroom
+      publishBroadcast({
+        action: 'student_kick',
+        targetStudentId: studentId,
+        permanent: false
+      });
+
+      handleRemoteStudentKick({ targetStudentId: studentId, permanent: false });
+      showToast(`⛔ Studente "${studentName}" disconnesso da remoto!`);
     }
 
     function trainerAwardBonus(studentId, delta) {
