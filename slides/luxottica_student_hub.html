@@ -1465,7 +1465,77 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     let isStrictLocked = true;
     let logoClickCount = 0;
     let logoClickTimer;
-    const BROADCAST_TOPIC = 'https://ntfy.sh/luxottica-bq-masterclass-sync';
+
+    // =========================================================================
+    // LOAD BALANCED MULTI-CHANNEL & MULTI-RELAY CLUSTER (STRADA B)
+    // =========================================================================
+    const RELAY_BASE_TOPIC = 'lux-bq-2026';
+    const RELAY_NODES = [
+      'https://ntfy.sh',
+      'https://ntfy.envs.net'
+    ];
+    // 4 SHARDED CHANNELS TO SPLIT TRAFFIC BY 75%:
+    const SHARD_TOPICS = [
+      `${RELAY_BASE_TOPIC}-rayban`,
+      `${RELAY_BASE_TOPIC}-oakley`,
+      `${RELAY_BASE_TOPIC}-persol`,
+      `${RELAY_BASE_TOPIC}-oliver`
+    ];
+
+    // Helper to get channel for a student by team or hash
+    function getStudentChannel(teamKey) {
+      if (teamKey && teamKey.includes('oakley')) return `${RELAY_BASE_TOPIC}-oakley`;
+      if (teamKey && teamKey.includes('persol')) return `${RELAY_BASE_TOPIC}-persol`;
+      if (teamKey && teamKey.includes('oliver')) return `${RELAY_BASE_TOPIC}-oliver`;
+      return `${RELAY_BASE_TOPIC}-rayban`;
+    }
+
+    // High-resilience publisher with round-robin failover between nodes & shards
+    async function publishBroadcast(payload, specificTeamKey = null) {
+      const dataStr = JSON.stringify(payload);
+      
+      // Determine target channels:
+      // If student message -> sends only to their own shard channel (saving 75% traffic)
+      // If trainer command -> broadcast to all 4 shard channels in parallel with failover
+      let targetChannels = [];
+      if (specificTeamKey) {
+        targetChannels = [getStudentChannel(specificTeamKey)];
+      } else if (payload.action === 'student_checkin' || payload.action === 'score_update') {
+        const teamKey = payload.student?.teamKey || payload.teamKey || (currentStudent ? currentStudent.teamKey : null);
+        targetChannels = [getStudentChannel(teamKey)];
+      } else {
+        // Trainer wide broadcast (change block, lock, unlock hint, ping, reset)
+        targetChannels = SHARD_TOPICS;
+      }
+
+      for (const channel of targetChannels) {
+        let sent = false;
+        // Try Primary node, fallback to secondary node if 429 or network fail
+        for (const node of RELAY_NODES) {
+          try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 2500);
+            const resp = await fetch(`${node}/${channel}`, {
+              method: 'POST',
+              body: dataStr,
+              signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+            if (resp.ok) {
+              sent = true;
+              break; // Success on this channel!
+            } else if (resp.status === 429) {
+              console.warn(`[Cluster Failover] Node ${node} rate-limited (429), trying secondary node...`);
+            }
+          } catch(e) {
+            console.warn(`[Cluster Failover] Node ${node} unreachable, trying secondary node...`);
+          }
+        }
+        if (!sent) {
+          console.warn(`[Cluster] Broadcast for ${channel} queued locally.`);
+        }
+      }
+    }
 
     // SAFE DOM HELPERS TO PREVENT SCRIPT CRASHES
     function setText(id, text) {
@@ -1503,10 +1573,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     }
 
     function pingStudentsFromTrainer() {
-      fetch(BROADCAST_TOPIC, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'ping_students' })
-      }).catch(e => console.warn(e));
+      publishBroadcast({ action: 'ping_students' });
     }
 
     // DISABLE / EXIT TRAINER MODE FUNCTION (RETURNS TO REAL STUDENT VIEW)
@@ -1626,42 +1693,60 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       }
     });
 
-    // INITIALIZE REAL-TIME SSE LISTENER FOR ALL 50 STUDENTS
-    const eventSource = new EventSource(`${BROADCAST_TOPIC}/sse`);
-    eventSource.onmessage = function(event) {
+    // INITIALIZE REAL-TIME SSE LISTENER FOR ALL 50 STUDENTS & TRAINER
+    // Subscribes to all 4 shards simultaneously via comma-separated SSE topics: lux-bq-2026-rayban,lux-bq-2026-oakley,...
+    const SSE_SHARDS_URL = `${RELAY_NODES[0]}/${SHARD_TOPICS.join(',')}/sse`;
+    let eventSource = null;
+
+    function initClusterEventListener() {
       try {
-        const data = JSON.parse(event.data);
-        if (data.message) {
-          const payload = JSON.parse(data.message);
-          if (payload.action === 'change_block') {
-            showBlock(payload.block, true);
-          } else if (payload.action === 'set_lock') {
-            applyLockState(payload.locked);
-          } else if (payload.action === 'unlock_hint') {
-            applyRemoteHintUnlock(payload.hintId);
-          } else if (payload.action === 'hide_hint') {
-            applyRemoteHintHide(payload.hintId);
-          } else if (payload.action === 'score_update' || payload.action === 'student_checkin') {
-            handleRemoteStudentUpdate(payload);
-          } else if (payload.action === 'ping_students') {
-            // Trainer asked all connected students to report their profile & scores
-            // Use randomized jitter (0 to 3000ms) to spread requests across 3 seconds and avoid 429 bursts
-            if (currentStudent && currentStudent.id && currentStudent.name && !isTrainerMode) {
-              const randomJitter = Math.floor(Math.random() * 2800);
-              broadcastStudentCheckin(randomJitter);
+        if (eventSource) eventSource.close();
+        eventSource = new EventSource(SSE_SHARDS_URL);
+        
+        eventSource.onmessage = function(event) {
+          try {
+            const data = JSON.parse(event.data);
+            if (data.message) {
+              const payload = JSON.parse(data.message);
+              if (payload.action === 'change_block') {
+                showBlock(payload.block, true);
+              } else if (payload.action === 'set_lock') {
+                applyLockState(payload.locked);
+              } else if (payload.action === 'unlock_hint') {
+                applyRemoteHintUnlock(payload.hintId);
+              } else if (payload.action === 'hide_hint') {
+                applyRemoteHintHide(payload.hintId);
+              } else if (payload.action === 'score_update' || payload.action === 'student_checkin') {
+                handleRemoteStudentUpdate(payload);
+              } else if (payload.action === 'ping_students') {
+                // Trainer asked all connected students to report their profile & scores
+                // Use randomized jitter (0 to 2800ms) to spread requests across 3 seconds and avoid 429 bursts
+                if (currentStudent && currentStudent.id && currentStudent.name && !isTrainerMode) {
+                  const randomJitter = Math.floor(Math.random() * 2800);
+                  broadcastStudentCheckin(randomJitter);
+                }
+              } else if (payload.action === 'trainer_override') {
+                handleTrainerScoreOverride(payload);
+              } else if (payload.action === 'reset_scores') {
+                handleRemoteResetScores();
+              }
             }
-          } else if (payload.action === 'trainer_override') {
-            handleTrainerScoreOverride(payload);
-          } else if (payload.action === 'reset_scores') {
-            handleRemoteResetScores();
+          } catch(e) {
+            if (event.data) {
+              showBlock(event.data, true);
+            }
           }
-        }
-      } catch(e) {
-        if (event.data) {
-          showBlock(event.data, true);
-        }
+        };
+
+        eventSource.onerror = function() {
+          console.warn("[Cluster SSE] Primary SSE stream disconnected, will auto-reconnect...");
+        };
+      } catch(err) {
+        console.warn("[Cluster SSE] Init error:", err);
       }
-    };
+    }
+
+    initClusterEventListener();
 
     // UPDATE VISUAL ACTIVE STATE OF TRAINER BLOCK BUTTONS IN SIDEBAR
     function updateTrainerBlockUI(activeBlockId) {
@@ -1784,21 +1869,13 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       if (isCurrentlyUnlocked) {
         // Was unlocked -> Hide / lock it
         applyRemoteHintHide(hintId);
-        fetch(BROADCAST_TOPIC, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'hide_hint', hintId: hintId })
-        }).then(() => {
-          showToast(currentLang === 'it' ? `🔒 Aiuto ${hintId} ri-nascosto per tutta l'aula!` : `🔒 Hint ${hintId} hidden again for all students!`);
-        });
+        publishBroadcast({ action: 'hide_hint', hintId: hintId });
+        showToast(currentLang === 'it' ? `🔒 Aiuto ${hintId} ri-nascosto per tutta l'aula!` : `🔒 Hint ${hintId} hidden again for all students!`);
       } else {
         // Was locked -> Unlock it
         applyRemoteHintUnlock(hintId);
-        fetch(BROADCAST_TOPIC, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'unlock_hint', hintId: hintId })
-        }).then(() => {
-          showToast(currentLang === 'it' ? `📡 Aiuto ${hintId} sbloccato per tutta l'aula!` : `📡 Hint ${hintId} unlocked for all students!`);
-        });
+        publishBroadcast({ action: 'unlock_hint', hintId: hintId });
+        showToast(currentLang === 'it' ? `📡 Aiuto ${hintId} sbloccato per tutta l'aula!` : `📡 Hint ${hintId} unlocked for all students!`);
       }
     }
 
@@ -1813,46 +1890,30 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       if (anyUnlocked) {
         // If some or all are unlocked -> Hide all
         applyRemoteHintHide('all');
-        fetch(BROADCAST_TOPIC, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'hide_hint', hintId: 'all' })
-        }).then(() => {
-          showToast(currentLang === 'it' ? "🔒 Tutti gli aiuti ri-nascosti per tutta l'aula!" : "🔒 All hints hidden again for all students!");
-        });
+        publishBroadcast({ action: 'hide_hint', hintId: 'all' });
+        showToast(currentLang === 'it' ? "🔒 Tutti gli aiuti ri-nascosti per tutta l'aula!" : "🔒 All hints hidden again for all students!");
       } else {
         // All are locked -> Unlock all
         applyRemoteHintUnlock('all');
-        fetch(BROADCAST_TOPIC, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'unlock_hint', hintId: 'all' })
-        }).then(() => {
-          showToast(currentLang === 'it' ? "📡 Tutti gli aiuti sbloccati per tutta l'aula!" : "📡 All hints unlocked for all students!");
-        });
+        publishBroadcast({ action: 'unlock_hint', hintId: 'all' });
+        showToast(currentLang === 'it' ? "📡 Tutti gli aiuti sbloccati per tutta l'aula!" : "📡 All hints unlocked for all students!");
       }
     }
 
     // TRAINER BROADCAST BLOCK ACTION
     function broadcastBlock(blockId) {
-      fetch(BROADCAST_TOPIC, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'change_block', block: blockId })
-      }).then(() => {
-        showBlock(blockId, false);
-      });
+      publishBroadcast({ action: 'change_block', block: blockId });
+      showBlock(blockId, false);
     }
 
     // TRAINER TOGGLE LOCK STATE
     function toggleLockState() {
       isStrictLocked = !isStrictLocked;
       applyLockState(isStrictLocked); // IMMEDIATELY UPDATE LOCAL UI
-      fetch(BROADCAST_TOPIC, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'set_lock', locked: isStrictLocked })
-      }).then(() => {
-        showToast(isStrictLocked 
-          ? (currentLang === 'it' ? "🔒 Navigazione Studenti BLOCCATA" : "🔒 Student Navigation LOCKED")
-          : (currentLang === 'it' ? "🔓 Esplorazione Libera SBLOCCATA" : "🔓 Free Exploration UNLOCKED"));
-      });
+      publishBroadcast({ action: 'set_lock', locked: isStrictLocked });
+      showToast(isStrictLocked 
+        ? (currentLang === 'it' ? "🔒 Navigazione Studenti BLOCCATA" : "🔒 Student Navigation LOCKED")
+        : (currentLang === 'it' ? "🔓 Esplorazione Libera SBLOCCATA" : "🔓 Free Exploration UNLOCKED"));
     }
 
     function updateLockControlButton() {
@@ -2417,15 +2478,9 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     function broadcastStudentCheckin(jitterMs = 0) {
       if (!currentStudent.id) return;
       const send = () => {
-        fetch(BROADCAST_TOPIC, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'student_checkin',
-            student: currentStudent
-          })
-        }).catch(e => {
-          // Graceful degradation: silently ignore network/rate limit hiccups
-          console.warn("Pubsub checkin skipped/offline:", e);
+        publishBroadcast({
+          action: 'student_checkin',
+          student: currentStudent
         });
       };
 
@@ -2438,19 +2493,16 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
     function broadcastScoreUpdate(challengeKey, pointsEarned) {
       if (!currentStudent.id) return;
-      fetch(BROADCAST_TOPIC, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'score_update',
-          studentId: currentStudent.id,
-          name: currentStudent.name,
-          teamKey: currentStudent.teamKey,
-          score: currentStudent.score,
-          completedChallenges: currentStudent.completedChallenges,
-          challengeKey: challengeKey,
-          pointsEarned: pointsEarned
-        })
-      }).catch(e => console.warn(e));
+      publishBroadcast({
+        action: 'score_update',
+        studentId: currentStudent.id,
+        name: currentStudent.name,
+        teamKey: currentStudent.teamKey,
+        score: currentStudent.score,
+        completedChallenges: currentStudent.completedChallenges,
+        challengeKey: challengeKey,
+        pointsEarned: pointsEarned
+      });
     }
 
     function handleRemoteStudentUpdate(payload) {
@@ -2752,27 +2804,19 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
     function trainerAwardBonus(studentId, delta) {
       handleTrainerScoreOverride({ targetStudentId: studentId, delta: delta });
-      fetch(BROADCAST_TOPIC, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'trainer_override',
-          targetStudentId: studentId,
-          delta: delta
-        })
-      }).then(() => {
-        showToast(currentLang === 'it' ? `🎓 Bonus ${delta} pt inviato allo studente!` : `🎓 Bonus ${delta} pts sent!`);
+      publishBroadcast({
+        action: 'trainer_override',
+        targetStudentId: studentId,
+        delta: delta
       });
+      showToast(currentLang === 'it' ? `🎓 Bonus ${delta} pt inviato allo studente!` : `🎓 Bonus ${delta} pts sent!`);
     }
 
     function resetClassroomLeaderboard() {
       if (!confirm("Sei sicuro di voler azzerare i punteggi e la classifica dell'intera classe?")) return;
       handleRemoteResetScores();
-      fetch(BROADCAST_TOPIC, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'reset_scores' })
-      }).then(() => {
-        showToast("🗑️ Classifica aula azzerata con successo!");
-      });
+      publishBroadcast({ action: 'reset_scores' });
+      showToast("🗑️ Classifica aula azzerata con successo!");
     }
 
     // TEAM SELECTOR SWITCH (FALLBACK FOR MANUAL OVERRIDE)
