@@ -1483,6 +1483,13 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         optHintAll: "✨ TUTTI gli Hint",
         btnHintConfirm: "Sblocca 🔓",
         btnHintHide: "Nascondi 🔒",
+        // STUDENT DOCS CARD IT
+        hdrStudentDocs: "Guida & Materiali",
+        studentDocsLockBadgeLocked: "🔒 Bloccata",
+        studentDocsLockBadgeUnlocked: "🔓 Sbloccata",
+        studentDocsLockedTitle: "Materiali Riservati",
+        studentDocsLockedDesc: "Il docente sbloccherà le guide e i materiali durante il corso.",
+        studentDocsUnlockedDesc: "Guide pratiche, sintassi SQL e storyboard per la sessione:",
         // ROLE MODAL IT
         roleModalTitle: "Luxottica BigQuery & Gemini Workshop",
         roleModalSubtitle: "Benvenuto! Seleziona come vuoi accedere alla sessione di training interattiva:",
@@ -1634,6 +1641,13 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         optHintAll: "✨ ALL Hints",
         btnHintConfirm: "Unlock 🔓",
         btnHintHide: "Hide 🔒",
+        // STUDENT DOCS CARD EN
+        hdrStudentDocs: "Guide & Materials",
+        studentDocsLockBadgeLocked: "🔒 Locked",
+        studentDocsLockBadgeUnlocked: "🔓 Unlocked",
+        studentDocsLockedTitle: "Restricted Materials",
+        studentDocsLockedDesc: "The trainer will unlock guides and course materials during the session.",
+        studentDocsUnlockedDesc: "Practical guides, SQL cheat-sheets, and storyboard references:",
         // ROLE MODAL EN
         roleModalTitle: "Luxottica BigQuery & Gemini Workshop",
         roleModalSubtitle: "Welcome! Choose how you would like to join the interactive training session:",
@@ -2294,6 +2308,11 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('lbl-team', t.lblTeam);
       setText('hdr-env-specs', t.hdrEnvSpecs);
       setText('btn-copy-project', t.btnCopyProject);
+      setText('hdr-student-docs', t.hdrStudentDocs);
+      setText('student-docs-lock-badge', areStudentDocsUnlocked ? t.studentDocsLockBadgeUnlocked : t.studentDocsLockBadgeLocked);
+      setText('student-docs-locked-title', t.studentDocsLockedTitle);
+      setText('student-docs-locked-desc', t.studentDocsLockedDesc);
+      setText('student-docs-unlocked-desc', t.studentDocsUnlockedDesc);
       setText('hdr-shortcuts', t.hdrShortcuts);
       setText('sc-gemini-title', t.scGeminiTitle);
       setText('sc-gemini-desc', t.scGeminiDesc);
