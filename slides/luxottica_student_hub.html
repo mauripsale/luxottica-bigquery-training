@@ -262,6 +262,44 @@
         </button>
       </div>
 
+      <!-- SECTION 3.5: COURSE DOCUMENTATION & GUIDES -->
+      <div class="space-y-2 pt-2 border-t border-slate-800">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] uppercase font-bold text-sky-400 tracking-wider">📚 Documentazione Corso</span>
+        </div>
+        
+        <!-- INSTRUCTOR GUIDES (TRAINER ONLY) -->
+        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-slate-200">📖 Guida Docente</span>
+            <span class="text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-1.5 py-0.2 rounded font-mono font-bold">Trainer Only</span>
+          </div>
+          <p class="text-[9px] text-slate-400 leading-tight">Timeline 180 min, talk-track, demo script e risposte sfide:</p>
+          <div class="grid grid-cols-2 gap-1.5 pt-0.5">
+            <a href="https://github.com/mauripsale/luxottica-bigquery-training/blob/gh-pages/instructor_guide_it.md" target="_blank" class="py-1.5 px-2 rounded-lg bg-sky-950/80 hover:bg-sky-800 border border-sky-700/60 text-sky-200 hover:text-white text-[10px] font-bold text-center transition flex items-center justify-center space-x-1 shadow-xs">
+              <span>🇮🇹 Guida (IT)</span>
+              <span class="text-[9px] opacity-70">↗</span>
+            </a>
+            <a href="https://github.com/mauripsale/luxottica-bigquery-training/blob/gh-pages/instructor_guide.md" target="_blank" class="py-1.5 px-2 rounded-lg bg-sky-950/80 hover:bg-sky-800 border border-sky-700/60 text-sky-200 hover:text-white text-[10px] font-bold text-center transition flex items-center justify-center space-x-1 shadow-xs">
+              <span>🇬🇧 Guide (EN)</span>
+              <span class="text-[9px] opacity-70">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- STUDENT GUIDES BROADCAST TOGGLE -->
+        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-slate-200">🎓 Guide Studenti</span>
+            <span id="trainer-student-guides-badge" class="text-[9px] bg-red-950 text-red-300 border border-red-800 px-1.5 py-0.2 rounded font-mono font-bold">🔒 Bloccate</span>
+          </div>
+          <p class="text-[9px] text-slate-400 leading-tight">Sblocca l'accesso alle guide studenti sul portale dei partecipanti:</p>
+          <button id="btn-toggle-student-docs" onclick="trainerToggleStudentDocs()" class="w-full py-1.5 px-2 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-[10px] font-bold transition flex items-center justify-center space-x-1 cursor-pointer">
+            <span id="btn-toggle-student-docs-text">🔓 Sblocca Guide per gli Studenti</span>
+          </button>
+        </div>
+      </div>
+
       <!-- SECTION 4: LIVE STUDENTS MONITORING & SCORE OVERRIDE -->
       <div class="space-y-2 pt-2 border-t border-slate-800">
         <div class="flex items-center justify-between">
@@ -621,6 +659,36 @@
         <button onclick="copyToClipboard('qwiklabs-gcp-04-9efaa47f1d21')" class="w-full bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium py-2 rounded-lg transition flex items-center justify-center space-x-2">
           <span id="btn-copy-project">📋 Copia ID Progetto</span>
         </button>
+      </div>
+
+      <!-- COURSE DOCUMENTATION CARD FOR STUDENTS (LOCKED BY TRAINER BY DEFAULT) -->
+      <div id="student-docs-card" class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="hdr-student-docs">Guida & Materiali</h3>
+          <span id="student-docs-lock-badge" class="text-[10px] bg-slate-100 text-slate-500 font-mono font-bold px-2 py-0.5 rounded-full border border-slate-200">🔒 Bloccata</span>
+        </div>
+
+        <!-- LOCKED PLACEHOLDER -->
+        <div id="student-docs-locked-state" class="p-3 bg-slate-50 rounded-xl border border-dashed border-slate-300 text-center space-y-1">
+          <div class="text-lg">🔒</div>
+          <p class="text-xs font-bold text-slate-700" id="student-docs-locked-title">Materiali Riservati</p>
+          <p class="text-[11px] text-slate-400 leading-tight" id="student-docs-locked-desc">Il docente sbloccherà le guide e i materiali durante il corso.</p>
+        </div>
+
+        <!-- UNLOCKED LINKS (HIDDEN BY DEFAULT) -->
+        <div id="student-docs-unlocked-state" class="space-y-2 hidden">
+          <p class="text-[11px] text-slate-600 leading-tight" id="student-docs-unlocked-desc">Guide pratiche, sintassi SQL e storyboard per la sessione:</p>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="https://github.com/mauripsale/luxottica-bigquery-training/blob/gh-pages/student_guide_it.md" target="_blank" class="p-2.5 rounded-xl bg-blue-50/80 hover:bg-blue-100 border border-blue-200 text-blue-800 text-xs font-bold transition flex items-center justify-between shadow-2xs">
+              <span>🇮🇹 Guida (IT)</span>
+              <span>↗</span>
+            </a>
+            <a href="https://github.com/mauripsale/luxottica-bigquery-training/blob/gh-pages/student_guide.md" target="_blank" class="p-2.5 rounded-xl bg-blue-50/80 hover:bg-blue-100 border border-blue-200 text-blue-800 text-xs font-bold transition flex items-center justify-between shadow-2xs">
+              <span>🇬🇧 Guide (EN)</span>
+              <span>↗</span>
+            </a>
+          </div>
+        </div>
       </div>
 
       <!-- KEYBOARD SHORTCUTS CARD (BIGQUERY STUDIO) -->
@@ -1877,6 +1945,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
                 applyRemoteHintUnlock(payload.hintId);
               } else if (payload.action === 'hide_hint') {
                 applyRemoteHintHide(payload.hintId);
+              } else if (payload.action === 'toggle_student_docs') {
+                applyRemoteStudentDocs(payload.unlocked);
               } else if (payload.action === 'score_update' || payload.action === 'student_checkin') {
                 handleRemoteStudentUpdate(payload);
               } else if (payload.action === 'student_logout') {
@@ -2067,6 +2137,64 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         publishBroadcast({ action: 'unlock_hint', hintId: 'all' });
         showToast(currentLang === 'it' ? "📡 Tutti gli aiuti sbloccati per tutta l'aula!" : "📡 All hints unlocked for all students!");
       }
+    }
+
+    // TRAINER TOGGLE STUDENT GUIDES ACCESS
+    let areStudentDocsUnlocked = false;
+
+    function applyRemoteStudentDocs(unlocked) {
+      areStudentDocsUnlocked = !!unlocked;
+      const lockedState = document.getElementById('student-docs-locked-state');
+      const unlockedState = document.getElementById('student-docs-unlocked-state');
+      const lockBadge = document.getElementById('student-docs-lock-badge');
+      const trainerBadge = document.getElementById('trainer-student-guides-badge');
+      const trainerBtnText = document.getElementById('btn-toggle-student-docs-text');
+      const trainerBtn = document.getElementById('btn-toggle-student-docs');
+
+      if (areStudentDocsUnlocked) {
+        if (lockedState) lockedState.classList.add('hidden');
+        if (unlockedState) unlockedState.classList.remove('hidden');
+        if (lockBadge) {
+          lockBadge.className = "text-[10px] bg-emerald-100 text-emerald-700 font-mono font-bold px-2 py-0.5 rounded-full border border-emerald-200";
+          lockBadge.innerText = currentLang === 'it' ? "🔓 Sbloccata" : "🔓 Unlocked";
+        }
+        if (trainerBadge) {
+          trainerBadge.className = "text-[9px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-1.5 py-0.2 rounded font-mono font-bold";
+          trainerBadge.innerText = "🔓 Sbloccate";
+        }
+        if (trainerBtnText) {
+          trainerBtnText.innerText = "🔒 Blocca Guide per gli Studenti";
+        }
+        if (trainerBtn) {
+          trainerBtn.className = "w-full py-1.5 px-2 rounded-lg bg-red-950/80 hover:bg-red-800 border border-red-700/60 text-red-200 hover:text-white text-[10px] font-bold transition flex items-center justify-center space-x-1 cursor-pointer";
+        }
+      } else {
+        if (unlockedState) unlockedState.classList.add('hidden');
+        if (lockedState) lockedState.classList.remove('hidden');
+        if (lockBadge) {
+          lockBadge.className = "text-[10px] bg-slate-100 text-slate-500 font-mono font-bold px-2 py-0.5 rounded-full border border-slate-200";
+          lockBadge.innerText = currentLang === 'it' ? "🔒 Bloccata" : "🔒 Locked";
+        }
+        if (trainerBadge) {
+          trainerBadge.className = "text-[9px] bg-red-950 text-red-300 border border-red-800 px-1.5 py-0.2 rounded font-mono font-bold";
+          trainerBadge.innerText = "🔒 Bloccate";
+        }
+        if (trainerBtnText) {
+          trainerBtnText.innerText = "🔓 Sblocca Guide per gli Studenti";
+        }
+        if (trainerBtn) {
+          trainerBtn.className = "w-full py-1.5 px-2 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-[10px] font-bold transition flex items-center justify-center space-x-1 cursor-pointer";
+        }
+      }
+    }
+
+    function trainerToggleStudentDocs() {
+      const targetState = !areStudentDocsUnlocked;
+      applyRemoteStudentDocs(targetState);
+      publishBroadcast({ action: 'toggle_student_docs', unlocked: targetState });
+      showToast(targetState 
+        ? (currentLang === 'it' ? "📢 Guide Studenti SBLOCCATE per tutta l'aula!" : "📢 Student Guides UNLOCKED for classroom!")
+        : (currentLang === 'it' ? "🔒 Guide Studenti BLOCCATE per tutta l'aula!" : "🔒 Student Guides LOCKED for classroom!"));
     }
 
     // TRAINER BROADCAST BLOCK ACTION
