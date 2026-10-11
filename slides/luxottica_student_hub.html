@@ -1645,8 +1645,10 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             handleRemoteStudentUpdate(payload);
           } else if (payload.action === 'ping_students') {
             // Trainer asked all connected students to report their profile & scores
-            if (currentStudent && currentStudent.id && currentStudent.name) {
-              broadcastStudentCheckin();
+            // Use randomized jitter (0 to 3000ms) to spread requests across 3 seconds and avoid 429 bursts
+            if (currentStudent && currentStudent.id && currentStudent.name && !isTrainerMode) {
+              const randomJitter = Math.floor(Math.random() * 2800);
+              broadcastStudentCheckin(randomJitter);
             }
           } else if (payload.action === 'trainer_override') {
             handleTrainerScoreOverride(payload);
@@ -2412,15 +2414,26 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       refreshTrainerStudents();
     }
 
-    function broadcastStudentCheckin() {
+    function broadcastStudentCheckin(jitterMs = 0) {
       if (!currentStudent.id) return;
-      fetch(BROADCAST_TOPIC, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'student_checkin',
-          student: currentStudent
-        })
-      }).catch(e => console.warn(e));
+      const send = () => {
+        fetch(BROADCAST_TOPIC, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'student_checkin',
+            student: currentStudent
+          })
+        }).catch(e => {
+          // Graceful degradation: silently ignore network/rate limit hiccups
+          console.warn("Pubsub checkin skipped/offline:", e);
+        });
+      };
+
+      if (jitterMs > 0) {
+        setTimeout(send, jitterMs);
+      } else {
+        send();
+      }
     }
 
     function broadcastScoreUpdate(challengeKey, pointsEarned) {
@@ -2841,13 +2854,6 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setLanguage('en');
       showBlock('cover', false);
       loadStudentProfile();
-
-      // Periodic check-in / heartbeat every 15s so late-joining trainers automatically discover already connected students
-      setInterval(() => {
-        if (currentStudent && currentStudent.id && currentStudent.name && !isTrainerMode) {
-          broadcastStudentCheckin();
-        }
-      }, 15000);
     })();
   </script>
 </body>
