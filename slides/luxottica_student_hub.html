@@ -91,10 +91,16 @@
         <span id="btn-leaderboard-text">Classifica Live</span>
       </button>
 
-      <!-- SWITCH ROLE / LOGOUT BUTTON -->
+      <!-- SWITCH ROLE BUTTON -->
       <button onclick="openRoleSelectionModal()" class="flex items-center space-x-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold text-xs px-2.5 py-1.5 rounded-lg transition cursor-pointer" title="Cambia Ruolo (Studente / Docente)">
         <span>🔄</span>
-        <span class="hidden md:inline">Cambia Ruolo</span>
+        <span class="hidden md:inline" id="btn-switch-role-text">Ruolo</span>
+      </button>
+
+      <!-- LOGOUT / RESET STUDENT PROFILE BUTTON -->
+      <button onclick="logoutStudentProfile()" class="flex items-center space-x-1 bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-red-600 border border-transparent hover:border-red-200 font-semibold text-xs px-2.5 py-1.5 rounded-lg transition cursor-pointer" title="Esci e reimposta profilo studente">
+        <span>🚪</span>
+        <span class="hidden sm:inline" id="btn-logout-text">Logout</span>
       </button>
     </div>
   </header>
@@ -2166,6 +2172,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('role-student-desc', t.roleStudentDesc);
       setText('role-student-action', t.roleStudentAction);
       setText('role-modal-footer', t.roleModalFooter);
+      setText('btn-switch-role-text', lang === 'it' ? 'Ruolo' : 'Role');
+      setText('btn-logout-text', 'Logout');
 
       const roleLangIt = document.getElementById('role-lang-btn-it');
       const roleLangEn = document.getElementById('role-lang-btn-en');
@@ -2326,6 +2334,42 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       try {
         localStorage.setItem(getStudentStorageKey(), JSON.stringify(currentStudent));
       } catch (e) {}
+    }
+
+    function logoutStudentProfile() {
+      const confirmMsg = currentLang === 'it' 
+        ? "Sei sicuro di voler effettuare il LOGOUT? Il tuo profilo studente locale verrà resettato e potrai inserire un nuovo nome e riassegnare la squadra."
+        : "Are you sure you want to LOG OUT? Your local student profile will be reset, allowing you to enter a new name and get reassigned to a team.";
+      
+      if (!confirm(confirmMsg)) return;
+
+      try {
+        localStorage.removeItem(getStudentStorageKey());
+        localStorage.removeItem(getRoleStorageKey());
+      } catch (e) {}
+
+      // Reset in-memory student object
+      currentStudent = {
+        id: '',
+        name: '',
+        teamKey: '',
+        score: 0,
+        completedChallenges: {}
+      };
+
+      // Reset challenge badges and score display
+      setText('student-display-name', 'Detective');
+      setText('student-display-team', 'Team Ray-Ban');
+      setText('student-display-score', '0');
+
+      // Clear input fields
+      const input = document.getElementById('student-input-name');
+      if (input) input.value = '';
+
+      showToast(currentLang === 'it' ? "👋 Logout completato!" : "👋 Logged out successfully!");
+
+      // Open Role Selection Modal immediately
+      openRoleSelectionModal();
     }
 
     function saveClassroomState() {
