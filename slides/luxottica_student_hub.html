@@ -1724,6 +1724,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
                 applyRemoteHintHide(payload.hintId);
               } else if (payload.action === 'score_update' || payload.action === 'student_checkin') {
                 handleRemoteStudentUpdate(payload);
+              } else if (payload.action === 'student_logout') {
+                handleRemoteStudentLogout(payload);
               } else if (payload.action === 'ping_students') {
                 // Trainer asked all connected students to report their profile & scores
                 // Use randomized jitter (0 to 2800ms) to spread requests across 3 seconds and avoid 429 bursts
@@ -2343,6 +2345,18 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       
       if (!confirm(confirmMsg)) return;
 
+      // Broadcast student_logout to the classroom so Trainer records logged-out status while preserving score
+      if (currentStudent && currentStudent.id) {
+        publishBroadcast({
+          action: 'student_logout',
+          studentId: currentStudent.id,
+          name: currentStudent.name,
+          teamKey: currentStudent.teamKey,
+          score: currentStudent.score || 0,
+          completedChallenges: currentStudent.completedChallenges || {}
+        });
+      }
+
       try {
         localStorage.removeItem(getStudentStorageKey());
         localStorage.removeItem(getRoleStorageKey());
@@ -2512,8 +2526,39 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         teamKey: student.teamKey,
         score: student.score || 0,
         completedChallenges: { ...(student.completedChallenges || {}) },
+        loggedOut: false,
         lastActive: Date.now()
       };
+      saveClassroomState();
+      renderSidebarTeamLeaderboard();
+      refreshTrainerStudents();
+    }
+
+    function handleRemoteStudentLogout(payload) {
+      const studentId = payload.studentId || payload.id;
+      if (!studentId) return;
+
+      if (classroomStudents[studentId]) {
+        classroomStudents[studentId].loggedOut = true;
+        if (payload.score !== undefined) {
+          classroomStudents[studentId].score = payload.score;
+        }
+        if (payload.completedChallenges) {
+          classroomStudents[studentId].completedChallenges = payload.completedChallenges;
+        }
+        classroomStudents[studentId].lastActive = Date.now();
+      } else if (payload.name) {
+        // Even if not seen previously, register as logged-out student with final score
+        classroomStudents[studentId] = {
+          id: studentId,
+          name: payload.name,
+          teamKey: payload.teamKey,
+          score: payload.score || 0,
+          completedChallenges: payload.completedChallenges || {},
+          loggedOut: true,
+          lastActive: Date.now()
+        };
+      }
       saveClassroomState();
       renderSidebarTeamLeaderboard();
       refreshTrainerStudents();
@@ -2784,21 +2829,30 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       }).join('');
 
       // Render Students
-      const studentList = Object.values(classroomStudents).sort((a, b) => (b.score || 0) - (a.score || 0));
+      const rawStudents = Object.values(classroomStudents);
+      const studentList = [...rawStudents].sort((a, b) => {
+        if (!!a.loggedOut !== !!b.loggedOut) {
+          return a.loggedOut ? 1 : -1;
+        }
+        return (b.score || 0) - (a.score || 0);
+      });
+
       if (studentList.length === 0) {
         studentsContainer.innerHTML = `<div class="text-xs text-slate-500 italic p-4 text-center">Nessun detective in classifica. Inserisci il tuo nome per iniziare!</div>`;
       } else {
-        studentsContainer.innerHTML = studentList.slice(0, 8).map((s, idx) => {
+        studentsContainer.innerHTML = studentList.slice(0, 10).map((s, idx) => {
           const tObj = TEAMS.find(t => t.key === s.teamKey) || TEAMS[0];
           const isMe = (s.id === currentStudent.id);
+          const isLoggedOut = !!s.loggedOut;
           return `
-            <div class="flex items-center justify-between p-2.5 rounded-xl border ${isMe ? 'bg-blue-600/20 border-blue-500 text-blue-200 font-bold' : 'bg-slate-800/40 border-slate-700/50 text-slate-300'} text-xs">
+            <div class="flex items-center justify-between p-2.5 rounded-xl border ${isMe ? 'bg-blue-600/20 border-blue-500 text-blue-200 font-bold' : isLoggedOut ? 'bg-slate-900/50 border-slate-800 text-slate-400 opacity-60' : 'bg-slate-800/40 border-slate-700/50 text-slate-300'} text-xs">
               <div class="flex items-center space-x-2">
                 <span class="w-5 text-center font-mono font-bold text-slate-400">${idx + 1}.</span>
                 <div>
                   <div class="font-semibold text-slate-100 flex items-center space-x-1">
                     <span>${s.name}</span>
                     ${isMe ? '<span class="text-[9px] bg-blue-500 text-white px-1.5 py-0.2 rounded-full">TU</span>' : ''}
+                    ${isLoggedOut ? '<span class="text-[9px] bg-slate-800 text-slate-400 px-1 py-0.2 rounded font-normal font-sans">Logout</span>' : ''}
                   </div>
                   <div class="text-[10px] text-slate-400">${tObj.name}</div>
                 </div>
@@ -2816,26 +2870,41 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const countEl = document.getElementById('trainer-student-count');
       if (!container) return;
 
-      const list = Object.values(classroomStudents);
-      if (countEl) countEl.innerText = String(list.length);
+      const rawList = Object.values(classroomStudents);
+      const activeCount = rawList.filter(s => !s.loggedOut).length;
+      if (countEl) countEl.innerText = `${activeCount}/${rawList.length}`;
 
-      if (list.length === 0) {
+      if (rawList.length === 0) {
         container.innerHTML = `<div class="text-[11px] text-slate-500 italic text-center py-2">Nessuno studente connesso</div>`;
         return;
       }
 
+      // Sort: active students first (by score desc), then logged-out students (by score desc)
+      const list = [...rawList].sort((a, b) => {
+        if (!!a.loggedOut !== !!b.loggedOut) {
+          return a.loggedOut ? 1 : -1;
+        }
+        return (b.score || 0) - (a.score || 0);
+      });
+
       container.innerHTML = list.map(s => {
         const tObj = TEAMS.find(t => t.key === s.teamKey) || TEAMS[0];
         const chDone = Object.values(s.completedChallenges || {}).filter(Boolean).length;
+        const isLoggedOut = !!s.loggedOut;
+
         return `
-          <div class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-[11px] space-y-1">
+          <div class="p-2 rounded-lg border text-[11px] space-y-1 transition ${isLoggedOut ? 'bg-slate-950/60 border-slate-800/50 opacity-60' : 'bg-slate-900 border-slate-800'}">
             <div class="flex items-center justify-between">
-              <span class="font-bold text-white truncate max-w-[120px]" title="${s.name}">${s.name}</span>
+              <div class="flex items-center space-x-1.5 truncate max-w-[130px]">
+                <span class="w-1.5 h-1.5 rounded-full ${isLoggedOut ? 'bg-slate-500' : 'bg-emerald-400 animate-pulse'}"></span>
+                <span class="font-bold text-white truncate" title="${s.name}">${s.name}</span>
+                ${isLoggedOut ? '<span class="text-[9px] bg-slate-800 text-slate-400 px-1 py-0.2 rounded font-sans">Logout</span>' : ''}
+              </div>
               <span class="font-mono font-bold text-amber-400">${s.score || 0} pt</span>
             </div>
             <div class="flex items-center justify-between text-[10px] text-slate-400">
               <span>${tObj.name.replace('Team ', '')}</span>
-              <span class="text-emerald-400 font-medium">${chDone}/3 sfide</span>
+              <span class="${isLoggedOut ? 'text-slate-500' : 'text-emerald-400'} font-medium">${chDone}/3 sfide</span>
             </div>
             <div class="flex items-center space-x-1 pt-1 border-t border-slate-800/80">
               <button onclick="trainerAwardBonus('${s.id}', 50)" class="flex-1 py-0.5 bg-slate-800 hover:bg-slate-700 text-amber-300 rounded text-[9px] font-bold" title="Assegna 50 punti bonus">+50</button>
