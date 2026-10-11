@@ -91,6 +91,11 @@
         <span id="btn-leaderboard-text">Classifica Live</span>
       </button>
 
+      <!-- SWITCH ROLE / LOGOUT BUTTON -->
+      <button onclick="openRoleSelectionModal()" class="flex items-center space-x-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold text-xs px-2.5 py-1.5 rounded-lg transition cursor-pointer" title="Cambia Ruolo (Studente / Docente)">
+        <span>🔄</span>
+        <span class="hidden md:inline">Cambia Ruolo</span>
+      </button>
     </div>
   </header>
 
@@ -312,6 +317,66 @@
     </div>
   </div>
 
+  <!-- ROLE SELECTION WELCOME SCREEN (STUDENT VS TRAINER) -->
+  <div id="role-selection-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-xl w-full p-6 sm:p-8 text-slate-900 space-y-6 animate-in fade-in zoom-in duration-200">
+      
+      <div class="text-center space-y-2">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-amber-500 text-white text-2xl shadow-lg">
+          🕶️
+        </div>
+        <h2 class="text-2xl font-black text-slate-900 tracking-tight" id="role-modal-title">Luxottica BigQuery & Gemini Workshop</h2>
+        <p class="text-xs text-slate-500 max-w-md mx-auto" id="role-modal-subtitle">Benvenuto! Seleziona come vuoi accedere alla sessione di training interattiva:</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+        <!-- CARD 1: TRAINER -->
+        <button onclick="selectRoleTrainer()" type="button" class="group text-left p-5 rounded-2xl border-2 border-slate-200 hover:border-amber-500 bg-slate-50/70 hover:bg-amber-50/40 transition duration-150 cursor-pointer flex flex-col justify-between space-y-4 shadow-xs">
+          <div class="space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-600 border border-amber-500/30 flex items-center justify-center text-xl group-hover:scale-105 transition">
+              🎓
+            </div>
+            <div>
+              <h3 class="font-extrabold text-sm text-slate-900 flex items-center space-x-1.5">
+                <span>Sono il Trainer</span>
+                <span class="text-[9px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded-md">Docente</span>
+              </h3>
+              <p class="text-[11px] text-slate-500 mt-1 leading-snug">Controllo blocchi, sblocco hint, visualizzazione e proiezione della classifica d'aula, assegnazione punti bonus.</p>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-slate-200 group-hover:border-amber-200 flex items-center justify-between text-xs font-bold text-amber-700">
+            <span>Accedi con PIN</span>
+            <span class="group-hover:translate-x-1 transition">→</span>
+          </div>
+        </button>
+
+        <!-- CARD 2: STUDENT -->
+        <button onclick="selectRoleStudent()" type="button" class="group text-left p-5 rounded-2xl border-2 border-blue-500 bg-blue-50/50 hover:bg-blue-50/80 transition duration-150 cursor-pointer flex flex-col justify-between space-y-4 shadow-sm">
+          <div class="space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl group-hover:scale-105 transition shadow-xs">
+              🕵️
+            </div>
+            <div>
+              <h3 class="font-extrabold text-sm text-slate-900 flex items-center space-x-1.5">
+                <span>Sono uno Studente</span>
+                <span class="text-[9px] bg-blue-100 text-blue-800 font-bold px-1.5 py-0.5 rounded-md">Partecipante</span>
+              </h3>
+              <p class="text-[11px] text-slate-500 mt-1 leading-snug">Inserisci il tuo nome, ricevi l'assegnazione casuale alla tua squadra (Ray-Ban, Oakley...), risolvi le sfide e scala la classifica.</p>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-blue-200 flex items-center justify-between text-xs font-bold text-blue-700">
+            <span>Inizia Sfida</span>
+            <span class="group-hover:translate-x-1 transition">→</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="text-center pt-1 text-[11px] text-slate-400">
+        Potrai sempre cambiare modalità o accedere alla console docente tramite l'header o con il PIN dedicato.
+      </div>
+    </div>
+  </div>
+
   <!-- STUDENT ONBOARDING MODAL (NAME INPUT & RANDOM TEAM SELECTION) -->
   <div id="student-onboarding-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
     <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 space-y-5 animate-in fade-in zoom-in duration-200">
@@ -336,8 +401,11 @@
         </div>
       </div>
 
-      <div class="pt-2">
-        <button onclick="submitStudentOnboarding()" id="btn-submit-onboarding" class="w-full py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/25 transition cursor-pointer flex items-center justify-center space-x-2">
+      <div class="pt-2 flex items-center space-x-2">
+        <button onclick="backToRoleSelection()" type="button" class="py-3 px-4 rounded-xl font-bold text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 transition">
+          ← Indietro
+        </button>
+        <button onclick="submitStudentOnboarding()" id="btn-submit-onboarding" class="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/25 transition cursor-pointer flex items-center justify-center space-x-2">
           <span>Entra nel Workshop 🚀</span>
         </button>
       </div>
@@ -1410,6 +1478,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
       // Clear trainer query params from URL without page reload
       try {
+        localStorage.removeItem('lux_bq_user_role_v1');
         const url = new URL(window.location.href);
         url.searchParams.delete('role');
         url.searchParams.delete('pin');
@@ -1445,6 +1514,12 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     function closeTrainerPinModal() {
       const modal = document.getElementById('trainer-pin-modal');
       if (modal) modal.classList.add('hidden');
+      if (!isTrainerMode) {
+        const savedRole = localStorage.getItem('lux_bq_user_role_v1');
+        if (!savedRole || savedRole !== 'student') {
+          openRoleSelectionModal();
+        }
+      }
     }
 
     function submitTrainerPinModal() {
@@ -1455,6 +1530,9 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const entered = input.value.trim();
       if (entered === "1926" || entered === "2026" || entered === "1234" || entered === "trainer") {
         closeTrainerPinModal();
+        try {
+          localStorage.setItem('lux_bq_user_role_v1', 'trainer');
+        } catch(e) {}
         enableTrainerMode();
         showToast(currentLang === 'it' ? "🎓 Modalità Docente Attivata!" : "🎓 Trainer Mode Activated!");
       } else {
@@ -2030,6 +2108,44 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       return 'lux_bq_classroom_students_v1';
     }
 
+    function getRoleStorageKey() {
+      return 'lux_bq_user_role_v1';
+    }
+
+    function openRoleSelectionModal() {
+      const modal = document.getElementById('role-selection-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeRoleSelectionModal() {
+      const modal = document.getElementById('role-selection-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function backToRoleSelection() {
+      closeOnboardingModal();
+      openRoleSelectionModal();
+    }
+
+    function selectRoleTrainer() {
+      closeRoleSelectionModal();
+      // Prompt for trainer PIN
+      openTrainerPinModal();
+    }
+
+    function selectRoleStudent() {
+      closeRoleSelectionModal();
+      localStorage.setItem(getRoleStorageKey(), 'student');
+      // If student profile already exists, just show UI, otherwise open onboarding
+      if (!currentStudent.name || !currentStudent.id) {
+        openOnboardingModal(false);
+      } else {
+        applyStudentProfileUI();
+        registerStudentInClassroom(currentStudent);
+        broadcastStudentCheckin();
+      }
+    }
+
     function loadStudentProfile() {
       try {
         const saved = localStorage.getItem(getStudentStorageKey());
@@ -2050,13 +2166,30 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         console.warn("Could not load classroom cache", e);
       }
 
-      // Check if student has profile, else open modal
-      if (!currentStudent.name || !currentStudent.id) {
-        openOnboardingModal(false);
-      } else {
+      // Check URL parameters for explicit role
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlRole = urlParams.get('role');
+      const urlTrainer = urlParams.get('trainer');
+      const urlPin = urlParams.get('pin');
+
+      if (urlRole === 'trainer' || urlTrainer === 'true' || urlTrainer === '1' || urlPin === '1926') {
+        enableTrainerMode();
+        closeRoleSelectionModal();
+        return;
+      }
+
+      // Check saved role in localStorage
+      const savedRole = localStorage.getItem(getRoleStorageKey());
+      if (savedRole === 'trainer' && isTrainerMode) {
+        closeRoleSelectionModal();
+      } else if (savedRole === 'student' && currentStudent.name && currentStudent.id) {
+        closeRoleSelectionModal();
         applyStudentProfileUI();
         registerStudentInClassroom(currentStudent);
         broadcastStudentCheckin();
+      } else {
+        // FIRST TIME ACCESS: SHOW ROLE SELECTION COVER!
+        openRoleSelectionModal();
       }
     }
 
