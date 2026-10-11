@@ -1822,6 +1822,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
                 handleRemoteStudentLogout(payload);
               } else if (payload.action === 'student_kick') {
                 handleRemoteStudentKick(payload);
+              } else if (payload.action === 'student_reset') {
+                handleRemoteStudentReset(payload);
               } else if (payload.action === 'student_resume') {
                 handleRemoteStudentResume(payload);
               } else if (payload.action === 'ping_students') {
@@ -2833,7 +2835,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const targetId = payload.targetStudentId;
       if (!targetId) return;
 
-      // 1) If this browser IS the kicked student, force logout
+      // 1) If this browser IS the target student, force logout
       if (currentStudent && currentStudent.id === targetId) {
         try {
           localStorage.removeItem(getStudentStorageKey());
@@ -2844,8 +2846,12 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         setText('student-display-team', 'Team Ray-Ban');
         setText('student-display-score', '0');
         alert(currentLang === 'it' 
-          ? "⚠️ Sei stato disconnesso dal docente. Puoi rientrare o recuperare la tua sessione con il PIN."
-          : "⚠️ You were logged out by the trainer. You may re-enter or recover your session with a PIN.");
+          ? (payload.permanent 
+              ? "🗑️ Il tuo profilo è stato eliminato dal docente. Puoi registrarti nuovamente." 
+              : "⚠️ Sei stato disconnesso dal docente. Puoi rientrare o recuperare la tua sessione con il PIN.")
+          : (payload.permanent
+              ? "🗑️ Your profile was deleted by the trainer. You may register afresh."
+              : "⚠️ You were logged out by the trainer. You may re-enter or recover your session with a PIN."));
         openRoleSelectionModal();
       }
 
@@ -2855,6 +2861,32 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       } else if (classroomStudents[targetId]) {
         classroomStudents[targetId].loggedOut = true;
         classroomStudents[targetId].recoveryPin = classroomStudents[targetId].recoveryPin || getStudentRecoveryPin(targetId);
+      }
+      saveClassroomState();
+      renderSidebarTeamLeaderboard();
+      refreshTrainerStudents();
+    }
+
+    function handleRemoteStudentReset(payload) {
+      const targetId = payload.targetStudentId;
+      if (!targetId) return;
+
+      // 1) If this browser IS the target student, reset score and quiz cards in real time
+      if (currentStudent && currentStudent.id === targetId) {
+        currentStudent.score = 0;
+        currentStudent.completedChallenges = {};
+        saveStudentProfile();
+        applyStudentProfileUI();
+        showToast(currentLang === 'it' 
+          ? "🔄 Il docente ha azzerato il tuo punteggio e le tue sfide. Puoi ricominciare!" 
+          : "🔄 The trainer reset your score and challenges. You can start over!");
+      }
+
+      // 2) Update classroom cache
+      if (classroomStudents[targetId]) {
+        classroomStudents[targetId].score = 0;
+        classroomStudents[targetId].completedChallenges = {};
+        classroomStudents[targetId].lastActive = Date.now();
       }
       saveClassroomState();
       renderSidebarTeamLeaderboard();
@@ -3218,8 +3250,11 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             <div class="flex items-center space-x-1 pt-1 border-t border-slate-800/80">
               <button onclick="trainerAwardBonus('${s.id}', 50)" class="flex-1 py-0.5 bg-slate-800 hover:bg-slate-700 text-amber-300 rounded text-[9px] font-bold" title="Assegna 50 punti bonus">+50</button>
               <button onclick="trainerAwardBonus('${s.id}', 100)" class="flex-1 py-0.5 bg-slate-800 hover:bg-slate-700 text-emerald-300 rounded text-[9px] font-bold" title="Assegna 100 punti bonus">+100</button>
-              <button onclick="trainerShowRecoveryPin('${s.id}')" class="py-0.5 px-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded text-[9px] font-mono font-bold" title="Vedi PIN di recupero per lo studente">🔑 ${s.recoveryPin || getStudentRecoveryPin(s.id)}</button>
-              <button onclick="trainerKickStudent('${s.id}', '${s.name.replace(/'/g, "\\'")}')" class="py-0.5 px-1.5 bg-red-950/60 hover:bg-red-900/80 text-red-400 rounded text-[9px] font-bold" title="Espelli o disconnetti studente">⛔</button>
+              ${isLoggedOut ? `<button onclick="trainerResumeStudent('${s.id}')" class="py-0.5 px-1 bg-emerald-950/70 hover:bg-emerald-800/80 text-emerald-400 rounded text-[9px] font-bold" title="Riattiva sessione studente">🟢</button>` : ''}
+              <button onclick="trainerResetSingleStudent('${s.id}', '${s.name.replace(/'/g, "\\'")}')" class="py-0.5 px-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded text-[9px] font-bold" title="Azzera punteggio e sfide per questo studente">🔄</button>
+              <button onclick="trainerShowRecoveryPin('${s.id}')" class="py-0.5 px-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded text-[9px] font-mono font-bold" title="Vedi PIN di recupero">🔑</button>
+              <button onclick="trainerKickStudent('${s.id}', '${s.name.replace(/'/g, "\\'")}')" class="py-0.5 px-1 bg-amber-950/60 hover:bg-amber-900/80 text-amber-400 rounded text-[9px] font-bold" title="Disconnetti studente (mantiene punteggio)">⛔</button>
+              <button onclick="trainerDestroyStudent('${s.id}', '${s.name.replace(/'/g, "\\'")}')" class="py-0.5 px-1 bg-red-950/80 hover:bg-red-900 text-red-400 rounded text-[9px] font-bold" title="Elimina e distruggi profilo definitivamente">🗑️</button>
             </div>
           </div>
         `;
@@ -3233,11 +3268,48 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       prompt(`🔑 PIN di Recupero per lo studente "${s.name}":\n\nDì questo codice di 4 cifre allo studente per fargli riprendere il profilo:`, pin);
     }
 
+    function trainerResumeStudent(studentId) {
+      const s = classroomStudents[studentId];
+      if (!s) return;
+
+      publishBroadcast({
+        action: 'student_resume',
+        targetStudentId: studentId
+      });
+      handleRemoteStudentResume({ targetStudentId: studentId });
+      showToast(`🟢 Studente "${s.name}" riattivato in aula!`);
+    }
+
+    function trainerResetSingleStudent(studentId, studentName) {
+      const ok = confirm(`Vuoi AZZERARE il punteggio e le sfide dello studente "${studentName}"?\n\nIl profilo rimarrà registrato, ma ripartirà da 0 punti e potrà rieseguire le challenge.`);
+      if (!ok) return;
+
+      publishBroadcast({
+        action: 'student_reset',
+        targetStudentId: studentId
+      });
+      handleRemoteStudentReset({ targetStudentId: studentId });
+      showToast(`🔄 Punteggio di "${studentName}" azzerato con successo!`);
+    }
+
+    function trainerDestroyStudent(studentId, studentName) {
+      const ok = confirm(`⚠️ ATTENZIONE: Vuoi ELIMINARE DEFINITIVAMENTE lo studente "${studentName}" dall'aula?\n\n- Il browser dello studente verrà resettato.\n- Il suo punteggio verrà rimosso dalla classifica della squadra.\n- Questa azione è irreversibile.`);
+      if (!ok) return;
+
+      publishBroadcast({
+        action: 'student_kick',
+        targetStudentId: studentId,
+        permanent: true
+      });
+      handleRemoteStudentKick({ targetStudentId: studentId, permanent: true });
+      showToast(`🗑️ Studente "${studentName}" eliminato definitivamente!`);
+    }
+
     function trainerKickStudent(studentId, studentName) {
       const s = classroomStudents[studentId];
       if (!s) return;
 
-      const choice = confirm(`Vuoi DISCONNETTERE lo studente "${studentName}"?\n\n- OK: Disconnetti da remoto (mantiene il punteggio, sposta in Logout e richiede PIN per rientrare)\n- Annulla: Chiudi senza modifiche`);
+      const choice = confirm(`Vuoi DISCONNETTERE lo studente "${studentName}"?\n\nLo studente verrà sloggato da remoto, ma manterrà i suoi punti e potrà rientrare con il PIN fornito dal docente.`);
       if (!choice) return;
 
       // Broadcast kick to student's browser and to the classroom
