@@ -281,6 +281,27 @@
             <span>🗑️ Reset</span>
           </button>
         </div>
+
+        <!-- ROOM ISOLATION SECURITY CARD -->
+        <div class="mt-2 p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+          <div class="flex items-center justify-between text-[10px]">
+            <span class="font-bold text-slate-300 flex items-center space-x-1">
+              <span>🛡️ Canale Aula:</span>
+            </span>
+            <code id="trainer-room-code-badge" class="font-mono text-emerald-400 font-bold bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">lux-bq-2026</code>
+          </div>
+          <p class="text-[9px] text-slate-400 leading-tight">
+            I canali sono blindati con prefisso isolato. Clicca sotto per personalizzare il codice stanza segreto per la giornata:
+          </p>
+          <div class="flex items-center space-x-1">
+            <button onclick="trainerChangeRoomCode()" class="flex-1 py-1 px-2 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[9px] font-bold transition cursor-pointer">
+              ⚙️ Cambia Stanza Segreta
+            </button>
+            <button onclick="trainerCopyShareLink()" class="py-1 px-2 rounded bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white text-[9px] font-bold transition cursor-pointer" title="Copia link studenti con codice stanza incluso">
+              🔗 Link Studenti
+            </button>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -1568,19 +1589,58 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
     // =========================================================================
     // LOAD BALANCED MULTI-CHANNEL & MULTI-RELAY CLUSTER (STRADA B)
+    // WITH DYNAMIC SECURE ROOM ISOLATION
     // =========================================================================
-    const RELAY_BASE_TOPIC = 'lux-bq-2026';
+    function getRoomCode() {
+      // 1) URL parameter ?room=xxx or ?r=xxx has highest priority
+      const params = new URLSearchParams(window.location.search);
+      const urlRoom = params.get('room') || params.get('r');
+      if (urlRoom && urlRoom.trim()) {
+        const cleaned = urlRoom.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+        if (cleaned) {
+          try { localStorage.setItem('lux_bq_room_code_v1', cleaned); } catch(e) {}
+          return cleaned;
+        }
+      }
+      // 2) Saved room in localStorage
+      try {
+        const saved = localStorage.getItem('lux_bq_room_code_v1');
+        if (saved && saved.trim()) return saved.trim();
+      } catch(e) {}
+      // 3) Default base room
+      return 'lux-bq-2026';
+    }
+
+    let CURRENT_ROOM = getRoomCode();
+    let RELAY_BASE_TOPIC = CURRENT_ROOM;
+
     const RELAY_NODES = [
       'https://ntfy.sh',
       'https://ntfy.envs.net'
     ];
+
     // 4 SHARDED CHANNELS TO SPLIT TRAFFIC BY 75%:
-    const SHARD_TOPICS = [
+    let SHARD_TOPICS = [
       `${RELAY_BASE_TOPIC}-rayban`,
       `${RELAY_BASE_TOPIC}-oakley`,
       `${RELAY_BASE_TOPIC}-persol`,
       `${RELAY_BASE_TOPIC}-oliver`
     ];
+
+    function updateRoomTopics(newRoom) {
+      if (!newRoom) return;
+      CURRENT_ROOM = newRoom.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '') || 'lux-bq-2026';
+      RELAY_BASE_TOPIC = CURRENT_ROOM;
+      try { localStorage.setItem('lux_bq_room_code_v1', CURRENT_ROOM); } catch(e) {}
+      SHARD_TOPICS = [
+        `${RELAY_BASE_TOPIC}-rayban`,
+        `${RELAY_BASE_TOPIC}-oakley`,
+        `${RELAY_BASE_TOPIC}-persol`,
+        `${RELAY_BASE_TOPIC}-oliver`
+      ];
+      setText('trainer-room-code-badge', CURRENT_ROOM);
+      initClusterEventListener();
+    }
 
     // Helper to get channel for a student by team or hash
     function getStudentChannel(teamKey) {
@@ -1668,6 +1728,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         updateTrainerBlockUI(bId);
       }
       refreshTrainerStudents();
+      setText('trainer-room-code-badge', CURRENT_ROOM);
       pingStudentsFromTrainer(); // PING ALL EXISTING STUDENTS TO REPORT THEIR PRESENCE & SCORE
       showToast(currentLang === 'it' ? "🎓 Modalità Docente Attivata (Console a Sinistra)" : "🎓 Trainer Mode Activated (Left Console)");
     }
@@ -1794,14 +1855,14 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     });
 
     // INITIALIZE REAL-TIME SSE LISTENER FOR ALL 50 STUDENTS & TRAINER
-    // Subscribes to all 4 shards simultaneously via comma-separated SSE topics: lux-bq-2026-rayban,lux-bq-2026-oakley,...
-    const SSE_SHARDS_URL = `${RELAY_NODES[0]}/${SHARD_TOPICS.join(',')}/sse`;
+    // Subscribes to all 4 shards simultaneously via comma-separated SSE topics
     let eventSource = null;
 
     function initClusterEventListener() {
       try {
         if (eventSource) eventSource.close();
-        eventSource = new EventSource(SSE_SHARDS_URL);
+        const sseStreamUrl = `${RELAY_NODES[0]}/${SHARD_TOPICS.join(',')}/sse`;
+        eventSource = new EventSource(sseStreamUrl);
         
         eventSource.onmessage = function(event) {
           try {
@@ -3338,6 +3399,42 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       handleRemoteResetScores();
       publishBroadcast({ action: 'reset_scores' });
       showToast("🗑️ Classifica aula azzerata con successo!");
+    }
+
+    // TRAINER SECURE ROOM MANAGEMENT
+    function trainerChangeRoomCode() {
+      const suggested = `lux-oct12-${Math.random().toString(36).substring(2, 6)}`;
+      const current = CURRENT_ROOM;
+      const entered = prompt(`🛡️ IMPOSTA STANZA / CANALE AULA SEGRETA:\n\nInserisci un identificativo univoco per isolare l'aula di oggi da interferenze esterne (solo lettere minuscole, numeri e trattini):`, current);
+      if (entered === null) return;
+      const clean = (entered.trim() || suggested).toLowerCase().replace(/[^a-z0-9_-]/g, '');
+      if (!clean) return;
+
+      updateRoomTopics(clean);
+      showToast(`🛡️ Stanza aula impostata su: "${clean}"! Riconnessione in corso...`);
+      // Notify students connected in current room before moving
+      publishBroadcast({
+        action: 'trainer_override',
+        delta: 0
+      });
+      // Update browser URL without reload
+      try {
+        const url = new URL(window.location);
+        url.searchParams.set('room', clean);
+        window.history.replaceState({}, '', url);
+      } catch(e) {}
+    }
+
+    function trainerCopyShareLink() {
+      const url = new URL(window.location);
+      url.searchParams.set('room', CURRENT_ROOM);
+      // Remove trainer-specific parameters from student link
+      url.searchParams.delete('trainer');
+      url.searchParams.delete('pin');
+      url.searchParams.delete('role');
+      const shareUrl = url.toString();
+      copyToClipboard(shareUrl);
+      prompt(`🔗 LINK DA CONDIVIDERE CON GLI STUDENTI:\n(Gli studenti entreranno direttamente nella stanza segreta "${CURRENT_ROOM}" senza configurare nulla):`, shareUrl);
     }
 
     // TEAM SELECTOR SWITCH (FALLBACK FOR MANUAL OVERRIDE)
