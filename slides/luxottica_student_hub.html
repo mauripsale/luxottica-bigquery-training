@@ -70,17 +70,27 @@
         </button>
       </div>
 
-
-      <!-- TEAM SELECTOR -->
-      <div class="flex items-center space-x-2">
-        <label for="team-select" class="text-xs text-slate-500 font-medium" id="lbl-team">Team:</label>
-        <select id="team-select" onchange="switchTeam(this.value)" class="bg-white border border-slate-300 text-slate-800 text-xs rounded-lg px-3 py-1.5 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <option value="rayban">🕶️ Team Ray-Ban</option>
-          <option value="oakley">🕶️ Team Oakley</option>
-          <option value="persol">🕶️ Team Persol</option>
-          <option value="oliver">🕶️ Team Oliver Peoples</option>
-        </select>
+      <!-- STUDENT PROFILE & TEAM BADGE -->
+      <div id="student-profile-bar" class="flex items-center space-x-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200 text-xs">
+        <button onclick="openOnboardingModal(true)" class="flex items-center space-x-1.5 hover:bg-white px-2 py-1 rounded-lg transition" title="Modifica Profilo / Riassegna Squadra">
+          <span class="text-sm" id="student-avatar-icon">🕶️</span>
+          <span id="student-display-name" class="font-bold text-slate-800">Detective</span>
+          <span id="student-display-team" class="px-2 py-0.5 rounded-full font-bold text-[10px] bg-blue-100 text-blue-800">Team Ray-Ban</span>
+        </button>
+        <div class="h-4 w-px bg-slate-300"></div>
+        <div class="flex items-center space-x-1 font-mono font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
+          <span>🏆</span>
+          <span id="student-display-score">0</span>
+          <span class="text-[10px] text-amber-700 font-sans">pt</span>
+        </div>
       </div>
+
+      <!-- LEADERBOARD MODAL BUTTON -->
+      <button onclick="openLeaderboardModal()" class="flex items-center space-x-1.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-xs transition cursor-pointer">
+        <span>🏆</span>
+        <span id="btn-leaderboard-text">Classifica Live</span>
+      </button>
+
     </div>
   </header>
 
@@ -241,6 +251,27 @@
         </button>
       </div>
 
+      <!-- SECTION 4: LIVE STUDENTS MONITORING & SCORE OVERRIDE -->
+      <div class="space-y-2 pt-2 border-t border-slate-800">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">👥 Studenti Connessi (<span id="trainer-student-count">0</span>)</span>
+          <button onclick="refreshTrainerStudents()" class="text-[10px] text-slate-400 hover:text-white" title="Ricarica lista">🔄</button>
+        </div>
+
+        <div id="trainer-students-container" class="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+          <div class="text-[11px] text-slate-500 italic text-center py-2">In attesa di studenti...</div>
+        </div>
+
+        <div class="pt-1 flex items-center space-x-1.5">
+          <button onclick="openLeaderboardModal()" class="flex-1 py-1.5 px-2 bg-emerald-600/30 border border-emerald-500/40 hover:bg-emerald-600 text-emerald-300 hover:text-white rounded-lg text-[10px] font-bold transition flex items-center justify-center space-x-1">
+            <span>📺 Proietta Classifica</span>
+          </button>
+          <button onclick="resetClassroomLeaderboard()" class="py-1.5 px-2 bg-red-950 border border-red-800 hover:bg-red-800 text-red-300 hover:text-white rounded-lg text-[10px] font-bold transition" title="Azzera la classifica dell'aula">
+            <span>🗑️ Reset</span>
+          </button>
+        </div>
+      </div>
+
     </div>
 
     <!-- SIDEBAR FOOTER -->
@@ -276,6 +307,87 @@
         </button>
         <button onclick="submitTrainerPinModal()" type="button" class="px-5 py-2 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md">
           Accedi 🔓
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUDENT ONBOARDING MODAL (NAME INPUT & RANDOM TEAM SELECTION) -->
+  <div id="student-onboarding-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
+    <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 space-y-5 animate-in fade-in zoom-in duration-200">
+      <div class="text-center space-y-2">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white text-2xl shadow-lg">
+          🕶️
+        </div>
+        <h2 class="text-xl font-black text-slate-900" id="ob-title">Benvenuto al Workshop BigQuery!</h2>
+        <p class="text-xs text-slate-500" id="ob-subtitle">Diventa un Marketing Data Detective per Luxottica. Inserisci il tuo nome per ricevere l'assegnazione alla tua squadra.</p>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label for="student-input-name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1" id="ob-lbl-name">Il tuo Nome / Nickname:</label>
+          <input type="text" id="student-input-name" placeholder="Es. Chiara o Marco" autocomplete="name" maxlength="30" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+        </div>
+
+        <div id="ob-team-preview" class="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center space-y-1 hidden">
+          <span class="text-[10px] uppercase font-bold text-slate-400" id="ob-lbl-assigned">Squadra Assegnata:</span>
+          <div id="ob-team-badge" class="text-base font-extrabold text-blue-700">🕶️ Team Ray-Ban</div>
+          <p class="text-[11px] text-slate-500" id="ob-team-desc">Smart Glasses & Categorie Iconiche</p>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <button onclick="submitStudentOnboarding()" id="btn-submit-onboarding" class="w-full py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/25 transition cursor-pointer flex items-center justify-center space-x-2">
+          <span>Entra nel Workshop 🚀</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLASSROOM LIVE LEADERBOARD MODAL (PROJECTABLE ON SCREEN) -->
+  <div id="leaderboard-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
+    <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl shadow-2xl max-w-3xl w-full p-6 space-y-6 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-xl">
+            🏆
+          </div>
+          <div>
+            <h2 class="text-lg font-black text-amber-400">Classifica Aula Masterclass</h2>
+            <p class="text-xs text-slate-400">Punteggi Individuali & Classifica Brand Detective Teams</p>
+          </div>
+        </div>
+        <button onclick="closeLeaderboardModal()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">✕</button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto pr-1">
+        <!-- TEAM STANDINGS -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center space-x-1.5">
+            <span>🕶️</span>
+            <span>Classifica Squadre</span>
+          </h3>
+          <div id="lb-teams-list" class="space-y-2">
+            <!-- Dynamically injected -->
+          </div>
+        </div>
+
+        <!-- INDIVIDUAL DETECTIVES -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center space-x-1.5">
+            <span>🥇</span>
+            <span>Top Detective Singoli</span>
+          </h3>
+          <div id="lb-students-list" class="space-y-2">
+            <!-- Dynamically injected -->
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-800 pt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>🔄 Aggiornamento in tempo reale (SSE Broadcast)</span>
+        <button onclick="renderClassroomLeaderboard()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium transition">
+          Aggiorna Ora ⟳
         </button>
       </div>
     </div>
@@ -647,6 +759,46 @@
             <span class="font-bold text-emerald-800" id="b2-discovery-title">💎 Plot Twist #1 per il CMO (High Margin Discovery):</span>
             <p class="text-emerald-900" id="b2-discovery-desc">I <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> registrano lo scontrino medio più alto in assoluto (<strong>AOV > 300 €</strong>) su E-Commerce Direct! Al contempo, i partner wholesale erodono margini con sconti fino a <strong>28,50 €</strong> su Vogue.</p>
           </div>
+
+          <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (CHALLENGE #1) -->
+          <div id="quiz-card-ch1" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border border-slate-800 shadow-md space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div class="flex items-center space-x-2">
+                <span class="text-amber-400 text-base">🎯</span>
+                <span class="font-bold text-sm text-amber-300">Convalida Risultati Challenge #1 & Ottieni Punti</span>
+              </div>
+              <span id="quiz-badge-ch1" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <!-- QUESTION 1 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium">1. Quale brand guida lo scontrino medio (AOV) più elevato?</label>
+                <select id="quiz-ch1-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                  <option value="">-- Seleziona il brand --</option>
+                  <option value="Oliver Peoples">Oliver Peoples</option>
+                  <option value="Ray-Ban">Ray-Ban</option>
+                  <option value="Oakley">Oakley</option>
+                  <option value="Persol">Persol</option>
+                  <option value="Vogue Eyewear">Vogue Eyewear</option>
+                </select>
+              </div>
+
+              <!-- QUESTION 2 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium">2. Quanto vale lo sconto medio (€) su Wholesale Vogue?</label>
+                <input type="text" id="quiz-ch1-q2" placeholder="Es. 28.50" autocomplete="off" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <p class="text-[10px] text-slate-400">Inserisci il valore numerico ottenuto dalla query (es. 28.50)</p>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+              <div id="quiz-feedback-ch1" class="text-xs font-medium text-slate-400">Rispondi per sbloccare i punti per te e per la squadra</div>
+              <button onclick="validateChallenge1()" id="btn-validate-ch1" class="px-5 py-2 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md cursor-pointer flex items-center space-x-1.5">
+                <span>Invia Risposte 🚀</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -717,6 +869,45 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             <span class="font-bold text-emerald-800" id="b3-roas-title">🚀 Verdetto del ROAS per il CMO:</span>
             <p class="text-emerald-900" id="b3-roas-desc"><strong>Google Ads = 7,08x ROAS 🚀</strong> | Meta Ads = 3,80x | TikTok Ads = <strong>0,52x ROAS 💸 (Voragine di budget!)</strong></p>
           </div>
+
+          <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (CHALLENGE #2) -->
+          <div id="quiz-card-ch2" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border border-slate-800 shadow-md space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div class="flex items-center space-x-2">
+                <span class="text-amber-400 text-base">🎯</span>
+                <span class="font-bold text-sm text-amber-300">Convalida Risultati Challenge #2 & Ottieni Punti</span>
+              </div>
+              <span id="quiz-badge-ch2" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <!-- QUESTION 1 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium">1. Quale canale registra il ROAS più basso (&lt; 1.0x)?</label>
+                <select id="quiz-ch2-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                  <option value="">-- Seleziona canale pubblicitario --</option>
+                  <option value="TikTok Ads">TikTok Ads</option>
+                  <option value="Google Ads">Google Ads</option>
+                  <option value="Meta Ads">Meta Ads</option>
+                  <option value="Pinterest Ads">Pinterest Ads</option>
+                </select>
+              </div>
+
+              <!-- QUESTION 2 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium">2. A quanto ammonta il ROAS generato da Google Ads?</label>
+                <input type="text" id="quiz-ch2-q2" placeholder="Es. 7.08" autocomplete="off" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <p class="text-[10px] text-slate-400">Inserisci il valore numerico del moltiplicatore ROAS (es. 7.08)</p>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+              <div id="quiz-feedback-ch2" class="text-xs font-medium text-slate-400">Dimostra al CMO il rendimento delle campagne adv</div>
+              <button onclick="validateChallenge2()" id="btn-validate-ch2" class="px-5 py-2 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md cursor-pointer flex items-center space-x-1.5">
+                <span>Invia Risposte 🚀</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -757,6 +948,45 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
                 <span id="prompt-view-text">Crea la vista luxottica_marketing_analytics.v_clean_marketing_leads_team_rayban prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.</span>
                 <button onclick="copyToClipboard(document.getElementById('prompt-view-text').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
               </div>
+            </div>
+          </div>
+
+          <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (CHALLENGE #3) -->
+          <div id="quiz-card-ch3" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border border-slate-800 shadow-md space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div class="flex items-center space-x-2">
+                <span class="text-amber-400 text-base">🎯</span>
+                <span class="font-bold text-sm text-amber-300">Convalida Risultati Challenge #3 & Ottieni Punti</span>
+              </div>
+              <span id="quiz-badge-ch3" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <!-- QUESTION 1 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium">1. Quanti lead VIP validi (spesa &gt; 200 €) ha recuperato la tua View?</label>
+                <input type="text" id="quiz-ch3-q1" placeholder="Es. 352 (anche '352 leads')" autocomplete="off" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <p class="text-[10px] text-slate-400">Inserisci il conteggio totale di righe restituite dalla vista (circa 350)</p>
+              </div>
+
+              <!-- QUESTION 2 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium">2. Quale funzione SQL ha eliminato gli spazi spuri prima e dopo le email?</label>
+                <select id="quiz-ch3-q2" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                  <option value="">-- Seleziona la funzione SQL --</option>
+                  <option value="TRIM">TRIM(email)</option>
+                  <option value="LOWER">LOWER(email)</option>
+                  <option value="REPLACE">REPLACE(email, ' ', '')</option>
+                  <option value="SUBSTR">SUBSTR(email, 1, 10)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+              <div id="quiz-feedback-ch3" class="text-xs font-medium text-slate-400">Verifica la qualità del tuo dataset per Google Ads Customer Match</div>
+              <button onclick="validateChallenge3()" id="btn-validate-ch3" class="px-5 py-2 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md cursor-pointer flex items-center space-x-1.5">
+                <span>Invia Risposte 🚀</span>
+              </button>
             </div>
           </div>
         </div>
@@ -1290,6 +1520,12 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             applyRemoteHintUnlock(payload.hintId);
           } else if (payload.action === 'hide_hint') {
             applyRemoteHintHide(payload.hintId);
+          } else if (payload.action === 'score_update' || payload.action === 'student_checkin') {
+            handleRemoteStudentUpdate(payload);
+          } else if (payload.action === 'trainer_override') {
+            handleTrainerScoreOverride(payload);
+          } else if (payload.action === 'reset_scores') {
+            handleRemoteResetScores();
           }
         }
       } catch(e) {
@@ -1761,22 +1997,579 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       updateTrainerBlockUI(blockId);
     }
 
-    // TEAM SELECTOR SWITCH
-    function switchTeam(teamKey) {
-      const suffixMap = {
-        'rayban': 'v_clean_marketing_leads_team_rayban',
-        'oakley': 'v_clean_marketing_leads_team_oakley',
-        'persol': 'v_clean_marketing_leads_team_persol',
-        'oliver': 'v_clean_marketing_leads_team_oliver'
-      };
-      const suffix = suffixMap[teamKey] || 'v_clean_marketing_leads_team_rayban';
-      setText('suffix-example', suffix);
-      
-      if (currentLang === 'it') {
-        setText('prompt-view-text', `Crea la vista luxottica_marketing_analytics.${suffix} prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.`);
-      } else {
-        setText('prompt-view-text', `Create view luxottica_marketing_analytics.${suffix} taking from lux_raw_marketing_leads_dirty: clean emails with LOWER and TRIM, extract brand and convert spend to number, filtering VIP leads with spend > 200 euros.`);
+    // ==========================================
+    // STATEFUL STUDENT & LEADERBOARD MANAGEMENT
+    // ==========================================
+    const TEAMS = [
+      { key: 'rayban', name: 'Team Ray-Ban', icon: '🕶️', desc: 'Smart Glasses & Categorie Iconiche', color: 'blue' },
+      { key: 'oakley', name: 'Team Oakley', icon: '🕶️', desc: 'Sport Performance & Prizm Lens Tech', color: 'orange' },
+      { key: 'persol', name: 'Team Persol', icon: '🕶️', desc: 'Handmade Italian Craftsmanship', color: 'amber' },
+      { key: 'oliver', name: 'Team Oliver Peoples', icon: '🕶️', desc: 'Luxury Vintage & Custom Acetates', color: 'purple' }
+    ];
+
+    let currentStudent = {
+      id: '',
+      name: '',
+      teamKey: 'rayban',
+      score: 0,
+      completedChallenges: {
+        ch1: false,
+        ch2: false,
+        ch3: false
       }
+    };
+
+    // CLASSROOM STUDENTS DIRECTORY (STATEFUL IN LOCALSTORAGE + LIVE SSE)
+    let classroomStudents = {};
+
+    function getStudentStorageKey() {
+      return 'lux_bq_student_profile_v1';
+    }
+
+    function getClassroomStorageKey() {
+      return 'lux_bq_classroom_students_v1';
+    }
+
+    function loadStudentProfile() {
+      try {
+        const saved = localStorage.getItem(getStudentStorageKey());
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          currentStudent = { ...currentStudent, ...parsed };
+        }
+      } catch (e) {
+        console.warn("Could not load student profile", e);
+      }
+
+      try {
+        const savedClass = localStorage.getItem(getClassroomStorageKey());
+        if (savedClass) {
+          classroomStudents = JSON.parse(savedClass) || {};
+        }
+      } catch (e) {
+        console.warn("Could not load classroom cache", e);
+      }
+
+      // Check if student has profile, else open modal
+      if (!currentStudent.name || !currentStudent.id) {
+        openOnboardingModal(false);
+      } else {
+        applyStudentProfileUI();
+        registerStudentInClassroom(currentStudent);
+        broadcastStudentCheckin();
+      }
+    }
+
+    function saveStudentProfile() {
+      try {
+        localStorage.setItem(getStudentStorageKey(), JSON.stringify(currentStudent));
+      } catch (e) {}
+    }
+
+    function saveClassroomState() {
+      try {
+        localStorage.setItem(getClassroomStorageKey(), JSON.stringify(classroomStudents));
+      } catch (e) {}
+    }
+
+    function openOnboardingModal(allowEdit = false) {
+      const modal = document.getElementById('student-onboarding-modal');
+      const input = document.getElementById('student-input-name');
+      const preview = document.getElementById('ob-team-preview');
+      if (!modal) return;
+
+      if (input) {
+        input.value = currentStudent.name || '';
+      }
+      if (allowEdit && currentStudent.teamKey) {
+        const tObj = TEAMS.find(t => t.key === currentStudent.teamKey);
+        if (preview && tObj) {
+          preview.classList.remove('hidden');
+          setText('ob-team-badge', `${tObj.icon} ${tObj.name}`);
+          setText('ob-team-desc', tObj.desc);
+        }
+      } else if (preview) {
+        preview.classList.add('hidden');
+      }
+
+      modal.classList.remove('hidden');
+      if (input) setTimeout(() => input.focus(), 100);
+    }
+
+    function closeOnboardingModal() {
+      const modal = document.getElementById('student-onboarding-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function sanitizeForSql(name) {
+      return (name || 'student')
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, "") // remove accents
+        .replace(/[^a-z0-9_]/g, '_')
+        .replace(/_+/g, '_')
+        .replace(/^_|_$/g, '') || 'student';
+    }
+
+    function submitStudentOnboarding() {
+      const input = document.getElementById('student-input-name');
+      const name = (input ? input.value : '').trim();
+      if (!name) {
+        if (input) {
+          input.classList.add('ring-2', 'ring-red-500', 'bg-red-50');
+          setTimeout(() => input.classList.remove('ring-2', 'ring-red-500', 'bg-red-50'), 1500);
+        }
+        showToast(currentLang === 'it' ? "Inserisci il tuo nome per iniziare!" : "Please enter your name to start!");
+        return;
+      }
+
+      currentStudent.name = name;
+      if (!currentStudent.id) {
+        const randHex = Math.random().toString(36).substring(2, 6);
+        currentStudent.id = `${sanitizeForSql(name)}_${randHex}`;
+      }
+
+      // 1) RANDOM TEAM SELECTION IF NOT SET
+      if (!currentStudent.teamKey) {
+        const randomTeam = TEAMS[Math.floor(Math.random() * TEAMS.length)];
+        currentStudent.teamKey = randomTeam.key;
+      }
+
+      saveStudentProfile();
+      applyStudentProfileUI();
+      registerStudentInClassroom(currentStudent);
+      broadcastStudentCheckin();
+      closeOnboardingModal();
+
+      const tObj = TEAMS.find(t => t.key === currentStudent.teamKey);
+      showToast(currentLang === 'it' 
+        ? `🎉 Benvenuto ${name}! Assegnato a ${tObj ? tObj.name : 'Team'}!` 
+        : `🎉 Welcome ${name}! Assigned to ${tObj ? tObj.name : 'Team'}!`);
+    }
+
+    function applyStudentProfileUI() {
+      const tObj = TEAMS.find(t => t.key === currentStudent.teamKey) || TEAMS[0];
+      setText('student-display-name', currentStudent.name || 'Detective');
+      setText('student-display-team', tObj.name);
+      setText('student-display-score', String(currentStudent.score || 0));
+
+      // DYNAMIC VIEW NAME WITH STUDENT NAME + TEAM
+      const cleanName = sanitizeForSql(currentStudent.name);
+      const studentViewSuffix = `v_clean_marketing_leads_${tObj.key}_${cleanName}`;
+      setText('suffix-example', studentViewSuffix);
+
+      if (currentLang === 'it') {
+        setText('prompt-view-text', `Crea la vista luxottica_marketing_analytics.${studentViewSuffix} prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.`);
+      } else {
+        setText('prompt-view-text', `Create view luxottica_marketing_analytics.${studentViewSuffix} taking from lux_raw_marketing_leads_dirty: clean emails with LOWER and TRIM, extract brand and convert spend to number, filtering VIP leads with spend > 200 euros.`);
+      }
+
+      // Update quiz cards completion state
+      renderQuizStatus('ch1', currentStudent.completedChallenges.ch1);
+      renderQuizStatus('ch2', currentStudent.completedChallenges.ch2);
+      renderQuizStatus('ch3', currentStudent.completedChallenges.ch3);
+      renderSidebarTeamLeaderboard();
+      refreshTrainerStudents();
+    }
+
+    function renderQuizStatus(chKey, isCompleted) {
+      const card = document.getElementById(`quiz-card-${chKey}`);
+      const btn = document.getElementById(`btn-validate-${chKey}`);
+      const feedback = document.getElementById(`quiz-feedback-${chKey}`);
+      const badge = document.getElementById(`quiz-badge-${chKey}`);
+
+      if (isCompleted) {
+        if (card) {
+          card.classList.remove('from-slate-900', 'to-slate-950', 'border-slate-800');
+          card.classList.add('from-emerald-950', 'to-slate-900', 'border-emerald-700/60');
+        }
+        if (btn) {
+          btn.disabled = true;
+          btn.className = "px-5 py-2 rounded-xl font-bold text-xs bg-emerald-600 text-white opacity-90 cursor-default flex items-center space-x-1.5 shadow-xs";
+          btn.innerHTML = currentLang === 'it' ? "<span>Completata ✅</span>" : "<span>Completed ✅</span>";
+        }
+        if (badge) {
+          badge.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+          badge.innerText = currentLang === 'it' ? "✅ Punti Assegnati" : "✅ Points Awarded";
+        }
+        if (feedback) {
+          feedback.className = "text-xs font-bold text-emerald-400";
+          feedback.innerText = currentLang === 'it' ? "🎉 Sfida superata con successo! Punti registrati." : "🎉 Challenge passed! Points awarded.";
+        }
+      }
+    }
+
+    function registerStudentInClassroom(student) {
+      if (!student.id) return;
+      classroomStudents[student.id] = {
+        id: student.id,
+        name: student.name,
+        teamKey: student.teamKey,
+        score: student.score || 0,
+        completedChallenges: { ...(student.completedChallenges || {}) },
+        lastActive: Date.now()
+      };
+      saveClassroomState();
+      renderSidebarTeamLeaderboard();
+      refreshTrainerStudents();
+    }
+
+    function broadcastStudentCheckin() {
+      if (!currentStudent.id) return;
+      fetch(BROADCAST_TOPIC, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'student_checkin',
+          student: currentStudent
+        })
+      }).catch(e => console.warn(e));
+    }
+
+    function broadcastScoreUpdate(challengeKey, pointsEarned) {
+      if (!currentStudent.id) return;
+      fetch(BROADCAST_TOPIC, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'score_update',
+          studentId: currentStudent.id,
+          name: currentStudent.name,
+          teamKey: currentStudent.teamKey,
+          score: currentStudent.score,
+          completedChallenges: currentStudent.completedChallenges,
+          challengeKey: challengeKey,
+          pointsEarned: pointsEarned
+        })
+      }).catch(e => console.warn(e));
+    }
+
+    function handleRemoteStudentUpdate(payload) {
+      const s = payload.student || payload;
+      if (!s || !s.id) return;
+      registerStudentInClassroom(s);
+    }
+
+    function handleTrainerScoreOverride(payload) {
+      if (payload.targetStudentId === currentStudent.id) {
+        currentStudent.score = Math.max(0, (currentStudent.score || 0) + payload.delta);
+        saveStudentProfile();
+        applyStudentProfileUI();
+        showToast(currentLang === 'it' 
+          ? `🎓 Il docente ti ha assegnato un bonus: ${payload.delta > 0 ? '+' : ''}${payload.delta} pt!` 
+          : `🎓 Trainer assigned a bonus: ${payload.delta > 0 ? '+' : ''}${payload.delta} pts!`);
+      }
+      if (classroomStudents[payload.targetStudentId]) {
+        classroomStudents[payload.targetStudentId].score = Math.max(0, (classroomStudents[payload.targetStudentId].score || 0) + payload.delta);
+        saveClassroomState();
+        renderSidebarTeamLeaderboard();
+        refreshTrainerStudents();
+      }
+    }
+
+    function handleRemoteResetScores() {
+      currentStudent.score = 0;
+      currentStudent.completedChallenges = { ch1: false, ch2: false, ch3: false };
+      classroomStudents = {};
+      saveStudentProfile();
+      saveClassroomState();
+      applyStudentProfileUI();
+      showToast(currentLang === 'it' ? "🔄 La sessione del workshop è stata azzerata dal docente" : "🔄 Workshop scores reset by trainer");
+    }
+
+    // FUZZY NUMERIC EXTRACTOR TO RESIST "352", "352 leads", "circa 352", ETC.
+    function extractNumericValue(rawStr) {
+      if (rawStr === null || rawStr === undefined) return null;
+      let cleaned = String(rawStr)
+        .trim()
+        .toLowerCase()
+        .replace(/,/g, '.')
+        .replace(/[^0-9.]/g, ''); // strip non-numeric except dot
+      if (!cleaned) return null;
+      const num = parseFloat(cleaned);
+      return isNaN(num) ? null : num;
+    }
+
+    // ==========================================
+    // CHALLENGE VALIDATION FUNCTIONS
+    // ==========================================
+    function validateChallenge1() {
+      if (currentStudent.completedChallenges.ch1) return;
+
+      const q1 = (document.getElementById('quiz-ch1-q1')?.value || '').trim();
+      const q2Raw = document.getElementById('quiz-ch1-q2')?.value || '';
+      const feedback = document.getElementById('quiz-feedback-ch1');
+      const q2Num = extractNumericValue(q2Raw);
+
+      // Q1: Brand with highest AOV -> Oliver Peoples
+      // Q2: Wholesale Vogue discount -> 28.50 (accept 28 to 29)
+      const isQ1Correct = (q1 === 'Oliver Peoples');
+      const isQ2Correct = (q2Num !== null && q2Num >= 28.0 && q2Num <= 29.0);
+
+      if (isQ1Correct && isQ2Correct) {
+        currentStudent.completedChallenges.ch1 = true;
+        currentStudent.score = (currentStudent.score || 0) + 100;
+        saveStudentProfile();
+        applyStudentProfileUI();
+        registerStudentInClassroom(currentStudent);
+        broadcastScoreUpdate('ch1', 100);
+        showToast(currentLang === 'it' ? "🎉 Sfida #1 Convalidata! +100 Punti!" : "🎉 Challenge #1 Validated! +100 Points!");
+      } else {
+        if (feedback) {
+          feedback.className = "text-xs font-bold text-red-400";
+          if (!isQ1Correct && !isQ2Correct) {
+            feedback.innerText = currentLang === 'it' ? "❌ Entrambe le risposte non tornano. Rivedi la query in BigQuery!" : "❌ Both answers are incorrect. Review your SQL query!";
+          } else if (!isQ1Correct) {
+            feedback.innerText = currentLang === 'it' ? "❌ Verifica quale brand ha l'AOV più alto (> 300€)" : "❌ Check which brand has the highest AOV (> €300)";
+          } else {
+            feedback.innerText = currentLang === 'it' ? "❌ Lo sconto medio di Vogue wholesale non corrisponde (circa 28.50 €)" : "❌ Wholesale Vogue discount does not match (~ €28.50)";
+          }
+        }
+      }
+    }
+
+    function validateChallenge2() {
+      if (currentStudent.completedChallenges.ch2) return;
+
+      const q1 = (document.getElementById('quiz-ch2-q1')?.value || '').trim();
+      const q2Raw = document.getElementById('quiz-ch2-q2')?.value || '';
+      const feedback = document.getElementById('quiz-feedback-ch2');
+      const q2Num = extractNumericValue(q2Raw);
+
+      // Q1: Channel with worst ROAS -> TikTok Ads
+      // Q2: Google Ads ROAS -> 7.08 (accept 7.0 to 7.15)
+      const isQ1Correct = (q1 === 'TikTok Ads');
+      const isQ2Correct = (q2Num !== null && q2Num >= 7.0 && q2Num <= 7.15);
+
+      if (isQ1Correct && isQ2Correct) {
+        currentStudent.completedChallenges.ch2 = true;
+        currentStudent.score = (currentStudent.score || 0) + 100;
+        saveStudentProfile();
+        applyStudentProfileUI();
+        registerStudentInClassroom(currentStudent);
+        broadcastScoreUpdate('ch2', 100);
+        showToast(currentLang === 'it' ? "🚀 Sfida #2 Convalidata! +100 Punti!" : "🚀 Challenge #2 Validated! +100 Points!");
+      } else {
+        if (feedback) {
+          feedback.className = "text-xs font-bold text-red-400";
+          if (!isQ1Correct && !isQ2Correct) {
+            feedback.innerText = currentLang === 'it' ? "❌ Valori non corretti. Ricontrolla i risultati della query con CTE!" : "❌ Incorrect values. Check your CTE query results!";
+          } else if (!isQ1Correct) {
+            feedback.innerText = currentLang === 'it' ? "❌ Canale pubblicitario errato: cerca quello con ROAS < 1.0x" : "❌ Wrong ad channel: search the one with ROAS < 1.0x";
+          } else {
+            feedback.innerText = currentLang === 'it' ? "❌ Il ROAS di Google Ads deve essere circa 7.08x" : "❌ Google Ads ROAS should be around 7.08x";
+          }
+        }
+      }
+    }
+
+    function validateChallenge3() {
+      if (currentStudent.completedChallenges.ch3) return;
+
+      const q1Raw = document.getElementById('quiz-ch3-q1')?.value || '';
+      const q2 = (document.getElementById('quiz-ch3-q2')?.value || '').trim();
+      const feedback = document.getElementById('quiz-feedback-ch3');
+      const q1Num = extractNumericValue(q1Raw);
+
+      // Q1: Count of VIP leads -> 350 to 355
+      // Q2: SQL function -> TRIM
+      const isQ1Correct = (q1Num !== null && q1Num >= 345 && q1Num <= 360);
+      const isQ2Correct = (q2 === 'TRIM');
+
+      if (isQ1Correct && isQ2Correct) {
+        currentStudent.completedChallenges.ch3 = true;
+        currentStudent.score = (currentStudent.score || 0) + 100;
+        saveStudentProfile();
+        applyStudentProfileUI();
+        registerStudentInClassroom(currentStudent);
+        broadcastScoreUpdate('ch3', 100);
+        showToast(currentLang === 'it' ? "🏆 Sfida #3 Convalidata! Vista Pulita Creata (+100 Punti)!" : "🏆 Challenge #3 Validated! Clean View Created (+100 Points)!");
+      } else {
+        if (feedback) {
+          feedback.className = "text-xs font-bold text-red-400";
+          if (!isQ1Correct && !isQ2Correct) {
+            feedback.innerText = currentLang === 'it' ? "❌ Rivedi il conteggio dei lead nella vista (circa 350) e la funzione SQL!" : "❌ Review the lead count in the view (~ 350) and the SQL function!";
+          } else if (!isQ1Correct) {
+            feedback.innerText = currentLang === 'it' ? "❌ Il numero di lead VIP deve essere circa 350 (es. 352)" : "❌ VIP lead count should be around 350 (e.g. 352)";
+          } else {
+            feedback.innerText = currentLang === 'it' ? "❌ La funzione corretta per rimuovere spazi è TRIM()" : "❌ The correct function to remove whitespace is TRIM()";
+          }
+        }
+      }
+    }
+
+    // ==========================================
+    // LEADERBOARD RENDERING
+    // ==========================================
+    function calculateTeamScores() {
+      const teamTotals = {
+        rayban: { total: 0, count: 0 },
+        oakley: { total: 0, count: 0 },
+        persol: { total: 0, count: 0 },
+        oliver: { total: 0, count: 0 }
+      };
+
+      // Aggregate all active students
+      Object.values(classroomStudents).forEach(s => {
+        if (teamTotals[s.teamKey]) {
+          teamTotals[s.teamKey].total += (s.score || 0);
+          teamTotals[s.teamKey].count += 1;
+        }
+      });
+
+      // Default baseline points so scoreboard looks lively even with 1 user
+      const baselines = { rayban: 150, oakley: 100, persol: 100, oliver: 100 };
+      Object.keys(teamTotals).forEach(k => {
+        if (teamTotals[k].count === 0) {
+          teamTotals[k].total = baselines[k];
+        }
+      });
+
+      return teamTotals;
+    }
+
+    function renderSidebarTeamLeaderboard() {
+      const scores = calculateTeamScores();
+      setText('score-rayban', `${scores.rayban.total} pts`);
+      setText('score-oakley', `${scores.oakley.total} pts`);
+      setText('score-persol', `${scores.persol.total} pts`);
+      setText('score-oliver', `${scores.oliver.total} pts`);
+    }
+
+    function openLeaderboardModal() {
+      const modal = document.getElementById('leaderboard-modal');
+      if (!modal) return;
+      renderClassroomLeaderboard();
+      modal.classList.remove('hidden');
+    }
+
+    function closeLeaderboardModal() {
+      const modal = document.getElementById('leaderboard-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function renderClassroomLeaderboard() {
+      const teamsContainer = document.getElementById('lb-teams-list');
+      const studentsContainer = document.getElementById('lb-students-list');
+      if (!teamsContainer || !studentsContainer) return;
+
+      const teamScores = calculateTeamScores();
+      const sortedTeams = TEAMS.map(t => ({
+        ...t,
+        total: teamScores[t.key] ? teamScores[t.key].total : 0,
+        count: teamScores[t.key] ? teamScores[t.key].count : 0
+      })).sort((a, b) => b.total - a.total);
+
+      // Render Teams
+      teamsContainer.innerHTML = sortedTeams.map((t, idx) => {
+        const medals = ['🥇', '🥈', '🥉', '4°'];
+        const isLeading = idx === 0;
+        return `
+          <div class="flex items-center justify-between p-3 rounded-xl border ${isLeading ? 'bg-amber-500/10 border-amber-500/40 text-amber-300' : 'bg-slate-800/60 border-slate-700/60 text-slate-200'}">
+            <div class="flex items-center space-x-2.5">
+              <span class="text-base font-bold">${medals[idx]}</span>
+              <div>
+                <div class="font-bold text-sm">${t.name}</div>
+                <div class="text-[10px] text-slate-400">${t.count} detective registrati</div>
+              </div>
+            </div>
+            <div class="font-mono font-bold text-base text-amber-400">${t.total} <span class="text-xs font-sans text-slate-400">pt</span></div>
+          </div>
+        `;
+      }).join('');
+
+      // Render Students
+      const studentList = Object.values(classroomStudents).sort((a, b) => (b.score || 0) - (a.score || 0));
+      if (studentList.length === 0) {
+        studentsContainer.innerHTML = `<div class="text-xs text-slate-500 italic p-4 text-center">Nessun detective in classifica. Inserisci il tuo nome per iniziare!</div>`;
+      } else {
+        studentsContainer.innerHTML = studentList.slice(0, 8).map((s, idx) => {
+          const tObj = TEAMS.find(t => t.key === s.teamKey) || TEAMS[0];
+          const isMe = (s.id === currentStudent.id);
+          return `
+            <div class="flex items-center justify-between p-2.5 rounded-xl border ${isMe ? 'bg-blue-600/20 border-blue-500 text-blue-200 font-bold' : 'bg-slate-800/40 border-slate-700/50 text-slate-300'} text-xs">
+              <div class="flex items-center space-x-2">
+                <span class="w-5 text-center font-mono font-bold text-slate-400">${idx + 1}.</span>
+                <div>
+                  <div class="font-semibold text-slate-100 flex items-center space-x-1">
+                    <span>${s.name}</span>
+                    ${isMe ? '<span class="text-[9px] bg-blue-500 text-white px-1.5 py-0.2 rounded-full">TU</span>' : ''}
+                  </div>
+                  <div class="text-[10px] text-slate-400">${tObj.name}</div>
+                </div>
+              </div>
+              <div class="font-mono font-bold text-amber-400">${s.score || 0} pt</div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    // TRAINER LIVE CLASSROOM MONITORING IN SIDEBAR
+    function refreshTrainerStudents() {
+      const container = document.getElementById('trainer-students-container');
+      const countEl = document.getElementById('trainer-student-count');
+      if (!container) return;
+
+      const list = Object.values(classroomStudents);
+      if (countEl) countEl.innerText = String(list.length);
+
+      if (list.length === 0) {
+        container.innerHTML = `<div class="text-[11px] text-slate-500 italic text-center py-2">Nessuno studente connesso</div>`;
+        return;
+      }
+
+      container.innerHTML = list.map(s => {
+        const tObj = TEAMS.find(t => t.key === s.teamKey) || TEAMS[0];
+        const chDone = Object.values(s.completedChallenges || {}).filter(Boolean).length;
+        return `
+          <div class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-[11px] space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white truncate max-w-[120px]" title="${s.name}">${s.name}</span>
+              <span class="font-mono font-bold text-amber-400">${s.score || 0} pt</span>
+            </div>
+            <div class="flex items-center justify-between text-[10px] text-slate-400">
+              <span>${tObj.name.replace('Team ', '')}</span>
+              <span class="text-emerald-400 font-medium">${chDone}/3 sfide</span>
+            </div>
+            <div class="flex items-center space-x-1 pt-1 border-t border-slate-800/80">
+              <button onclick="trainerAwardBonus('${s.id}', 50)" class="flex-1 py-0.5 bg-slate-800 hover:bg-slate-700 text-amber-300 rounded text-[9px] font-bold" title="Assegna 50 punti bonus">+50</button>
+              <button onclick="trainerAwardBonus('${s.id}', 100)" class="flex-1 py-0.5 bg-slate-800 hover:bg-slate-700 text-emerald-300 rounded text-[9px] font-bold" title="Assegna 100 punti bonus">+100</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function trainerAwardBonus(studentId, delta) {
+      handleTrainerScoreOverride({ targetStudentId: studentId, delta: delta });
+      fetch(BROADCAST_TOPIC, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'trainer_override',
+          targetStudentId: studentId,
+          delta: delta
+        })
+      }).then(() => {
+        showToast(currentLang === 'it' ? `🎓 Bonus ${delta} pt inviato allo studente!` : `🎓 Bonus ${delta} pts sent!`);
+      });
+    }
+
+    function resetClassroomLeaderboard() {
+      if (!confirm("Sei sicuro di voler azzerare i punteggi e la classifica dell'intera classe?")) return;
+      handleRemoteResetScores();
+      fetch(BROADCAST_TOPIC, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'reset_scores' })
+      }).then(() => {
+        showToast("🗑️ Classifica aula azzerata con successo!");
+      });
+    }
+
+    // TEAM SELECTOR SWITCH (FALLBACK FOR MANUAL OVERRIDE)
+    function switchTeam(teamKey) {
+      currentStudent.teamKey = teamKey;
+      saveStudentProfile();
+      applyStudentProfileUI();
+      registerStudentInClassroom(currentStudent);
+      broadcastStudentCheckin();
     }
 
     // ROSETTA SEARCH
@@ -1821,17 +2614,21 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       }
     }
 
-    // ALLOW ENTER KEY ON PIN INPUTS
+    // ALLOW ENTER KEY ON PIN INPUTS & ONBOARDING
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && e.target && e.target.id && e.target.id.startsWith('pin-')) {
-        const stepKey = e.target.id.replace('pin-', '');
-        unlockHint(stepKey);
+      if (e.key === 'Enter') {
+        if (e.target && e.target.id && e.target.id.startsWith('pin-')) {
+          const stepKey = e.target.id.replace('pin-', '');
+          unlockHint(stepKey);
+        } else if (e.target && e.target.id === 'student-input-name') {
+          e.preventDefault();
+          submitStudentOnboarding();
+        }
       }
     });
 
-
-    // AUTO-INITIALIZE TRAINER MODE FROM URL PARAMETERS AT LOAD TIME
-    (function initTrainerModeCheck() {
+    // AUTO-INITIALIZE TRAINER MODE & STUDENT PROFILE AT LOAD TIME
+    (function initMasterclass() {
       const urlParams = new URLSearchParams(window.location.search);
       const role = urlParams.get('role');
       const pin = urlParams.get('pin');
@@ -1844,6 +2641,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       }
       setLanguage('en');
       showBlock('cover', false);
+      loadStudentProfile();
     })();
   </script>
 </body>
