@@ -278,6 +278,35 @@
         <button id="btn-hint-all-toggle" onclick="trainerToggleAllHints()" class="w-full mt-2 py-2 px-3 rounded-xl text-xs font-bold bg-amber-600/30 text-amber-300 border border-amber-600/50 hover:bg-amber-600 hover:text-white transition cursor-pointer flex items-center justify-center space-x-1 shadow-sm">
           <span>✨ Sblocca Tutti gli Hint</span>
         </button>
+
+        <!-- TRAINER SOLUTION ANSWERS CHEAT SHEET (CLICK-TO-REVEAL) -->
+        <div class="mt-3 p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold text-slate-200">🔑 Soluzioni Sfide (Trainer Only)</span>
+            <button onclick="toggleTrainerSolutionsCheatSheet()" class="text-[9px] font-mono font-bold text-amber-400 hover:text-amber-300 cursor-pointer" id="btn-toggle-solutions-cheatsheet">Mostra 👁️</button>
+          </div>
+          <div id="trainer-solutions-cheatsheet" class="hidden space-y-1 text-[10px] font-mono pt-1 text-slate-300 border-t border-slate-800">
+            <div class="flex justify-between items-center py-0.5">
+              <span class="text-slate-400">Warm-Up (B1):</span>
+              <span class="text-amber-300 font-bold">Ray-Ban | 4 Tabelle</span>
+            </div>
+            <div class="flex justify-between items-center py-0.5">
+              <span class="text-slate-400">Challenge #1 (B2):</span>
+              <span class="text-amber-300 font-bold">Oliver Peoples | 28.50 €</span>
+            </div>
+            <div class="flex justify-between items-center py-0.5">
+              <span class="text-slate-400">Challenge #2 (B3):</span>
+              <span class="text-amber-300 font-bold">TikTok Ads | 7.08x (Google)</span>
+            </div>
+            <div class="flex justify-between items-center py-0.5">
+              <span class="text-slate-400">Challenge #3 (B4):</span>
+              <span class="text-amber-300 font-bold">352 Lead VIP | TRIM()</span>
+            </div>
+            <div class="text-[9px] text-slate-400 italic pt-1">
+              Totale Max: 350 pt (50 + 100 + 100 + 100).
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- SECTION 3: OPTIONAL COUNTDOWN TIMER (FOR CHALLENGES & BREAKS) -->
@@ -1052,7 +1081,7 @@
                   <span>16:15</span>
                 </div>
                 <h4 class="font-bold text-white text-xs" id="story-step1-title">High Margin Discovery</h4>
-                <p class="text-[11px] text-slate-400" id="story-step1-desc">Fatturato per brand e prodotti ad alto scontrino (Ray-Ban Meta & Oliver Peoples > 300 €).</p>
+                <p class="text-[11px] text-slate-400" id="story-step1-desc">Fatturato per brand e identificazione dei cluster ad alto scontrino medio (AOV).</p>
               </div>
 
               <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
@@ -1061,7 +1090,7 @@
                   <span>17:20</span>
                 </div>
                 <h4 class="font-bold text-white text-xs" id="story-step2-title">The Google ROAS Revelation</h4>
-                <p class="text-[11px] text-slate-400" id="story-step2-desc">Voragine social terzi (0.7x ROAS) vs rendimento esplosivo Google Search & Shopping (7x ROAS).</p>
+                <p class="text-[11px] text-slate-400" id="story-step2-desc">Confronto efficienza: identificazione dei canali in perdita vs le piattaforme pubblicitarie ad alto rendimento.</p>
               </div>
 
               <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
@@ -1070,7 +1099,7 @@
                   <span>17:55</span>
                 </div>
                 <h4 class="font-bold text-white text-xs" id="story-step3-title">Customer Match & VIP Leads</h4>
-                <p class="text-[11px] text-slate-400" id="story-step3-desc">Pulizia lead con SQL: sblocco 350+ profili VIP per attivare campagne Google Ads ad alta conversione.</p>
+                <p class="text-[11px] text-slate-400" id="story-step3-desc">Pulizia lead con SQL: estrazione e qualifica dei lead alto-spendenti per Google Ads Customer Match.</p>
               </div>
 
               <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
@@ -1314,7 +1343,7 @@
             </div>
             <h3 class="text-sm font-black text-white" id="b2-detective-title">Dove Finiscono i Margini? Il Paradosso Ray-Ban Meta vs Wholesale</h3>
             <p class="text-xs text-amber-100/90 leading-relaxed" id="b2-detective-desc">
-              Il budget adv è aumentato ma la redditività stagna. La tua missione è analizzare gli ordini e individuare la disparità cruciale: mentre i <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> viaggiano a scontrini record (<strong>AOV &gt; 300 €</strong>) sui canali diretti, il canale <strong>Wholesale</strong> sta subendo un'emorragia di sconti aggressivi. Trova i dati per dimostrarlo al CMO!
+              Il budget adv è aumentato ma la redditività stagna. La tua missione è analizzare gli ordini e individuare la disparità cruciale: mentre i prodotti e cluster premium viaggiano a scontrini record (<strong>AOV elevato</strong>) sui canali diretti, altri canali e marchi stanno subendo un'emorragia di sconti promozionali aggressivi. Trova i dati e il brand campione di AOV per dimostrarlo al CMO!
             </p>
           </div>
 
@@ -1579,7 +1608,7 @@ ORDER BY roas_multiplier DESC;</pre>
             </div>
             <h3 class="text-sm font-black text-white" id="b4-detective-title">Customer Match & BigQuery View: Recuperare i Lead VIP ad Alta Conversione</h3>
             <p class="text-xs text-emerald-100/90 leading-relaxed" id="b4-detective-desc">
-              Ora che abbiamo provato l'efficacia schiacciante di Google Ads, dobbiamo alimentarlo con i migliori dati di prima parte! La tabella <code>lux_raw_marketing_leads_dirty</code> è piena di errori, spazi e formati inconsistenti. Pulisci i dati, estrai oltre <strong>350 lead VIP (spesa &gt; 200 €)</strong> e incapsula la trasformazione in una <strong>Vista BigQuery sicura</strong> pronta per il caricamento in <em>Google Ads Customer Match</em>!
+              Ora che abbiamo provato l'efficacia schiacciante di Google Ads, dobbiamo alimentarlo con i migliori dati di prima parte! La tabella <code>lux_raw_marketing_leads_dirty</code> è piena di errori, spazi e formati inconsistenti. Pulisci i dati, estrai i <strong>lead VIP ad alto valore (spesa &gt; 200 €)</strong> e incapsula la trasformazione in una <strong>Vista BigQuery sicura</strong> pronta per il caricamento in <em>Google Ads Customer Match</em>!
             </p>
           </div>
 
@@ -1664,21 +1693,123 @@ ORDER BY roas_multiplier DESC;</pre>
             <span class="bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold" id="b5-badge">🎉 Gran Finale</span>
           </div>
 
+          <!-- BLOCK 5 NARRATIVE BRIEFING -->
+          <div class="p-4 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl shadow-sm space-y-2 border border-indigo-700/30">
+            <div class="flex items-center space-x-2">
+              <span class="text-xl">👔</span>
+              <span class="text-xs uppercase font-extrabold tracking-wider text-indigo-400" id="b5-brief-tag">Mission Debrief • L'Incontro con il Board Esecutivo</span>
+            </div>
+            <h3 class="text-sm font-black text-white" id="b5-brief-title">Dalla Query alla Strategia: Convincere il CMO con i Dati di BigQuery</h3>
+            <p class="text-xs text-indigo-100/90 leading-relaxed" id="b5-brief-desc">
+              Le tre indagini sono concluse. Non siamo più analisti che tirano a indovinare: abbiamo dimostrato dove si creano i margini, quali canali pubblicitari generano vero valore economico e come attivare i clienti più preziosi. Ora ogni squadra presenta le proprie raccomandazioni al <strong>Chief Marketing Officer</strong> e al <strong>Board di Luxottica</strong> attraverso le 3 slide esecutive ufficiali.
+            </p>
+          </div>
+
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 hover:border-blue-300 transition">
               <span class="text-2xl">💰</span>
               <h4 class="font-bold text-slate-800" id="b5-p1-title">1. Riallocare Budget Adv</h4>
-              <p class="text-slate-600" id="b5-p1-desc">Spostare il 60% del budget da TikTok Ads (0,52x ROAS) verso Google Search, Shopping e YouTube Ads (7,08x ROAS).</p>
+              <p class="text-slate-600" id="b5-p1-desc">Spostare il budget adv dai canali con ROAS deficitario verso le campagne ad alto rendimento (Google Search, Shopping e YouTube).</p>
             </div>
-            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 hover:border-blue-300 transition">
               <span class="text-2xl">🛡️</span>
               <h4 class="font-bold text-slate-800" id="b5-p2-title">2. Proteggere i Margini</h4>
-              <p class="text-slate-600" id="b5-p2-desc">Rimuovere gli sconti automatici del 25 € su Ray-Ban.com e regolare i sconti del 28,50 € su Wholesale Vogue.</p>
+              <p class="text-slate-600" id="b5-p2-desc">Eliminare gli sconti indiscriminati sui prodotti iconici e fissare tetti massimi promozionali sui canali wholesale partner.</p>
             </div>
-            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 hover:border-blue-300 transition">
               <span class="text-2xl">🎯</span>
               <h4 class="font-bold text-slate-800" id="b5-p3-title">3. Attivare Lead VIP</h4>
-              <p class="text-slate-600" id="b5-p3-desc">Caricare i 350+ lead VIP estratti in Google Ads Customer Match per il lancio dei Ray-Ban Meta Smart Glasses.</p>
+              <p class="text-slate-600" id="b5-p3-desc">Sfruttare la vista SQL dei contatti ad alto valore per alimentare Google Ads Customer Match e massimizzare le conversioni.</p>
+            </div>
+          </div>
+
+          <!-- EXECUTIVE BOARD PITCH DECK SLIDES CAROUSEL -->
+          <div class="mt-6 pt-5 border-t border-slate-200 space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center space-x-2">
+                <span class="text-lg">📊</span>
+                <h3 class="font-bold text-slate-900 text-sm" id="b5-deck-title">Executive Pitch Deck per il CMO (Slides Interattive)</h3>
+              </div>
+              <div class="flex items-center space-x-1.5 text-xs">
+                <button onclick="switchBoardSlide(0)" id="btn-slide-0" class="px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white shadow-xs">Slide 1: Margini</button>
+                <button onclick="switchBoardSlide(1)" id="btn-slide-1" class="px-2.5 py-1 rounded-lg font-bold bg-slate-100 hover:bg-slate-200 text-slate-600">Slide 2: ROAS</button>
+                <button onclick="switchBoardSlide(2)" id="btn-slide-2" class="px-2.5 py-1 rounded-lg font-bold bg-slate-100 hover:bg-slate-200 text-slate-600">Slide 3: VIP Leads</button>
+              </div>
+            </div>
+
+            <!-- SLIDE 1: PRODUCT & CHANNEL MARGINS -->
+            <div id="board-slide-0" class="board-slide bg-slate-900 text-white p-5 rounded-2xl border border-slate-800 space-y-3">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400">Executive Slide 1/3 • Redditività di Prodotto & Canale</span>
+                <span class="text-[10px] text-slate-400 font-mono">Fonte: lux_online_orders (Challenge #1)</span>
+              </div>
+              <h4 class="text-base font-black text-slate-100">"Non tutti i canali creano valore allo stesso modo: proteggiamo i prodotti eroi"</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
+                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 space-y-1">
+                  <div class="text-emerald-400 font-bold flex items-center space-x-1">
+                    <span>💎</span>
+                    <span>Opportunità: High AOV Clusters</span>
+                  </div>
+                  <p class="text-slate-300">I prodotti di punta come <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> viaggiano a uno scontrino medio record sui canali <strong>E-Commerce Direct</strong> e <strong>Flagship Store</strong>.</p>
+                </div>
+                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 space-y-1">
+                  <div class="text-red-400 font-bold flex items-center space-x-1">
+                    <span>⚠️</span>
+                    <span>Minaccia: Erosione Margini Wholesale</span>
+                  </div>
+                  <p class="text-slate-300">I rivenditori wholesale applicano sconti promozionali eccessivi sui marchi fashion. La raccomandazione è <strong>fissare un price floor contrattuale</strong> per salvaguardare il posizionamento del brand.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 2: ATTRIBUTION & ROAS REALLOCATION -->
+            <div id="board-slide-1" class="board-slide hidden bg-slate-900 text-white p-5 rounded-2xl border border-slate-800 space-y-3">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Executive Slide 2/3 • Attribuzione Adv & Rendimento ROAS</span>
+                <span class="text-[10px] text-slate-400 font-mono">Fonte: lux_ad_spend + lux_online_orders CTE (Challenge #2)</span>
+              </div>
+              <h4 class="text-base font-black text-slate-100">"Stop al budget bruciato sui social terzi: raddoppiare sull'ecosistema Google Ads"</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
+                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 space-y-1">
+                  <div class="text-emerald-400 font-bold flex items-center space-x-1">
+                    <span>🚀</span>
+                    <span>Campione di Redditività: Google Ads</span>
+                  </div>
+                  <p class="text-slate-300">Google Search, Performance Max e YouTube intercettano domanda con altissima intenzione d'acquisto, garantendo il <strong>moltiplicatore ROAS più elevato del mix media</strong>.</p>
+                </div>
+                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 space-y-1">
+                  <div class="text-red-400 font-bold flex items-center space-x-1">
+                    <span>💸</span>
+                    <span>Emorragia Budget: Piattaforme Dispendiose</span>
+                  </div>
+                  <p class="text-slate-300">I canali social orientati al mero traffico freddo registrano un ROAS inferiore a 1.0x (costo superiore al ricavo). Spostiamo il <strong>60% di questo budget</strong> sui formati Google ad alta conversione.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 3: FIRST-PARTY DATA & CUSTOMER MATCH -->
+            <div id="board-slide-2" class="board-slide hidden bg-slate-900 text-white p-5 rounded-2xl border border-slate-800 space-y-3">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-blue-400">Executive Slide 3/3 • First-Party Data & Customer Match</span>
+                <span class="text-[10px] text-slate-400 font-mono">Fonte: Vista BigQuery Lead VIP (Challenge #3)</span>
+              </div>
+              <h4 class="text-base font-black text-slate-100">"Data Governance come Motore di Ricavi: 350+ Lead VIP Pronti all'Uso"</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
+                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 space-y-1">
+                  <div class="text-blue-400 font-bold flex items-center space-x-1">
+                    <span>🔒</span>
+                    <span>Pipeline DDL Automatizzata</span>
+                  </div>
+                  <p class="text-slate-300">Abbiamo trasformato lead sporchi e duplicati in una <strong>Vista BigQuery permanente</strong> che normalizza le email e isola solo acquirenti con spesa qualificata superiore a 200 €.</p>
+                </div>
+                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 space-y-1">
+                  <div class="text-amber-400 font-bold flex items-center space-x-1">
+                    <span>🎯</span>
+                    <span>Attivazione Google Ads Customer Match</span>
+                  </div>
+                  <p class="text-slate-300">I profili VIP estratti vengono caricati direttamente nei segmenti Customer Match per alimentare campagne Lookalike e messaggi personalizzati ad altissimo tasso di conversione.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1847,7 +1978,7 @@ ORDER BY roas_multiplier DESC;</pre>
         b2Title: "Blocco 2: Challenge #1 - High Margin Discovery & Analisi Sconti",
         b2DetectiveTag: "Detective Mission • Capitolo 1",
         b2DetectiveTitle: "Dove Finiscono i Margini? Il Paradosso Ray-Ban Meta vs Wholesale",
-        b2DetectiveDesc: "Il budget adv è aumentato ma la redditività stagna. La tua missione è analizzare gli ordini e individuare la disparità cruciale: mentre i <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> viaggiano a scontrini record (<strong>AOV &gt; 300 €</strong>) sui canali diretti, il canale <strong>Wholesale</strong> sta subendo un'emorragia di sconti aggressivi. Trova i dati per dimostrarlo al CMO!",
+        b2DetectiveDesc: "Il budget adv è aumentato ma la redditività stagna. La tua missione è analizzare gli ordini e individuare la disparità cruciale: mentre i prodotti e cluster premium viaggiano a scontrini record (<strong>AOV elevato</strong>) sui canali diretti, altri canali e marchi stanno subendo un'emorragia di sconti promozionali aggressivi. Trova i dati e il brand campione di AOV per dimostrarlo al CMO!",
         b2PromptTitle: "Passo 2.1: Trovare le Vendite ad Alto Scontrino (AOV > 300 €)",
         b2S1BriefTitle: "🎯 Brief per il Detective:",
         b2S1BriefDesc: "Interroga la tabella <code>lux_online_orders</code> con Gemini per analizzare ricavi e scontrino medio per brand e canale. Trova dove si concentrano gli ordini ad alto valore (superiori a 300 €)!",
@@ -1895,13 +2026,13 @@ ORDER BY roas_multiplier DESC;</pre>
         storyBriefNarrative: "Il CMO di Luxottica ha convocato i migliori team di <strong>Marketing Data Detective</strong>: il budget adv è esploso su canali social e display terzi, ma le vendite non decollano. Nelle prossime 3 ore in BigQuery Studio dovrete esplorare 116.000 record, stanare le emorragie di budget, dimostrare il ROI dell'ecosistema <strong>Google Ads (Search, Shopping, YouTube)</strong> e presentare il <strong>Piano di Crescita Q4</strong> per dominare le vendite dei <em>Ray-Ban Meta Smart Glasses</em>!",
         storyStep1Num: "Capitolo 1",
         storyStep1Title: "High Margin Discovery",
-        storyStep1Desc: "Fatturato per brand e prodotti ad alto scontrino (Ray-Ban Meta & Oliver Peoples > 300 €).",
+        storyStep1Desc: "Fatturato per brand e identificazione dei cluster ad alto scontrino medio (AOV).",
         storyStep2Num: "Capitolo 2",
         storyStep2Title: "The Google ROAS Revelation",
-        storyStep2Desc: "Voragine social terzi (0.7x ROAS) vs rendimento esplosivo Google Search & Shopping (7x ROAS).",
+        storyStep2Desc: "Confronto efficienza: identificazione dei canali in perdita vs le piattaforme pubblicitarie ad alto rendimento.",
         storyStep3Num: "Capitolo 3",
         storyStep3Title: "Customer Match & VIP Leads",
-        storyStep3Desc: "Pulizia lead con SQL: sblocco 350+ profili VIP per attivare campagne Google Ads ad alta conversione.",
+        storyStep3Desc: "Pulizia lead con SQL: estrazione e qualifica dei lead alto-spendenti per Google Ads Customer Match.",
         storyStep4Num: "Gran Finale",
         storyStep4Title: "Q4 Growth Plan per il CMO",
         storyStep4Desc: "Riallocazione budget 60% su Google Ads, stop sconti inutili e proclamazione del team vincitore!",
@@ -2094,7 +2225,7 @@ ORDER BY roas_multiplier DESC;</pre>
         b2Title: "Block 2: Challenge #1 - High Margin Discovery & Discounts",
         b2DetectiveTag: "Detective Mission • Chapter 1",
         b2DetectiveTitle: "Where Are Margins Leaking? The Ray-Ban Meta vs Wholesale Paradox",
-        b2DetectiveDesc: "Ad spend jumped while profitability stalled. Your mission is to audit orders and reveal the striking divergence: while <strong>Ray-Ban Meta Smart Glasses</strong> and <strong>Oliver Peoples</strong> command record basket values (<strong>AOV &gt; €300</strong>) on direct channels, the <strong>Wholesale</strong> channel is bleeding margin through steep promotional discounts. Expose the numbers to the CMO!",
+        b2DetectiveDesc: "Ad spend jumped while profitability stalled. Your mission is to audit orders and reveal the striking divergence: while premium hero clusters command record basket values (<strong>high AOV</strong>) on direct channels, other channels and brands are bleeding margin through steep promotional discounts. Expose the data and identify the AOV champion for the CMO!",
         b2PromptTitle: "Step 2.1: Find High-Value Transactions (AOV > €300)",
         b2S1BriefTitle: "🎯 Detective Brief:",
         b2S1BriefDesc: "Query table <code>lux_online_orders</code> with Gemini to analyze revenue and average order value by brand and channel. Identify where high-value orders (> €300) are clustered!",
@@ -2106,7 +2237,7 @@ ORDER BY roas_multiplier DESC;</pre>
         b2S2ToggleLbl: "💡 Need a hint? Show an effective prompt example",
         pB2S2: "Calculate average discount in euros (discount_amount_eur) by brand and channel from lux_online_orders, ordering by average discount descending.",
         b2DiscoveryTitle: "💎 Plot Twist #1 for CMO (High Margin Discovery):",
-        b2DiscoveryDesc: "<strong>Ray-Ban Meta Smart Glasses</strong> and <strong>Oliver Peoples</strong> drive the highest Average Order Value (<strong>AOV > €300</strong>) on E-Commerce Direct! Meanwhile, wholesale partners erode margins with discounts up to <strong>€28.50</strong> on Vogue.",
+        b2DiscoveryDesc: "<strong>Ray-Ban Meta Smart Glasses</strong> and <strong>Oliver Peoples</strong> drive the highest Average Order Value (<strong>AOV > €300</strong>) on E-Commerce Direct! Meanwhile, wholesale partners erode margins with heavy discounts on Vogue.",
         breakTitle: "Coffee & Networking Break",
         breakDesc: "Take a break, digest Block 2 findings, and prepare for the advanced CTE + JOIN ROAS Challenge!",
         b3Title: "Block 3: Challenge #2 - Multi-Platform ROAS with CTE & JOIN",
@@ -2130,11 +2261,11 @@ ORDER BY roas_multiplier DESC;</pre>
         b5Title: "Block 5: Q4 Strategic Plan for CMO & Awarding",
         b5Badge: "🎉 Grand Finale",
         b5P1Title: "1. Reallocate Ad Budget",
-        b5P1Desc: "Shift 60% of budget from TikTok Ads to Google Search, Shopping, and YouTube Ads.",
+        b5P1Desc: "Shift ad spend from negative-ROAS channels to high-performing Google Search, Shopping, and YouTube Ads.",
         b5P2Title: "2. Protect Margins",
-        b5P2Desc: "Remove automatic discounts on Ray-Ban.com and cap discounts on Wholesale Vogue.",
+        b5P2Desc: "Remove indiscriminate discounting on iconic styles and set strict promo caps for wholesale partners.",
         b5P3Title: "3. Activate VIP Leads",
-        b5P3Desc: "Upload VIP leads extracted into Google Ads Customer Match for Ray-Ban Meta Smart Glasses launch.",
+        b5P3Desc: "Harness the SQL view of high-value contacts to power Google Ads Customer Match and boost conversions.",
         // STORY BRIEFING TRANSLATIONS EN
         storyBriefBadge: "CMO Emergency Briefing • 15:30",
         storyTargetDataset: "Dataset: qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics",
@@ -2142,13 +2273,13 @@ ORDER BY roas_multiplier DESC;</pre>
         storyBriefNarrative: "The Luxottica CMO has summoned our top <strong>Marketing Data Detective</strong> teams: ad spend surged across 3rd-party social networks, but direct sales are stagnant. Over the next 3 hours in BigQuery Studio, investigate 116,000 records, expose margin leaks, validate the explosive ROAS of the <strong>Google Ads ecosystem (Search, Shopping, YouTube)</strong>, and present the <strong>Q4 Growth Plan</strong> to win the launch of <em>Ray-Ban Meta Smart Glasses</em>!",
         storyStep1Num: "Chapter 1",
         storyStep1Title: "High Margin Discovery",
-        storyStep1Desc: "Revenue by brand and high-AOV clusters (Ray-Ban Meta & Oliver Peoples > €300).",
+        storyStep1Desc: "Revenue by brand and identification of high-AOV clusters.",
         storyStep2Num: "Chapter 2",
         storyStep2Title: "The Google ROAS Revelation",
-        storyStep2Desc: "3rd-party social money pit (0.7x ROAS) vs dominant Google Search & Shopping (7x ROAS).",
+        storyStep2Desc: "Efficiency audit: isolate loss-making channels vs high-yield advertising engines.",
         storyStep3Num: "Chapter 3",
         storyStep3Title: "Customer Match & VIP Leads",
-        storyStep3Desc: "Clean leads via SQL: unlock 350+ VIP profiles to power high-converting Google Ads campaigns.",
+        storyStep3Desc: "Clean leads via SQL: extract and qualify top-spending leads for Google Ads Customer Match.",
         storyStep4Num: "Grand Finale",
         storyStep4Title: "CMO Q4 Growth Plan",
         storyStep4Desc: "Reallocate 60% ad budget to Google Ads, eliminate margin erosion, and crown the winner!",
@@ -2790,6 +2921,41 @@ ORDER BY roas_multiplier DESC;</pre>
         el.innerText = '••••';
         el.classList.remove('bg-amber-950/80', 'text-amber-200', 'border', 'border-amber-500/40');
         el.classList.add('bg-slate-800');
+      }
+    }
+
+    function toggleTrainerSolutionsCheatSheet() {
+      const sheet = document.getElementById('trainer-solutions-cheatsheet');
+      const btn = document.getElementById('btn-toggle-solutions-cheatsheet');
+      if (!sheet || !btn) return;
+      if (sheet.classList.contains('hidden')) {
+        sheet.classList.remove('hidden');
+        btn.innerText = currentLang === 'it' ? 'Nascondi 🙈' : 'Hide 🙈';
+      } else {
+        sheet.classList.add('hidden');
+        btn.innerText = currentLang === 'it' ? 'Mostra 👁️' : 'Show 👁️';
+      }
+    }
+
+    function switchBoardSlide(slideIdx) {
+      const totalSlides = 3;
+      for (let i = 0; i < totalSlides; i++) {
+        const slide = document.getElementById(`board-slide-${i}`);
+        const btn = document.getElementById(`btn-slide-${i}`);
+        if (slide) {
+          if (i === slideIdx) {
+            slide.classList.remove('hidden');
+          } else {
+            slide.classList.add('hidden');
+          }
+        }
+        if (btn) {
+          if (i === slideIdx) {
+            btn.className = "px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white shadow-xs";
+          } else {
+            btn.className = "px-2.5 py-1 rounded-lg font-bold bg-slate-100 hover:bg-slate-200 text-slate-600";
+          }
+        }
       }
     }
 
