@@ -107,59 +107,159 @@ To control participant pacing and prevent spoilers in the **Student Hub UI**, th
 
 ---
 
-### 🔍 Block 2: Chapter 1 - "High Margin Discovery & Discount Analysis"
+### 🔍 Block 2: Chapter 1 - "High Margin Discovery & Discount Analysis" (45 Mins)
 
-- **Part 2.1 | 🎙️ SCRIPT: Core SQL Building Blocks (`SELECT`, `WHERE`, `GROUP BY`)**
-  - **Rosetta Stone Metaphor:** `GROUP BY` = Excel Pivot Table!
-  - `SELECT` = "Choosing report columns" | `WHERE` = "Filter rows" | `SUM()` = "Pivot values".
-  - **Pedagogical Alert on Filter Precedence:** Remind students that `AND` takes precedence over `OR`. When filtering high-value direct orders, recommend `WHERE revenue_eur > 300 AND channel IN ('E-Commerce Direct', 'App')`.
-  - **Spreadsheet Safe Division:** Introduce `SAFE_DIVIDE(num, den)` as the BigQuery equivalent of Excel `IFERROR(A/B, 0)` to handle zero-discount or zero-spend scenarios cleanly.
-- **Part 2.2 | 🏆 Challenge #1: "The Data Explorer" (8 Clues)**
-  - Teams run `challenges/challenge_1_data_explorer.sql`.
-  - **Plot Twist #1 Discovered:** 
-    1. *Ray-Ban Meta Smart Glasses* and *Oliver Peoples* have massive Average Order Values (> €300) on E-Commerce Direct, representing Luxottica's biggest growth opportunity!
-    2. *Vogue Eyewear* and third-party wholesale partners suffer severe margin leakage due to excessive discounts (up to €28.50 average discount).
-  - *Hint Support:* Unlock directly from the trainer sidebar or reveal dedicated step PINs as needed.
-- **Part 2.3 | Chapter 1 Debrief & Scoreboard Update**
-
----
-
-### ☕ Break: Coffee & Networking
-
----
-
-### 📊 Block 3: Chapter 2 - "The Google ROAS Revelation"
-
-- **Part 3.1 | 🎙️ SCRIPT: Advanced SQL (UNIONS, JOINS & CTEs)**
-  - Explain `JOIN` as an instant VLOOKUP across millions of rows.
-  - **🚨 Critical Facilitator Alert: The Fan-Out Trap!**
-    - Explain why joining `lux_ad_spend` and `lux_online_orders` directly on `brand` multiplies revenue by hundreds of times (different level of granularity: order-level vs daily campaign-level).
-    - Introduce CTEs (`WITH ... AS`) as creating two separate summary tabs in Excel before looking up values between them.
-- **Part 3.2 | 🏆 Challenge #2: "Cross-Channel Intelligence" (4 Clues)**
-  - Teams run `challenges/challenge_2_cross_channel.sql`.
-  - **Plot Twist #2 Discovered:** Third-party social networks (TikTok / Criteo) have a wasteful **0.7x ROAS**, while **Google Search & Google Shopping** generate a massive **6.8x - 8.2x ROAS**!
-  - *Hint Support:* 1-click unlock from trainer sidebar (or reveal Block 3 PIN in console).
-- **Part 3.3 | Chapter 2 Debrief & Scoreboard Update**
+#### Part 2.1 | 🎙️ TELEPROMPTER SCRIPT: Core SQL Building Blocks & The Rosetta Stone Table
+- **[Trainer Screen Action]:** From the Trainer Command Bar, click **`B2: Sconti`** to transition all participant screens to Block 2.
+- **[Trainer Speaking Line - Teleprompter]:**
+  > *"Welcome to Chapter 1 of our detective investigation! I know many of you live inside Microsoft Excel and might feel intimidated by SQL. Let me dispel that fear with a single truth:*
+  > 
+  > ***A SQL query with GROUP BY is literally an Excel Pivot Table, only capable of crunching 100 million rows in 3 seconds flat.***
+  > 
+  > *Look at the **Rosetta Stone Table** displayed directly inside your Student Hub:*
+  > - *The `SELECT` clause corresponds to choosing fields for your report.*
+  > - *The `WHERE` clause corresponds to column dropdown filters.*
+  > - *The `GROUP BY` clause corresponds to the 'Rows' area of your Pivot Table.*
+  > - *Aggregation functions like `SUM(revenue_eur)` or `AVG(discount_amount_eur)` correspond to the 'Values' area.*
+  > 
+  > *However, keep in mind two professional production rules:*
+  > 1. **Logical Precedence of `AND` over `OR`:** *In SQL, `AND` takes precedence over `OR`. If you write `WHERE brand = 'Ray-Ban' OR brand = 'Oakley' AND revenue_eur > 300`, BigQuery will filter > €300 only for Oakley, while pulling every single Ray-Ban order regardless of price! To filter cleanly, use the set membership operator: `WHERE brand IN ('Ray-Ban', 'Oakley') AND revenue_eur > 300`.*
+  > 2. **Spreadsheet-Safe Division:** *In Excel, dividing by zero produces `#DIV/0!`. In standard SQL, dividing by zero throws a fatal runtime error and aborts the query. In BigQuery, always write `SAFE_DIVIDE(numerator, denominator)`: if the denominator is zero or NULL, it returns NULL cleanly without failing.*
+  > 
+  > *Notice that in your Block 2 header, the badge **'📄 Unlocked SQL File: challenge_1_data_explorer.sql'** is right there: you don't need to visit GitHub or hunt for files; click it to view or download every query!"*
 
 ---
 
-### 🎯 Block 4: Chapter 3 - "Google Ads Customer Match"
+#### Part 2.2 | 🏆 Challenge #1: "The Data Explorer" (8 Clues - Hands-on Investigation)
+- **[Trainer Screen Action]:** Launch the 20-minute investigation timer.
+- **[Trainer Speaking Line - Teleprompter]:**
+  > *"Detectives, to your keyboards! Open BigQuery Studio on a new query tab. Your objective has two investigative steps:*
+  > 1. *Step 2.1: Query `lux_online_orders` to discover high-value orders with AOV > €300. Where are our top-paying customers buying?*
+  > 2. *Step 2.2: Compute the average discount granted per brand and channel. We need to identify who is bleeding our operating margins!*
+  > 
+  > *You have 20 minutes. If any team gets stuck, I can unlock hints directly from my trainer console."*
 
-- **Part 4.1 | DEMO: BigQuery Studio Visual Data Prep**
-  - Show Gemini suggestion cards and few-shot cell editing for data wrangling.
-  - **Data Wrangling Tip:** Remind students to clean currency text using `REPLACE(REPLACE(spend_history, '€', ''), ' ', '')` wrapped in `SAFE_CAST(... AS NUMERIC)` to prevent type conversion errors.
-- **Part 4.2 | 🏆 Challenge #3: "The Clean Slate" (Automated View & Looker Studio)**
-  - Teams run `challenges/challenge_3_clean_slate.sql` and build `v_clean_marketing_leads`.
-  - **Plot Twist #3 Discovered:** Cleaning dirty leads recovers **350+ valid VIP leads** for **Google Ads Customer Match**!
-  - **1-Click Looker Studio Demo:** Connect the View to Looker Studio to display the **CMO Executive Rescue Dashboard**!
-  - *Hint Support:* Unlock solution from trainer sidebar (or reveal Block 4 PIN in console).
-- **Part 4.3 | Chapter 3 Debrief**
+- **[Trainer Support & Hint Management]:**
+  - If teams get stuck, open the left Trainer Console: select *Step 2.1* or *Step 2.2* and click **`Unlock 🔓`** (or share PIN `2144` for Step 2.1 or `2255` for Step 2.2).
+
+- **[Data Plot Twist #1 Discovered]:**
+  1. *Ray-Ban Meta Smart Glasses* and *Oliver Peoples* generate massive Average Order Values (> €300) on E-Commerce Direct. High customer willingness to pay!
+  2. Wholesale partner channels suffer severe margin leakage due to aggressive discount erosion (averaging up to €28.50 per unit on Vogue Eyewear).
 
 ---
 
-### 🏆 Block 5: The Q4 Google Growth Plan & Award Ceremony
+#### Part 2.3 | 🎙️ Chapter 1 Debrief & Scoreboard Projection (+100 pt)
+- **[Trainer Screen Action]:** Instruct students to submit their answers in the Challenge #1 card on the Hub to collect 100 points.
+- **[Trainer Screen Action]:** Click **`📊 Project Leaderboard`** in the Trainer Bar and toggle Fullscreen mode.
+- **[Trainer Speaking Line]:**
+  > *"Time is up! Submit your findings to lock in your points. Look at the classroom projector: Team Ray-Ban and Team Oliver Peoples are neck and neck! Let's see who takes the lead in Chapter 2!"*
 
-- **Part 5.1 | 🎙️ SCRIPT: Executive Summary & Security Spotlight**
-  - Summarize the Q4 Growth Plan: Reallocate 60% of budget from third-party social networks to **Google Search, Google Shopping, YouTube Ads, and Performance Max**.
-  - Security Spotlight: Row/Column-level security and PII masking.
-- **Part 5.2 | Awarding the Winning Brand Detective Team!**
+---
+
+### ☕ Break: Coffee & Networking (15 Mins)
+- **[Trainer Screen Action]:** Click **`☕ Pausa`** in the Trainer Bar to display the animated coffee break screen.
+
+---
+
+### 📊 Block 3: Chapter 2 - "The Google ROAS Revelation" (45 Mins)
+
+#### Part 3.1 | 🎙️ TELEPROMPTER SCRIPT: Advanced SQL (JOINs, CTEs & THE FAN-OUT TRAP)
+- **[Trainer Screen Action]:** Click **`B3: ROAS`** in the Trainer Bar to advance the room to Block 3.
+- **[Trainer Speaking Line - Teleprompter]:**
+  > *"Welcome back detectives! Now we tackle the CMO's core question: 'Where did our advertising budget go?'. To answer this, we must cross-reference two datasets: ad spend by platform vs actual e-commerce sales.*
+  > 
+  > *In SQL, joining datasets is handled via `JOIN` — conceptually identical to Excel's `VLOOKUP` or `XLOOKUP`, but scalable across hundreds of millions of records.*
+  > 
+  > *🚨 **BUT BEWARE: You are entering the deadliest pitfall in data engineering: THE SQL FAN-OUT TRAP!**
+  > 
+  > *Imagine performing a naive `JOIN` between `lux_ad_spend` and `lux_online_orders` matching on `brand`.*
+  > *The ad spend table contains daily campaign rows (thousands of rows). The online orders table contains 100,000 transaction rows. A naive join forces BigQuery to match **EVERY order against EVERY daily spend record** for that brand!*
+  > *The consequence? Your sales revenue gets multiplied hundreds of times! A real €2M revenue artificially explodes into €400M! You would present phantom numbers and face immediate dismissal by the CFO.*
+  > 
+  > *How do we eliminate the Fan-Out Trap? By using **CTEs (Common Table Expressions)** with `WITH ... AS`.*
+  > *Think of CTEs as two separate Excel Pivot summary sheets created before looking up values: Sheet 1 summarizes total spend by brand; Sheet 2 summarizes total revenue by brand. Only when both sheets are pre-aggregated to a single row per brand do we join them!*
+  > 
+  > *Open `challenge_2_cross_channel.sql` directly from your Block 3 header button to view the certified anti-fan-out query template!"*
+
+---
+
+#### Part 3.2 | 🏆 Challenge #2: "Cross-Channel Intelligence" (The ROAS Verdict)
+- **[Trainer Screen Action]:** Monitor queries in BigQuery Studio.
+- **[Trainer Support]:** If requested, unlock the solution query from the trainer console (or share PIN `3388`).
+- **[Trainer Speaking Line - Teleprompter]:**
+  > *"Look at the calculated ROAS multipliers sorted from highest to lowest. The data tells an undeniable story:*
+  > 
+  > - *At the bottom: **TikTok Ads delivers an abysmal ROAS of ~0.52x**! For every euro spent, we lost 48 cents! We poured cash into unqualified, cold social traffic.*
+  > - *At the top: **Google Ads (Search & Shopping) delivers a stellar ROAS of > 7.0x**! Every euro invested returned over seven euros in revenue! Google captures high-intent consumers ready to purchase.*
+  > 
+  > *We have uncovered the mystery: our budget expansion was wasted on low-converting third-party social channels, while Google Ads has been carrying company profitability on its back!"*
+
+---
+
+#### Part 3.3 | Chapter 2 Debrief & Scoreboard Update (+100 pt)
+- Students validate Challenge #2 in their Hub cards. Project the leaderboard and award +50 bonus points to teams explaining search intent vs social browsing.
+
+---
+
+### 🎯 Block 4: Chapter 3 - "Google Ads Customer Match & Data Cleaning" (30 Mins)
+
+#### Part 4.1 | 🎙️ TELEPROMPTER SCRIPT: Data Wrangling & Unique Student View Name Rule
+- **[Trainer Screen Action]:** Click **`B4: Leads`** in the Trainer Bar to navigate all students to Block 4.
+- **[Trainer Speaking Line - Teleprompter]:**
+  > *"Now that we proved Google Ads dominance, the CMO asks: 'How do we scale revenue in Q4 without expanding total budget?'.*
+  > *The answer: **Google Ads Customer Match**. We will upload our highest-spending first-party VIP customers directly into Google Ads to target them with personalized campaigns across Search, YouTube, and Gmail.*
+  > 
+  > *However, our incoming leads table `lux_raw_marketing_leads_dirty` is corrupted with real-world flaws: stray spaces, messy case combinations, and text-formatted currency strings ('€ 450.00').*
+  > *Google Ads API will reject dirty files. We must clean them with SQL:*
+  > 1. `TRIM(email)` to remove leading/trailing spaces.
+  > 2. `LOWER(...)` to normalize lowercase emails.
+  > 3. `REPLACE(REPLACE(spend_history, '€', ''), ' ', '')` wrapped in `SAFE_CAST(... AS NUMERIC)` to turn currency text into clean numbers.*
+  > 
+  > *We will encapsulate this transformation into a reusable **BigQuery SQL VIEW**.*
+  > 
+  > *⚠️ **Crucial Individual View Naming Rule:** Since we are sharing the same BigQuery dataset, if everyone creates `v_clean_marketing_leads`, you will overwrite each other's work! That is why the Hub dynamically displays your personal view name with your own name and team (e.g., `v_clean_marketing_leads_team_rayban_chiara`). Make sure to use your unique view name!"*
+
+---
+
+#### Part 4.2 | 🏆 Challenge #3: "The Clean Slate" (Automated View & Looker Studio Demo)
+- **[Trainer Screen Action]:** Students execute `challenge_3_clean_slate.sql` filtering VIP leads with spend > €200.
+- **[Trainer Support]:** Unlock hint via console if needed (or share PIN `4499`).
+- **[Trainer Screen Demo]:**
+  1. Open the created View in BigQuery Studio.
+  2. Click **"Explore Data" -> "Explore with Looker Studio"**.
+  3. Build an instant Scorecard with VIP Lead Count and a Breakdown Table by Brand.
+- **[Trainer Speaking Line - Teleprompter]:**
+  > *"Look at our result: our transformation recovered over **350 high-value VIP leads** (spend > €200) that were previously lost and unusable in the CRM due to dirty formatting! They are now ready for Google Ads Customer Match!"*
+
+---
+
+#### Part 4.3 | Chapter 3 Debrief & Validation (+100 pt)
+- Students validate their recovered lead count and SQL function in Challenge #3 to earn their final 100 points.
+
+---
+
+### 🏆 Block 5: The Q4 Google Growth Plan & Award Ceremony (15 Mins)
+
+#### Part 5.1 | 🎙️ TELEPROMPTER SCRIPT: Executive Summary for the Board
+- **[Trainer Screen Action]:** Click **`🎉 Finale`** in the Trainer Bar to bring all screens to Block 5.
+- **[Trainer Speaking Line - Teleprompter Final Address]:**
+  > *"Team, we have reached the finish line. At 15:30 we started with an unexplained crisis: +35% ad spend with only +2% e-commerce growth. In just 3 hours of rigorous BigQuery analysis, you solved the mystery and crafted the turnaround strategy.*
+  > 
+  > *Here are the three data-backed pillars we present to the Chief Marketing Officer:*
+  > 
+  > 1. 💰 **Reallocate 60% of Budget to Google:** *Immediately eliminate wasteful spend on third-party networks (TikTok at 0.52x ROAS) and reallocate funds into Google Search, Shopping, YouTube Ads, and Performance Max (delivering > 7.0x ROAS).*
+  > 2. 🛡️ **Defend Product Margins:** *Turn off automated €25 discounts on Ray-Ban.com and rein in wholesale discounting; Ray-Ban Meta Smart Glasses and Oliver Peoples command natural premium AOV > €300 that doesn't need margin degradation.*
+  > 3. 🎯 **Activate First-Party Audiences:** *Feed Google Ads Customer Match with our 350+ cleaned VIP leads to dominate Black Friday and holiday gifting.*
+  > 
+  > *This is how modern marketing analysts use BigQuery to drive multi-million-euro business impact!"*
+
+---
+
+#### Part 5.2 | 🎙️ Awarding the Winning Brand Detective Team & Confetti Celebration
+- **[Trainer Screen Action]:**
+  1. Click **`📊 Project Leaderboard`** in the Trainer Bar and enter Fullscreen.
+  2. Click **`🎉 Coriandoli`** to launch synchronized confetti across all student workstations.
+  3. Announce the top individual student detective.
+  4. Crown the winning Brand Detective Team (Ray-Ban, Oakley, Persol, or Oliver Peoples).
+- **[Trainer Speaking Line]:**
+  > *"A huge round of applause for our winning team and for every single detective in the room! Your queries, views, and dashboards remain saved in BigQuery Studio for your future work. Thank you everyone!"*

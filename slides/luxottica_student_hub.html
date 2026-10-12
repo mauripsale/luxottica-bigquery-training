@@ -759,11 +759,15 @@
             🎬
           </div>
           <div>
-            <h2 class="text-lg font-black text-indigo-400">Copione Dettagliato Minuto per Minuto (Playbook)</h2>
-            <p class="text-xs text-slate-400">Doppia traccia simultanea Trainer vs Studente per tutti i 180 minuti</p>
+            <h2 id="pm-title" class="text-lg font-black text-indigo-400">Copione Dettagliato Minuto per Minuto (Playbook)</h2>
+            <p id="pm-subtitle" class="text-xs text-slate-400">Doppia traccia simultanea Trainer vs Studente per tutti i 180 minuti</p>
           </div>
         </div>
-        <button onclick="closePlaybookModal()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">✕</button>
+        <div class="flex items-center space-x-2">
+          <button onclick="openPlaybookModal('it')" id="btn-pm-lang-it" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white">IT</button>
+          <button onclick="openPlaybookModal('en')" id="btn-pm-lang-en" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 hover:text-white">EN</button>
+          <button onclick="closePlaybookModal()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">✕</button>
+        </div>
       </div>
 
       <div id="pm-body" class="overflow-y-auto pr-1 space-y-4 text-xs text-slate-300 leading-relaxed">
@@ -1396,8 +1400,8 @@
               <!-- QUESTION 2 -->
               <div class="space-y-1.5">
                 <label class="block text-slate-300 font-medium" id="lbl-quiz-ch1-q2">2. Quanto vale lo sconto medio (€) su Wholesale Vogue?</label>
-                <input type="text" id="quiz-ch1-q2" placeholder="Es. 28.50" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <p class="text-[10px] text-slate-400" id="hint-quiz-ch1-q2">Inserisci il valore numerico ottenuto dalla query (es. 28.50)</p>
+                <input type="text" id="quiz-ch1-q2" placeholder="Es. 15.00" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <p class="text-[10px] text-slate-400" id="hint-quiz-ch1-q2">Inserisci il valore numerico dello sconto medio ottenuto dalla tua query</p>
               </div>
             </div>
 
@@ -1526,8 +1530,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
               <!-- QUESTION 2 -->
               <div class="space-y-1.5">
                 <label class="block text-slate-300 font-medium" id="lbl-quiz-ch2-q2">2. A quanto ammonta il ROAS generato da Google Ads?</label>
-                <input type="text" id="quiz-ch2-q2" placeholder="Es. 7.08" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <p class="text-[10px] text-slate-400" id="hint-quiz-ch2-q2">Inserisci il valore numerico del moltiplicatore ROAS (es. 7.08)</p>
+                <input type="text" id="quiz-ch2-q2" placeholder="Es. 4.5" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <p class="text-[10px] text-slate-400" id="hint-quiz-ch2-q2">Inserisci il valore numerico del moltiplicatore ROAS calcolato dalla query</p>
               </div>
             </div>
 
@@ -1574,14 +1578,14 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
           </div>
 
           <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900 font-medium">
-            ⚠️ <span id="b4-team-rule"><strong>Regola Suffisso Team:</strong> Aggiungi sempre il suffisso del tuo team (es. <code id="suffix-example">v_clean_marketing_leads_team_rayban</code>)!</span>
+            ⚠️ <span id="b4-team-rule"><strong>Regola Nome Vista Individuale:</strong> Assegna alla vista il tuo nome univoco (es. <code id="suffix-example">v_clean_marketing_leads_chiara</code>) per non sovrascrivere il lavoro dei colleghi!</span>
           </div>
 
           <div class="space-y-3">
             <h4 class="text-xs font-bold uppercase text-slate-500" id="b4-prompt-title">Brief Data Cleaning: Creazione Vista per Google Ads Customer Match</h4>
             <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-xl text-xs space-y-1">
               <span class="font-bold text-emerald-900" id="b4-brief-title">🎯 Cosa deve fare il tuo prompt per Gemini:</span>
-              <p class="text-emerald-800" id="b4-brief-desc">Partendo dalla tabella sporca <code>lux_raw_marketing_leads_dirty</code>, crea una View SQL per il tuo team che normalizzi le email (senza spazi e tutte in minuscolo) e selezioni solo i clienti VIP con storico di spesa > 200 euro.</p>
+              <p class="text-emerald-800" id="b4-brief-desc">Partendo dalla tabella sporca <code>lux_raw_marketing_leads_dirty</code>, crea una View SQL con il tuo nome che normalizzi le email (senza spazi e tutte in minuscolo) e selezioni solo i clienti VIP con storico di spesa > 200 euro.</p>
             </div>
             <!-- LOCKED HINT 4 -->
             <div id="hint-box-b4" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
@@ -1596,7 +1600,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
                 </div>
               </div>
               <div id="content-b4" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
-                <span id="prompt-view-text">Crea la vista luxottica_marketing_analytics.v_clean_marketing_leads_team_rayban prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.</span>
+                <span id="prompt-view-text">Crea la vista luxottica_marketing_analytics.v_clean_marketing_leads_chiara prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.</span>
                 <button onclick="copyToClipboard(document.getElementById('prompt-view-text').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
               </div>
             </div>
@@ -1616,8 +1620,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
               <!-- QUESTION 1 -->
               <div class="space-y-1.5">
                 <label class="block text-slate-300 font-medium" id="lbl-quiz-ch3-q1">1. Quanti lead VIP validi (spesa &gt; 200 €) ha recuperato la tua View?</label>
-                <input type="text" id="quiz-ch3-q1" placeholder="Es. 352 (anche '352 leads')" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <p class="text-[10px] text-slate-400" id="hint-quiz-ch3-q1">Inserisci il conteggio totale di righe restituite dalla vista (circa 350)</p>
+                <input type="text" id="quiz-ch3-q1" placeholder="Es. 150 (inserisci conteggio)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <p class="text-[10px] text-slate-400" id="hint-quiz-ch3-q1">Inserisci il conteggio totale di righe restituite dalla vista creata</p>
               </div>
 
               <!-- QUESTION 2 -->
@@ -1855,29 +1859,29 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         b3Title: "Blocco 3: Challenge #2 - ROAS Multi-Canale con CTE & JOIN",
         b3DetectiveTag: "Detective Mission • Capitolo 2",
         b3DetectiveTitle: "L'Attacco al Budget ADV: Voragine Social Terzi vs Google Ads Dominance",
-        b3DetectiveDesc: "Ecco il momento decisivo: incrociare la spesa marketing per canale con le vendite e-commerce reali. Devi calcolare il <strong>ROAS (Return on Ad Spend)</strong> evitando la trappola del <em>Fan-Out SQL</em> (duplicazione dei ricavi). Scoprirai che <strong>Google Ads genera un impressionante 7.08x ROAS</strong>, mentre canali social emergenti come TikTok bruciano budget a <strong>0.52x ROAS</strong> (in perdita netta)!",
+        b3DetectiveDesc: "Ecco il momento decisivo: incrociare la spesa marketing per canale con le vendite e-commerce reali. Devi calcolare il <strong>ROAS (Return on Ad Spend)</strong> evitando la trappola del <em>Fan-Out SQL</em> (duplicazione dei ricavi). Scoprirai chi genera redditività stellare e chi brucia cassa aziendale su traffico freddo!",
         b3BriefTitle: "🎯 La Sfida dell'Attribution (Evitare il SQL Fan-Out):",
         b3Desc: "I dati di spesa (<code>lux_ad_spend</code>) e di vendita (<code>lux_online_orders</code>) hanno granularità diverse. Un JOIN diretto causerebbe duplicazioni moltiplicando i ricavi! Usa le CTE (Common Table Expressions) per pre-aggregare i totali per brand, poi unisci con JOIN e calcola il ROAS (Ricavi / Spesa).",
         b3ToggleLbl: "💡 Mostra Query SQL di Soluzione (Anti Fan-Out)",
-        b3RoasTitle: "🚀 Verdetto del ROAS per il CMO:",
-        b3RoasDesc: "<strong>Google Ads = 7,08x ROAS 🚀</strong> | Meta Ads = 3,80x | TikTok Ads = <strong>0,52x ROAS 💸 (Voragine di budget!)</strong>",
+        b3RoasTitle: "🚀 Obiettivo Analitico del ROAS per il CMO:",
+        b3RoasDesc: "Confronta il moltiplicatore ROAS tra Google Ads, Meta Ads e TikTok Ads per rivelare chi produce valore e chi brucia cassa.",
         b4Title: "Blocco 4: Challenge #3 - Creazione Vista Pulita Lead VIP",
         b4DetectiveTag: "Detective Mission • Capitolo 3",
         b4DetectiveTitle: "Customer Match & BigQuery View: Recuperare i Lead VIP ad Alta Conversione",
-        b4DetectiveDesc: "Ora che abbiamo provato l'efficacia schiacciante di Google Ads, dobbiamo alimentarlo con i migliori dati di prima parte! La tabella <code>lux_raw_marketing_leads_dirty</code> è piena di errori, spazi e formati inconsistenti. Pulisci i dati, estrai oltre <strong>350 lead VIP (spesa &gt; 200 €)</strong> e incapsula la trasformazione in una <strong>Vista BigQuery sicura</strong> pronta per il caricamento in <em>Google Ads Customer Match</em>!",
-        b4TeamRule: "<strong>Regola Suffisso Team:</strong> Aggiungi sempre il suffisso del tuo team (es. <code id=\"suffix-example\">v_clean_marketing_leads_team_rayban</code>)!",
+        b4DetectiveDesc: "Ora che abbiamo provato l'efficacia schiacciante di Google Ads, dobbiamo alimentarlo con i migliori dati di prima parte! La tabella <code>lux_raw_marketing_leads_dirty</code> è piena di errori, spazi e formati inconsistenti. Pulisci i dati, estrai i lead VIP ad alto valore (spesa &gt; 200 €) e incapsula la trasformazione in una <strong>Vista BigQuery sicura</strong> pronta per il caricamento in <em>Google Ads Customer Match</em>!",
+        b4TeamRule: "<strong>Regola Nome Vista Individuale:</strong> Assegna alla vista il tuo nome univoco (es. <code id=\"suffix-example\">v_clean_marketing_leads_chiara</code>) per non sovrascrivere il lavoro dei colleghi!",
         b4PromptTitle: "Brief Data Cleaning: Creazione Vista per Google Ads Customer Match",
         b4BriefTitle: "🎯 Cosa deve fare il tuo prompt per Gemini:",
-        b4BriefDesc: "Partendo dalla tabella sporca <code>lux_raw_marketing_leads_dirty</code>, crea una View SQL per il tuo team che normalizzi le email (senza spazi e tutte in minuscolo) e selezioni solo i clienti VIP con storico di spesa > 200 euro.",
+        b4BriefDesc: "Partendo dalla tabella sporca <code>lux_raw_marketing_leads_dirty</code>, crea una View SQL con il tuo nome che normalizzi le email (senza spazi e tutte in minuscolo) e selezioni solo i clienti VIP con storico di spesa > 200 euro.",
         b4ToggleLbl: "💡 Serve un aiuto? Mostra un esempio di prompt efficace",
         b5Title: "Blocco 5: Piano Strategico Q4 per il CMO & Premiazione",
         b5Badge: "🎉 Gran Finale",
         b5P1Title: "1. Riallocare Budget Adv",
-        b5P1Desc: "Spostare il 60% del budget da TikTok Ads (0,52x ROAS) verso Google Search, Shopping e YouTube Ads (7,08x ROAS).",
+        b5P1Desc: "Spostare il 60% del budget da TikTok Ads verso Google Search, Shopping e YouTube Ads.",
         b5P2Title: "2. Proteggere i Margini",
-        b5P2Desc: "Rimuovere gli sconti automatici del 25 € su Ray-Ban.com e regolare i sconti del 28,50 € su Wholesale Vogue.",
+        b5P2Desc: "Rimuovere gli sconti automatici su Ray-Ban.com e regolare gli sconti su Wholesale Vogue.",
         b5P3Title: "3. Attivare Lead VIP",
-        b5P3Desc: "Caricare i 350+ lead VIP estratti in Google Ads Customer Match per il lancio dei Ray-Ban Meta Smart Glasses.",
+        b5P3Desc: "Caricare i lead VIP estratti in Google Ads Customer Match per il lancio dei Ray-Ban Meta Smart Glasses.",
         // STORY BRIEFING TRANSLATIONS IT
         storyBriefBadge: "Briefing Emergenza CMO • Ore 15:30",
         storyTargetDataset: "Dataset: qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics",
@@ -1986,8 +1990,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         lblQuizCh1Q1: "1. Quale brand guida lo scontrino medio (AOV) più elevato?",
         optQuizCh1Q1Default: "-- Seleziona il brand --",
         lblQuizCh1Q2: "2. Quanto vale lo sconto medio (€) su Wholesale Vogue?",
-        phQuizCh1Q2: "Es. 28.50",
-        hintQuizCh1Q2: "Inserisci il valore numerico ottenuto dalla query (es. 28.50)",
+        phQuizCh1Q2: "Es. 15.00",
+        hintQuizCh1Q2: "Inserisci il valore numerico dello sconto medio ottenuto dalla tua query",
         quizFeedbackCh1: "Rispondi per sbloccare i punti per te e per la squadra",
         btnValidateCh1Text: "Invia Risposte 🚀",
 
@@ -1996,16 +2000,16 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         lblQuizCh2Q1: "1. Quale canale registra il ROAS più basso (< 1.0x)?",
         optQuizCh2Q1Default: "-- Seleziona canale pubblicitario --",
         lblQuizCh2Q2: "2. A quanto ammonta il ROAS generato da Google Ads?",
-        phQuizCh2Q2: "Es. 7.08",
-        hintQuizCh2Q2: "Inserisci il valore numerico del moltiplicatore ROAS (es. 7.08)",
+        phQuizCh2Q2: "Es. 4.5",
+        hintQuizCh2Q2: "Inserisci il valore numerico del moltiplicatore ROAS calcolato dalla query",
         quizFeedbackCh2: "Dimostra al CMO il rendimento delle campagne adv",
         btnValidateCh2Text: "Invia Risposte 🚀",
 
         quizTitleCh3: "Convalida Risultati Challenge #3 & Ottieni Punti",
         quizBadgeCh3: "+100 pt in palio",
         lblQuizCh3Q1: "1. Quanti lead VIP validi (spesa > 200 €) ha recuperato la tua View?",
-        phQuizCh3Q1: "Es. 352 (anche '352 leads')",
-        hintQuizCh3Q1: "Inserisci il conteggio totale di righe restituite dalla vista (circa 350)",
+        phQuizCh3Q1: "Es. 150 (inserisci conteggio)",
+        hintQuizCh3Q1: "Inserisci il conteggio totale di righe restituite dalla vista creata",
         lblQuizCh3Q2: "2. Quale funzione SQL ha eliminato gli spazi spuri prima e dopo le email?",
         optQuizCh3Q2Default: "-- Seleziona la funzione SQL --",
         quizFeedbackCh3: "Verifica la qualità del tuo dataset per Google Ads Customer Match",
@@ -2102,29 +2106,29 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         b3Title: "Block 3: Challenge #2 - Multi-Platform ROAS with CTE & JOIN",
         b3DetectiveTag: "Detective Mission • Chapter 2",
         b3DetectiveTitle: "Ad Spend Cross-Examination: 3rd-Party Social Money Pit vs Google Ads Dominance",
-        b3DetectiveDesc: "The pivotal cross-examination: reconcile multi-platform media investment against real transaction revenue. Calculate <strong>ROAS (Return on Ad Spend)</strong> while avoiding the fatal <em>SQL Fan-Out Trap</em> (inflated revenue duplicates). Prove that <strong>Google Ads delivers a staggering 7.08x ROAS</strong>, while 3rd-party social experiments like TikTok burn capital at <strong>0.52x ROAS</strong> (net loss)!",
+        b3DetectiveDesc: "The pivotal cross-examination: reconcile multi-platform media investment against real transaction revenue. Calculate <strong>ROAS (Return on Ad Spend)</strong> while avoiding the fatal <em>SQL Fan-Out Trap</em> (inflated revenue duplicates). Uncover which advertising channels drive real enterprise profitability and which waste capital on cold traffic!",
         b3BriefTitle: "🎯 The Attribution Challenge (Avoid SQL Fan-Out):",
         b3Desc: "Ad spend data (<code>lux_ad_spend</code>) and sales data (<code>lux_online_orders</code>) have different granularities. Direct JOINs cause duplicate rows and inflated revenue! Use CTEs to pre-aggregate totals by brand, then JOIN and calculate ROAS (Revenue / Spend).",
         b3ToggleLbl: "💡 Show Anti Fan-Out SQL Solution",
-        b3RoasTitle: "🚀 ROAS Verdict for CMO:",
-        b3RoasDesc: "<strong>Google Ads = 7.08x ROAS 🚀</strong> | Meta Ads = 3.80x | TikTok Ads = <strong>0.52x ROAS 💸 (Money Pit!)</strong>",
+        b3RoasTitle: "🚀 CMO ROAS Analytical Objective:",
+        b3RoasDesc: "Compare the ROAS multiplier across Google Ads, Meta Ads, and TikTok Ads to demonstrate who generates value and who burns cash.",
         b4Title: "Block 4: Challenge #3 - Clean VIP Leads View Creation",
         b4DetectiveTag: "Detective Mission • Chapter 3",
         b4DetectiveTitle: "Customer Match & BigQuery View: Recovering High-Converting VIP Leads",
-        b4DetectiveDesc: "Now that we verified the superiority of Google Ads, we must fuel it with first-party audience intelligence! Table <code>lux_raw_marketing_leads_dirty</code> is filled with casing errors, stray spaces, and unstructured currency tags. Cleanse the records, isolate over <strong>350 VIP leads (spend &gt; €200)</strong>, and encapsulate the logic into a <strong>secured BigQuery View</strong> ready for <em>Google Ads Customer Match</em>!",
-        b4TeamRule: "<strong>Team Suffix Rule:</strong> Always append your team suffix (e.g. <code id=\"suffix-example\">v_clean_marketing_leads_team_rayban</code>)!",
+        b4DetectiveDesc: "Now that we verified the superiority of Google Ads, we must fuel it with first-party audience intelligence! Table <code>lux_raw_marketing_leads_dirty</code> is filled with casing errors, stray spaces, and unstructured currency tags. Cleanse the records, isolate high-value VIP leads (spend &gt; €200), and encapsulate the logic into a <strong>secured BigQuery View</strong> ready for <em>Google Ads Customer Match</em>!",
+        b4TeamRule: "<strong>Individual View Name Rule:</strong> Assign your unique name to the view (e.g. <code id=\"suffix-example\">v_clean_marketing_leads_chiara</code>) to avoid overwriting your colleagues' work!",
         b4PromptTitle: "Data Cleaning Brief: Create Clean View for Google Ads Customer Match",
         b4BriefTitle: "🎯 What your prompt to Gemini must achieve:",
-        b4BriefDesc: "Starting from raw table <code>lux_raw_marketing_leads_dirty</code>, create a SQL View for your team that normalizes emails (trimmed and lowercase) and filters VIP customers with spend > €200.",
+        b4BriefDesc: "Starting from raw table <code>lux_raw_marketing_leads_dirty</code>, create a SQL View with your unique name that normalizes emails (trimmed and lowercase) and filters VIP customers with spend > €200.",
         b4ToggleLbl: "💡 Need a hint? Show an effective prompt example",
         b5Title: "Block 5: Q4 Strategic Plan for CMO & Awarding",
         b5Badge: "🎉 Grand Finale",
         b5P1Title: "1. Reallocate Ad Budget",
-        b5P1Desc: "Shift 60% of budget from TikTok Ads (0.52x ROAS) to Google Search, Shopping, and YouTube Ads (7.08x ROAS).",
+        b5P1Desc: "Shift 60% of budget from TikTok Ads to Google Search, Shopping, and YouTube Ads.",
         b5P2Title: "2. Protect Margins",
-        b5P2Desc: "Remove €25 automatic discounts on Ray-Ban.com and cap €28.50 discounts on Wholesale Vogue.",
+        b5P2Desc: "Remove automatic discounts on Ray-Ban.com and cap discounts on Wholesale Vogue.",
         b5P3Title: "3. Activate VIP Leads",
-        b5P3Desc: "Upload 350+ VIP leads extracted into Google Ads Customer Match for Ray-Ban Meta Smart Glasses launch.",
+        b5P3Desc: "Upload VIP leads extracted into Google Ads Customer Match for Ray-Ban Meta Smart Glasses launch.",
         // STORY BRIEFING TRANSLATIONS EN
         storyBriefBadge: "CMO Emergency Briefing • 15:30",
         storyTargetDataset: "Dataset: qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics",
@@ -2233,8 +2237,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         lblQuizCh1Q1: "1. Which brand leads the highest average order value (AOV)?",
         optQuizCh1Q1Default: "-- Select brand --",
         lblQuizCh1Q2: "2. What is the average discount (€) on Wholesale Vogue?",
-        phQuizCh1Q2: "E.g. 28.50",
-        hintQuizCh1Q2: "Enter the numeric value obtained from your query (e.g. 28.50)",
+        phQuizCh1Q2: "E.g. 15.00",
+        hintQuizCh1Q2: "Enter the numeric average discount obtained from your query",
         quizFeedbackCh1: "Answer to unlock points for yourself and your team",
         btnValidateCh1Text: "Submit Answers 🚀",
 
@@ -2243,16 +2247,16 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         lblQuizCh2Q1: "1. Which ad channel has the lowest ROAS (< 1.0x)?",
         optQuizCh2Q1Default: "-- Select ad platform --",
         lblQuizCh2Q2: "2. What is the ROAS multiplier generated by Google Ads?",
-        phQuizCh2Q2: "E.g. 7.08",
-        hintQuizCh2Q2: "Enter the numeric ROAS multiplier (e.g. 7.08)",
+        phQuizCh2Q2: "E.g. 4.5",
+        hintQuizCh2Q2: "Enter the numeric ROAS multiplier calculated by your query",
         quizFeedbackCh2: "Demonstrate campaign performance to the CMO",
         btnValidateCh2Text: "Submit Answers 🚀",
 
         quizTitleCh3: "Challenge #3 Validation & Earn Points",
         quizBadgeCh3: "+100 pts reward",
         lblQuizCh3Q1: "1. How many valid VIP leads (spend > 200 €) did your View recover?",
-        phQuizCh3Q1: "E.g. 352 (or '352 leads')",
-        hintQuizCh3Q1: "Enter the total row count returned by your View (~350)",
+        phQuizCh3Q1: "E.g. 150 (enter row count)",
+        hintQuizCh3Q1: "Enter the total row count returned by your created View",
         lblQuizCh3Q2: "2. Which SQL function removed whitespace before and after emails?",
         optQuizCh3Q2Default: "-- Select SQL function --",
         quizFeedbackCh3: "Verify dataset quality for Google Ads Customer Match",
@@ -5007,10 +5011,10 @@ ORDER BY transaction_count DESC;
 /*
 OBJECTIVE:
 Transform lux_raw_marketing_leads_dirty into a clean BigQuery SQL VIEW named
-v_clean_marketing_leads_team_<your_team> for Google Ads Customer Match ingestion.
+v_clean_marketing_leads_<your_name> for Google Ads Customer Match ingestion.
 */
 
-CREATE OR REPLACE VIEW \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_team\` AS
+CREATE OR REPLACE VIEW \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_<your_name>\` AS
 SELECT 
   lead_id, 
   LOWER(TRIM(email)) AS clean_email, 
@@ -5179,56 +5183,179 @@ ORDER BY total_vip_leads DESC;
       if (modal) modal.classList.add('hidden');
     }
 
-    function openPlaybookModal() {
+    function openPlaybookModal(lang) {
       const modal = document.getElementById('playbook-modal');
       const body = document.getElementById('pm-body');
+      const title = document.getElementById('pm-title');
+      const subtitle = document.getElementById('pm-subtitle');
+      const btnIt = document.getElementById('btn-pm-lang-it');
+      const btnEn = document.getElementById('btn-pm-lang-en');
       if (!modal || !body) return;
 
-      body.innerHTML = `
-        <div class="space-y-4">
-          <div class="p-3 bg-indigo-950/60 border border-indigo-800 rounded-xl">
-            <h3 class="font-bold text-indigo-300 text-sm">🎬 Copione Dettagliato a Doppia Traccia (Trainer vs Studente)</h3>
-            <p class="text-slate-200 text-xs mt-1">Guida sincronizzata per i 180 minuti della Masterclass Luxottica:</p>
+      const activeLang = lang || currentLang || 'it';
+      const isIt = (activeLang === 'it');
+
+      if (btnIt && btnEn) {
+        btnIt.className = isIt ? "px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white" : "px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 hover:text-white";
+        btnEn.className = !isIt ? "px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white" : "px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 hover:text-white";
+      }
+
+      if (title) title.innerText = isIt ? "Copione & Gobbo Dettagliato Minuto per Minuto" : "Minute-by-Minute Playbook & Teleprompter";
+      if (subtitle) subtitle.innerText = isIt ? "Doppia traccia simultanea Trainer vs Studente per tutti i 180 minuti della Masterclass" : "Synchronized dual-track action script (Trainer vs Student) for all 180 minutes";
+
+      if (isIt) {
+        body.innerHTML = `
+          <div class="space-y-4">
+            <div class="p-3 bg-indigo-950/60 border border-indigo-800 rounded-xl">
+              <h3 class="font-bold text-indigo-300 text-sm">🎬 Guida Regia & Teleprompter Didattico Luxottica (180 Minuti)</h3>
+              <p class="text-slate-200 text-xs mt-1">Questo copione sincronizza minuto per minuto cosa dice e fa il Docente e quali azioni concrete compiono i partecipanti in BigQuery Studio e nello Student Hub.</p>
+            </div>
+            <div class="space-y-3">
+              <!-- BLOCCO 1 -->
+              <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-1.5">
+                  <span class="font-bold text-amber-400 text-xs uppercase tracking-wider">🕒 15:30 - 16:00 | Blocco 1: Briefing Emergenza CMO & Live Data Canvas</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono">+50 pt</span>
+                </div>
+                <div class="text-[11px] text-slate-300 space-y-1.5">
+                  <div><strong>🎙️ Cosa Dice e Fa il Docente:</strong> Proietta lo Student Hub a schermo intero. Apre l'indagine: <em>"Nel primo semestre la spesa adv è salita del +35%, ma il fatturato online è cresciuto solo del +2%. Dov'è finita la cassa?"</em>. Entra in BigQuery Studio su <code>qwiklabs-gcp-04-9efaa47f1d21</code>, apre <strong>Data Canvas</strong> e digita: <em>"Mostrami vendite totali e scontrino medio per brand"</em>. Commenta il grafico a barre colorate con Gemini AI Insights.</div>
+                  <div><strong>💻 Cosa Fa lo Studente:</strong> Incolla l'ID di progetto nei preferiti dell'Explorer di BigQuery Studio. Osserva le 4 tabelle. Compila la card scura di convalida nel Blocco 1 dell'Hub per incassare i primi 50 punti!</div>
+                </div>
+              </div>
+
+              <!-- BLOCCO 2 -->
+              <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-1.5">
+                  <span class="font-bold text-amber-400 text-xs uppercase tracking-wider">🕒 16:00 - 16:45 | Blocco 2: Capitolo 1 - Prodotti ad Alto Margine & Sconti Wholesale</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">+100 pt</span>
+                </div>
+                <div class="text-[11px] text-slate-300 space-y-1.5">
+                  <div><strong>🎙️ Cosa Dice e Fa il Docente:</strong> Clicca <code>B2: Sconti</code> nella Trainer Bar. Spiega la metafora fondamentale: <em>"GROUP BY in SQL è esattamente la Tabella Pivot di Excel, ma gira su 100M di righe in 3 secondi"</em>. Allerta su precedenza filtri (<code>AND</code> prima di <code>OR</code>) e mostra <code>SAFE_DIVIDE</code> anti-crash. Se necessario sblocca hint da sidebar (o comunica PIN 2144 / 2255).</div>
+                  <div><strong>💻 Cosa Fa lo Studente:</strong> Clicca sul pulsante in alto <code>📄 challenge_1_data_explorer.sql</code>. Esegue le query in BigQuery: scopre che <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> hanno AOV > 300 € su E-Commerce Direct, mentre su Wholesale Vogue gli sconti medi salgono vertiginosamente. Invia le risposte nel quiz (+100 pt).</div>
+                </div>
+              </div>
+
+              <!-- BREAK -->
+              <div class="p-2.5 rounded-xl bg-slate-850 border border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                <span>☕ <strong>16:45 - 17:00 | Coffee Break:</strong> Il docente clicca <code>☕ Pausa</code> per mostrare l'animazione di break.</span>
+                <span class="text-[11px] text-amber-400 font-mono">15 Mins</span>
+              </div>
+
+              <!-- BLOCCO 3 -->
+              <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-1.5">
+                  <span class="font-bold text-amber-400 text-xs uppercase tracking-wider">🕒 17:00 - 17:45 | Blocco 3: Capitolo 2 - ROAS Google Ads vs Social Terzi</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">+100 pt</span>
+                </div>
+                <div class="text-[11px] text-slate-300 space-y-1.5">
+                  <div><strong>🎙️ Cosa Dice e Fa il Docente:</strong> Clicca <code>B3: ROAS</code> nella Trainer Bar. Spiega la <strong>Trappola del Fan-Out SQL</strong>: unire direttamente spese adv e ordini moltiplica i ricavi per centinaia di volte! Spiega le CTE (<code>WITH spend AS (...)</code>) come due fogli Pivot Excel separati prima del JOIN. Mostra che Google Ads genera un ROAS stellare (> 7.0x) mentre TikTok registra un disastroso 0.52x. Supporto con PIN 3388.</div>
+                  <div><strong>💻 Cosa Fa lo Studente:</strong> Apre <code>📄 challenge_2_cross_channel.sql</code> dall'header del Blocco 3. Esegue la query a 2 CTE con SAFE_DIVIDE, constata la voragine di budget su TikTok Ads e la leadership di Google Ads. Convalida la risposta nel quiz (+100 pt).</div>
+                </div>
+              </div>
+
+              <!-- BLOCCO 4 -->
+              <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-1.5">
+                  <span class="font-bold text-amber-400 text-xs uppercase tracking-wider">🕒 17:45 - 18:15 | Blocco 4: Capitolo 3 - Google Ads Customer Match & Creazione Vista</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">+100 pt</span>
+                </div>
+                <div class="text-[11px] text-slate-300 space-y-1.5">
+                  <div><strong>🎙️ Cosa Dice e Fa il Docente:</strong> Clicca <code>B4: Leads</code>. Illustra Google Ads Customer Match per scalare le vendite Q4. Mostra le tecniche di pulizia dati: <code>TRIM</code>, <code>LOWER</code> e pulizia simboli valuta. Ricorda la <strong>Regola Nome Vista Individuale</strong> (ogni studente usa il proprio nome per non sovrascrivere i colleghi). Fa la demo di esportazione 1-Click su Looker Studio. PIN 4499.</div>
+                  <div><strong>💻 Cosa Fa lo Studente:</strong> Apre <code>📄 challenge_3_clean_slate.sql</code>. Crea la vista con il proprio nome univoco, recupera oltre 350 lead VIP (> 200 €) e convalida la Challenge #3 (+100 pt).</div>
+                </div>
+              </div>
+
+              <!-- BLOCCO 5 -->
+              <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-1.5">
+                  <span class="font-bold text-amber-400 text-xs uppercase tracking-wider">🕒 18:15 - 18:30 | Blocco 5: Piano Strategico Q4 per il CMO & Cerimonia Finale</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">🏆 Premiazione</span>
+                </div>
+                <div class="text-[11px] text-slate-300 space-y-1.5">
+                  <div><strong>🎙️ Cosa Dice e Fa il Docente:</strong> Clicca <code>🎉 Finale</code> nella Trainer Bar. Pronuncia il discorso conclusivo per il board con le 3 raccomandazioni (spostare il 60% del budget su Google, difendere i margini, attivare Customer Match). Proietta la classifica sul maxischermo, lancia la pioggia di coriandoli e proclama il Detective e la Squadra vincitori!</div>
+                  <div><strong>💻 Cosa Fa lo Studente:</strong> Verifica il punteggio finale (massimo 350 pt), festeggia i risultati sul maxischermo e riceve le congratulazioni.</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="space-y-3">
-            <div class="p-3 rounded-xl bg-slate-800 border border-slate-700">
-              <div class="font-bold text-amber-400 mb-1">Fase 1 (15:30 - 16:00): Blocco 1 - CMO Dilemma & Data Canvas</div>
-              <div class="text-[11px] text-slate-300 space-y-1">
-                <div><strong>🎙️ Trainer:</strong> Introduce l'emergenza CMO (+35% spend vs +2% rev) e mostra Data Canvas con prompt in linguaggio naturale.</div>
-                <div><strong>💻 Studente:</strong> Incolla ID progetto in BigQuery Explorer, valida le 2 risposte nel quiz scuro (+50 pt).</div>
-              </div>
+        `;
+      } else {
+        body.innerHTML = `
+          <div class="space-y-4">
+            <div class="p-3 bg-indigo-950/60 border border-indigo-800 rounded-xl">
+              <h3 class="font-bold text-indigo-300 text-sm">🎬 Luxottica Masterclass Production Playbook & Teleprompter (180 Mins)</h3>
+              <p class="text-slate-200 text-xs mt-1">Minute-by-minute dual-track action script coordinating what the Trainer presents and what students execute in BigQuery Studio and the Student Hub.</p>
             </div>
-            <div class="p-3 rounded-xl bg-slate-800 border border-slate-700">
-              <div class="font-bold text-amber-400 mb-1">Fase 2 (16:00 - 16:45): Blocco 2 - Challenge #1 High Margin & Wholesale Sconti</div>
-              <div class="text-[11px] text-slate-300 space-y-1">
-                <div><strong>🎙️ Trainer:</strong> Spiega Rosetta Stone (Pivot = GROUP BY), sblocca aiuti o condivide PIN 2144 / 2255.</div>
-                <div><strong>💻 Studente:</strong> Esegue query AOV > 300 € (Ray-Ban Meta) e sconti Wholesale (28.50 €). Convalida quiz (+100 pt).</div>
+            <div class="space-y-3">
+              <!-- BLOCK 1 -->
+              <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-1.5">
+                  <span class="font-bold text-amber-400 text-xs uppercase tracking-wider">🕒 15:30 - 16:00 | Block 1: CMO Emergency Briefing & Live Data Canvas</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono">+50 pts</span>
+                </div>
+                <div class="text-[11px] text-slate-300 space-y-1.5">
+                  <div><strong>🎙️ Trainer Action & Words:</strong> Present Student Hub on main screen: <em>"H1 ad spend jumped +35%, yet online sales grew only +2%. Where is our margin bleeding?"</em>. Open BigQuery Studio in <code>qwiklabs-gcp-04-9efaa47f1d21</code>, open <strong>Data Canvas</strong>, type: <em>"Show total sales and average order value by brand"</em>. Comment on color-coded bar chart with Gemini AI Insights.</div>
+                  <div><strong>💻 Student Action:</strong> Pin project ID to BigQuery Explorer. Inspect 4 tables. Complete the dark validation card in Block 1 of the Hub to lock in their first 50 points!</div>
+                </div>
               </div>
-            </div>
-            <div class="p-3 rounded-xl bg-slate-800 border border-slate-700">
-              <div class="font-bold text-amber-400 mb-1">Fase 4 (17:00 - 17:45): Blocco 3 - Challenge #2 ROAS Google vs TikTok</div>
-              <div class="text-[11px] text-slate-300 space-y-1">
-                <div><strong>🎙️ Trainer:</strong> Spiega il pericolo fan-out e la struttura a 2 CTE con SAFE_DIVIDE. Sblocca PIN 3388 se necessario.</div>
-                <div><strong>💻 Studente:</strong> Calcola ROAS: scopre Google Ads a 7.08x e TikTok Ads a 0.52x. Convalida quiz (+100 pt).</div>
+
+              <!-- BLOCK 2 -->
+              <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-1.5">
+                  <span class="font-bold text-amber-400 text-xs uppercase tracking-wider">🕒 16:00 - 16:45 | Block 2: Chapter 1 - High Margin Discovery & Wholesale Discounts</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">+100 pts</span>
+                </div>
+                <div class="text-[11px] text-slate-300 space-y-1.5">
+                  <div><strong>🎙️ Trainer Action & Words:</strong> Click <code>B2: Sconti</code> in Trainer Bar. Teach Rosetta Stone metaphor: <em>"SQL GROUP BY is literally an Excel Pivot Table, processing 100M rows in 3 seconds"</em>. Warn on filter precedence (<code>AND</code> before <code>OR</code>) and introduce crash-safe <code>SAFE_DIVIDE</code>. Unlock hints via console or share PIN 2144 / 2255.</div>
+                  <div><strong>💻 Student Action:</strong> Click top header button <code>📄 challenge_1_data_explorer.sql</code>. Run BigQuery queries: discover <strong>Ray-Ban Meta Smart Glasses</strong> and <strong>Oliver Peoples</strong> command AOV > €300 on E-Commerce Direct, while Wholesale Vogue leaks high discounts. Validate quiz (+100 pts).</div>
+                </div>
               </div>
-            </div>
-            <div class="p-3 rounded-xl bg-slate-800 border border-slate-700">
-              <div class="font-bold text-amber-400 mb-1">Fase 5 (17:45 - 18:15): Blocco 4 - Challenge #3 Lead VIP & Vista BigQuery</div>
-              <div class="text-[11px] text-slate-300 space-y-1">
-                <div><strong>🎙️ Trainer:</strong> Spiega LOWER, TRIM e regex di spend_history. Mostra esportazione a Looker Studio. PIN 4499.</div>
-                <div><strong>💻 Studente:</strong> Crea la vista CREATE OR REPLACE VIEW recuperando 350+ lead VIP. Convalida quiz (+100 pt).</div>
+
+              <!-- BREAK -->
+              <div class="p-2.5 rounded-xl bg-slate-850 border border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                <span>☕ <strong>16:45 - 17:00 | Coffee Break:</strong> Trainer clicks <code>☕ Pausa</code> to trigger the break animation screen.</span>
+                <span class="text-[11px] text-amber-400 font-mono">15 Mins</span>
               </div>
-            </div>
-            <div class="p-3 rounded-xl bg-slate-800 border border-slate-700">
-              <div class="font-bold text-amber-400 mb-1">Fase 6 (18:15 - 18:30): Blocco 5 - Growth Plan CMO & Premiazione</div>
-              <div class="text-[11px] text-slate-300 space-y-1">
-                <div><strong>🎙️ Trainer:</strong> Proietta la classifica sul maxischermo, lancia i coriandoli e proclama il Team vincitore.</div>
-                <div><strong>💻 Studente:</strong> Celebrazione finale, verifica dei 350 punti totali raggiunti.</div>
+
+              <!-- BLOCK 3 -->
+              <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-1.5">
+                  <span class="font-bold text-amber-400 text-xs uppercase tracking-wider">🕒 17:00 - 17:45 | Block 3: Chapter 2 - Cross-Channel ROAS: Google Ads vs 3rd-Party Social</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">+100 pts</span>
+                </div>
+                <div class="text-[11px] text-slate-300 space-y-1.5">
+                  <div><strong>🎙️ Trainer Action & Words:</strong> Click <code>B3: ROAS</code> in Trainer Bar. Warn against the fatal <strong>SQL Fan-Out Trap</strong>: direct joins between campaign spend and orders multiply revenue hundreds of times! Teach CTEs (<code>WITH spend AS (...)</code>) as separate Excel Pivot tabs before joining. Highlight Google Ads high ROAS (> 7.0x) vs TikTok money pit (0.52x). Support with PIN 3388.</div>
+                  <div><strong>💻 Student Action:</strong> Open <code>📄 challenge_2_cross_channel.sql</code> directly from Block 3 header. Execute 2-CTE query with SAFE_DIVIDE, verify TikTok net loss and Google Ads dominance. Submit answers in quiz (+100 pts).</div>
+                </div>
+              </div>
+
+              <!-- BLOCK 4 -->
+              <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-1.5">
+                  <span class="font-bold text-amber-400 text-xs uppercase tracking-wider">🕒 17:45 - 18:15 | Block 4: Chapter 3 - Google Ads Customer Match & BigQuery View</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">+100 pts</span>
+                </div>
+                <div class="text-[11px] text-slate-300 space-y-1.5">
+                  <div><strong>🎙️ Trainer Action & Words:</strong> Click <code>B4: Leads</code>. Introduce Google Ads Customer Match to scale Q4 sales. Teach string cleansing: <code>TRIM</code>, <code>LOWER</code>, and currency string cleaning. Emphasize the <strong>Individual View Name Rule</strong> (each student uses their own name to prevent collisions). Demonstrate 1-Click Looker Studio dashboard. PIN 4499.</div>
+                  <div><strong>💻 Student Action:</strong> Open <code>📄 challenge_3_clean_slate.sql</code>. Build view with unique personal name, recover 350+ VIP leads (> €200), and validate Challenge #3 (+100 pts).</div>
+                </div>
+              </div>
+
+              <!-- BLOCK 5 -->
+              <div class="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 space-y-2">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-1.5">
+                  <span class="font-bold text-amber-400 text-xs uppercase tracking-wider">🕒 18:15 - 18:30 | Block 5: Q4 Growth Plan for CMO & Award Ceremony</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">🏆 Awards</span>
+                </div>
+                <div class="text-[11px] text-slate-300 space-y-1.5">
+                  <div><strong>🎙️ Trainer Action & Words:</strong> Click <code>🎉 Finale</code> in Trainer Bar. Deliver the executive board address summarizing the 3 pillars (reallocate 60% budget to Google Ads, defend product margins, activate Customer Match). Project leaderboard on big screen, trigger confetti shower, and crown the top Detective and Team!</div>
+                  <div><strong>💻 Student Action:</strong> Review final cumulative score (max 350 pts), celebrate team standing, and wrap up.</div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      `;
+        `;
+      }
 
       modal.classList.remove('hidden');
     }
