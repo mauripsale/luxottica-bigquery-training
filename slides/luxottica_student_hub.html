@@ -1031,6 +1031,52 @@
               </div>
             </div>
           </div>
+
+          <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (WARM-UP SETUP & DATA CANVAS) -->
+          <div id="quiz-card-ch0" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border border-slate-800 shadow-md space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div class="flex items-center space-x-2">
+                <span class="text-blue-400 text-base">🎯</span>
+                <span class="font-bold text-sm text-blue-300">Convalida Warm-Up: Setup & Data Canvas</span>
+              </div>
+              <span id="quiz-badge-ch0" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">+50 pt in palio</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <!-- QUESTION 1 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium">1. Nel grafico a barre di Data Canvas, quale brand guida le vendite complessive (~3.96M €)?</label>
+                <select id="quiz-ch0-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                  <option value="">-- Seleziona il brand --</option>
+                  <option value="Oliver Peoples">Oliver Peoples</option>
+                  <option value="Ray-Ban">Ray-Ban</option>
+                  <option value="Oakley">Oakley</option>
+                  <option value="Persol">Persol</option>
+                  <option value="Vogue Eyewear">Vogue Eyewear</option>
+                </select>
+              </div>
+
+              <!-- QUESTION 2 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium">2. Quante tabelle compongono il dataset luxottica_marketing_analytics?</label>
+                <select id="quiz-ch0-q2" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                  <option value="">-- Seleziona numero tabelle --</option>
+                  <option value="2">2 tabelle</option>
+                  <option value="3">3 tabelle</option>
+                  <option value="4">4 tabelle</option>
+                  <option value="5">5 tabelle</option>
+                </select>
+                <p class="text-[10px] text-slate-400">Verifica nell'Explorer di BigQuery o nel riquadro Specifiche Ambiente</p>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+              <div id="quiz-feedback-ch0" class="text-xs font-medium text-slate-400">Guadagna i primi 50 punti per te e per la tua squadra!</div>
+              <button onclick="validateChallenge0()" id="btn-validate-ch0" class="px-5 py-2 rounded-xl font-bold text-xs bg-blue-600 hover:bg-blue-500 text-white transition shadow-md cursor-pointer flex items-center space-x-1.5">
+                <span>Invia Risposte 🚀</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -2760,6 +2806,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       teamKey: 'rayban',
       score: 0,
       completedChallenges: {
+        ch0: false,
         ch1: false,
         ch2: false,
         ch3: false
@@ -3165,9 +3212,10 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       }
 
       // Update quiz cards completion state
-      renderQuizStatus('ch1', currentStudent.completedChallenges.ch1);
-      renderQuizStatus('ch2', currentStudent.completedChallenges.ch2);
-      renderQuizStatus('ch3', currentStudent.completedChallenges.ch3);
+      renderQuizStatus('ch0', currentStudent.completedChallenges && currentStudent.completedChallenges.ch0);
+      renderQuizStatus('ch1', currentStudent.completedChallenges && currentStudent.completedChallenges.ch1);
+      renderQuizStatus('ch2', currentStudent.completedChallenges && currentStudent.completedChallenges.ch2);
+      renderQuizStatus('ch3', currentStudent.completedChallenges && currentStudent.completedChallenges.ch3);
       renderSidebarTeamLeaderboard();
       refreshTrainerStudents();
     }
@@ -3390,7 +3438,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
     function handleRemoteResetScores() {
       currentStudent.score = 0;
-      currentStudent.completedChallenges = { ch1: false, ch2: false, ch3: false };
+      currentStudent.completedChallenges = { ch0: false, ch1: false, ch2: false, ch3: false };
       classroomStudents = {};
       saveStudentProfile();
       saveClassroomState();
@@ -3414,8 +3462,43 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     // ==========================================
     // CHALLENGE VALIDATION FUNCTIONS
     // ==========================================
+    function validateChallenge0() {
+      if (currentStudent.completedChallenges && currentStudent.completedChallenges.ch0) return;
+
+      const q1 = (document.getElementById('quiz-ch0-q1')?.value || '').trim();
+      const q2 = (document.getElementById('quiz-ch0-q2')?.value || '').trim();
+      const feedback = document.getElementById('quiz-feedback-ch0');
+
+      // Q1: Brand with highest overall sales in Data Canvas -> Oliver Peoples (~3.96M)
+      // Q2: Tables count -> 4
+      const isQ1Correct = (q1 === 'Oliver Peoples');
+      const isQ2Correct = (q2 === '4');
+
+      if (isQ1Correct && isQ2Correct) {
+        if (!currentStudent.completedChallenges) currentStudent.completedChallenges = {};
+        currentStudent.completedChallenges.ch0 = true;
+        currentStudent.score = (currentStudent.score || 0) + 50;
+        saveStudentProfile();
+        applyStudentProfileUI();
+        registerStudentInClassroom(currentStudent);
+        broadcastScoreUpdate('ch0', 50);
+        showToast(currentLang === 'it' ? "🎯 Warm-Up Convalidato! +50 Punti!" : "🎯 Warm-Up Validated! +50 Points!");
+      } else {
+        if (feedback) {
+          feedback.className = "text-xs font-bold text-red-400";
+          if (!isQ1Correct && !isQ2Correct) {
+            feedback.innerText = currentLang === 'it' ? "❌ Rivedi il grafico in Data Canvas e conta le tabelle nell'Explorer!" : "❌ Check the Data Canvas chart and table count!";
+          } else if (!isQ1Correct) {
+            feedback.innerText = currentLang === 'it' ? "❌ Brand errato: cerca quello con vendite a quasi 4M € (~3.96M €)" : "❌ Wrong brand: search the one with ~3.96M € sales";
+          } else {
+            feedback.innerText = currentLang === 'it' ? "❌ Ricorda: le tabelle nel dataset sono 4 (Orders, Spend, CRM, Leads)" : "❌ Remember: there are 4 tables in the dataset";
+          }
+        }
+      }
+    }
+
     function validateChallenge1() {
-      if (currentStudent.completedChallenges.ch1) return;
+      if (currentStudent.completedChallenges && currentStudent.completedChallenges.ch1) return;
 
       const q1 = (document.getElementById('quiz-ch1-q1')?.value || '').trim();
       const q2Raw = document.getElementById('quiz-ch1-q2')?.value || '';
