@@ -690,11 +690,19 @@
             📖
           </div>
           <div>
-            <h2 id="cm-title" class="text-lg font-black text-amber-400">Challenge Workbook</h2>
+            <div class="flex items-center space-x-2">
+              <h2 id="cm-title" class="text-lg font-black text-amber-400">Challenge Workbook</h2>
+              <span id="cm-filename-badge" class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-amber-300 border border-slate-700">challenge_1_data_explorer.sql</span>
+            </div>
             <p id="cm-subtitle" class="text-xs text-slate-400">Esercizi & Query SQL Standard per BigQuery Studio</p>
           </div>
         </div>
-        <button onclick="closeChallengeModal()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">✕</button>
+        <div class="flex items-center space-x-2">
+          <button id="cm-btn-download" onclick="downloadChallengeSQL()" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition flex items-center space-x-1.5 shadow-sm cursor-pointer">
+            <span>💾 Scarica .sql</span>
+          </button>
+          <button onclick="closeChallengeModal()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">✕</button>
+        </div>
       </div>
 
       <div id="cm-body" class="overflow-y-auto pr-1 space-y-4 text-xs text-slate-300">
@@ -859,19 +867,28 @@
             <span>📖</span>
           </button>
           <div class="pt-2 border-t border-slate-100 space-y-1.5">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Challenge SQL Dirette (In-App):</span>
-            <div class="grid grid-cols-1 gap-1 text-[11px]">
-              <button onclick="openChallengeModal(1)" class="w-full p-1.5 rounded-lg bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 text-slate-700 hover:text-amber-900 font-mono flex items-center justify-between transition cursor-pointer text-left">
-                <span>📄 Challenge #1 (Explorer SQL)</span>
-                <span>▾</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">File SQL dei Blocchi:</span>
+            <div class="grid grid-cols-1 gap-1.5 text-[11px]">
+              <button id="sb-ch-btn-1" onclick="openChallengeModal(1)" class="w-full p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-400 font-mono flex items-center justify-between transition cursor-pointer text-left">
+                <div class="truncate">
+                  <div class="text-[10px] uppercase font-bold text-slate-400" id="sb-ch-lbl-1">Blocco 2 • Sfida #1</div>
+                  <div class="font-bold text-slate-700 truncate" id="sb-ch-file-1">📄 challenge_1_data_explorer.sql</div>
+                </div>
+                <span id="sb-ch-lock-1" class="text-xs ml-1">🔒</span>
               </button>
-              <button onclick="openChallengeModal(2)" class="w-full p-1.5 rounded-lg bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 text-slate-700 hover:text-amber-900 font-mono flex items-center justify-between transition cursor-pointer text-left">
-                <span>📄 Challenge #2 (ROAS & CTE)</span>
-                <span>▾</span>
+              <button id="sb-ch-btn-2" onclick="openChallengeModal(2)" class="w-full p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-400 font-mono flex items-center justify-between transition cursor-pointer text-left">
+                <div class="truncate">
+                  <div class="text-[10px] uppercase font-bold text-slate-400" id="sb-ch-lbl-2">Blocco 3 • Sfida #2</div>
+                  <div class="font-bold text-slate-700 truncate" id="sb-ch-file-2">📄 challenge_2_cross_channel.sql</div>
+                </div>
+                <span id="sb-ch-lock-2" class="text-xs ml-1">🔒</span>
               </button>
-              <button onclick="openChallengeModal(3)" class="w-full p-1.5 rounded-lg bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 text-slate-700 hover:text-amber-900 font-mono flex items-center justify-between transition cursor-pointer text-left">
-                <span>📄 Challenge #3 (Clean VIP View)</span>
-                <span>▾</span>
+              <button id="sb-ch-btn-3" onclick="openChallengeModal(3)" class="w-full p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-400 font-mono flex items-center justify-between transition cursor-pointer text-left">
+                <div class="truncate">
+                  <div class="text-[10px] uppercase font-bold text-slate-400" id="sb-ch-lbl-3">Blocco 4 • Sfida #3</div>
+                  <div class="font-bold text-slate-700 truncate" id="sb-ch-file-3">📄 challenge_3_clean_slate.sql</div>
+                </div>
+                <span id="sb-ch-lock-3" class="text-xs ml-1">🔒</span>
               </button>
             </div>
           </div>
@@ -1274,11 +1291,14 @@
               <h2 class="text-lg font-bold text-slate-800" id="b2-title">Blocco 2: Challenge #1 - High Margin Discovery & Analisi Sconti</h2>
             </div>
             <div class="flex items-center space-x-2">
-              <button onclick="openChallengeModal(1)" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-900 border border-amber-500/40 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow-xs">
-                <span>📖 Mostra Sfida & Esercizi SQL</span>
-                <span class="text-amber-600">▾</span>
+              <button onclick="openChallengeModal(1)" class="px-3.5 py-2 bg-gradient-to-r from-amber-500/15 to-orange-500/15 hover:from-amber-500/25 hover:to-orange-500/25 text-amber-950 border-2 border-amber-500/60 rounded-xl text-xs font-black transition flex items-center space-x-2 cursor-pointer shadow-sm hover:shadow-md">
+                <span class="text-base">📄</span>
+                <div class="text-left leading-tight">
+                  <div class="font-bold text-[10px] text-amber-800 uppercase tracking-wider">File SQL Sbloccato:</div>
+                  <div class="font-mono text-xs text-amber-950 font-black">challenge_1_data_explorer.sql ▾</div>
+                </div>
               </button>
-              <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">🏆 +100 Punti</span>
+              <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1.5 rounded-full font-bold">🏆 +100 Punti</span>
             </div>
           </div>
 
@@ -1409,11 +1429,14 @@
               <h2 class="text-lg font-bold text-slate-800" id="b3-title">Blocco 3: Challenge #2 - ROAS Multi-Canale con CTE & JOIN</h2>
             </div>
             <div class="flex items-center space-x-2">
-              <button onclick="openChallengeModal(2)" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-900 border border-amber-500/40 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow-xs">
-                <span>📖 Mostra Sfida & Esercizi SQL</span>
-                <span class="text-amber-600">▾</span>
+              <button onclick="openChallengeModal(2)" class="px-3.5 py-2 bg-gradient-to-r from-indigo-500/15 to-blue-500/15 hover:from-indigo-500/25 hover:to-blue-500/25 text-indigo-950 border-2 border-indigo-500/60 rounded-xl text-xs font-black transition flex items-center space-x-2 cursor-pointer shadow-sm hover:shadow-md">
+                <span class="text-base">📄</span>
+                <div class="text-left leading-tight">
+                  <div class="font-bold text-[10px] text-indigo-800 uppercase tracking-wider">File SQL Sbloccato:</div>
+                  <div class="font-mono text-xs text-indigo-950 font-black">challenge_2_cross_channel.sql ▾</div>
+                </div>
               </button>
-              <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">🏆 +100 Punti</span>
+              <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1.5 rounded-full font-bold">🏆 +100 Punti</span>
             </div>
           </div>
 
@@ -1527,11 +1550,14 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
               <h2 class="text-lg font-bold text-slate-800" id="b4-title">Blocco 4: Challenge #3 - Creazione Vista Pulita Lead VIP</h2>
             </div>
             <div class="flex items-center space-x-2">
-              <button onclick="openChallengeModal(3)" class="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-900 border border-amber-500/40 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow-xs">
-                <span>📖 Mostra Sfida & Query DDL</span>
-                <span class="text-amber-600">▾</span>
+              <button onclick="openChallengeModal(3)" class="px-3.5 py-2 bg-gradient-to-r from-emerald-500/15 to-teal-500/15 hover:from-emerald-500/25 hover:to-teal-500/25 text-emerald-950 border-2 border-emerald-500/60 rounded-xl text-xs font-black transition flex items-center space-x-2 cursor-pointer shadow-sm hover:shadow-md">
+                <span class="text-base">📄</span>
+                <div class="text-left leading-tight">
+                  <div class="font-bold text-[10px] text-emerald-800 uppercase tracking-wider">File SQL Sbloccato:</div>
+                  <div class="font-mono text-xs text-emerald-950 font-black">challenge_3_clean_slate.sql ▾</div>
+                </div>
               </button>
-              <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">🏆 +100 Punti</span>
+              <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1.5 rounded-full font-bold">🏆 +100 Punti</span>
             </div>
           </div>
 
@@ -2885,6 +2911,12 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
           trainerBtn.className = "w-full py-1.5 px-2 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 border border-emerald-500/40 text-emerald-300 hover:text-white text-[10px] font-bold transition flex items-center justify-center space-x-1 cursor-pointer";
         }
       }
+
+      // Re-evaluate sidebar challenge file buttons
+      try {
+        const curBlock = localStorage.getItem('lux_bq_active_block_v1') || '1';
+        updateSidebarChallengeLocks(curBlock);
+      } catch(e) {}
     }
 
     function trainerToggleStudentDocs() {
@@ -3451,8 +3483,60 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         localStorage.setItem('lux_bq_active_block_v1', String(blockId));
       } catch (e) {}
 
+      // Synchronize SQL file badges in sidebar based on current active block
+      updateSidebarChallengeLocks(blockId);
+
       // Sync active state on Trainer Command Bar
       updateTrainerBlockUI(blockId);
+    }
+
+    function updateSidebarChallengeLocks(activeBlockId) {
+      const bid = String(activeBlockId);
+      // Map challenge number to its corresponding block
+      // Ch 1: Block 2 (or later: break, 3, 4, 5)
+      // Ch 2: Block 3 (or later: 4, 5)
+      // Ch 3: Block 4 (or later: 5)
+      const bOrder = ['cover', '1', '2', 'break', '3', '4', '5'];
+      const currentIndex = bOrder.indexOf(bid);
+
+      const chConfig = [
+        { num: 1, minBlockIndex: bOrder.indexOf('2'), btnId: 'sb-ch-btn-1', lockId: 'sb-ch-lock-1', lblId: 'sb-ch-lbl-1', fileId: 'sb-ch-file-1', activeColor: 'amber' },
+        { num: 2, minBlockIndex: bOrder.indexOf('3'), btnId: 'sb-ch-btn-2', lockId: 'sb-ch-lock-2', lblId: 'sb-ch-lbl-2', fileId: 'sb-ch-file-2', activeColor: 'indigo' },
+        { num: 3, minBlockIndex: bOrder.indexOf('4'), btnId: 'sb-ch-btn-3', lockId: 'sb-ch-lock-3', lblId: 'sb-ch-lbl-3', fileId: 'sb-ch-file-3', activeColor: 'emerald' }
+      ];
+
+      chConfig.forEach(ch => {
+        const btn = document.getElementById(ch.btnId);
+        const lock = document.getElementById(ch.lockId);
+        const lbl = document.getElementById(ch.lblId);
+        const file = document.getElementById(ch.fileId);
+        if (!btn) return;
+
+        // An SQL challenge file is unlocked if the student docs are unlocked OR the active block has reached or passed that challenge's block
+        const isUnlocked = areStudentDocsUnlocked || (currentIndex >= ch.minBlockIndex);
+
+        if (isUnlocked) {
+          btn.className = `w-full p-2 rounded-xl bg-${ch.activeColor}-50/80 hover:bg-${ch.activeColor}-100 border border-${ch.activeColor}-300 text-${ch.activeColor}-950 font-mono flex items-center justify-between transition cursor-pointer text-left shadow-2xs`;
+          if (lock) {
+            lock.innerText = "🔓";
+            lock.className = `text-xs ml-1 text-${ch.activeColor}-600 font-bold`;
+          }
+          if (lbl) lbl.className = `text-[10px] uppercase font-bold text-${ch.activeColor}-700`;
+          if (file) file.className = `font-bold text-${ch.activeColor}-950 truncate`;
+          btn.onclick = () => openChallengeModal(ch.num);
+        } else {
+          btn.className = "w-full p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-400 font-mono flex items-center justify-between transition cursor-not-allowed opacity-60 text-left";
+          if (lock) {
+            lock.innerText = "🔒";
+            lock.className = "text-xs ml-1 text-slate-400";
+          }
+          if (lbl) lbl.className = "text-[10px] uppercase font-bold text-slate-400";
+          if (file) file.className = "font-bold text-slate-500 truncate";
+          btn.onclick = () => showToast(currentLang === 'it' 
+            ? `🔒 Questo file SQL verrà sbloccato nel Blocco ${ch.num === 1 ? '2' : (ch.num === 2 ? '3' : '4')}!` 
+            : `🔒 This SQL file unlocks in Block ${ch.num === 1 ? '2' : (ch.num === 2 ? '3' : '4')}!`);
+        }
+      });
     }
 
     // ==========================================
@@ -4623,10 +4707,104 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     // ==========================================
     const CHALLENGE_DATA = {
       1: {
+        filename: "challenge_1_data_explorer.sql",
         title: "Challenge #1: High Margin Discovery & Analisi Sconti",
         titleEn: "Challenge #1: High Margin Discovery & Discount Analysis",
         subtitle: "lux_online_orders & lux_ad_spend (8 Domande Investigative)",
         subtitleEn: "lux_online_orders & lux_ad_spend (8 Investigative Questions)",
+        fileContent: `-- =============================================================================
+-- HANDS-ON CHALLENGE #1: "THE DATA EXPLORER" (EXTENDED WORKBOOK)
+-- Target Duration: 35 Minutes (Block 2: 16:10 - 16:45)
+-- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
+-- Target Dataset: \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics\`
+-- =============================================================================
+
+-- Q1: Total Revenue and Units Sold per Brand
+SELECT 
+  brand, 
+  COUNT(order_id) AS total_orders, 
+  ROUND(SUM(revenue_eur), 2) AS total_revenue_eur, 
+  ROUND(AVG(revenue_eur), 2) AS aov_eur
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+GROUP BY brand
+ORDER BY total_revenue_eur DESC;
+
+-- Q2: Sales Channel Breakdown
+SELECT 
+  channel, 
+  COUNT(order_id) AS order_count, 
+  ROUND(SUM(revenue_eur), 2) AS total_revenue
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+GROUP BY channel
+ORDER BY total_revenue DESC;
+
+-- Q3: High-Value E-Commerce Transactions (> €300)
+SELECT 
+  brand, 
+  channel, 
+  COUNT(order_id) AS high_value_orders, 
+  ROUND(SUM(revenue_eur), 2) AS high_value_revenue
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+WHERE revenue_eur > 300
+GROUP BY brand, channel
+ORDER BY high_value_revenue DESC;
+
+-- Q4: Platform Performance (CTR % per platform)
+SELECT 
+  platform, 
+  SUM(impressions) AS total_impressions, 
+  SUM(clicks) AS total_clicks, 
+  ROUND(SAFE_DIVIDE(SUM(clicks), SUM(impressions)) * 100, 3) AS ctr_percentage
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend\`
+GROUP BY platform
+ORDER BY ctr_percentage DESC;
+
+-- Q5: Top 5 Campaign Efficiency (Cost per Conversion)
+SELECT 
+  campaign_name, 
+  platform, 
+  ROUND(SUM(spend_eur), 2) AS total_spend, 
+  SUM(conversions) AS total_conversions, 
+  ROUND(SAFE_DIVIDE(SUM(spend_eur), SUM(conversions)), 2) AS cost_per_conversion
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend\`
+GROUP BY campaign_name, platform
+HAVING total_conversions > 0
+ORDER BY cost_per_conversion ASC
+LIMIT 5;
+
+-- Q6: Wholesale Margin Erosion (Discounts by Brand & Channel)
+SELECT 
+  brand, 
+  channel, 
+  ROUND(AVG(discount_amount_eur), 2) AS avg_discount_eur, 
+  ROUND(SUM(discount_amount_eur), 2) AS total_discount_given
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+GROUP BY brand, channel
+ORDER BY avg_discount_eur DESC;
+
+-- Q7: Regional Customer Behavior & Loyalty
+SELECT 
+  region, 
+  loyalty_tier, 
+  COUNT(customer_id) AS total_customers, 
+  ROUND(AVG(lifetime_spend_eur), 2) AS avg_customer_ltv
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers\`
+GROUP BY region, loyalty_tier
+ORDER BY region, avg_customer_ltv DESC;
+
+-- Q8: Spend Bracket Segmentation (CASE WHEN)
+SELECT 
+  CASE 
+    WHEN revenue_eur < 150 THEN '1. Entry Level (< 150 €)'
+    WHEN revenue_eur <= 300 THEN '2. Core Luxury (150-300 €)'
+    ELSE '3. High-End (> 300 €)'
+  END AS spend_bracket, 
+  COUNT(order_id) AS total_orders, 
+  ROUND(SUM(revenue_eur), 2) AS bracket_revenue
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+GROUP BY spend_bracket
+ORDER BY spend_bracket ASC;
+`,
         questions: [
           {
             num: "Q1",
@@ -4695,10 +4873,89 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         ]
       },
       2: {
+        filename: "challenge_2_cross_channel.sql",
         title: "Challenge #2: ROAS Cross-Channel con CTE & Anti-Fan-Out JOIN",
         titleEn: "Challenge #2: Cross-Channel ROAS with CTE & Anti-Fan-Out JOIN",
         subtitle: "Spesa Pubblicitaria vs Vendite Reali: Google Ads vs TikTok Ads",
         subtitleEn: "Ad Spend vs Real Sales: Google Ads vs TikTok Ads",
+        fileContent: `-- =============================================================================
+-- HANDS-ON CHALLENGE #2: "CROSS-CHANNEL MARKETING INTELLIGENCE"
+-- Target Duration: 25 Minutes (Block 3: 17:20 - 17:45)
+-- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
+-- Target Dataset: \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics\`
+-- =============================================================================
+
+-- Q1: Customer Lifetime Value (LTV) by Loyalty Tier
+SELECT 
+  c.loyalty_tier, 
+  c.preferred_brand, 
+  COUNT(DISTINCT c.customer_id) AS active_customers, 
+  ROUND(SUM(o.revenue_eur), 2) AS total_realized_revenue, 
+  ROUND(SAFE_DIVIDE(SUM(o.revenue_eur), COUNT(DISTINCT c.customer_id)), 2) AS realized_aov
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers\` c
+JOIN \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\` o
+  ON c.customer_id = o.customer_id
+GROUP BY c.loyalty_tier, c.preferred_brand
+ORDER BY total_realized_revenue DESC;
+
+-- Q2: Omnichannel Activity Stream with UNION ALL
+SELECT 
+  order_id AS event_id, 
+  customer_id, 
+  order_date AS event_date, 
+  'PURCHASE' AS event_type, 
+  brand, 
+  revenue_eur AS monetary_value
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+UNION ALL
+SELECT 
+  customer_id AS event_id, 
+  customer_id, 
+  signup_date AS event_date, 
+  'SIGNUP' AS event_type, 
+  preferred_brand AS brand, 
+  lifetime_spend_eur AS monetary_value
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers\`;
+
+-- Q3: Multi-Platform ROAS Calculation (The Decisive Query)
+WITH spend_summary AS (
+  SELECT 
+    brand, 
+    platform, 
+    ROUND(SUM(spend_eur), 2) AS total_spend
+  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend\`
+  GROUP BY brand, platform
+),
+revenue_summary AS (
+  SELECT 
+    brand, 
+    ROUND(SUM(revenue_eur), 2) AS total_revenue
+  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+  GROUP BY brand
+)
+SELECT 
+  s.platform, 
+  s.brand, 
+  s.total_spend, 
+  r.total_revenue, 
+  ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas_multiplier
+FROM spend_summary s
+JOIN revenue_summary r ON s.brand = r.brand
+ORDER BY roas_multiplier DESC;
+
+-- Q4: Preferred Brand vs Actually Purchased Brand Alignment
+SELECT 
+  c.preferred_brand AS stated_brand, 
+  o.brand AS purchased_brand, 
+  COUNT(o.order_id) AS transaction_count, 
+  ROUND(SUM(o.revenue_eur), 2) AS cross_brand_sales
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers\` c
+JOIN \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\` o 
+  ON c.customer_id = o.customer_id
+WHERE c.preferred_brand != o.brand
+GROUP BY stated_brand, purchased_brand
+ORDER BY transaction_count DESC;
+`,
         questions: [
           {
             num: "Q1",
@@ -4735,10 +4992,47 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         ]
       },
       3: {
+        filename: "challenge_3_clean_slate.sql",
         title: "Challenge #3: Data Cleaning & Creazione Vista BigQuery Lead VIP",
         titleEn: "Challenge #3: Data Cleaning & BigQuery VIP Leads View Creation",
         subtitle: "Da dati grezzi e sporchi a Google Ads Customer Match Ready",
         subtitleEn: "From raw messy leads to Google Ads Customer Match Ready",
+        fileContent: `-- =============================================================================
+-- HANDS-ON CHALLENGE #3: "THE CLEAN SLATE" (AUTOMATED ETL VIEW)
+-- Target Duration: 20 Minutes (Block 4: 17:55 - 18:15)
+-- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
+-- Target Dataset: \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics\`
+-- =============================================================================
+
+/*
+OBJECTIVE:
+Transform lux_raw_marketing_leads_dirty into a clean BigQuery SQL VIEW named
+v_clean_marketing_leads_team_<your_team> for Google Ads Customer Match ingestion.
+*/
+
+CREATE OR REPLACE VIEW \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_team\` AS
+SELECT 
+  lead_id, 
+  LOWER(TRIM(email)) AS clean_email, 
+  TRIM(full_name) AS clean_name, 
+  UPPER(TRIM(brand_interest)) AS target_brand, 
+  SAFE_CAST(REPLACE(REPLACE(spend_history, '€', ''), ' ', '') AS NUMERIC) AS clean_spend_eur, 
+  PARSE_DATE('%Y-%m-%d', SAFE_CAST(capture_date AS STRING)) AS clean_capture_date, 
+  'VIP_CUSTOMER_MATCH' AS audience_segment
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty\`
+WHERE SAFE_CAST(REPLACE(REPLACE(spend_history, '€', ''), ' ', '') AS NUMERIC) > 200
+QUALIFY ROW_NUMBER() OVER(PARTITION BY LOWER(TRIM(email)) ORDER BY capture_date DESC) = 1;
+
+-- Verification Query: Check Recovered VIP Leads
+SELECT 
+  target_brand, 
+  COUNT(lead_id) AS total_vip_leads, 
+  ROUND(AVG(clean_spend_eur), 2) AS avg_vip_spend, 
+  ROUND(SUM(clean_spend_eur), 2) AS pipeline_potential_eur
+FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_team\`
+GROUP BY target_brand
+ORDER BY total_vip_leads DESC;
+`,
         questions: [
           {
             num: "Blueprint",
@@ -4760,10 +5054,14 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       }
     };
 
+    let currentActiveChallengeModal = 1;
+
     function openChallengeModal(chNum) {
+      currentActiveChallengeModal = chNum;
       const modal = document.getElementById('challenge-modal');
       const titleEl = document.getElementById('cm-title');
       const subtitleEl = document.getElementById('cm-subtitle');
+      const badgeEl = document.getElementById('cm-filename-badge');
       const bodyEl = document.getElementById('cm-body');
       if (!modal || !CHALLENGE_DATA[chNum]) return;
 
@@ -4771,6 +5069,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const isIt = (currentLang === 'it');
       titleEl.innerText = isIt ? data.title : data.titleEn;
       subtitleEl.innerText = isIt ? data.subtitle : data.subtitleEn;
+      if (badgeEl) badgeEl.innerText = data.filename;
 
       bodyEl.innerHTML = data.questions.map(q => `
         <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-3">
@@ -4790,6 +5089,19 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       `).join('');
 
       modal.classList.remove('hidden');
+    }
+
+    function downloadChallengeSQL() {
+      const data = CHALLENGE_DATA[currentActiveChallengeModal];
+      if (!data) return;
+      const blob = new Blob([data.fileContent], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = data.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast(`💾 Scaricato ${data.filename}!`);
     }
 
     function closeChallengeModal() {
