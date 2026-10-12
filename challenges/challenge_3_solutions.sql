@@ -5,7 +5,8 @@
 -- Target Dataset: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
 -- =============================================================================
 
-CREATE OR REPLACE VIEW `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads` AS
+-- Sostituisci <your_name> con il tuo nome per evitare sovrascritture tra studenti
+CREATE OR REPLACE VIEW `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_<your_name>` AS
 WITH CleanedBase AS (
   SELECT
     TRIM(raw_lead_id) AS lead_id,
