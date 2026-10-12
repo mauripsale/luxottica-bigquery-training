@@ -1037,7 +1037,7 @@
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
               <div class="flex items-center space-x-2">
                 <span class="text-blue-400 text-base">🎯</span>
-                <span class="font-bold text-sm text-blue-300">Convalida Warm-Up: Setup & Data Canvas</span>
+                <span class="font-bold text-sm text-blue-300" id="quiz-title-ch0">Convalida Warm-Up: Setup & Data Canvas</span>
               </div>
               <span id="quiz-badge-ch0" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">+50 pt in palio</span>
             </div>
@@ -1045,9 +1045,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <!-- QUESTION 1 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium">1. Nel grafico a barre di Data Canvas, quale brand guida le vendite complessive (~3.96M €)?</label>
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch0-q1">1. Nel grafico a barre di Data Canvas, quale brand guida le vendite complessive (~3.96M €)?</label>
                 <select id="quiz-ch0-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                  <option value="">-- Seleziona il brand --</option>
+                  <option value="" id="opt-quiz-ch0-q1-default">-- Seleziona il brand --</option>
                   <option value="Oliver Peoples">Oliver Peoples</option>
                   <option value="Ray-Ban">Ray-Ban</option>
                   <option value="Oakley">Oakley</option>
@@ -1058,22 +1058,22 @@
 
               <!-- QUESTION 2 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium">2. Quante tabelle compongono il dataset luxottica_marketing_analytics?</label>
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch0-q2">2. Quante tabelle compongono il dataset luxottica_marketing_analytics?</label>
                 <select id="quiz-ch0-q2" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                  <option value="">-- Seleziona numero tabelle --</option>
-                  <option value="2">2 tabelle</option>
-                  <option value="3">3 tabelle</option>
-                  <option value="4">4 tabelle</option>
-                  <option value="5">5 tabelle</option>
+                  <option value="" id="opt-quiz-ch0-q2-default">-- Seleziona numero tabelle --</option>
+                  <option value="2" id="opt-quiz-ch0-q2-2">2 tabelle</option>
+                  <option value="3" id="opt-quiz-ch0-q2-3">3 tabelle</option>
+                  <option value="4" id="opt-quiz-ch0-q2-4">4 tabelle</option>
+                  <option value="5" id="opt-quiz-ch0-q2-5">5 tabelle</option>
                 </select>
-                <p class="text-[10px] text-slate-400">Verifica nell'Explorer di BigQuery o nel riquadro Specifiche Ambiente</p>
+                <p class="text-[10px] text-slate-400" id="hint-quiz-ch0-q2">Verifica nell'Explorer di BigQuery o nel riquadro Specifiche Ambiente</p>
               </div>
             </div>
 
             <div class="flex items-center justify-between pt-2 border-t border-slate-800">
               <div id="quiz-feedback-ch0" class="text-xs font-medium text-slate-400">Guadagna i primi 50 punti per te e per la tua squadra!</div>
               <button onclick="validateChallenge0()" id="btn-validate-ch0" class="px-5 py-2 rounded-xl font-bold text-xs bg-blue-600 hover:bg-blue-500 text-white transition shadow-md cursor-pointer flex items-center space-x-1.5">
-                <span>Invia Risposte 🚀</span>
+                <span id="btn-validate-ch0-text">Invia Risposte 🚀</span>
               </button>
             </div>
           </div>
@@ -1151,7 +1151,7 @@
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
               <div class="flex items-center space-x-2">
                 <span class="text-amber-400 text-base">🎯</span>
-                <span class="font-bold text-sm text-amber-300">Convalida Risultati Challenge #1 & Ottieni Punti</span>
+                <span class="font-bold text-sm text-amber-300" id="quiz-title-ch1">Convalida Risultati Challenge #1 & Ottieni Punti</span>
               </div>
               <span id="quiz-badge-ch1" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
             </div>
@@ -1159,9 +1159,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <!-- QUESTION 1 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium">1. Quale brand guida lo scontrino medio (AOV) più elevato?</label>
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch1-q1">1. Quale brand guida lo scontrino medio (AOV) più elevato?</label>
                 <select id="quiz-ch1-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                  <option value="">-- Seleziona il brand --</option>
+                  <option value="" id="opt-quiz-ch1-q1-default">-- Seleziona il brand --</option>
                   <option value="Oliver Peoples">Oliver Peoples</option>
                   <option value="Ray-Ban">Ray-Ban</option>
                   <option value="Oakley">Oakley</option>
@@ -1172,16 +1172,16 @@
 
               <!-- QUESTION 2 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium">2. Quanto vale lo sconto medio (€) su Wholesale Vogue?</label>
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch1-q2">2. Quanto vale lo sconto medio (€) su Wholesale Vogue?</label>
                 <input type="text" id="quiz-ch1-q2" placeholder="Es. 28.50" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <p class="text-[10px] text-slate-400">Inserisci il valore numerico ottenuto dalla query (es. 28.50)</p>
+                <p class="text-[10px] text-slate-400" id="hint-quiz-ch1-q2">Inserisci il valore numerico ottenuto dalla query (es. 28.50)</p>
               </div>
             </div>
 
             <div class="flex items-center justify-between pt-2 border-t border-slate-800">
               <div id="quiz-feedback-ch1" class="text-xs font-medium text-slate-400">Rispondi per sbloccare i punti per te e per la squadra</div>
               <button onclick="validateChallenge1()" id="btn-validate-ch1" class="px-5 py-2 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md cursor-pointer flex items-center space-x-1.5">
-                <span>Invia Risposte 🚀</span>
+                <span id="btn-validate-ch1-text">Invia Risposte 🚀</span>
               </button>
             </div>
           </div>
@@ -1261,7 +1261,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
               <div class="flex items-center space-x-2">
                 <span class="text-amber-400 text-base">🎯</span>
-                <span class="font-bold text-sm text-amber-300">Convalida Risultati Challenge #2 & Ottieni Punti</span>
+                <span class="font-bold text-sm text-amber-300" id="quiz-title-ch2">Convalida Risultati Challenge #2 & Ottieni Punti</span>
               </div>
               <span id="quiz-badge-ch2" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
             </div>
@@ -1269,9 +1269,9 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <!-- QUESTION 1 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium">1. Quale canale registra il ROAS più basso (&lt; 1.0x)?</label>
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch2-q1">1. Quale canale registra il ROAS più basso (&lt; 1.0x)?</label>
                 <select id="quiz-ch2-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                  <option value="">-- Seleziona canale pubblicitario --</option>
+                  <option value="" id="opt-quiz-ch2-q1-default">-- Seleziona canale pubblicitario --</option>
                   <option value="TikTok Ads">TikTok Ads</option>
                   <option value="Google Ads">Google Ads</option>
                   <option value="Meta Ads">Meta Ads</option>
@@ -1281,16 +1281,16 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
               <!-- QUESTION 2 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium">2. A quanto ammonta il ROAS generato da Google Ads?</label>
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch2-q2">2. A quanto ammonta il ROAS generato da Google Ads?</label>
                 <input type="text" id="quiz-ch2-q2" placeholder="Es. 7.08" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <p class="text-[10px] text-slate-400">Inserisci il valore numerico del moltiplicatore ROAS (es. 7.08)</p>
+                <p class="text-[10px] text-slate-400" id="hint-quiz-ch2-q2">Inserisci il valore numerico del moltiplicatore ROAS (es. 7.08)</p>
               </div>
             </div>
 
             <div class="flex items-center justify-between pt-2 border-t border-slate-800">
               <div id="quiz-feedback-ch2" class="text-xs font-medium text-slate-400">Dimostra al CMO il rendimento delle campagne adv</div>
               <button onclick="validateChallenge2()" id="btn-validate-ch2" class="px-5 py-2 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md cursor-pointer flex items-center space-x-1.5">
-                <span>Invia Risposte 🚀</span>
+                <span id="btn-validate-ch2-text">Invia Risposte 🚀</span>
               </button>
             </div>
           </div>
@@ -1342,7 +1342,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
               <div class="flex items-center space-x-2">
                 <span class="text-amber-400 text-base">🎯</span>
-                <span class="font-bold text-sm text-amber-300">Convalida Risultati Challenge #3 & Ottieni Punti</span>
+                <span class="font-bold text-sm text-amber-300" id="quiz-title-ch3">Convalida Risultati Challenge #3 & Ottieni Punti</span>
               </div>
               <span id="quiz-badge-ch3" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
             </div>
@@ -1350,16 +1350,16 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <!-- QUESTION 1 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium">1. Quanti lead VIP validi (spesa &gt; 200 €) ha recuperato la tua View?</label>
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch3-q1">1. Quanti lead VIP validi (spesa &gt; 200 €) ha recuperato la tua View?</label>
                 <input type="text" id="quiz-ch3-q1" placeholder="Es. 352 (anche '352 leads')" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <p class="text-[10px] text-slate-400">Inserisci il conteggio totale di righe restituite dalla vista (circa 350)</p>
+                <p class="text-[10px] text-slate-400" id="hint-quiz-ch3-q1">Inserisci il conteggio totale di righe restituite dalla vista (circa 350)</p>
               </div>
 
               <!-- QUESTION 2 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium">2. Quale funzione SQL ha eliminato gli spazi spuri prima e dopo le email?</label>
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch3-q2">2. Quale funzione SQL ha eliminato gli spazi spuri prima e dopo le email?</label>
                 <select id="quiz-ch3-q2" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                  <option value="">-- Seleziona la funzione SQL --</option>
+                  <option value="" id="opt-quiz-ch3-q2-default">-- Seleziona la funzione SQL --</option>
                   <option value="TRIM">TRIM(email)</option>
                   <option value="LOWER">LOWER(email)</option>
                   <option value="REPLACE">REPLACE(email, ' ', '')</option>
@@ -1371,7 +1371,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             <div class="flex items-center justify-between pt-2 border-t border-slate-800">
               <div id="quiz-feedback-ch3" class="text-xs font-medium text-slate-400">Verifica la qualità del tuo dataset per Google Ads Customer Match</div>
               <button onclick="validateChallenge3()" id="btn-validate-ch3" class="px-5 py-2 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md cursor-pointer flex items-center space-x-1.5">
-                <span>Invia Risposte 🚀</span>
+                <span id="btn-validate-ch3-text">Invia Risposte 🚀</span>
               </button>
             </div>
           </div>
@@ -1620,7 +1620,52 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         roleStudentBadge: "Partecipante",
         roleStudentDesc: "Inserisci il tuo nome, ricevi l'assegnazione casuale alla tua squadra (Ray-Ban, Oakley...), risolvi le sfide e scala la classifica.",
         roleStudentAction: "Inizia Sfida",
-        roleModalFooter: "Potrai sempre cambiare modalità o accedere alla console docente tramite l'header o con il PIN dedicato."
+        roleModalFooter: "Potrai sempre cambiare modalità o accedere alla console docente tramite l'header o con il PIN dedicato.",
+
+        // QUIZ CARDS TRANSLATIONS IT
+        quizTitleCh0: "Convalida Warm-Up: Setup & Data Canvas",
+        quizBadgeCh0: "+50 pt in palio",
+        lblQuizCh0Q1: "1. Nel grafico a barre di Data Canvas, quale brand guida le vendite complessive (~3.96M €)?",
+        optQuizCh0Q1Default: "-- Seleziona il brand --",
+        lblQuizCh0Q2: "2. Quante tabelle compongono il dataset luxottica_marketing_analytics?",
+        optQuizCh0Q2Default: "-- Seleziona numero tabelle --",
+        optQuizCh0Q2_2: "2 tabelle",
+        optQuizCh0Q2_3: "3 tabelle",
+        optQuizCh0Q2_4: "4 tabelle",
+        optQuizCh0Q2_5: "5 tabelle",
+        hintQuizCh0Q2: "Verifica nell'Explorer di BigQuery o nel riquadro Specifiche Ambiente",
+        quizFeedbackCh0: "Guadagna i primi 50 punti per te e per la tua squadra!",
+        btnValidateCh0Text: "Invia Risposte 🚀",
+
+        quizTitleCh1: "Convalida Risultati Challenge #1 & Ottieni Punti",
+        quizBadgeCh1: "+100 pt in palio",
+        lblQuizCh1Q1: "1. Quale brand guida lo scontrino medio (AOV) più elevato?",
+        optQuizCh1Q1Default: "-- Seleziona il brand --",
+        lblQuizCh1Q2: "2. Quanto vale lo sconto medio (€) su Wholesale Vogue?",
+        phQuizCh1Q2: "Es. 28.50",
+        hintQuizCh1Q2: "Inserisci il valore numerico ottenuto dalla query (es. 28.50)",
+        quizFeedbackCh1: "Rispondi per sbloccare i punti per te e per la squadra",
+        btnValidateCh1Text: "Invia Risposte 🚀",
+
+        quizTitleCh2: "Convalida Risultati Challenge #2 & Ottieni Punti",
+        quizBadgeCh2: "+100 pt in palio",
+        lblQuizCh2Q1: "1. Quale canale registra il ROAS più basso (< 1.0x)?",
+        optQuizCh2Q1Default: "-- Seleziona canale pubblicitario --",
+        lblQuizCh2Q2: "2. A quanto ammonta il ROAS generato da Google Ads?",
+        phQuizCh2Q2: "Es. 7.08",
+        hintQuizCh2Q2: "Inserisci il valore numerico del moltiplicatore ROAS (es. 7.08)",
+        quizFeedbackCh2: "Dimostra al CMO il rendimento delle campagne adv",
+        btnValidateCh2Text: "Invia Risposte 🚀",
+
+        quizTitleCh3: "Convalida Risultati Challenge #3 & Ottieni Punti",
+        quizBadgeCh3: "+100 pt in palio",
+        lblQuizCh3Q1: "1. Quanti lead VIP validi (spesa > 200 €) ha recuperato la tua View?",
+        phQuizCh3Q1: "Es. 352 (anche '352 leads')",
+        hintQuizCh3Q1: "Inserisci il conteggio totale di righe restituite dalla vista (circa 350)",
+        lblQuizCh3Q2: "2. Quale funzione SQL ha eliminato gli spazi spuri prima e dopo le email?",
+        optQuizCh3Q2Default: "-- Seleziona la funzione SQL --",
+        quizFeedbackCh3: "Verifica la qualità del tuo dataset per Google Ads Customer Match",
+        btnValidateCh3Text: "Invia Risposte 🚀"
       },
       en: {
         lblClock: "Clock:",
@@ -1778,7 +1823,52 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         roleStudentBadge: "Participant",
         roleStudentDesc: "Enter your name, get randomly sorted into a brand team (Ray-Ban, Oakley...), solve challenges and climb the leaderboard.",
         roleStudentAction: "Start Challenge",
-        roleModalFooter: "You can always switch roles or access the trainer console via the header or with the dedicated PIN."
+        roleModalFooter: "You can always switch roles or access the trainer console via the header or with the dedicated PIN.",
+
+        // QUIZ CARDS TRANSLATIONS EN
+        quizTitleCh0: "Warm-Up Validation: Setup & Data Canvas",
+        quizBadgeCh0: "+50 pts reward",
+        lblQuizCh0Q1: "1. In Data Canvas bar chart, which brand leads overall sales (~3.96M €)?",
+        optQuizCh0Q1Default: "-- Select brand --",
+        lblQuizCh0Q2: "2. How many tables are in the luxottica_marketing_analytics dataset?",
+        optQuizCh0Q2Default: "-- Select table count --",
+        optQuizCh0Q2_2: "2 tables",
+        optQuizCh0Q2_3: "3 tables",
+        optQuizCh0Q2_4: "4 tables",
+        optQuizCh0Q2_5: "5 tables",
+        hintQuizCh0Q2: "Check BigQuery Explorer or the Environment Specs box above",
+        quizFeedbackCh0: "Earn your first 50 points for yourself and your team!",
+        btnValidateCh0Text: "Submit Answers 🚀",
+
+        quizTitleCh1: "Challenge #1 Validation & Earn Points",
+        quizBadgeCh1: "+100 pts reward",
+        lblQuizCh1Q1: "1. Which brand leads the highest average order value (AOV)?",
+        optQuizCh1Q1Default: "-- Select brand --",
+        lblQuizCh1Q2: "2. What is the average discount (€) on Wholesale Vogue?",
+        phQuizCh1Q2: "E.g. 28.50",
+        hintQuizCh1Q2: "Enter the numeric value obtained from your query (e.g. 28.50)",
+        quizFeedbackCh1: "Answer to unlock points for yourself and your team",
+        btnValidateCh1Text: "Submit Answers 🚀",
+
+        quizTitleCh2: "Challenge #2 Validation & Earn Points",
+        quizBadgeCh2: "+100 pts reward",
+        lblQuizCh2Q1: "1. Which ad channel has the lowest ROAS (< 1.0x)?",
+        optQuizCh2Q1Default: "-- Select ad platform --",
+        lblQuizCh2Q2: "2. What is the ROAS multiplier generated by Google Ads?",
+        phQuizCh2Q2: "E.g. 7.08",
+        hintQuizCh2Q2: "Enter the numeric ROAS multiplier (e.g. 7.08)",
+        quizFeedbackCh2: "Demonstrate campaign performance to the CMO",
+        btnValidateCh2Text: "Submit Answers 🚀",
+
+        quizTitleCh3: "Challenge #3 Validation & Earn Points",
+        quizBadgeCh3: "+100 pts reward",
+        lblQuizCh3Q1: "1. How many valid VIP leads (spend > 200 €) did your View recover?",
+        phQuizCh3Q1: "E.g. 352 (or '352 leads')",
+        hintQuizCh3Q1: "Enter the total row count returned by your View (~350)",
+        lblQuizCh3Q2: "2. Which SQL function removed whitespace before and after emails?",
+        optQuizCh3Q2Default: "-- Select SQL function --",
+        quizFeedbackCh3: "Verify dataset quality for Google Ads Customer Match",
+        btnValidateCh3Text: "Submit Answers 🚀"
       }
     };
 
@@ -2752,6 +2842,66 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('role-modal-footer', t.roleModalFooter);
       setText('btn-switch-role-text', lang === 'it' ? 'Ruolo' : 'Role');
       setText('btn-logout-text', 'Logout');
+
+      // QUIZ CARDS TRANSLATIONS BINDINGS
+      // CH0
+      setText('quiz-title-ch0', t.quizTitleCh0);
+      setText('quiz-badge-ch0', t.quizBadgeCh0);
+      setText('lbl-quiz-ch0-q1', t.lblQuizCh0Q1);
+      setText('opt-quiz-ch0-q1-default', t.optQuizCh0Q1Default);
+      setText('lbl-quiz-ch0-q2', t.lblQuizCh0Q2);
+      setText('opt-quiz-ch0-q2-default', t.optQuizCh0Q2Default);
+      setText('opt-quiz-ch0-q2-2', t.optQuizCh0Q2_2);
+      setText('opt-quiz-ch0-q2-3', t.optQuizCh0Q2_3);
+      setText('opt-quiz-ch0-q2-4', t.optQuizCh0Q2_4);
+      setText('opt-quiz-ch0-q2-5', t.optQuizCh0Q2_5);
+      setText('hint-quiz-ch0-q2', t.hintQuizCh0Q2);
+      if (document.getElementById('quiz-feedback-ch0') && !currentStudent?.completedChallenges?.ch0) {
+        setText('quiz-feedback-ch0', t.quizFeedbackCh0);
+      }
+      setText('btn-validate-ch0-text', t.btnValidateCh0Text);
+
+      // CH1
+      setText('quiz-title-ch1', t.quizTitleCh1);
+      setText('quiz-badge-ch1', t.quizBadgeCh1);
+      setText('lbl-quiz-ch1-q1', t.lblQuizCh1Q1);
+      setText('opt-quiz-ch1-q1-default', t.optQuizCh1Q1Default);
+      setText('lbl-quiz-ch1-q2', t.lblQuizCh1Q2);
+      const ch1Q2Input = document.getElementById('quiz-ch1-q2');
+      if (ch1Q2Input) ch1Q2Input.placeholder = t.phQuizCh1Q2;
+      setText('hint-quiz-ch1-q2', t.hintQuizCh1Q2);
+      if (document.getElementById('quiz-feedback-ch1') && !currentStudent?.completedChallenges?.ch1) {
+        setText('quiz-feedback-ch1', t.quizFeedbackCh1);
+      }
+      setText('btn-validate-ch1-text', t.btnValidateCh1Text);
+
+      // CH2
+      setText('quiz-title-ch2', t.quizTitleCh2);
+      setText('quiz-badge-ch2', t.quizBadgeCh2);
+      setText('lbl-quiz-ch2-q1', t.lblQuizCh2Q1);
+      setText('opt-quiz-ch2-q1-default', t.optQuizCh2Q1Default);
+      setText('lbl-quiz-ch2-q2', t.lblQuizCh2Q2);
+      const ch2Q2Input = document.getElementById('quiz-ch2-q2');
+      if (ch2Q2Input) ch2Q2Input.placeholder = t.phQuizCh2Q2;
+      setText('hint-quiz-ch2-q2', t.hintQuizCh2Q2);
+      if (document.getElementById('quiz-feedback-ch2') && !currentStudent?.completedChallenges?.ch2) {
+        setText('quiz-feedback-ch2', t.quizFeedbackCh2);
+      }
+      setText('btn-validate-ch2-text', t.btnValidateCh2Text);
+
+      // CH3
+      setText('quiz-title-ch3', t.quizTitleCh3);
+      setText('quiz-badge-ch3', t.quizBadgeCh3);
+      setText('lbl-quiz-ch3-q1', t.lblQuizCh3Q1);
+      const ch3Q1Input = document.getElementById('quiz-ch3-q1');
+      if (ch3Q1Input) ch3Q1Input.placeholder = t.phQuizCh3Q1;
+      setText('hint-quiz-ch3-q1', t.hintQuizCh3Q1);
+      setText('lbl-quiz-ch3-q2', t.lblQuizCh3Q2);
+      setText('opt-quiz-ch3-q2-default', t.optQuizCh3Q2Default);
+      if (document.getElementById('quiz-feedback-ch3') && !currentStudent?.completedChallenges?.ch3) {
+        setText('quiz-feedback-ch3', t.quizFeedbackCh3);
+      }
+      setText('btn-validate-ch3-text', t.btnValidateCh3Text);
 
       const roleLangIt = document.getElementById('role-lang-btn-it');
       const roleLangEn = document.getElementById('role-lang-btn-en');
