@@ -1945,10 +1945,33 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       return `${RELAY_BASE_TOPIC}-rayban`;
     }
 
+    // LOCAL CROSS-TAB BUS FOR INSTANT ZERO-LATENCY SYNCHRONIZATION
+    let localBroadcastBus = null;
+    try {
+      if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+        localBroadcastBus = new BroadcastChannel('lux_classroom_sync_bus_v1');
+      }
+    } catch (e) {
+      console.warn("BroadcastChannel not available:", e);
+    }
+
     // High-resilience publisher with round-robin failover between nodes & shards
     async function publishBroadcast(payload, specificTeamKey = null) {
       const dataStr = JSON.stringify(payload);
       
+      // 1) INSTANT LOCAL CROSS-TAB SYNC (0ms latency for tabs on same browser/device)
+      try {
+        if (localBroadcastBus) {
+          localBroadcastBus.postMessage(payload);
+        }
+      } catch (e) {
+        console.warn("[LocalBus] postMessage error:", e);
+      }
+      try {
+        localStorage.setItem('lux_cross_tab_sync_msg', JSON.stringify({ payload, t: Date.now() }));
+      } catch (e) {}
+
+      // 2) REMOTE RELAY SYNC (across different computers/networks)
       // Determine target channels:
       // If student message -> sends only to their own shard channel (saving 75% traffic)
       // If trainer command -> broadcast to all 4 shard channels in parallel with failover
@@ -2151,6 +2174,74 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       }
     });
 
+    // CENTRAL EVENT DISPATCHER FOR BOTH REMOTE SSE & LOCAL CROSS-TAB MESSAGES
+    function dispatchIncomingEvent(payload) {
+      if (!payload || !payload.action) return;
+      try {
+        if (payload.action === 'change_block') {
+          showBlock(payload.block, true);
+        } else if (payload.action === 'set_lock') {
+          applyLockState(payload.locked);
+        } else if (payload.action === 'unlock_hint') {
+          applyRemoteHintUnlock(payload.hintId);
+        } else if (payload.action === 'hide_hint') {
+          applyRemoteHintHide(payload.hintId);
+        } else if (payload.action === 'toggle_student_docs') {
+          applyRemoteStudentDocs(payload.unlocked);
+        } else if (payload.action === 'score_update' || payload.action === 'student_checkin') {
+          handleRemoteStudentUpdate(payload);
+        } else if (payload.action === 'student_logout') {
+          handleRemoteStudentLogout(payload);
+        } else if (payload.action === 'student_kick') {
+          handleRemoteStudentKick(payload);
+        } else if (payload.action === 'student_reset') {
+          handleRemoteStudentReset(payload);
+        } else if (payload.action === 'student_resume') {
+          handleRemoteStudentResume(payload);
+        } else if (payload.action === 'ping_students') {
+          // Trainer asked all connected students to report their profile & scores
+          // Use randomized jitter (0 to 2800ms) to spread requests across 3 seconds and avoid 429 bursts
+          if (currentStudent && currentStudent.id && currentStudent.name && !isTrainerMode) {
+            const randomJitter = Math.floor(Math.random() * 2800);
+            broadcastStudentCheckin(randomJitter);
+          }
+        } else if (payload.action === 'trainer_override') {
+          handleTrainerScoreOverride(payload);
+        } else if (payload.action === 'reset_scores') {
+          handleRemoteResetScores();
+        } else if (payload.action === 'timer_start') {
+          handleRemoteTimerStart(payload.durationMinutes, payload.label, payload.endTime);
+        } else if (payload.action === 'timer_stop') {
+          handleRemoteTimerStop();
+        } else if (payload.action === 'celebrate_confetti') {
+          fireConfettiAnimation();
+        }
+      } catch (err) {
+        console.warn("[Cluster Dispatcher] Error processing action:", payload.action, err);
+      }
+    }
+
+    // Connect Local Cross-Tab Broadcast Channel (Same browser/device 0ms sync)
+    if (localBroadcastBus) {
+      localBroadcastBus.onmessage = function(event) {
+        if (event && event.data) {
+          dispatchIncomingEvent(event.data);
+        }
+      };
+    }
+
+    // Connect Cross-Tab storage event fallback
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'lux_cross_tab_sync_msg' && e.newValue) {
+        try {
+          const item = JSON.parse(e.newValue);
+          if (item && item.payload) {
+            dispatchIncomingEvent(item.payload);
+          }
+        } catch (err) {}
+      }
+    });
+
     // INITIALIZE REAL-TIME SSE LISTENER FOR ALL 50 STUDENTS & TRAINER
     // Subscribes to all 4 shards simultaneously via comma-separated SSE topics
     let eventSource = null;
@@ -2166,44 +2257,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
             const data = JSON.parse(event.data);
             if (data.message) {
               const payload = JSON.parse(data.message);
-              if (payload.action === 'change_block') {
-                showBlock(payload.block, true);
-              } else if (payload.action === 'set_lock') {
-                applyLockState(payload.locked);
-              } else if (payload.action === 'unlock_hint') {
-                applyRemoteHintUnlock(payload.hintId);
-              } else if (payload.action === 'hide_hint') {
-                applyRemoteHintHide(payload.hintId);
-              } else if (payload.action === 'toggle_student_docs') {
-                applyRemoteStudentDocs(payload.unlocked);
-              } else if (payload.action === 'score_update' || payload.action === 'student_checkin') {
-                handleRemoteStudentUpdate(payload);
-              } else if (payload.action === 'student_logout') {
-                handleRemoteStudentLogout(payload);
-              } else if (payload.action === 'student_kick') {
-                handleRemoteStudentKick(payload);
-              } else if (payload.action === 'student_reset') {
-                handleRemoteStudentReset(payload);
-              } else if (payload.action === 'student_resume') {
-                handleRemoteStudentResume(payload);
-              } else if (payload.action === 'ping_students') {
-                // Trainer asked all connected students to report their profile & scores
-                // Use randomized jitter (0 to 2800ms) to spread requests across 3 seconds and avoid 429 bursts
-                if (currentStudent && currentStudent.id && currentStudent.name && !isTrainerMode) {
-                  const randomJitter = Math.floor(Math.random() * 2800);
-                  broadcastStudentCheckin(randomJitter);
-                }
-              } else if (payload.action === 'trainer_override') {
-                handleTrainerScoreOverride(payload);
-              } else if (payload.action === 'reset_scores') {
-                handleRemoteResetScores();
-              } else if (payload.action === 'timer_start') {
-                handleRemoteTimerStart(payload.durationMinutes, payload.label, payload.endTime);
-              } else if (payload.action === 'timer_stop') {
-                handleRemoteTimerStop();
-              } else if (payload.action === 'celebrate_confetti') {
-                fireConfettiAnimation();
-              }
+              dispatchIncomingEvent(payload);
             }
           } catch(e) {
             if (event.data) {
@@ -2990,6 +3044,11 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const activeSection = document.getElementById(`block-${blockId}`);
       if (activeSection) activeSection.classList.remove('hidden');
 
+      // Persist active block to shared storage so refreshing / joining students land on current block
+      try {
+        localStorage.setItem('lux_bq_active_block_v1', String(blockId));
+      } catch (e) {}
+
       // Sync active state on Trainer Command Bar
       updateTrainerBlockUI(blockId);
     }
@@ -3430,6 +3489,14 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const feedback = document.getElementById(`quiz-feedback-${chKey}`);
       const badge = document.getElementById(`quiz-badge-${chKey}`);
 
+      const pointsMap = { ch0: '+50 pt in palio', ch1: '+100 pt in palio', ch2: '+100 pt in palio', ch3: '+100 pt in palio' };
+      const defaultFeedbackMap = {
+        ch0: currentLang === 'it' ? "Guadagna i primi 50 punti per te e per la tua squadra!" : "Earn the first 50 points for you and your team!",
+        ch1: currentLang === 'it' ? "Rispondi per sbloccare i punti per te e per la squadra" : "Submit answers to unlock points for your team",
+        ch2: currentLang === 'it' ? "Dimostra al CMO il rendimento delle campagne adv" : "Prove campaign ROAS performance to the CMO",
+        ch3: currentLang === 'it' ? "Verifica la qualità del tuo dataset per Google Ads Customer Match" : "Verify dataset quality for Google Ads Customer Match"
+      };
+
       if (isCompleted) {
         if (card) {
           card.classList.remove('from-slate-900', 'to-slate-950', 'border-slate-800');
@@ -3447,6 +3514,33 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         if (feedback) {
           feedback.className = "text-xs font-bold text-emerald-400";
           feedback.innerText = currentLang === 'it' ? "🎉 Sfida superata con successo! Punti registrati." : "🎉 Challenge passed! Points awarded.";
+        }
+      } else {
+        // Reset to initial playable state
+        if (card) {
+          card.classList.remove('from-emerald-950', 'to-slate-900', 'border-emerald-700/60');
+          card.classList.add('from-slate-900', 'to-slate-950', 'border-slate-800');
+        }
+        if (btn) {
+          btn.disabled = false;
+          if (chKey === 'ch0') {
+            btn.className = "px-5 py-2 rounded-xl font-bold text-xs bg-blue-600 hover:bg-blue-500 text-white transition shadow-md cursor-pointer flex items-center space-x-1.5";
+          } else {
+            btn.className = "px-5 py-2 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md cursor-pointer flex items-center space-x-1.5";
+          }
+          btn.innerHTML = currentLang === 'it' ? `<span id="btn-validate-${chKey}-text">Invia Risposte 🚀</span>` : `<span id="btn-validate-${chKey}-text">Submit Answers 🚀</span>`;
+        }
+        if (badge) {
+          if (chKey === 'ch0') {
+            badge.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30";
+          } else {
+            badge.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30";
+          }
+          badge.innerText = pointsMap[chKey] || '+100 pt in palio';
+        }
+        if (feedback) {
+          feedback.className = "text-xs font-medium text-slate-400";
+          feedback.innerText = defaultFeedbackMap[chKey] || '';
         }
       }
     }
@@ -3479,6 +3573,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       saveClassroomState();
       renderSidebarTeamLeaderboard();
       refreshTrainerStudents();
+      renderClassroomLeaderboard();
     }
 
     function handleRemoteStudentLogout(payload) {
@@ -3646,7 +3741,15 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       classroomStudents = {};
       saveStudentProfile();
       saveClassroomState();
+
+      // Clear input fields in quiz cards
+      ['quiz-ch0-q1', 'quiz-ch0-q2', 'quiz-ch1-q1', 'quiz-ch1-q2', 'quiz-ch2-q1', 'quiz-ch2-q2', 'quiz-ch3-q1', 'quiz-ch3-q2'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+
       applyStudentProfileUI();
+      renderClassroomLeaderboard();
       showToast(currentLang === 'it' ? "🔄 La sessione del workshop è stata azzerata dal docente" : "🔄 Workshop scores reset by trainer");
     }
 
@@ -4170,7 +4273,17 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         applyLockState(true);
       }
       setLanguage('en');
-      showBlock('cover', false);
+
+      // Check if there is an active workshop block in progress; fallback to 'cover'
+      let initialBlock = 'cover';
+      try {
+        const savedBlock = localStorage.getItem('lux_bq_active_block_v1');
+        if (savedBlock && document.getElementById(`block-${savedBlock}`)) {
+          initialBlock = savedBlock;
+        }
+      } catch (e) {}
+
+      showBlock(initialBlock, false);
       loadStudentProfile();
     })();
   </script>
