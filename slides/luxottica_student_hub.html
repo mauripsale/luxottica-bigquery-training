@@ -1370,7 +1370,7 @@
 
           <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs space-y-1">
             <span class="font-bold text-emerald-800" id="b2-discovery-title">💎 Plot Twist #1 per il CMO (High Margin Discovery):</span>
-            <p class="text-emerald-900" id="b2-discovery-desc">I <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> registrano lo scontrino medio più alto in assoluto (<strong>AOV > 300 €</strong>) su E-Commerce Direct! Al contempo, i partner wholesale erodono margini con sconti fino a <strong>28,50 €</strong> su Vogue.</p>
+            <p class="text-emerald-900" id="b2-discovery-desc">I <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> registrano lo scontrino medio più alto in assoluto (<strong>AOV > 300 €</strong>) su E-Commerce Direct! Al contempo, i partner wholesale erodono margini con sconti elevati su Vogue.</p>
           </div>
 
           <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (CHALLENGE #1) -->
@@ -1452,7 +1452,7 @@
             </div>
             <h3 class="text-sm font-black text-white" id="b3-detective-title">L'Attacco al Budget ADV: Voragine Social Terzi vs Google Ads Dominance</h3>
             <p class="text-xs text-indigo-100/90 leading-relaxed" id="b3-detective-desc">
-              Ecco il momento decisivo: incrociare la spesa marketing per canale con le vendite e-commerce reali. Devi calcolare il <strong>ROAS (Return on Ad Spend)</strong> evitando la trappola del <em>Fan-Out SQL</em> (duplicazione dei ricavi). Scoprirai che <strong>Google Ads genera un impressionante 7.08x ROAS</strong>, mentre canali social emergenti come TikTok bruciano budget a <strong>0.52x ROAS</strong> (in perdita netta)!
+              Ecco il momento decisivo: incrociare la spesa marketing per canale con le vendite e-commerce reali. Devi calcolare il <strong>ROAS (Return on Ad Spend)</strong> evitando la trappola del <em>Fan-Out SQL</em> (duplicazione dei ricavi). Scoprirai chi genera redditività stellare e chi brucia cassa aziendale su traffico freddo!
             </p>
           </div>
 
@@ -1475,25 +1475,31 @@
             </div>
             <div id="content-b3" class="hidden relative mt-2 pt-2 border-t border-slate-800">
               <pre class="font-mono text-xs overflow-x-auto text-slate-200 leading-relaxed">
-WITH revenue_by_brand AS (
-  SELECT brand, SUM(revenue_eur) AS total_revenue_eur
+WITH spend_summary AS (
+  SELECT 
+    brand, 
+    platform, 
+    ROUND(SUM(spend_eur), 2) AS total_spend
+  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
+  GROUP BY brand, platform
+),
+revenue_summary AS (
+  SELECT 
+    brand, 
+    ROUND(SUM(revenue_eur), 2) AS total_revenue
   FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
   GROUP BY brand
-),
-spend_by_platform AS (
-  SELECT platform, brand, SUM(spend_eur) AS total_spend_eur
-  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
-  GROUP BY platform, brand
 )
 SELECT 
-  s.platform,
-  ROUND(SUM(s.total_spend_eur), 2) AS total_spend_eur,
-  ROUND(SUM(r.total_revenue_eur), 2) AS total_revenue_eur,
-  ROUND(SAFE_DIVIDE(SUM(r.total_revenue_eur), SUM(s.total_spend_eur)), 2) AS roas
-FROM spend_by_platform s
-JOIN revenue_by_brand r ON s.brand = r.brand
-GROUP BY s.platform ORDER BY roas DESC;</pre>
-              <button onclick="copyToClipboard(`WITH revenue_by_brand AS (\n  SELECT brand, SUM(revenue_eur) AS total_revenue_eur\n  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`\n  GROUP BY brand\n),\nspend_by_platform AS (\n  SELECT platform, brand, SUM(spend_eur) AS total_spend_eur\n  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend\`\n  GROUP BY platform, brand\n)\nSELECT \n  s.platform,\n  ROUND(SUM(s.total_spend_eur), 2) AS total_spend_eur,\n  ROUND(SUM(r.total_revenue_eur), 2) AS total_revenue_eur,\n  ROUND(SAFE_DIVIDE(SUM(r.total_revenue_eur), SUM(s.total_spend_eur)), 2) AS roas\nFROM spend_by_platform s\nJOIN revenue_by_brand r ON s.brand = r.brand\nGROUP BY s.platform ORDER BY roas DESC;`)" class="absolute top-2 right-2 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans shadow">
+  s.platform, 
+  s.brand, 
+  s.total_spend, 
+  r.total_revenue, 
+  ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas_multiplier
+FROM spend_summary s
+JOIN revenue_summary r ON s.brand = r.brand
+ORDER BY roas_multiplier DESC;</pre>
+              <button onclick="copyToClipboard(`WITH spend_summary AS (\n  SELECT \n    brand, \n    platform, \n    ROUND(SUM(spend_eur), 2) AS total_spend\n  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend\`\n  GROUP BY brand, platform\n),\nrevenue_summary AS (\n  SELECT \n    brand, \n    ROUND(SUM(revenue_eur), 2) AS total_revenue\n  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`\n  GROUP BY brand\n)\nSELECT \n  s.platform, \n  s.brand, \n  s.total_spend, \n  r.total_revenue, \n  ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas_multiplier\nFROM spend_summary s\nJOIN revenue_summary r ON s.brand = r.brand\nORDER BY roas_multiplier DESC;`)" class="absolute top-2 right-2 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans shadow">
                 Copia SQL 📋
               </button>
             </div>
@@ -1501,7 +1507,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
           <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs space-y-1">
             <span class="font-bold text-emerald-800" id="b3-roas-title">🚀 Verdetto del ROAS per il CMO:</span>
-            <p class="text-emerald-900" id="b3-roas-desc"><strong>Google Ads = 7,08x ROAS 🚀</strong> | Meta Ads = 3,80x | TikTok Ads = <strong>0,52x ROAS 💸 (Voragine di budget!)</strong></p>
+            <p class="text-emerald-900" id="b3-roas-desc">Confronta il moltiplicatore ROAS tra Google Ads, Meta Ads e TikTok Ads per rivelare chi produce valore e chi brucia cassa.</p>
           </div>
 
           <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (CHALLENGE #2) -->
@@ -4323,7 +4329,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
           } else if (!isQ1Correct) {
             feedback.innerText = currentLang === 'it' ? "❌ Verifica quale brand ha l'AOV più alto (> 300€)" : "❌ Check which brand has the highest AOV (> €300)";
           } else {
-            feedback.innerText = currentLang === 'it' ? "❌ Lo sconto medio di Vogue wholesale non corrisponde (circa 28.50 €)" : "❌ Wholesale Vogue discount does not match (~ €28.50)";
+            feedback.innerText = currentLang === 'it' ? "❌ Lo sconto medio di Vogue wholesale non corrisponde al risultato della query" : "❌ Wholesale Vogue discount does not match your query calculation";
           }
         }
       }
@@ -4358,7 +4364,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
           } else if (!isQ1Correct) {
             feedback.innerText = currentLang === 'it' ? "❌ Canale pubblicitario errato: cerca quello con ROAS < 1.0x" : "❌ Wrong ad channel: search the one with ROAS < 1.0x";
           } else {
-            feedback.innerText = currentLang === 'it' ? "❌ Il ROAS di Google Ads deve essere circa 7.08x" : "❌ Google Ads ROAS should be around 7.08x";
+            feedback.innerText = currentLang === 'it' ? "❌ Il valore di ROAS per Google Ads non corrisponde al risultato della query" : "❌ The ROAS value for Google Ads does not match your query calculation";
           }
         }
       }
@@ -4389,9 +4395,9 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         if (feedback) {
           feedback.className = "text-xs font-bold text-red-400";
           if (!isQ1Correct && !isQ2Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Rivedi il conteggio dei lead nella vista (circa 350) e la funzione SQL!" : "❌ Review the lead count in the view (~ 350) and the SQL function!";
+            feedback.innerText = currentLang === 'it' ? "❌ Rivedi il conteggio dei lead nella vista creata e la funzione SQL!" : "❌ Review the lead count in the created view and the SQL function!";
           } else if (!isQ1Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Il numero di lead VIP deve essere circa 350 (es. 352)" : "❌ VIP lead count should be around 350 (e.g. 352)";
+            feedback.innerText = currentLang === 'it' ? "❌ Il conteggio dei lead VIP non corrisponde al totale di righe della vista creata" : "❌ VIP lead count does not match the total rows in your created view";
           } else {
             feedback.innerText = currentLang === 'it' ? "❌ La funzione corretta per rimuovere spazi è TRIM()" : "❌ The correct function to remove whitespace is TRIM()";
           }
@@ -4981,8 +4987,8 @@ ORDER BY transaction_count DESC;
             num: "Q3",
             title: "Calcolo ROAS Multi-Piattaforma (La Query Decisiva)",
             titleEn: "Multi-Platform ROAS Calculation (The Decisive Query)",
-            desc: "Aggrega separatamente la spesa adv e i ricavi con due CTE pre-aggregate, poi unisci su brand. Scopri Google Ads (7.08x) vs TikTok Ads (0.52x)!",
-            descEn: "Separately aggregate ad spend and revenues using two pre-aggregated CTEs, then join on brand.",
+            desc: "Aggrega separatamente la spesa adv e i ricavi con due CTE pre-aggregate, poi unisci su brand per identificare chi produce valore e chi brucia budget.",
+            descEn: "Separately aggregate ad spend and revenues using two pre-aggregated CTEs, then join on brand to uncover high vs low performing ad channels.",
             sql: "WITH spend_summary AS (\n  SELECT \n    brand, \n    platform, \n    ROUND(SUM(spend_eur), 2) AS total_spend\n  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`\n  GROUP BY brand, platform\n),\nrevenue_summary AS (\n  SELECT \n    brand, \n    ROUND(SUM(revenue_eur), 2) AS total_revenue\n  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`\n  GROUP BY brand\n)\nSELECT \n  s.platform, \n  s.brand, \n  s.total_spend, \n  r.total_revenue, \n  ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas_multiplier\nFROM spend_summary s\nJOIN revenue_summary r ON s.brand = r.brand\nORDER BY roas_multiplier DESC;"
           },
           {
@@ -5050,8 +5056,8 @@ ORDER BY total_vip_leads DESC;
             num: "Verify",
             title: "Query di Verifica Conteggio Lead VIP Recuperati",
             titleEn: "VIP Leads Recovery Count Verification Query",
-            desc: "Esegui questa query per verificare quanti lead qualificati sono stati recuperati (circa 350+):",
-            descEn: "Run this query to verify recovered qualified leads count (~350+):",
+            desc: "Esegui questa query per verificare quanti lead qualificati sono stati recuperati dalla tua vista:",
+            descEn: "Run this query to verify recovered qualified leads count from your view:",
             sql: "SELECT \n  target_brand, \n  COUNT(lead_id) AS total_vip_leads, \n  ROUND(AVG(clean_spend_eur), 2) AS avg_vip_spend, \n  ROUND(SUM(clean_spend_eur), 2) AS pipeline_potential_eur\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_team`\nGROUP BY target_brand\nORDER BY total_vip_leads DESC;"
           }
         ]

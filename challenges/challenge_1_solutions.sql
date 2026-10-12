@@ -18,6 +18,7 @@ GROUP BY
   brand
 ORDER BY
   total_revenue_eur DESC;
+-- TIP: Ordina per `avg_order_value_eur DESC` per scoprire che Oliver Peoples ha l'AOV più alto (> 300 €)!
 
 -- Q2: Sales Channel Breakdown
 SELECT
