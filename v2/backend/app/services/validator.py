@@ -63,7 +63,7 @@ class BigQueryValidator:
 
         elif rule["type"] == "numeric_range":
             try:
-                num = float(val.replace("€", "").replace("x", "").replace(",", ".").strip())
+                num = float(val.replace("€", "").replace("%", "").replace("x", "").replace(",", ".").strip())
                 expected = rule["expected"]
                 tolerance = rule["tolerance"]
                 if (expected - tolerance) <= num <= (expected + tolerance):

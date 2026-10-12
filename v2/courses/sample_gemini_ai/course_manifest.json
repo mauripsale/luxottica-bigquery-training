@@ -1,0 +1,92 @@
+{
+  "course_id": "gemini-ai-agents-masterclass",
+  "title": "Building Autonomous AI Agents with Gemini & Antigravity",
+  "client_name": "Datatonic AI Academy",
+  "theme": {
+    "primary_color": "purple",
+    "accent_color": "emerald",
+    "logo_title": "GEMINI × AGY AGENTS"
+  },
+  "teams": [
+    { "key": "prompt", "name": "Team Prompt Engineers", "color": "purple", "badge": "🧠" },
+    { "key": "rag", "name": "Team Vector RAG", "color": "blue", "badge": "📚" },
+    { "key": "tools", "name": "Team Tool Callers", "color": "emerald", "badge": "🛠️" },
+    { "key": "multimodal", "name": "Team Multimodal Vision", "color": "amber", "badge": "👁️" }
+  ],
+  "blocks": [
+    {
+      "id": "cover",
+      "title": "AI Masterclass Intro",
+      "subtitle": "Benvenuto e Missione: Creare Agenti Autonomi",
+      "type": "intro"
+    },
+    {
+      "id": "1",
+      "title": "Gemini 3.5 Flash Setup",
+      "subtitle": "API Key, Google GenAI SDK & System Prompts",
+      "type": "exercise",
+      "challenges": ["ai-1"]
+    },
+    {
+      "id": "2",
+      "title": "Function Calling & Tools",
+      "subtitle": "Connettere Gemini a BigQuery e API Esterne",
+      "type": "exercise",
+      "challenges": ["ai-2"]
+    },
+    {
+      "id": "break",
+      "title": "Pausa Caffè",
+      "subtitle": "Q&A informale sui modelli",
+      "type": "break"
+    },
+    {
+      "id": "3",
+      "title": "Multi-Agent Workflows",
+      "subtitle": "Orchestrazione tra Agenti e Memoria",
+      "type": "exercise",
+      "challenges": ["ai-3"]
+    },
+    {
+      "id": "4",
+      "title": "Deployment su Cloud Run",
+      "subtitle": "Containerizzazione e Produzione",
+      "type": "exercise",
+      "challenges": ["ai-4"]
+    }
+  ],
+  "challenges": {
+    "ai-1": {
+      "title": "Prima Chiamata a Gemini 3.5 Flash",
+      "description": "Ottieni il conteggio dei token generati dal modello",
+      "type": "exact_or_numeric",
+      "valid_answers": ["128", "256"],
+      "points": 100,
+      "hint_pin": "5511"
+    },
+    "ai-2": {
+      "title": "Tool Execution Success",
+      "description": "Quale tool è stato invocato automaticamente dall'agente?",
+      "type": "exact_or_numeric",
+      "valid_answers": ["query_bigquery", "bigquery_tool"],
+      "points": 150,
+      "hint_pin": "5522"
+    },
+    "ai-3": {
+      "title": "Consenso Multi-Agente",
+      "description": "Quanti sotto-agenti hanno validato la risposta finale?",
+      "type": "exact_or_numeric",
+      "valid_answers": ["3", "tre"],
+      "points": 200,
+      "hint_pin": "5533"
+    },
+    "ai-4": {
+      "title": "Cloud Run Health Check",
+      "description": "Verifica endpoint /healthz attivo su Cloud Run",
+      "type": "exact_or_numeric",
+      "valid_answers": ["200", "ok"],
+      "points": 250,
+      "hint_pin": "5544"
+    }
+  }
+}

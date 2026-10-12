@@ -1,0 +1,116 @@
+{
+  "course_id": "luxottica-bigquery-marketing",
+  "title": "Mastering Marketing Data with BigQuery SQL",
+  "client_name": "Luxottica",
+  "theme": {
+    "primary_color": "blue",
+    "accent_color": "amber",
+    "logo_title": "LUXOTTICA × BIGQUERY"
+  },
+  "teams": [
+    { "key": "rayban", "name": "Team Ray-Ban", "color": "emerald", "badge": "🕶️" },
+    { "key": "oakley", "name": "Team Oakley", "color": "blue", "badge": "⛷️" },
+    { "key": "persol", "name": "Team Persol", "color": "amber", "badge": "🏛️" },
+    { "key": "oliver", "name": "Team Oliver Peoples", "color": "purple", "badge": "🎬" }
+  ],
+  "blocks": [
+    {
+      "id": "cover",
+      "title": "Intro Masterclass",
+      "subtitle": "Benvenuto e Mission Briefing",
+      "type": "intro"
+    },
+    {
+      "id": "1",
+      "title": "Data Canvas & Setup",
+      "subtitle": "BigQuery Studio & Esplorazione Visiva",
+      "type": "exercise",
+      "challenges": ["b1-s1", "b1-s2"]
+    },
+    {
+      "id": "2",
+      "title": "Sconti & High Margin",
+      "subtitle": "SELECT, WHERE, GROUP BY & AOV",
+      "type": "exercise",
+      "challenges": ["b2-s1", "b2-s2"]
+    },
+    {
+      "id": "break",
+      "title": "Pausa Caffè",
+      "subtitle": "Networking e Relax",
+      "type": "break"
+    },
+    {
+      "id": "3",
+      "title": "Attribution ROAS",
+      "subtitle": "JOIN & Analisi Canali di Spesa",
+      "type": "exercise",
+      "challenges": ["b3"]
+    },
+    {
+      "id": "4",
+      "title": "Data Clean & View",
+      "subtitle": "Data Cleaning & Viste DWH",
+      "type": "exercise",
+      "challenges": ["b4"]
+    },
+    {
+      "id": "5",
+      "title": "Finale & Roadmap",
+      "subtitle": "Premiazione e Prossimi Passi",
+      "type": "conclusion"
+    }
+  ],
+  "challenges": {
+    "b1-s1": {
+      "title": "Esplorazione Data Canvas",
+      "description": "Individua quante tabelle compongono il dataset",
+      "type": "exact_or_numeric",
+      "valid_answers": ["4", "quattro"],
+      "points": 100,
+      "hint_pin": "1122"
+    },
+    "b1-s2": {
+      "title": "Macro Trend Vendite",
+      "description": "Qual è il brand più venduto in assoluto?",
+      "type": "brand_check",
+      "valid_brands": ["ray-ban", "rayban"],
+      "points": 100,
+      "hint_pin": "1234"
+    },
+    "b2-s1": {
+      "title": "Brand ad Alto AOV",
+      "description": "Identifica il brand con AOV superiore a 300€",
+      "type": "brand_check",
+      "valid_brands": ["oliver peoples", "oliverpeoples", "ray-ban meta"],
+      "points": 150,
+      "hint_pin": "2144"
+    },
+    "b2-s2": {
+      "title": "Analisi Tasso Sconto",
+      "description": "Calcola la percentuale media di sconto del brand",
+      "type": "numeric_range",
+      "expected": 28.5,
+      "tolerance": 1.5,
+      "points": 150,
+      "hint_pin": "2255"
+    },
+    "b3": {
+      "title": "ROAS Migliore Piattaforma",
+      "description": "Individua la piattaforma advertising con il ROAS più elevato",
+      "type": "exact_or_numeric",
+      "valid_answers": ["tiktok", "7.08", "7.08x"],
+      "points": 200,
+      "hint_pin": "3388"
+    },
+    "b4": {
+      "title": "Creazione Vista Marketing Leads",
+      "description": "Crea la vista BigQuery pulita con email normalizzate e spesa > 200€",
+      "type": "bigquery_view_check",
+      "expected_leads_count": 352,
+      "tolerance": 5,
+      "points": 250,
+      "hint_pin": "4499"
+    }
+  }
+}
