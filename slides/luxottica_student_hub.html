@@ -2964,6 +2964,8 @@ ORDER BY roas_multiplier DESC;</pre>
             const randomJitter = Math.floor(Math.random() * 2800);
             broadcastStudentCheckin(randomJitter);
           }
+        } else if (payload.action === 'trainer_change_team') {
+          handleRemoteTrainerChangeTeam(payload);
         } else if (payload.action === 'trainer_override') {
           handleTrainerScoreOverride(payload);
         } else if (payload.action === 'reset_scores') {
@@ -4410,10 +4412,21 @@ ORDER BY roas_multiplier DESC;</pre>
         currentStudent.id = `${sanitizeForSql(name)}_${randHex}`;
       }
 
-      // 1) RANDOM TEAM SELECTION IF NOT SET
+      // 1) BALANCED / RANDOM TEAM SELECTION
       if (!currentStudent.teamKey) {
-        const randomTeam = TEAMS[Math.floor(Math.random() * TEAMS.length)];
-        currentStudent.teamKey = randomTeam.key;
+        // Count active students per team across classroom to ensure balanced distribution
+        const teamCounts = { rayban: 0, oakley: 0, persol: 0, oliver: 0 };
+        Object.values(classroomStudents).forEach(s => {
+          if (s.teamKey && teamCounts[s.teamKey] !== undefined) {
+            teamCounts[s.teamKey]++;
+          }
+        });
+        // Find team(s) with minimum members
+        const minCount = Math.min(...Object.values(teamCounts));
+        const leastPopulatedTeams = TEAMS.filter(t => teamCounts[t.key] === minCount);
+        // Randomly pick among least populated teams
+        const pickedTeam = leastPopulatedTeams[Math.floor(Math.random() * leastPopulatedTeams.length)] || TEAMS[Math.floor(Math.random() * TEAMS.length)];
+        currentStudent.teamKey = pickedTeam.key;
       }
 
       saveStudentProfile();
@@ -5035,7 +5048,12 @@ ORDER BY roas_multiplier DESC;</pre>
               <span class="font-mono font-bold text-amber-400">${s.score || 0} pt</span>
             </div>
             <div class="flex items-center justify-between text-[10px] text-slate-400">
-              <span>${tObj.name.replace('Team ', '')}</span>
+              <div class="flex items-center space-x-1">
+                <span class="text-slate-500 text-[9px]">Squadra:</span>
+                <select onchange="trainerChangeStudentTeam('${s.id}', this.value)" class="bg-slate-800 border border-slate-700 rounded px-1 py-0.5 text-[9px] font-bold text-amber-300 focus:outline-none cursor-pointer">
+                  ${TEAMS.map(t => `<option value="${t.key}" ${s.teamKey === t.key ? 'selected' : ''}>${t.name.replace('Team ', '')}</option>`).join('')}
+                </select>
+              </div>
               <span class="${isLoggedOut ? 'text-slate-500' : 'text-emerald-400'} font-medium">${chDone}/3 sfide</span>
             </div>
             <div class="flex items-center space-x-1 pt-1 border-t border-slate-800/80">
@@ -5095,6 +5113,51 @@ ORDER BY roas_multiplier DESC;</pre>
       handleRemoteStudentKick({ targetStudentId: studentId, permanent: true });
       showToast(`🗑️ Studente "${studentName}" eliminato definitivamente!`);
     }
+
+    function handleRemoteTrainerChangeTeam(payload) {
+      const targetId = payload.targetStudentId;
+      const newTeamKey = payload.newTeamKey;
+      if (!targetId || !newTeamKey) return;
+
+      // Update in classroom directory
+      if (classroomStudents[targetId]) {
+        classroomStudents[targetId].teamKey = newTeamKey;
+        saveClassroomState();
+        renderSidebarTeamLeaderboard();
+        refreshTrainerStudents();
+        renderClassroomLeaderboard();
+      }
+
+      // If this browser is the target student, update local profile immediately
+      if (currentStudent && currentStudent.id === targetId) {
+        currentStudent.teamKey = newTeamKey;
+        saveStudentProfile();
+        applyStudentProfileUI();
+        const tObj = TEAMS.find(t => t.key === newTeamKey) || TEAMS[0];
+        showToast(currentLang === "it" 
+          ? ("📢 Il docente ti ha riassegnato a: " + tObj.name + "!") 
+          : ("📢 The trainer reassigned you to: " + tObj.name + "!"));
+      }
+    }
+
+    function trainerChangeStudentTeam(studentId, newTeamKey) {
+      if (!classroomStudents[studentId]) return;
+      const tObj = TEAMS.find(t => t.key === newTeamKey) || TEAMS[0];
+      
+      publishBroadcast({
+        action: "trainer_change_team",
+        targetStudentId: studentId,
+        newTeamKey: newTeamKey
+      });
+
+      handleRemoteTrainerChangeTeam({
+        targetStudentId: studentId,
+        newTeamKey: newTeamKey
+      });
+
+      showToast("🔄 Squadra aggiornata a " + tObj.name + "!");
+    }
+
 
     function trainerKickStudent(studentId, studentName) {
       const s = classroomStudents[studentId];
