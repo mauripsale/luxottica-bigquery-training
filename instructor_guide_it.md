@@ -31,6 +31,7 @@
 1. **Cartella Materiali Partecipanti (Drive / Intranet):**
    - [student_guide.md](file:///Users/maurizio.ipsale/Code/my-agy-projects/projectA/student_guide.md) (Guida Studente & Tabella Rosetta Stone Excel-SQL)
    - [00_data_storytelling_narrative.md](file:///Users/maurizio.ipsale/Code/my-agy-projects/projectA/handouts/00_data_storytelling_narrative.md) (Copione Analitico dei 7 Passi)
+   - [04_action_by_action_playbook.md](file:///Users/maurizio.ipsale/Code/my-agy-projects/projectA/handouts/04_action_by_action_playbook.md) (Copione Operativo Minuto per Minuto: Docente vs Studente)
    - File SQL delle Challenge: `challenges/challenge_1_data_explorer.sql`, `challenges/challenge_2_cross_channel.sql`, `challenges/challenge_3_clean_slate.sql`.
 2. **Istruzione di Pin del Progetto:** Mostra a schermo come cliccare su **"+ ADD" -> "Star a project by name"** e digitare `qwiklabs-gcp-04-9efaa47f1d21`.
 
