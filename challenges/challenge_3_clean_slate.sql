@@ -14,10 +14,11 @@ heterogeneous dates ('2026-09-01', '02/09/2026', 'Sep 05, 2026'), and duplicate 
 
 OBJECTIVE:
 Transform this dirty table into a clean BigQuery SQL VIEW named
-`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads`.
+`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_<your_name>`
+(e.g. `v_clean_marketing_leads_chiara`) to avoid overwriting your colleagues' views.
 */
 
 -- WRITE YOUR VIEW CREATION STATEMENT BELOW:
 
-CREATE OR REPLACE VIEW `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads` AS
+CREATE OR REPLACE VIEW `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_<your_name>` AS
 -- YOUR SQL CODE HERE;

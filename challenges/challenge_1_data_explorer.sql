@@ -21,7 +21,7 @@ Solve the 8 business questions below by writing Standard SQL queries in BigQuery
 -- Q1: Total Revenue and Units Sold per Brand
 -- Rank all Luxottica brands by total net revenue (`revenue_eur`), total units sold, 
 -- and average order value (AOV = total revenue / total orders).
--- Sort by total revenue DESC.
+-- Sort by total revenue DESC, or sort by avg_order_value_eur DESC to find the highest AOV brand!
 
 
 
