@@ -105,6 +105,12 @@
         <span id="btn-leaderboard-text">Classifica Live</span>
       </button>
 
+      <!-- TRAINER SOLUTIONS MODAL BUTTON (VISIBLE IN TRAINER MODE) -->
+      <button id="btn-top-trainer-solutions" onclick="openTrainerSolutionsModal()" class="hidden items-center space-x-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-2.5 py-1.5 rounded-lg transition cursor-pointer shadow-xs" title="Visualizza Soluzioni Sfide">
+        <span>🔑</span>
+        <span class="hidden md:inline">Soluzioni Docente</span>
+      </button>
+
       <!-- SWITCH ROLE BUTTON -->
       <button onclick="openRoleSelectionModal()" class="flex items-center space-x-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold text-xs px-2.5 py-1.5 rounded-lg transition cursor-pointer" title="Cambia Ruolo (Studente / Docente)">
         <span>🔄</span>
@@ -130,13 +136,51 @@
           <p class="text-[10px] text-slate-400">Controllo Aula & Broadcast</p>
         </div>
       </div>
-      <button onclick="disableTrainerMode()" class="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition text-xs" title="Esci dalla modalità docente">
-        ✕
-      </button>
+      <div class="flex items-center space-x-1.5">
+        <button onclick="openTrainerSolutionsModal()" class="px-2 py-1 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[10px] shadow-sm transition flex items-center space-x-1 cursor-pointer" title="Apri Cheat Sheet Soluzioni">
+          <span>🔑</span>
+          <span>Soluzioni</span>
+        </button>
+        <button onclick="disableTrainerMode()" class="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition text-xs" title="Esci dalla modalità docente">
+          ✕
+        </button>
+      </div>
     </div>
 
     <!-- SIDEBAR BODY -->
     <div class="p-4 space-y-5 flex-1 text-xs">
+
+      <!-- TRAINER SOLUTIONS CHEAT SHEET QUICK CALLOUT (TOP OF SIDEBAR) -->
+      <div class="p-3 rounded-2xl bg-gradient-to-r from-amber-500/20 via-amber-600/10 to-slate-900 border border-amber-500/40 space-y-2 shadow-md">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-1.5">
+            <span class="text-base">🔑</span>
+            <span class="text-xs font-black text-amber-300 uppercase tracking-wide">Soluzioni Sfide</span>
+          </div>
+          <button onclick="openTrainerSolutionsModal()" class="px-2 py-0.5 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-[10px] transition cursor-pointer">
+            Apri Scheda ↗
+          </button>
+        </div>
+        <p class="text-[10px] text-slate-300 leading-tight">Consulta in anteprima le risposte esatte e i range di tolleranza di tutte le challenge:</p>
+        <div class="grid grid-cols-2 gap-1 text-[10px] font-mono">
+          <div class="p-1.5 rounded bg-slate-900/90 border border-slate-800">
+            <div class="text-slate-400 text-[9px]">B1 Warm-Up:</div>
+            <div class="text-amber-300 font-bold">Ray-Ban | 4 Tab</div>
+          </div>
+          <div class="p-1.5 rounded bg-slate-900/90 border border-slate-800">
+            <div class="text-slate-400 text-[9px]">B2 Ch #1:</div>
+            <div class="text-amber-300 font-bold">Oliver P. | 28.5€</div>
+          </div>
+          <div class="p-1.5 rounded bg-slate-900/90 border border-slate-800">
+            <div class="text-slate-400 text-[9px]">B3 Ch #2:</div>
+            <div class="text-amber-300 font-bold">TikTok | 7.08x</div>
+          </div>
+          <div class="p-1.5 rounded bg-slate-900/90 border border-slate-800">
+            <div class="text-slate-400 text-[9px]">B4 Ch #3:</div>
+            <div class="text-amber-300 font-bold">352 Lead | TRIM</div>
+          </div>
+        </div>
+      </div>
 
       <!-- SECTION 1: GLOBAL CLASS LOCK -->
       <div class="space-y-1.5">
@@ -805,6 +849,111 @@
 
       <div class="border-t border-slate-800 pt-3 flex items-center justify-end text-xs">
         <button onclick="closePlaybookModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-white transition">
+          Chiudi ✕
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAINER SOLUTIONS CHEATSHEET MODAL (DEDICATED FULL-SCREEN DIALOG FOR INSTRUCTOR) -->
+  <div id="trainer-solutions-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
+    <div class="bg-slate-900 border border-amber-500/40 text-white rounded-3xl shadow-2xl max-w-2xl w-full p-6 space-y-5 max-h-[90vh] flex flex-col animate-in fade-in zoom-in duration-200">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-xl text-amber-300">
+            🔑
+          </div>
+          <div>
+            <h2 class="text-base md:text-lg font-black text-amber-400">Soluzioni Sfide • Guida Risposte Docente</h2>
+            <p class="text-xs text-slate-400">Tutte le risposte ufficiali con tolleranze di punteggio e query di riscontro</p>
+          </div>
+        </div>
+        <button onclick="closeTrainerSolutionsModal()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">✕</button>
+      </div>
+
+      <div class="overflow-y-auto pr-1 space-y-4 text-xs text-slate-300">
+        <!-- WARM UP -->
+        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-blue-400 uppercase tracking-wider">Blocco 1 • Warm-Up Exploration</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-300">50 pt</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+            <div class="p-2 rounded-xl bg-slate-900 border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">Domanda 1 (Brand top ordini):</span>
+              <span class="text-amber-300 font-bold text-sm">Ray-Ban</span>
+            </div>
+            <div class="p-2 rounded-xl bg-slate-900 border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">Domanda 2 (Numero tabelle):</span>
+              <span class="text-amber-300 font-bold text-sm">4</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHALLENGE 1 -->
+        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Blocco 2 • Challenge #1: High Margin Discovery</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300">100 pt</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+            <div class="p-2 rounded-xl bg-slate-900 border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">Domanda 1 (Brand max AOV):</span>
+              <span class="text-amber-300 font-bold text-sm">Oliver Peoples</span>
+              <span class="text-[10px] text-slate-400 block mt-0.5 font-sans">(AOV ~312 € su E-Commerce Direct)</span>
+            </div>
+            <div class="p-2 rounded-xl bg-slate-900 border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">Domanda 2 (Sconto medio Wholesale Vogue):</span>
+              <span class="text-amber-300 font-bold text-sm">28.50 €</span>
+              <span class="text-[10px] text-slate-400 block mt-0.5 font-sans">(Accetta valori tra 28.0 e 29.0 €)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHALLENGE 2 -->
+        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Blocco 3 • Challenge #2: Multi-Platform ROAS</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300">100 pt</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+            <div class="p-2 rounded-xl bg-slate-900 border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">Domanda 1 (Canale in perdita netta):</span>
+              <span class="text-amber-300 font-bold text-sm">TikTok Ads</span>
+              <span class="text-[10px] text-slate-400 block mt-0.5 font-sans">(ROAS 0.52x, brucia cassa aziendale)</span>
+            </div>
+            <div class="p-2 rounded-xl bg-slate-900 border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">Domanda 2 (ROAS Google Ads):</span>
+              <span class="text-amber-300 font-bold text-sm">7.08x</span>
+              <span class="text-[10px] text-slate-400 block mt-0.5 font-sans">(Accetta valori tra 7.0 e 7.15x)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHALLENGE 3 -->
+        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Blocco 4 • Challenge #3: Clean VIP Leads View</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300">100 pt</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+            <div class="p-2 rounded-xl bg-slate-900 border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">Domanda 1 (Righe / Lead VIP identificati):</span>
+              <span class="text-amber-300 font-bold text-sm">352</span>
+              <span class="text-[10px] text-slate-400 block mt-0.5 font-sans">(Accetta tra 345 e 360 lead)</span>
+            </div>
+            <div class="p-2 rounded-xl bg-slate-900 border border-slate-800">
+              <span class="text-slate-400 block text-[10px]">Domanda 2 (Funzione rimozione spazi):</span>
+              <span class="text-amber-300 font-bold text-sm">TRIM</span>
+              <span class="text-[10px] text-slate-400 block mt-0.5 font-sans">(Es. TRIM(email) oppure LOWER(TRIM(email)))</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-800 pt-3 flex items-center justify-between text-xs">
+        <span class="text-slate-400 font-sans">💡 Punteggio massimo accumulabile da ogni studente: <strong>350 punti</strong>.</span>
+        <button onclick="closeTrainerSolutionsModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-white transition">
           Chiudi ✕
         </button>
       </div>
@@ -2564,6 +2713,9 @@ ORDER BY roas_multiplier DESC;</pre>
         btn.classList.remove('hidden');
         btn.innerText = translations[currentLang] ? translations[currentLang].btnTrainerActive : "🎓 Modalità Docente (ATTIVA)";
       }
+      const topSolBtn = document.getElementById('btn-top-trainer-solutions');
+      if (topSolBtn) topSolBtn.classList.remove('hidden');
+
       applyLockState(isStrictLocked);
       updateTrainerHintUI();
       const visibleBlock = Array.from(document.querySelectorAll('.block-section')).find(el => !el.classList.contains('hidden'));
@@ -2590,6 +2742,8 @@ ORDER BY roas_multiplier DESC;</pre>
 
       const btn = document.getElementById('btn-trainer-toggle');
       if (btn) btn.classList.add('hidden');
+      const topSolBtn = document.getElementById('btn-top-trainer-solutions');
+      if (topSolBtn) topSolBtn.classList.add('hidden');
 
       // Clear trainer query params from URL without page reload
       try {
@@ -2935,6 +3089,16 @@ ORDER BY roas_multiplier DESC;</pre>
         sheet.classList.add('hidden');
         btn.innerText = currentLang === 'it' ? 'Mostra 👁️' : 'Show 👁️';
       }
+    }
+
+    function openTrainerSolutionsModal() {
+      const modal = document.getElementById('trainer-solutions-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeTrainerSolutionsModal() {
+      const modal = document.getElementById('trainer-solutions-modal');
+      if (modal) modal.classList.add('hidden');
     }
 
     function switchBoardSlide(slideIdx) {
