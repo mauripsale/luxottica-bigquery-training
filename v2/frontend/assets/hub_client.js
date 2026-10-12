@@ -17,7 +17,7 @@ class TrainingHubClient {
   // Load course manifest dynamically from FastAPI backend
   async loadCourseManifest() {
     try {
-      const resp = await fetch(`${this.apiBaseUrl}/api/v2/courses/${this.courseId}`);
+      const resp = await fetch(`${this.apiBaseUrl}/api/v2/courses/${encodeURIComponent(this.courseId)}`);
       if (resp.ok) {
         this.manifest = await resp.json();
         return this.manifest;
@@ -31,7 +31,8 @@ class TrainingHubClient {
   // Fetch current session state
   async getSessionState() {
     try {
-      const resp = await fetch(`${this.apiBaseUrl}/api/v2/session/${this.sessionId}?course_id=${this.courseId}`);
+      const url = `${this.apiBaseUrl}/api/v2/session/${encodeURIComponent(this.sessionId)}?course_id=${encodeURIComponent(this.courseId)}`;
+      const resp = await fetch(url);
       if (resp.ok) {
         return await resp.json();
       }
@@ -44,10 +45,13 @@ class TrainingHubClient {
   // Trainer: change active block
   async setBlock(blockId) {
     try {
-      const resp = await fetch(`${this.apiBaseUrl}/api/v2/session/${this.sessionId}/block?block_id=${blockId}`, {
-        method: "POST"
-      });
-      return resp.ok;
+      const url = `${this.apiBaseUrl}/api/v2/session/${encodeURIComponent(this.sessionId)}/block?block_id=${encodeURIComponent(blockId)}&course_id=${encodeURIComponent(this.courseId)}`;
+      const resp = await fetch(url, { method: "POST" });
+      if (resp.ok) {
+        const data = await resp.json();
+        return !!data.synced;
+      }
+      return false;
     } catch (e) {
       console.error("[HubClient] setBlock error:", e);
       return false;
@@ -57,7 +61,8 @@ class TrainingHubClient {
   // Student: check-in / profile registration
   async checkinStudent(student) {
     try {
-      const resp = await fetch(`${this.apiBaseUrl}/api/v2/student/checkin?session_id=${this.sessionId}`, {
+      const url = `${this.apiBaseUrl}/api/v2/student/checkin?session_id=${encodeURIComponent(this.sessionId)}&course_id=${encodeURIComponent(this.courseId)}`;
+      const resp = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(student)
@@ -72,7 +77,8 @@ class TrainingHubClient {
   // Student / Trainer: submit challenge answer or view for validation
   async validateChallenge(challengeKey, submittedValue, viewName = null) {
     try {
-      const resp = await fetch(`${this.apiBaseUrl}/api/v2/challenge/validate?course_id=${this.courseId}`, {
+      const url = `${this.apiBaseUrl}/api/v2/challenge/validate?course_id=${encodeURIComponent(this.courseId)}`;
+      const resp = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -92,14 +98,25 @@ class TrainingHubClient {
     return { success: false, message: "Errore di connessione con il backend di validazione" };
   }
 
-  // Poll or listen for state changes
+  // Start polling session state with retained interval handle
   startPolling(intervalMs = 3000) {
-    setInterval(async () => {
+    if (this.pollingIntervalId) {
+      return; // Already polling
+    }
+    this.pollingIntervalId = setInterval(async () => {
       const state = await this.getSessionState();
       if (state && this.onStateChangeCallback) {
         this.onStateChangeCallback(state);
       }
     }, intervalMs);
+  }
+
+  // Stop polling interval cleanly
+  stopPolling() {
+    if (this.pollingIntervalId) {
+      clearInterval(this.pollingIntervalId);
+      this.pollingIntervalId = null;
+    }
   }
 
   onStateChange(cb) {

@@ -7,7 +7,7 @@ steps:
       - --destination=gcr.io/$PROJECT_ID/luxottica-training-api:$COMMIT_SHA
       - --destination=gcr.io/$PROJECT_ID/luxottica-training-api:latest
       - --dockerfile=v2/backend/Dockerfile
-      - --context=dir://v2/backend
+      - --context=dir://v2
       - --cache=true
       - --cache-ttl=48h
 

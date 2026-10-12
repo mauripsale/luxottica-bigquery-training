@@ -8,13 +8,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install
-COPY requirements.txt .
+COPY backend/requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application source code
-COPY . .
+# Copy backend source code and courses catalog
+COPY backend/ .
+COPY courses/ ./courses/
 
-# Cloud Run listens on PORT environment variable (default 8080)
+ENV COURSES_DIR=/app/courses
 ENV PORT=8080
 EXPOSE 8080
 

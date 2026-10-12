@@ -55,46 +55,59 @@ def list_available_courses():
     return course_manager.list_courses()
 
 @app.get("/api/v2/courses/{course_id}")
-def get_course_manifest(course_id: str):
-    """Returns the full structure, teams, blocks and challenges of a course."""
-    manifest = course_manager.get_course(course_id)
+def get_course_manifest(course_id: str, raw: bool = Query(False, description="Set true for trainer backend to view grading keys")):
+    """Returns the course structure. By default, solutions and hint PINs are stripped for student protection."""
+    if raw:
+        manifest = course_manager.get_course(course_id)
+    else:
+        manifest = course_manager.get_student_manifest(course_id)
+
     if not manifest:
         raise HTTPException(status_code=404, detail=f"Course '{course_id}' not found")
     return manifest
 
 # =========================================================================
-# SESSION & REALTIME STATE ENDPOINTS
+# SESSION & REALTIME STATE ENDPOINTS (SCOPED BY COURSE)
 # =========================================================================
 @app.get("/api/v2/session/{session_id}")
-def get_session_state(session_id: str, course_id: Optional[str] = Query("luxottica-bigquery-marketing")):
-    session = state_service.get_session(session_id)
+def get_session_state(session_id: str, course_id: str = Query("luxottica-bigquery-marketing")):
+    session = state_service.get_session(course_id=course_id, session_id=session_id)
     if not session:
         manifest = course_manager.get_course(course_id)
-        course_name = manifest.get("title") if manifest else "Masterclass"
+        if not manifest:
+            raise HTTPException(status_code=404, detail=f"Course '{course_id}' not found")
+        course_name = manifest.get("title", "Masterclass")
         return SessionState(session_id=session_id, name=course_name)
     return session
 
 @app.post("/api/v2/session/{session_id}/block")
-def change_block(session_id: str, block_id: str):
-    success = state_service.set_session_block(session_id, block_id)
-    return {"session_id": session_id, "active_block": block_id, "synced": success}
+def change_block(session_id: str, block_id: str, course_id: str = Query("luxottica-bigquery-marketing")):
+    success = state_service.set_session_block(course_id=course_id, session_id=session_id, block_id=block_id)
+    return {"session_id": session_id, "course_id": course_id, "active_block": block_id, "synced": success}
 
 @app.post("/api/v2/student/checkin")
-def student_checkin(session_id: str, student: StudentProfile):
-    success = state_service.register_or_update_student(session_id, student)
-    return {"success": success, "student_id": student.student_id}
+def student_checkin(session_id: str, student: StudentProfile, course_id: str = Query("luxottica-bigquery-marketing")):
+    success = state_service.register_or_update_student(course_id=course_id, session_id=session_id, student=student)
+    return {"success": success, "session_id": session_id, "student_id": student.student_id}
 
 @app.get("/api/v2/session/{session_id}/leaderboard")
-def get_leaderboard(session_id: str):
-    return state_service.get_classroom_leaderboard(session_id)
+def get_leaderboard(session_id: str, course_id: str = Query("luxottica-bigquery-marketing")):
+    return state_service.get_classroom_leaderboard(course_id=course_id, session_id=session_id)
 
 # =========================================================================
 # DYNAMIC CHALLENGE VALIDATION (READS FROM COURSE MANIFEST)
 # =========================================================================
 @app.post("/api/v2/challenge/validate", response_model=ChallengeValidationResponse)
-def validate_challenge(req: ChallengeValidationRequest, course_id: Optional[str] = Query("luxottica-bigquery-marketing")):
+def validate_challenge(req: ChallengeValidationRequest, course_id: str = Query("luxottica-bigquery-marketing")):
     manifest = course_manager.get_course(course_id)
-    challenge_def = manifest.get("challenges", {}).get(req.challenge_key) if manifest else None
+    if not manifest:
+        raise HTTPException(status_code=404, detail=f"Course '{course_id}' not found")
+
+    challenges_map = manifest.get("challenges", {})
+    if req.challenge_key not in challenges_map:
+        raise HTTPException(status_code=404, detail=f"Challenge '{req.challenge_key}' not found in course '{course_id}'")
+
+    challenge_def = challenges_map[req.challenge_key]
 
     # Case 1: BigQuery View verification (eg. Block 4 Challenge 3)
     if req.view_name or (challenge_def and challenge_def.get("type") == "bigquery_view_check"):
@@ -111,11 +124,12 @@ def validate_challenge(req: ChallengeValidationRequest, course_id: Optional[str]
             details=result.get("details")
         )
 
-    # Case 2: Numeric/text SQL Challenge verification based on manifest rules
+    # Case 2: Dynamic answer verification based on manifest rules
     if req.submitted_value:
         result = validator.validate_answer(
             challenge_key=req.challenge_key,
-            submitted_value=req.submitted_value
+            submitted_value=req.submitted_value,
+            custom_rule=challenge_def
         )
         return ChallengeValidationResponse(
             success=result["valid"],
