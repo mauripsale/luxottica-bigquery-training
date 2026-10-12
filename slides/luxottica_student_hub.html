@@ -894,6 +894,65 @@
             </div>
           </div>
 
+          <!-- EXECUTIVE MISSION BRIEFING BANNER -->
+          <div class="p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 border border-indigo-500/30 text-white space-y-4 shadow-xl">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
+                <span>🕵️‍♂️</span>
+                <span id="story-brief-badge">Briefing Emergenza CMO • Ore 15:30</span>
+              </span>
+              <span class="text-xs text-amber-300 font-mono font-semibold" id="story-target-dataset">Dataset: qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics</span>
+            </div>
+            
+            <div class="space-y-2">
+              <h3 class="text-lg md:text-xl font-black text-white leading-tight" id="story-brief-headline">
+                "Spesa Pubblicitaria Globale +35%... ma Fatturato Online Fermo al +2%!"
+              </h3>
+              <p class="text-xs md:text-sm text-slate-300 leading-relaxed" id="story-brief-narrative">
+                Il CMO di Luxottica ha convocato i migliori team di <strong>Marketing Data Detective</strong>: il budget adv è esploso su canali social e display terzi, ma le vendite non decollano. Nelle prossime 3 ore in BigQuery Studio dovrete esplorare 116.000 record, stanare le emorragie di budget, dimostrare il ROI dell'ecosistema <strong>Google Ads (Search, Shopping, YouTube)</strong> e presentare il <strong>Piano di Crescita Q4</strong> per dominare le vendite dei <em>Ray-Ban Meta Smart Glasses</em>!
+              </p>
+            </div>
+
+            <!-- INVESTIGATION MILESTONES PIPELINE -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2 text-xs">
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
+                <div class="flex items-center justify-between text-[11px] text-blue-400 font-bold">
+                  <span id="story-step1-num">Capitolo 1</span>
+                  <span>16:15</span>
+                </div>
+                <h4 class="font-bold text-white text-xs" id="story-step1-title">High Margin Discovery</h4>
+                <p class="text-[11px] text-slate-400" id="story-step1-desc">Fatturato per brand e prodotti ad alto scontrino (Ray-Ban Meta & Oliver Peoples > 300 €).</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
+                <div class="flex items-center justify-between text-[11px] text-amber-400 font-bold">
+                  <span id="story-step2-num">Capitolo 2</span>
+                  <span>17:20</span>
+                </div>
+                <h4 class="font-bold text-white text-xs" id="story-step2-title">The Google ROAS Revelation</h4>
+                <p class="text-[11px] text-slate-400" id="story-step2-desc">Voragine social terzi (0.7x ROAS) vs rendimento esplosivo Google Search & Shopping (7x ROAS).</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
+                <div class="flex items-center justify-between text-[11px] text-indigo-400 font-bold">
+                  <span id="story-step3-num">Capitolo 3</span>
+                  <span>17:55</span>
+                </div>
+                <h4 class="font-bold text-white text-xs" id="story-step3-title">Customer Match & VIP Leads</h4>
+                <p class="text-[11px] text-slate-400" id="story-step3-desc">Pulizia lead con SQL: sblocco 350+ profili VIP per attivare campagne Google Ads ad alta conversione.</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
+                <div class="flex items-center justify-between text-[11px] text-emerald-400 font-bold">
+                  <span id="story-step4-num">Gran Finale</span>
+                  <span>18:25</span>
+                </div>
+                <h4 class="font-bold text-white text-xs" id="story-step4-title">Q4 Growth Plan per il CMO</h4>
+                <p class="text-[11px] text-slate-400" id="story-step4-desc">Riallocazione budget 60% su Google Ads, stop sconti inutili e proclamazione del team vincitore!</p>
+              </div>
+            </div>
+          </div>
+
           <!-- AGENDA OVERVIEW TILES -->
           <div>
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3" id="cover-agenda-hdr">Programma della Masterclass (5 Blocchi Guidati)</h3>
@@ -1436,8 +1495,8 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
               </tr>
               <tr class="rosetta-row">
                 <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row2-excel">CERCA.VERT / VLOOKUP</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row2-sql">JOIN tabella ON chiave</td>
-                <td class="p-2.5 text-slate-600">JOIN lux_online_orders ON ...</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row2-sql">LEFT JOIN tabella ON chiave</td>
+                <td class="p-2.5 text-slate-600">LEFT JOIN lux_crm_customers ON ...</td>
               </tr>
               <tr class="rosetta-row">
                 <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row3-excel">Filtro Colonna</td>
@@ -1445,9 +1504,44 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
                 <td class="p-2.5 text-slate-600">WHERE brand = 'Ray-Ban'</td>
               </tr>
               <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row4-excel">Somma Valori</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row4-sql">SUM(colonna)</td>
+                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row4-excel">Filtro Opzioni Multiple</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row4-sql">WHERE colonna IN ('A', 'B')</td>
+                <td class="p-2.5 text-slate-600">WHERE channel IN ('E-Commerce Direct', 'App')</td>
+              </tr>
+              <tr class="rosetta-row">
+                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row5-excel">Somma Valori</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row5-sql">SUM(colonna)</td>
                 <td class="p-2.5 text-slate-600">SUM(revenue_eur)</td>
+              </tr>
+              <tr class="rosetta-row">
+                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row6-excel">Conteggio Univoco / CONTA.VALORI</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row6-sql">COUNT(DISTINCT id)</td>
+                <td class="p-2.5 text-slate-600">COUNT(DISTINCT customer_id)</td>
+              </tr>
+              <tr class="rosetta-row">
+                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row7-excel">Divisione Sicura / SE.ERRORE(A/B, 0)</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row7-sql">SAFE_DIVIDE(num, den)</td>
+                <td class="p-2.5 text-slate-600">SAFE_DIVIDE(SUM(revenue), SUM(spend))</td>
+              </tr>
+              <tr class="rosetta-row">
+                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row8-excel">Tabelle Modulari (Fogli Separati)</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row8-sql">WITH nome_cte AS (...)</td>
+                <td class="p-2.5 text-slate-600">WITH spend_agg AS (SELECT ...)</td>
+              </tr>
+              <tr class="rosetta-row">
+                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row9-excel">Pulizia Testo / ANNULLA.SPAZI</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row9-sql">TRIM(colonna) / LOWER(colonna)</td>
+                <td class="p-2.5 text-slate-600">LOWER(TRIM(email))</td>
+              </tr>
+              <tr class="rosetta-row">
+                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row10-excel">Conversione Tipo / VALORE</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row10-sql">SAFE_CAST(colonna AS NUMERIC)</td>
+                <td class="p-2.5 text-slate-600">SAFE_CAST(cleaned_string AS NUMERIC)</td>
+              </tr>
+              <tr class="rosetta-row">
+                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row11-excel">Rimuovi Duplicati Avanzato</td>
+                <td class="p-2.5 font-bold text-blue-600" id="rs-row11-sql">QUALIFY ROW_NUMBER() OVER(...) = 1</td>
+                <td class="p-2.5 text-slate-600">Keep latest record per email</td>
               </tr>
             </tbody>
           </table>
@@ -1570,6 +1664,24 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         b5P2Desc: "Rimuovere gli sconti automatici del 25 € su Ray-Ban.com e regolare i sconti del 28,50 € su Wholesale Vogue.",
         b5P3Title: "3. Attivare Lead VIP",
         b5P3Desc: "Caricare i 350+ lead VIP estratti in Google Ads Customer Match per il lancio dei Ray-Ban Meta Smart Glasses.",
+        // STORY BRIEFING TRANSLATIONS IT
+        storyBriefBadge: "Briefing Emergenza CMO • Ore 15:30",
+        storyTargetDataset: "Dataset: qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics",
+        storyBriefHeadline: "\"Spesa Pubblicitaria Globale +35%... ma Fatturato Online Fermo al +2%!\"",
+        storyBriefNarrative: "Il CMO di Luxottica ha convocato i migliori team di <strong>Marketing Data Detective</strong>: il budget adv è esploso su canali social e display terzi, ma le vendite non decollano. Nelle prossime 3 ore in BigQuery Studio dovrete esplorare 116.000 record, stanare le emorragie di budget, dimostrare il ROI dell'ecosistema <strong>Google Ads (Search, Shopping, YouTube)</strong> e presentare il <strong>Piano di Crescita Q4</strong> per dominare le vendite dei <em>Ray-Ban Meta Smart Glasses</em>!",
+        storyStep1Num: "Capitolo 1",
+        storyStep1Title: "High Margin Discovery",
+        storyStep1Desc: "Fatturato per brand e prodotti ad alto scontrino (Ray-Ban Meta & Oliver Peoples > 300 €).",
+        storyStep2Num: "Capitolo 2",
+        storyStep2Title: "The Google ROAS Revelation",
+        storyStep2Desc: "Voragine social terzi (0.7x ROAS) vs rendimento esplosivo Google Search & Shopping (7x ROAS).",
+        storyStep3Num: "Capitolo 3",
+        storyStep3Title: "Customer Match & VIP Leads",
+        storyStep3Desc: "Pulizia lead con SQL: sblocco 350+ profili VIP per attivare campagne Google Ads ad alta conversione.",
+        storyStep4Num: "Gran Finale",
+        storyStep4Title: "Q4 Growth Plan per il CMO",
+        storyStep4Desc: "Riallocazione budget 60% su Google Ads, stop sconti inutili e proclamazione del team vincitore!",
+
         hdrRosetta: "Ricerca Rosetta Stone Excel vs BigQuery SQL",
         searchPlaceholder: "Cerca termini Excel (es. Pivot, VLOOKUP, Somma)...",
         thExcel: "Funzione Excel",
@@ -1578,11 +1690,25 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         rsRow1Excel: "Righe Tabella Pivot",
         rsRow1Sql: "GROUP BY colonna",
         rsRow2Excel: "CERCA.VERT / VLOOKUP",
-        rsRow2Sql: "JOIN tabella ON chiave",
+        rsRow2Sql: "LEFT JOIN tabella ON chiave",
         rsRow3Excel: "Filtro Colonna",
         rsRow3Sql: "WHERE condizione",
-        rsRow4Excel: "Somma Valori",
-        rsRow4Sql: "SUM(colonna)",
+        rsRow4Excel: "Filtro Opzioni Multiple",
+        rsRow4Sql: "WHERE colonna IN ('A', 'B')",
+        rsRow5Excel: "Somma Valori",
+        rsRow5Sql: "SUM(colonna)",
+        rsRow6Excel: "Conteggio Univoco / CONTA.VALORI",
+        rsRow6Sql: "COUNT(DISTINCT id)",
+        rsRow7Excel: "Divisione Sicura / SE.ERRORE(A/B, 0)",
+        rsRow7Sql: "SAFE_DIVIDE(num, den)",
+        rsRow8Excel: "Tabelle Modulari (Fogli Separati)",
+        rsRow8Sql: "WITH nome_cte AS (...)",
+        rsRow9Excel: "Pulizia Testo / ANNULLA.SPAZI",
+        rsRow9Sql: "TRIM(colonna) / LOWER(colonna)",
+        rsRow10Excel: "Conversione Tipo / VALORE",
+        rsRow10Sql: "SAFE_CAST(colonna AS NUMERIC)",
+        rsRow11Excel: "Rimuovi Duplicati Avanzato",
+        rsRow11Sql: "QUALIFY ROW_NUMBER() OVER(...) = 1",
         lblHintLocked: "Suggerimento Protetto da PIN:",
         lblHintLockedQuery: "Query Soluzione Protetta da PIN:",
         btnUnlock: "Sblocca 🔓",
@@ -1773,6 +1899,24 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         b5P2Desc: "Remove €25 automatic discounts on Ray-Ban.com and cap €28.50 discounts on Wholesale Vogue.",
         b5P3Title: "3. Activate VIP Leads",
         b5P3Desc: "Upload 350+ VIP leads extracted into Google Ads Customer Match for Ray-Ban Meta Smart Glasses launch.",
+        // STORY BRIEFING TRANSLATIONS EN
+        storyBriefBadge: "CMO Emergency Briefing • 15:30",
+        storyTargetDataset: "Dataset: qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics",
+        storyBriefHeadline: "\"Global Ad Spend Up +35%... Yet Online Revenue Growth Flat at +2%!\"",
+        storyBriefNarrative: "The Luxottica CMO has summoned our top <strong>Marketing Data Detective</strong> teams: ad spend surged across 3rd-party social networks, but direct sales are stagnant. Over the next 3 hours in BigQuery Studio, investigate 116,000 records, expose margin leaks, validate the explosive ROAS of the <strong>Google Ads ecosystem (Search, Shopping, YouTube)</strong>, and present the <strong>Q4 Growth Plan</strong> to win the launch of <em>Ray-Ban Meta Smart Glasses</em>!",
+        storyStep1Num: "Chapter 1",
+        storyStep1Title: "High Margin Discovery",
+        storyStep1Desc: "Revenue by brand and high-AOV clusters (Ray-Ban Meta & Oliver Peoples > €300).",
+        storyStep2Num: "Chapter 2",
+        storyStep2Title: "The Google ROAS Revelation",
+        storyStep2Desc: "3rd-party social money pit (0.7x ROAS) vs dominant Google Search & Shopping (7x ROAS).",
+        storyStep3Num: "Chapter 3",
+        storyStep3Title: "Customer Match & VIP Leads",
+        storyStep3Desc: "Clean leads via SQL: unlock 350+ VIP profiles to power high-converting Google Ads campaigns.",
+        storyStep4Num: "Grand Finale",
+        storyStep4Title: "CMO Q4 Growth Plan",
+        storyStep4Desc: "Reallocate 60% ad budget to Google Ads, eliminate margin erosion, and crown the winner!",
+
         hdrRosetta: "Excel vs BigQuery SQL Rosetta Stone Search",
         searchPlaceholder: "Search Excel terms (e.g. Pivot, VLOOKUP, Sum)...",
         thExcel: "Excel Feature",
@@ -1781,11 +1925,25 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         rsRow1Excel: "Pivot Table Rows",
         rsRow1Sql: "GROUP BY column",
         rsRow2Excel: "VLOOKUP / XLOOKUP",
-        rsRow2Sql: "JOIN table ON key",
+        rsRow2Sql: "LEFT JOIN table ON key",
         rsRow3Excel: "Column Filter",
         rsRow3Sql: "WHERE condition",
-        rsRow4Excel: "Sum of Values",
-        rsRow4Sql: "SUM(column)",
+        rsRow4Excel: "Multiple Option Filter",
+        rsRow4Sql: "WHERE column IN ('A', 'B')",
+        rsRow5Excel: "Sum of Values",
+        rsRow5Sql: "SUM(column)",
+        rsRow6Excel: "Distinct Count / COUNTA",
+        rsRow6Sql: "COUNT(DISTINCT id)",
+        rsRow7Excel: "Safe Division / IFERROR(A/B, 0)",
+        rsRow7Sql: "SAFE_DIVIDE(num, den)",
+        rsRow8Excel: "Modular Sheets (Separate Tabs)",
+        rsRow8Sql: "WITH cte_name AS (...)",
+        rsRow9Excel: "Text Cleaning / TRIM & LOWER",
+        rsRow9Sql: "TRIM(column) / LOWER(column)",
+        rsRow10Excel: "Type Cast / VALUE",
+        rsRow10Sql: "SAFE_CAST(column AS NUMERIC)",
+        rsRow11Excel: "Advanced Deduplication",
+        rsRow11Sql: "QUALIFY ROW_NUMBER() OVER(...) = 1",
         lblHintLocked: "PIN-Protected Hint:",
         lblHintLockedQuery: "PIN-Protected Solution Query:",
         btnUnlock: "Unlock 🔓",
@@ -2878,6 +3036,24 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('b5-p3-title', t.b5P3Title);
       setText('b5-p3-desc', t.b5P3Desc);
 
+      // STORY BRIEFING TRANSLATIONS BINDINGS
+      setText('story-brief-badge', t.storyBriefBadge);
+      setText('story-target-dataset', t.storyTargetDataset);
+      setText('story-brief-headline', t.storyBriefHeadline);
+      setHTML('story-brief-narrative', t.storyBriefNarrative);
+      setText('story-step1-num', t.storyStep1Num);
+      setText('story-step1-title', t.storyStep1Title);
+      setText('story-step1-desc', t.storyStep1Desc);
+      setText('story-step2-num', t.storyStep2Num);
+      setText('story-step2-title', t.storyStep2Title);
+      setText('story-step2-desc', t.storyStep2Desc);
+      setText('story-step3-num', t.storyStep3Num);
+      setText('story-step3-title', t.storyStep3Title);
+      setText('story-step3-desc', t.storyStep3Desc);
+      setText('story-step4-num', t.storyStep4Num);
+      setText('story-step4-title', t.storyStep4Title);
+      setText('story-step4-desc', t.storyStep4Desc);
+
       setText('hdr-rosetta', t.hdrRosetta);
       const searchInput = document.getElementById('rosetta-search');
       if (searchInput) searchInput.placeholder = t.searchPlaceholder;
@@ -2892,6 +3068,20 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       setText('rs-row3-sql', t.rsRow3Sql);
       setText('rs-row4-excel', t.rsRow4Excel);
       setText('rs-row4-sql', t.rsRow4Sql);
+      setText('rs-row5-excel', t.rsRow5Excel);
+      setText('rs-row5-sql', t.rsRow5Sql);
+      setText('rs-row6-excel', t.rsRow6Excel);
+      setText('rs-row6-sql', t.rsRow6Sql);
+      setText('rs-row7-excel', t.rsRow7Excel);
+      setText('rs-row7-sql', t.rsRow7Sql);
+      setText('rs-row8-excel', t.rsRow8Excel);
+      setText('rs-row8-sql', t.rsRow8Sql);
+      setText('rs-row9-excel', t.rsRow9Excel);
+      setText('rs-row9-sql', t.rsRow9Sql);
+      setText('rs-row10-excel', t.rsRow10Excel);
+      setText('rs-row10-sql', t.rsRow10Sql);
+      setText('rs-row11-excel', t.rsRow11Excel);
+      setText('rs-row11-sql', t.rsRow11Sql);
 
       // PIN LOCKED HINTS TRANSLATIONS
       setText('lbl-hint-locked-b1s1', t.lblHintLocked);
