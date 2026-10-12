@@ -2002,6 +2002,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
     // ENABLE TRAINER MODE FUNCTION
     function enableTrainerMode() {
       isTrainerMode = true;
+      closeRoleSelectionModal();
       const sidebar = document.getElementById('trainer-sidebar');
       if (sidebar) sidebar.classList.remove('hidden');
       document.body.classList.add('trainer-mode-active');
@@ -2091,11 +2092,12 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
 
       const entered = input.value.trim();
       if (entered === "1926" || entered === "2026" || entered === "1234" || entered === "trainer") {
-        closeTrainerPinModal();
         try {
           localStorage.setItem('lux_bq_user_role_v1', 'trainer');
         } catch(e) {}
         enableTrainerMode();
+        closeTrainerPinModal();
+        closeRoleSelectionModal();
         showToast(currentLang === 'it' ? "🎓 Modalità Docente Attivata!" : "🎓 Trainer Mode Activated!");
       } else {
         if (errorMsg) errorMsg.classList.remove('hidden');
