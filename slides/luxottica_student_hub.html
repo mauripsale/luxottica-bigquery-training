@@ -1049,11 +1049,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <!-- QUESTION 1 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch0-q1">1. Nel grafico a barre di Data Canvas, quale brand guida le vendite complessive (~3.96M €)?</label>
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch0-q1">1. Quale brand guida le vendite complessive nei dati BigQuery?</label>
                 <select id="quiz-ch0-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                   <option value="" id="opt-quiz-ch0-q1-default">-- Seleziona il brand --</option>
-                  <option value="Oliver Peoples">Oliver Peoples</option>
                   <option value="Ray-Ban">Ray-Ban</option>
+                  <option value="Oliver Peoples">Oliver Peoples</option>
                   <option value="Oakley">Oakley</option>
                   <option value="Persol">Persol</option>
                   <option value="Vogue Eyewear">Vogue Eyewear</option>
@@ -1629,7 +1629,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         // QUIZ CARDS TRANSLATIONS IT
         quizTitleCh0: "Convalida Warm-Up: Setup & Data Canvas",
         quizBadgeCh0: "+50 pt in palio",
-        lblQuizCh0Q1: "1. Nel grafico a barre di Data Canvas, quale brand guida le vendite complessive (~3.96M €)?",
+        lblQuizCh0Q1: "1. Nel grafico di Data Canvas, quale brand guida le vendite complessive?",
         optQuizCh0Q1Default: "-- Seleziona il brand --",
         lblQuizCh0Q2: "2. Quante tabelle compongono il dataset luxottica_marketing_analytics?",
         optQuizCh0Q2Default: "-- Seleziona numero tabelle --",
@@ -1832,7 +1832,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
         // QUIZ CARDS TRANSLATIONS EN
         quizTitleCh0: "Warm-Up Validation: Setup & Data Canvas",
         quizBadgeCh0: "+50 pts reward",
-        lblQuizCh0Q1: "1. In Data Canvas bar chart, which brand leads overall sales (~3.96M €)?",
+        lblQuizCh0Q1: "1. In Data Canvas bar chart, which brand leads overall sales?",
         optQuizCh0Q1Default: "-- Select brand --",
         lblQuizCh0Q2: "2. How many tables are in the luxottica_marketing_analytics dataset?",
         optQuizCh0Q2Default: "-- Select table count --",
@@ -3673,9 +3673,9 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
       const q2 = (document.getElementById('quiz-ch0-q2')?.value || '').trim();
       const feedback = document.getElementById('quiz-feedback-ch0');
 
-      // Q1: Brand with highest overall sales in Data Canvas -> Oliver Peoples (~3.96M)
+      // Q1: Brand with highest overall sales -> Ray-Ban (also allow Oliver Peoples for dataset variance)
       // Q2: Tables count -> 4
-      const isQ1Correct = (q1 === 'Oliver Peoples');
+      const isQ1Correct = (q1 === 'Ray-Ban' || q1 === 'Oliver Peoples');
       const isQ2Correct = (q2 === '4');
 
       if (isQ1Correct && isQ2Correct) {
@@ -3693,7 +3693,7 @@ GROUP BY s.platform ORDER BY roas DESC;</pre>
           if (!isQ1Correct && !isQ2Correct) {
             feedback.innerText = currentLang === 'it' ? "❌ Rivedi il grafico in Data Canvas e conta le tabelle nell'Explorer!" : "❌ Check the Data Canvas chart and table count!";
           } else if (!isQ1Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Brand errato: cerca quello con vendite a quasi 4M € (~3.96M €)" : "❌ Wrong brand: search the one with ~3.96M € sales";
+            feedback.innerText = currentLang === 'it' ? "❌ Brand errato: cerca il brand leader per vendite complessive (Ray-Ban)" : "❌ Wrong brand: search the leader brand by overall sales (Ray-Ban)";
           } else {
             feedback.innerText = currentLang === 'it' ? "❌ Ricorda: le tabelle nel dataset sono 4 (Orders, Spend, CRM, Leads)" : "❌ Remember: there are 4 tables in the dataset";
           }
