@@ -195,7 +195,10 @@
       <div class="space-y-2">
         <div class="flex items-center justify-between">
           <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider" id="tb-lbl-broadcast-hdr">Cambia Blocco Aula</span>
-          <span class="text-[10px] text-amber-400 font-mono font-semibold">Live Sync</span>
+          <button onclick="trainerForceSyncAll()" id="btn-force-sync-all" class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition cursor-pointer shadow-xs flex items-center space-x-1" title="Forza istantaneamente il blocco attuale su tutti i 50+ partecipanti">
+            <span>⚡</span>
+            <span id="btn-force-sync-text">Forza su Tutti</span>
+          </button>
         </div>
         <div class="grid grid-cols-1 gap-1">
           <button onclick="broadcastBlock('cover')" id="tb-btn-cover" class="w-full text-left px-3 py-2 rounded-lg font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center justify-between">
@@ -2246,6 +2249,7 @@ ORDER BY roas_multiplier DESC;</pre>
         tbLblStudentControl: "Controllo Studenti",
         tbDescStudentControl: "Quando bloccato, gli studenti seguono il blocco che selezioni sotto",
         tbLblBroadcastHdr: "Cambia Blocco Aula",
+        btnForceSyncText: "Forza su Tutti",
         btnHintAllToggleUnlock: "✨ Sblocca Tutti gli Hint",
         btnHintAllToggleLock: "🔒 Nascondi Tutti gli Hint",
         tbCsDropdownTitle: "🔑 Soluzioni Sfide (Trainer Only)",
@@ -2533,6 +2537,7 @@ ORDER BY roas_multiplier DESC;</pre>
         tbLblStudentControl: "Student Control",
         tbDescStudentControl: "When locked, students follow the block you select below",
         tbLblBroadcastHdr: "Change Classroom Block",
+        btnForceSyncText: "Force to All",
         btnHintAllToggleUnlock: "✨ Unlock All Hints",
         btnHintAllToggleLock: "🔒 Hide All Hints",
         tbCsDropdownTitle: "🔑 Challenge Solutions (Trainer Only)",
@@ -2740,33 +2745,28 @@ ORDER BY roas_multiplier DESC;</pre>
         targetChannels = SHARD_TOPICS;
       }
 
-      for (const channel of targetChannels) {
-        let sent = false;
-        // Try Primary node, fallback to secondary node if 429 or network fail
+      // PARALLEL HIGH-SPEED FIRE-AND-FORGET BROADCAST (SUB-SECOND LATENCY)
+      const sendToChannel = async (channel) => {
         for (const node of RELAY_NODES) {
           try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 2500);
+            const timeoutId = setTimeout(() => controller.abort(), 1200);
             const resp = await fetch(`${node}/${channel}`, {
               method: 'POST',
               body: dataStr,
               signal: controller.signal
             });
             clearTimeout(timeoutId);
-            if (resp.ok) {
-              sent = true;
-              break; // Success on this channel!
-            } else if (resp.status === 429) {
-              console.warn(`[Cluster Failover] Node ${node} rate-limited (429), trying secondary node...`);
-            }
-          } catch(e) {
-            console.warn(`[Cluster Failover] Node ${node} unreachable, trying secondary node...`);
-          }
+            if (resp.ok) return true;
+          } catch (e) {}
         }
-        if (!sent) {
-          console.warn(`[Cluster] Broadcast for ${channel} queued locally.`);
-        }
-      }
+        return false;
+      };
+
+      // Dispatch to all target channels concurrently
+      Promise.allSettled(targetChannels.map(sendToChannel)).catch(e => {
+        console.warn("[Cluster Parallel] Broadcast settled with minor warning:", e);
+      });
     }
 
     // SAFE DOM HELPERS TO PREVENT SCRIPT CRASHES
@@ -2937,7 +2937,27 @@ ORDER BY roas_multiplier DESC;</pre>
     function dispatchIncomingEvent(payload) {
       if (!payload || !payload.action) return;
       try {
-        if (payload.action === 'change_block') {
+        if (payload.action === 'request_classroom_sync') {
+          // If I am the trainer, respond immediately with the authoritative classroom state
+          if (isTrainerMode) {
+            const state = getActiveClassroomState();
+            publishBroadcast({
+              action: 'classroom_state_sync',
+              block: state.block,
+              locked: state.locked,
+              unlockedHints: state.unlockedHints,
+              studentDocsUnlocked: state.studentDocsUnlocked,
+              targetStudentId: payload.studentId || null
+            });
+          }
+        } else if (payload.action === 'classroom_state_sync') {
+          // Apply authoritative state received from trainer
+          if (!isTrainerMode) {
+            if (!payload.targetStudentId || (currentStudent && currentStudent.id === payload.targetStudentId)) {
+              handleRemoteClassroomStateSync(payload);
+            }
+          }
+        } else if (payload.action === 'change_block') {
           showBlock(payload.block, true);
         } else if (payload.action === 'set_lock') {
           applyLockState(payload.locked);
@@ -3514,6 +3534,50 @@ ORDER BY roas_multiplier DESC;</pre>
       }
     }
 
+    // GET CURRENT STATE OF THE CLASSROOM MANAGED BY TRAINER
+    function getActiveClassroomState() {
+      let currentBlock = 'cover';
+      const visibleBlock = Array.from(document.querySelectorAll('.block-section')).find(el => !el.classList.contains('hidden'));
+      if (visibleBlock) {
+        currentBlock = visibleBlock.id.replace('block-', '');
+      } else {
+        try {
+          currentBlock = localStorage.getItem('lux_bq_active_block_v1') || 'cover';
+        } catch(e) {}
+      }
+
+      // Collect currently unlocked hints
+      const allHintIds = ['b1-s1', 'b1-s2', 'b2-s1', 'b2-s2', 'b3', 'b4'];
+      const unlockedHints = allHintIds.filter(id => {
+        const content = document.getElementById('content-' + id);
+        return content && !content.classList.contains('hidden');
+      });
+
+      return {
+        block: currentBlock,
+        locked: isStrictLocked,
+        unlockedHints: unlockedHints,
+        studentDocsUnlocked: areStudentDocsUnlocked
+      };
+    }
+
+    // TRAINER FORCES COMPLETE STATE TO ALL CONNECTED CLIENTS
+    function trainerForceSyncAll() {
+      const state = getActiveClassroomState();
+      publishBroadcast({
+        action: 'classroom_state_sync',
+        block: state.block,
+        locked: state.locked,
+        unlockedHints: state.unlockedHints,
+        studentDocsUnlocked: state.studentDocsUnlocked,
+        forced: true
+      });
+      showToast(currentLang === 'it' 
+        ? ("⚡ Sincronizzazione forzata inviata a tutta l'aula! Blocco: " + state.block) 
+        : ("⚡ Forced sync broadcast to entire room! Block: " + state.block));
+    }
+
+
     function applyLockState(locked) {
       isStrictLocked = locked;
       const tabs = document.querySelectorAll('.tab-btn');
@@ -3776,6 +3840,7 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('tb-lbl-student-control', t.tbLblStudentControl);
       setText('tb-desc-student-control', t.tbDescStudentControl);
       setText('tb-lbl-broadcast-hdr', t.tbLblBroadcastHdr);
+      setText('btn-force-sync-text', t.btnForceSyncText);
       setText('tb-btn-cover', t.tbBtnCover);
       setText('tb-btn-b1', t.tbBtnB1);
       setText('tb-btn-b2', t.tbBtnB2);
@@ -4560,6 +4625,50 @@ ORDER BY roas_multiplier DESC;</pre>
       renderClassroomLeaderboard();
     }
 
+    // HANDLE AUTHORITATIVE CLASSROOM STATE SYNC (FOR STUDENTS)
+    function handleRemoteClassroomStateSync(payload) {
+      if (!payload) return;
+
+      // 1) Set block immediately
+      if (payload.block) {
+        showBlock(payload.block, true);
+      }
+
+      // 2) Set lock state
+      if (typeof payload.locked === 'boolean') {
+        applyLockState(payload.locked);
+      }
+
+      // 3) Apply unlocked hints silently without noisy toasts
+      if (Array.isArray(payload.unlockedHints)) {
+        payload.unlockedHints.forEach(hintId => {
+          const lockState = document.getElementById("lock-state-" + hintId);
+          const content = document.getElementById("content-" + hintId);
+          if (lockState) lockState.classList.add('hidden');
+          if (content) content.classList.remove('hidden');
+        });
+        updateTrainerHintUI();
+      }
+
+      // 4) Apply student docs state
+      if (typeof payload.studentDocsUnlocked === 'boolean') {
+        applyRemoteStudentDocs(payload.studentDocsUnlocked);
+      }
+
+      console.log("[Classroom Sync] Synchronized to block:", payload.block);
+    }
+
+    // STUDENT ASKS THE TRAINER FOR CURRENT CLASSROOM STATE (LATE-JOINER HANDSHAKE)
+    function requestClassroomSync() {
+      if (isTrainerMode) return;
+      publishBroadcast({
+        action: 'request_classroom_sync',
+        studentId: (currentStudent ? currentStudent.id : null),
+        t: Date.now()
+      });
+    }
+
+
     function handleRemoteStudentLogout(payload) {
       const studentId = payload.studentId || payload.id;
       if (!studentId) return;
@@ -4680,6 +4789,8 @@ ORDER BY roas_multiplier DESC;</pre>
       } else {
         send();
       }
+      // Handshake: request current active block and lock status from trainer
+      setTimeout(requestClassroomSync, 300);
     }
 
     function broadcastScoreUpdate(challengeKey, pointsEarned) {
@@ -5978,6 +6089,10 @@ ORDER BY total_vip_leads DESC;
 
       showBlock(initialBlock, false);
       loadStudentProfile();
+      // Ask trainer for current active block (solves late-joiners opening page after block switch)
+      if (!isTrainerMode) {
+        setTimeout(requestClassroomSync, 500);
+      }
     })();
   </script>
 </body>
