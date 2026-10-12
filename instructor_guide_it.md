@@ -70,16 +70,11 @@ flowchart TD
 ## ⏱️ 4. Cronoprogramma e COPIONE/GOBBO DOCENTE (180 Minuti)
 
 ### 🎓 Console di Controllo Docente & Sblocco Progressivo degli Hint
-Per governare il ritmo della classe ed evitare spoiler nella **Student Hub UI**, il docente dispone della **Trainer Command Console** a comparsa sulla sinistra (attivabile cliccando 5 volte sul logo Luxottica in alto a sinistra e inserendo il Master PIN `1926`):
+Per governare il ritmo della classe ed evitare spoiler nella **Student Hub UI**, il docente dispone della **Trainer Command Console** a comparsa sulla sinistra (attivabile esclusivamente dal computer del docente cliccando 5 volte sul logo Luxottica in alto a sinistra, con PIN riservato):
 - **Blocco/Sblocco Globale Studenti:** Mantiene tutti i partecipanti allineati sullo stesso blocco di lavoro.
-- **Gestione Hint e PIN Riservati (ESCLUSIVI per il Docente):**
-  - **Blocco 1 Passo 1.1:** PIN `1122` (Suggerimento prompt Data Canvas)
-  - **Blocco 1 Passo 1.2:** PIN `1234` (Suggerimento query 3 totali SQL Studio)
-  - **Blocco 2 Passo 2.1:** PIN `2144` (Prompt ordini AOV > 300 €)
-  - **Blocco 2 Passo 2.2:** PIN `2255` (Prompt sconti medi per canale)
-  - **Blocco 3:** PIN `3388` (Query Soluzione Completa CTE per ROAS Cross-Canale)
-  - **Blocco 4:** PIN `4499` (Prompt creazione vista normalizzazione Lead VIP)
-  - *(In alternativa, clicca **`[✨ Sblocca Tutti]`** dalla sidebar per rendere visibili gli hint all'aula senza condividere i PIN).*
+- **Gestione Hint & Sblocco Remoto (Console Docente):**
+  - Dalla sidebar docente puoi sbloccare con 1 clic i singoli aiuti (Step 1.1, Step 1.2, Step 2.1, Step 2.2, Blocco 3, Blocco 4) o cliccare **`[✨ Sblocca Tutti]`** per renderli visibili all'intera aula senza comunicare codici.
+  - I PIN numerici individuali di ciascuno step sono consultabili direttamente e in modo protetto all'interno della console docente (cliccando sul pulsante `[👁️ Mostra PIN]` nella barra laterale).
 
 ---
 
@@ -113,7 +108,7 @@ Per governare il ritmo della classe ed evitare spoiler nella **Student Hub UI**,
 > 4. **Il Mistero di Ray-Ban (1.8M €):** *Ray-Ban registra 1.8M € di vendite, ma è sotto le sue potenzialità online. Perché il brand leader non sta dominando?*"
 
 - **15:52 - 16:00 (8m) | Prima Query Guidata (Verifica Spesa vs Fatturato Generale)**
-  - Se una squadra fatica sui passi 1.1 o 1.2, puoi sbloccare da sidebar oppure fornire il rispettivo PIN `1122` / `1234`.
+  - Se una squadra fatica sui passi 1.1 o 1.2, puoi sbloccare direttamente dalla sidebar oppure leggere e comunicare il relativo PIN dalla tua console protetta.
 
 ---
 
@@ -127,7 +122,7 @@ Per governare il ritmo della classe ed evitare spoiler nella **Student Hub UI**,
 - **16:15 - 16:40 (25m) | 🏆 Challenge #1: "The Data Explorer" (8 Indizi)**
   - Le squadre eseguono `challenges/challenge_1_data_explorer.sql`.
   - **Colpo di Scena #1 Dati:** *Ray-Ban Meta Smart Glasses* e *Oliver Peoples* registrano uno scontrino medio altissimo (> 300 €), rappresentando la massima opportunità di crescita per Luxottica!
-  - *Supporto Hint:* PIN Step 2.1 = `2144`, PIN Step 2.2 = `2255`.
+  - *Supporto Hint:* Sblocco da sidebar docente (oppure rivela i PIN dedicati per Step 2.1 e Step 2.2).
 - **16:40 - 16:45 (5m) | Debrief Capitolo 1 e Aggiornamento Classifica**
 
 ---
@@ -146,7 +141,7 @@ Per governare il ritmo della classe ed evitare spoiler nella **Student Hub UI**,
 - **17:20 - 17:40 (20m) | 🏆 Challenge #2: "Intelligence Cross-Canale" (4 Indizi)**
   - Le squadre eseguono `challenges/challenge_2_cross_channel.sql`.
   - **Colpo di Scena #2 Dati:** I social terzi (TikTok / Criteo) hanno un ROAS fallimentare di **0.7x**, mentre **Google Search e Google Shopping** generano un **ROAS stellare compreso tra 6.8x e 8.2x**!
-  - *Supporto Hint:* PIN Soluzione Blocco 3 = `3388` (oppure sblocco diretto da sidebar).
+  - *Supporto Hint:* Sblocco soluzione con 1 clic da sidebar docente (oppure usa il PIN dedicato del Blocco 3).
 - **17:40 - 17:45 (5m) | Debrief Capitolo 2 e Aggiornamento Classifica**
 
 ---
@@ -160,7 +155,7 @@ Per governare il ritmo della classe ed evitare spoiler nella **Student Hub UI**,
   - Le squadre eseguono `challenges/challenge_3_clean_slate.sql` e creano la Vista `v_clean_marketing_leads`.
   - **Colpo di Scena #3 Dati:** La pulizia sblocca **350+ lead VIP** pronti per **Google Ads Customer Match**!
   - **Demo Looker Studio 1-Click:** Connetti la Vista a Looker Studio per mostrare il **Dashboard di Crescita Q4** al CMO!
-  - *Supporto Hint:* PIN Blocco 4 = `4499`.
+  - *Supporto Hint:* Sblocco soluzione da sidebar docente (oppure PIN dedicato del Blocco 4).
 - **18:10 - 18:15 (5m) | Debrief Capitolo 3**
 
 ---

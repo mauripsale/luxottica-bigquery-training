@@ -64,16 +64,11 @@ flowchart TD
 ## ⏱️ 4. Master Schedule & Live Teleprompter Script (Guided Blocks)
 
 ### 🎓 Trainer Control Console & Progressive Hint Unlocking
-To control participant pacing and prevent spoilers in the **Student Hub UI**, the instructor has access to the left-side **Trainer Command Console** (unlocked by clicking the Luxottica logo 5 times, then entering Master PIN `1926`):
+To control participant pacing and prevent spoilers in the **Student Hub UI**, the instructor has access to the left-side **Trainer Command Console** (unlocked exclusively on the instructor Mac by clicking the Luxottica logo 5 times, protected by master PIN):
 - **Global Lock/Unlock:** Keeps students synchronized to the current block.
-- **Hint Manager & Step PINs (Confidential to Trainer):**
-  - **Block 1 Step 1.1:** PIN `1122` (Canvas Prompt hint)
-  - **Block 1 Step 1.2:** PIN `1234` (SQL Studio 3 Totals hint)
-  - **Block 2 Step 2.1:** PIN `2144` (High-AOV orders prompt)
-  - **Block 2 Step 2.2:** PIN `2255` (Discount leakage prompt)
-  - **Block 3:** PIN `3388` (CTE Solution query for Cross-Channel ROAS)
-  - **Block 4:** PIN `4499` (VIP Lead Cleaning View prompt)
-  - *(Alternatively, click **`[✨ Sblocca Tutti]`** to unlock hints for the entire room without sharing PINs).*
+- **Hint Manager & Remote Unlocking (Trainer Console):**
+  - From the trainer console, you can unlock hints individually with 1 click (Step 1.1, Step 1.2, Step 2.1, Step 2.2, Block 3, Block 4) or click **`[✨ Unlock All]`** to make them visible to the whole classroom without sharing codes.
+  - Step-specific numeric PINs are securely accessible and masked inside your trainer console (click `[👁️ Show PINs]` on the sidebar).
 
 ---
 
@@ -107,7 +102,7 @@ To control participant pacing and prevent spoilers in the **Student Hub UI**, th
 > 4. **The Ray-Ban Mystery (€1.8M):** *Ray-Ban records €1.8M in online sales but is underperforming its full potential. Why is Luxottica's flagship brand not dominating online?*"
 
 - **Part 1.3 | First Code-Along Query (Checking Total Revenue vs Spend)**
-  - If a team gets stuck on Step 1.1 or 1.2, you can grant them PIN `1122` / `1234` or toggle the hint remotely from your sidebar.
+  - If a team gets stuck on Step 1.1 or 1.2, you can grant help by unlocking remotely from your sidebar or revealing the hint PIN in your private console.
 
 ---
 
@@ -123,7 +118,7 @@ To control participant pacing and prevent spoilers in the **Student Hub UI**, th
   - **Plot Twist #1 Discovered:** 
     1. *Ray-Ban Meta Smart Glasses* and *Oliver Peoples* have massive Average Order Values (> €300) on E-Commerce Direct, representing Luxottica's biggest growth opportunity!
     2. *Vogue Eyewear* and third-party wholesale partners suffer severe margin leakage due to excessive discounts (up to €28.50 average discount).
-  - *Hint Support:* Step 2.1 Hint PIN is `2144`; Step 2.2 Hint PIN is `2255`.
+  - *Hint Support:* Unlock directly from the trainer sidebar or reveal dedicated step PINs as needed.
 - **Part 2.3 | Chapter 1 Debrief & Scoreboard Update**
 
 ---
@@ -142,7 +137,7 @@ To control participant pacing and prevent spoilers in the **Student Hub UI**, th
 - **Part 3.2 | 🏆 Challenge #2: "Cross-Channel Intelligence" (4 Clues)**
   - Teams run `challenges/challenge_2_cross_channel.sql`.
   - **Plot Twist #2 Discovered:** Third-party social networks (TikTok / Criteo) have a wasteful **0.7x ROAS**, while **Google Search & Google Shopping** generate a massive **6.8x - 8.2x ROAS**!
-  - *Hint Support:* Block 3 Solution Query Hint PIN is `3388` (or toggle on sidebar).
+  - *Hint Support:* 1-click unlock from trainer sidebar (or reveal Block 3 PIN in console).
 - **Part 3.3 | Chapter 2 Debrief & Scoreboard Update**
 
 ---
@@ -156,7 +151,7 @@ To control participant pacing and prevent spoilers in the **Student Hub UI**, th
   - Teams run `challenges/challenge_3_clean_slate.sql` and build `v_clean_marketing_leads`.
   - **Plot Twist #3 Discovered:** Cleaning dirty leads recovers **350+ valid VIP leads** for **Google Ads Customer Match**!
   - **1-Click Looker Studio Demo:** Connect the View to Looker Studio to display the **CMO Executive Rescue Dashboard**!
-  - *Hint Support:* Block 4 Hint PIN is `4499`.
+  - *Hint Support:* Unlock solution from trainer sidebar (or reveal Block 4 PIN in console).
 - **Part 4.3 | Chapter 3 Debrief**
 
 ---
