@@ -837,10 +837,16 @@
           <input type="text" id="student-input-name" name="lux_student_nickname_field" placeholder="Es. Chiara o Marco" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" maxlength="30" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
         </div>
 
-        <div id="ob-team-preview" class="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center space-y-1 hidden">
+        <div id="ob-team-preview" class="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center space-y-2 hidden">
           <span class="text-[10px] uppercase font-bold text-slate-400" id="ob-lbl-assigned">Squadra Assegnata:</span>
           <div id="ob-team-badge" class="text-base font-extrabold text-blue-700">🕶️ Team Ray-Ban</div>
           <p class="text-[11px] text-slate-500" id="ob-team-desc">Smart Glasses & Categorie Iconiche</p>
+          <div class="pt-1.5 border-t border-slate-200/80">
+            <button type="button" onclick="rerollStudentTeam()" class="text-xs font-semibold text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center space-x-1 cursor-pointer">
+              <span>🎲</span>
+              <span id="ob-btn-reroll">Riassegna a un'altra squadra casuale</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -1580,7 +1586,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-blue-950">
               <div class="flex items-center space-x-2">
                 <span class="text-emerald-600 font-bold">✓</span>
-                <span id="cover-step1">Seleziona il tuo brand in alto a destra (Ray-Ban, Oakley, etc.)</span>
+                <span id="cover-step1">Squadra assegnata in automatico al check-in (Ray-Ban, Oakley, Persol o Oliver Peoples)</span>
               </div>
               <div class="flex items-center space-x-2">
                 <span class="text-emerald-600 font-bold">✓</span>
@@ -2357,7 +2363,7 @@ ORDER BY roas_multiplier DESC;</pre>
         coverB5Title: "🎉 Piano Strategico & Podio",
         coverB5Desc: "Presentazione delle 3 raccomandazioni al CMO e proclamazione del team vincitore!",
         coverReadyHdr: "📋 Check-in Rapido Prima di Iniziare:",
-        coverStep1: "Seleziona il tuo brand in alto a destra (Ray-Ban, Oakley, etc.)",
+        coverStep1: "Squadra assegnata in automatico al check-in (Ray-Ban, Oakley, Persol o Oliver Peoples)",
         coverStep2: "Apri BigQuery Studio cliccando il pulsante blu",
         coverStep3: "Il docente attiverà i blocchi di lavoro in sequenza",
         b1Title: "Blocco 1: Setup BigQuery & Esplorazione Data Canvas",
@@ -2645,7 +2651,7 @@ ORDER BY roas_multiplier DESC;</pre>
         coverB5Title: "🎉 Strategic Plan & Awarding",
         coverB5Desc: "Presenting the 3 CMO recommendations and crowning the winning team!",
         coverReadyHdr: "📋 Quick Check-in Before Starting:",
-        coverStep1: "Select your brand in the top right (Ray-Ban, Oakley, etc.)",
+        coverStep1: "Team assigned automatically at check-in (Ray-Ban, Oakley, Persol, or Oliver Peoples)",
         coverStep2: "Open BigQuery Studio by clicking the blue button",
         coverStep3: "The trainer will activate working blocks in sequence",
         b1Title: "Block 1: BigQuery Setup & Data Canvas Exploration",
@@ -4274,6 +4280,7 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('menu-jump-b3', lang === 'it' ? 'Blocco 3: AI Functions' : 'Block 3: AI Functions');
       setText('menu-jump-b4', lang === 'it' ? 'Blocco 4: Forensic Challenge' : 'Block 4: Forensic Challenge');
       setText('menu-jump-finale', lang === 'it' ? 'Conclusioni & Feedback' : 'Summary & Feedback');
+      setText('ob-btn-reroll', lang === 'it' ? "Riassegna a un'altra squadra casuale" : "Re-assign to another random team");
 
       // QUIZ CARDS TRANSLATIONS BINDINGS
       // CH0
@@ -4477,7 +4484,7 @@ ORDER BY roas_multiplier DESC;</pre>
     let currentStudent = {
       id: '',
       name: '',
-      teamKey: 'rayban',
+      teamKey: '',
       score: 0,
       completedChallenges: {
         ch0: false,
@@ -4711,11 +4718,16 @@ ORDER BY roas_multiplier DESC;</pre>
       const preview = document.getElementById('ob-team-preview');
       if (!modal) return;
 
+      if (!allowEdit) {
+        // Reset draft team for fresh student onboarding so balanced randomizer always triggers
+        currentStudent.teamKey = '';
+      }
+
       if (input) {
         input.value = currentStudent.name || '';
       }
       if (allowEdit && currentStudent.teamKey) {
-        const tObj = TEAMS.find(t => t.key === currentStudent.teamKey);
+        const tObj = TEAMS.find(t => t.key === currentStudent.teamKey) || TEAMS[0];
         if (preview && tObj) {
           preview.classList.remove('hidden');
           setText('ob-team-badge', `${tObj.icon} ${tObj.name}`);
@@ -4727,6 +4739,19 @@ ORDER BY roas_multiplier DESC;</pre>
 
       showModalDialog('student-onboarding-modal');
       if (input) setTimeout(() => input.focus(), 100);
+    }
+
+    function rerollStudentTeam() {
+      const otherTeams = TEAMS.filter(t => t.key !== currentStudent.teamKey);
+      const picked = otherTeams[Math.floor(Math.random() * otherTeams.length)] || TEAMS[0];
+      currentStudent.teamKey = picked.key;
+      const preview = document.getElementById('ob-team-preview');
+      if (preview) {
+        preview.classList.remove('hidden');
+        setText('ob-team-badge', `${picked.icon} ${picked.name}`);
+        setText('ob-team-desc', picked.desc);
+      }
+      showToast(currentLang === 'it' ? `🎲 Nuova squadra assegnata: ${picked.name}!` : `🎲 New team assigned: ${picked.name}!`);
     }
 
     function closeOnboardingModal() {
@@ -4843,13 +4868,14 @@ ORDER BY roas_multiplier DESC;</pre>
       }
 
       currentStudent.name = name;
+      const isNewStudent = !currentStudent.id || !currentStudent.teamKey;
       if (!currentStudent.id) {
         const randHex = Math.random().toString(36).substring(2, 6);
         currentStudent.id = `${sanitizeForSql(name)}_${randHex}`;
       }
 
       // 1) BALANCED / RANDOM TEAM SELECTION
-      if (!currentStudent.teamKey) {
+      if (isNewStudent) {
         // Count active students per team across classroom to ensure balanced distribution
         const teamCounts = { rayban: 0, oakley: 0, persol: 0, oliver: 0 };
         Object.values(classroomStudents).forEach(s => {
