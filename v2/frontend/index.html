@@ -99,9 +99,50 @@
         bottom: auto;
       }
     }
+    /* Modern Web Guidance: Scroll Progress Indicator (Zero-JS) */
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: scroll()) {
+        @keyframes grow-scroll-progress {
+          from { transform: scaleX(0); }
+          to { transform: scaleX(1); }
+        }
+        #scroll-progress-bar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: linear-gradient(90deg, #2563eb 0%, #3b82f6 50%, #f59e0b 100%);
+          transform-origin: 0 50%;
+          animation: grow-scroll-progress auto linear;
+          animation-timeline: scroll();
+          z-index: 100;
+          pointer-events: none;
+        }
+      }
+    }
+    /* Modern Web Guidance: Improve Text Layout and Legibility */
+    h1, h2, h3, .heading-balanced {
+      text-wrap: balance;
+    }
+    p, .pretty-text {
+      text-wrap: pretty;
+    }
+    /* Modern Web Guidance: Faster SPA View Transitions */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: 0.22s;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+  <!-- MODERN WEB GUIDANCE: SCROLL PROGRESS INDICATOR (ZERO-JS) -->
+  <div id="scroll-progress-bar" aria-hidden="true"></div>
+
+  <!-- MODERN WEB GUIDANCE: ACCESSIBLE LIVE REGION FOR SCREEN READERS -->
+  <div id="sr-live-announcer" role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
   <!-- TOP GOOGLE CLOUD NAVBAR (STREAMLINED & DECLUTTERED) -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
@@ -3797,7 +3838,16 @@ ORDER BY roas_multiplier DESC;</pre>
       }
     }
 
+    function announceToScreenReader(message) {
+      const el = document.getElementById('sr-live-announcer');
+      if (el) {
+        el.textContent = '';
+        setTimeout(() => { el.textContent = message; }, 50);
+      }
+    }
+
     function showToast(msg, type = 'info') {
+      announceToScreenReader(msg);
       const container = document.getElementById('toast-container');
       if (!container) return;
 
@@ -4233,22 +4283,57 @@ ORDER BY roas_multiplier DESC;</pre>
       showToast(currentLang === 'it' ? "✅ Copiato negli Appunti!" : "✅ Copied to Clipboard!");
     }
 
-    // SWITCH BLOCK TABS
+    // MODERN WEB GUIDANCE: TAB SWITCHER HELPER FOR HAMBURGER MENU & QUICK JUMP
+    function switchTab(key) {
+      const map = {
+        'intro': 'cover',
+        'cover': 'cover',
+        'blocco1': 1,
+        '1': 1,
+        'blocco2': 2,
+        '2': 2,
+        'pausa': 'break',
+        'break': 'break',
+        'blocco3': 3,
+        '3': 3,
+        'blocco4': 4,
+        '4': 4,
+        'finale': 5,
+        'blocco5': 5,
+        '5': 5
+      };
+      const target = map[key] !== undefined ? map[key] : key;
+      userSelectBlock(target);
+    }
+
+    // SWITCH BLOCK TABS WITH VIEW TRANSITIONS API
     function showBlock(blockId, isBroadcast) {
-      document.querySelectorAll('.block-section').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-btn').forEach(el => {
-        el.classList.remove('bg-blue-600', 'text-white');
-        el.classList.add('text-slate-600', 'hover:bg-slate-100');
-      });
+      const updateDOM = () => {
+        document.querySelectorAll('.block-section').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.tab-btn').forEach(el => {
+          el.classList.remove('bg-blue-600', 'text-white');
+          el.classList.add('text-slate-600', 'hover:bg-slate-100');
+        });
 
-      const activeTab = document.getElementById(`tab-b${blockId}`) || document.getElementById(`tab-${blockId}`);
-      if (activeTab) {
-        activeTab.classList.remove('text-slate-600', 'hover:bg-slate-100');
-        activeTab.classList.add('bg-blue-600', 'text-white');
+        const activeTab = document.getElementById(`tab-b${blockId}`) || document.getElementById(`tab-${blockId}`);
+        if (activeTab) {
+          activeTab.classList.remove('text-slate-600', 'hover:bg-slate-100');
+          activeTab.classList.add('bg-blue-600', 'text-white');
+        }
+
+        const activeSection = document.getElementById(`block-${blockId}`);
+        if (activeSection) {
+          activeSection.classList.remove('hidden');
+        }
+      };
+
+      if (typeof document.startViewTransition === 'function') {
+        document.startViewTransition(() => {
+          updateDOM();
+        });
+      } else {
+        updateDOM();
       }
-
-      const activeSection = document.getElementById(`block-${blockId}`);
-      if (activeSection) activeSection.classList.remove('hidden');
 
       // Persist active block to shared storage so refreshing / joining students land on current block
       try {
