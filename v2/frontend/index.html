@@ -99,6 +99,35 @@
         bottom: auto;
       }
     }
+    /* Modern Web Guidance: Student Profile Popover Dropdown with CSS Anchor Positioning */
+    #student-profile-trigger {
+      anchor-name: --student-profile-anchor;
+    }
+    #student-profile-popover[popover] {
+      position-anchor: --student-profile-anchor;
+      position-area: block-end span-inline-start;
+      position-try-fallbacks: flip-block, flip-inline;
+      margin: 0.5rem 0 0 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.875rem;
+      background: #ffffff;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+      padding: 0.25rem;
+      min-width: 200px;
+      inset: auto;
+    }
+    #student-profile-popover:not(:popover-open) {
+      display: none;
+    }
+    @supports not (position-area: block-end span-inline-start) {
+      #student-profile-popover[popover] {
+        position: fixed;
+        top: 64px;
+        right: 4.5rem;
+        left: auto;
+        bottom: auto;
+      }
+    }
     /* Modern Web Guidance: Scroll Progress Indicator (Zero-JS) */
     @media (prefers-reduced-motion: no-preference) {
       @supports (animation-timeline: scroll()) {
@@ -178,10 +207,13 @@
     <div class="flex items-center space-x-2 sm:space-x-3">
       <!-- STUDENT PROFILE & TEAM BADGE -->
       <div id="student-profile-bar" class="flex items-center space-x-1.5 bg-slate-100 p-1 sm:p-1.5 rounded-xl border border-slate-200 text-xs">
-        <button onclick="openOnboardingModal(true)" class="flex items-center space-x-1.5 hover:bg-white px-2 py-1 rounded-lg transition cursor-pointer" title="Modifica Profilo / Riassegna Squadra">
+        <button id="student-profile-trigger" popovertarget="student-profile-popover" class="flex items-center space-x-1.5 hover:bg-white px-2 py-1 rounded-lg transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs" title="Opzioni Profilo Studente">
           <span class="text-sm" id="student-avatar-icon">🕶️</span>
           <span id="student-display-name" class="font-bold text-slate-800 hidden sm:inline">Detective</span>
           <span id="student-display-team" class="px-2 py-0.5 rounded-full font-bold text-[10px] bg-blue-100 text-blue-800">Team Ray-Ban</span>
+          <svg class="w-3.5 h-3.5 text-slate-400 ml-0.5 hidden xs:inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
         </button>
         <div class="h-4 w-px bg-slate-300"></div>
         <div class="flex items-center space-x-1 font-mono font-bold text-amber-600 bg-amber-50 px-2 sm:px-2.5 py-1 rounded-lg border border-amber-200">
@@ -199,6 +231,26 @@
       </button>
     </div>
   </header>
+
+  <!-- STUDENT PROFILE CONTEXT POPOVER (MODERN WEB GUIDANCE: RESILIENT POPOVER BUTTON GROUP) -->
+  <div id="student-profile-popover" popover="auto" class="text-slate-800 text-sm">
+    <div class="px-3 py-2 border-b border-slate-100 bg-slate-50/70 rounded-t-lg">
+      <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider" id="popover-hdr-title">Account Studente</div>
+      <div class="font-bold text-slate-900 truncate" id="popover-profile-name">Detective</div>
+      <div class="text-[11px] text-slate-500 truncate" id="popover-profile-team">Team Ray-Ban</div>
+    </div>
+    <div class="p-1 space-y-0.5">
+      <button onclick="openOnboardingModal(true); closeProfilePopover();" class="w-full flex items-center space-x-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-700 font-medium transition cursor-pointer text-left">
+        <span class="text-base">👤</span>
+        <span id="popover-btn-profile-text">Profilo</span>
+      </button>
+      <hr class="my-1 border-slate-100">
+      <button onclick="logoutStudentProfile(); closeProfilePopover();" class="w-full flex items-center space-x-2.5 px-3 py-2 rounded-lg hover:bg-red-50 text-red-600 font-medium transition cursor-pointer text-left">
+        <span class="text-base">🚪</span>
+        <span id="popover-btn-logout-text">Logout</span>
+      </button>
+    </div>
+  </div>
 
   <!-- HAMBURGER ACTION MENU (MODERN WEB GUIDANCE: RESILIENT POPOVER BUTTON GROUP) -->
   <div id="app-hamburger-menu" popover="auto" class="text-slate-800 divide-y divide-slate-100 text-sm">
@@ -3011,6 +3063,19 @@ ORDER BY roas_multiplier DESC;</pre>
       }
     }
 
+    function closeProfilePopover() {
+      const pop = document.getElementById('student-profile-popover');
+      if (pop && typeof pop.hidePopover === 'function') {
+        try {
+          if (pop.matches(':popover-open')) {
+            pop.hidePopover();
+          }
+        } catch (e) {
+          try { pop.hidePopover(); } catch (err) {}
+        }
+      }
+    }
+
     // ENABLE TRAINER MODE FUNCTION
     function enableTrainerMode() {
       isTrainerMode = true;
@@ -4196,6 +4261,9 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('btn-leaderboard-text', lang === 'it' ? 'Classifica Live' : 'Live Leaderboard');
       setText('btn-switch-role-text', lang === 'it' ? 'Cambia Ruolo' : 'Switch Role');
       setText('btn-logout-text', lang === 'it' ? 'Logout Profilo Studente' : 'Logout Student Profile');
+      setText('popover-hdr-title', lang === 'it' ? 'Account Studente' : 'Student Account');
+      setText('popover-btn-profile-text', lang === 'it' ? 'Profilo' : 'Profile');
+      setText('popover-btn-logout-text', lang === 'it' ? 'Logout' : 'Log out');
       setText('menu-hdr-title', lang === 'it' ? 'Pannello Rapido' : 'Quick Panel');
       setText('menu-lang-title', lang === 'it' ? 'Lingua / Language' : 'Language / Lingua');
       setText('menu-nav-heading', lang === 'it' ? 'Salta al Modulo' : 'Jump to Module');
@@ -4618,6 +4686,8 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('student-display-score', '0');
       setText('menu-student-name', 'Detective');
       setText('menu-student-team', 'Team Ray-Ban');
+      setText('popover-profile-name', 'Detective');
+      setText('popover-profile-team', 'Team Ray-Ban');
 
       // Clear input fields
       const input = document.getElementById('student-input-name');
@@ -4814,6 +4884,8 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('student-display-score', String(currentStudent.score || 0));
       setText('menu-student-name', currentStudent.name || 'Detective');
       setText('menu-student-team', tObj.name);
+      setText('popover-profile-name', currentStudent.name || 'Detective');
+      setText('popover-profile-team', tObj.name);
 
       // DYNAMIC VIEW NAME WITH STUDENT NAME + TEAM
       const cleanName = sanitizeForSql(currentStudent.name);
