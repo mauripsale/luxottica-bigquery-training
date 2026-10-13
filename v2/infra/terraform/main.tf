@@ -11,13 +11,13 @@ terraform {
 variable "project_id" {
   type        = string
   description = "GCP Project ID"
-  default     = "qwiklabs-gcp-04-9efaa47f1d21"
+  default     = "qwiklabs-asl-02-9bb3224716de"
 }
 
 variable "region" {
   type        = string
-  description = "GCP Region for Cloud Run & Firestore"
-  default     = "europe-west1"
+  description = "GCP Region for Cloud Run & Artifact Registry"
+  default     = "us-central1"
 }
 
 provider "google" {
@@ -42,7 +42,7 @@ resource "google_project_service" "apis" {
 resource "google_firestore_database" "database" {
   project     = var.project_id
   name        = "(default)"
-  location_id = var.region
+  location_id = "nam5"
   type        = "FIRESTORE_NATIVE"
 
   depends_on = [google_project_service.apis]
@@ -72,3 +72,15 @@ resource "google_project_iam_member" "bigquery_job_user" {
   role    = "roles/bigquery.jobUser"
   member  = "serviceAccount:${google_service_account.training_hub_sa.email}"
 }
+
+# 5. Artifact Registry Repository for Docker Images
+resource "google_artifact_registry_repository" "hub_repo" {
+  project       = var.project_id
+  location      = var.region
+  repository_id = "training-hub"
+  description   = "Docker repository for Luxottica Training Hub"
+  format        = "DOCKER"
+
+  depends_on = [google_project_service.apis]
+}
+

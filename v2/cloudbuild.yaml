@@ -1,37 +1,50 @@
 steps:
   # =========================================================================
-  # STEP 1: Build Docker image with Kaniko Cache on Google Cloud Build
+  # STEP 1: Build Docker image with Standard Docker (No Kaniko)
   # =========================================================================
-  - name: 'gcr.io/kaniko-project/executor:latest'
+  - name: 'gcr.io/cloud-builders/docker'
     args:
-      - --destination=gcr.io/$PROJECT_ID/luxottica-training-api:$COMMIT_SHA
-      - --destination=gcr.io/$PROJECT_ID/luxottica-training-api:latest
-      - --dockerfile=v2/backend/Dockerfile
-      - --context=dir://v2
-      - --cache=true
-      - --cache-ttl=48h
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:$COMMIT_SHA'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:latest'
+      - '-f'
+      - 'v2/backend/Dockerfile'
+      - 'v2'
 
   # =========================================================================
-  # STEP 2: Deploy container to Google Cloud Run (Serverless Scale-to-Zero)
+  # STEP 2: Push Docker image to Artifact Registry
+  # =========================================================================
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app'
+
+  # =========================================================================
+  # STEP 3: Deploy container to Google Cloud Run (Serverless Scale-to-Zero)
   # =========================================================================
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
       - 'run'
       - 'deploy'
-      - 'luxottica-training-api'
-      - '--image=gcr.io/$PROJECT_ID/luxottica-training-api:$COMMIT_SHA'
-      - '--region=europe-west1'
+      - 'luxottica-training-hub'
+      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:$COMMIT_SHA'
+      - '--region=us-central1'
       - '--platform=managed'
+      - '--service-account=training-hub-backend-sa@$PROJECT_ID.iam.gserviceaccount.com'
       - '--allow-unauthenticated'
       - '--min-instances=0'
       - '--max-instances=5'
       - '--memory=512Mi'
       - '--cpu=1'
-      - '--set-env-vars=GCP_PROJECT_ID=$PROJECT_ID,BQ_DATASET_ID=luxottica_marketing_analytics'
+      - '--set-env-vars=GCP_PROJECT_ID=$PROJECT_ID,BQ_DATASET_ID=luxottica_marketing_analytics,PORT=8080,FRONTEND_DIR=/app/frontend'
 
 images:
-  - 'gcr.io/$PROJECT_ID/luxottica-training-api:$COMMIT_SHA'
-  - 'gcr.io/$PROJECT_ID/luxottica-training-api:latest'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:$COMMIT_SHA'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:latest'
 
-timeout: '600s'
+timeout: '900s'
+
