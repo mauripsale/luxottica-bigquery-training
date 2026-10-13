@@ -3,6 +3,8 @@ import logging
 from typing import Optional
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from app.models import (
     SessionState,
     StudentProfile,
@@ -31,11 +33,48 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-PROJECT_ID = os.getenv("GCP_PROJECT_ID", "qwiklabs-gcp-04-9efaa47f1d21")
+PROJECT_ID = os.getenv("GCP_PROJECT_ID", "qwiklabs-asl-02-9bb3224716de")
 DATASET_ID = os.getenv("BQ_DATASET_ID", "luxottica_marketing_analytics")
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
 
 validator = BigQueryValidator(project_id=PROJECT_ID)
 state_service = FirestoreStateService(project_id=PROJECT_ID)
+
+# RESOLVE FRONTEND DIRECTORY (LOCAL DEV & DOCKER CONTAINER)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FRONTEND_DIR = os.getenv("FRONTEND_DIR")
+if not FRONTEND_DIR or not os.path.exists(FRONTEND_DIR):
+    for candidate in [
+        os.path.join(os.path.dirname(BASE_DIR), "frontend"),
+        os.path.join(BASE_DIR, "frontend"),
+        "/app/frontend"
+    ]:
+        if os.path.exists(candidate):
+            FRONTEND_DIR = candidate
+            break
+
+if FRONTEND_DIR and os.path.exists(os.path.join(FRONTEND_DIR, "assets")):
+    logger.info(f"Mounting static assets from {os.path.join(FRONTEND_DIR, 'assets')}")
+    app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIR, "assets")), name="assets")
+
+@app.get("/")
+def serve_index():
+    if FRONTEND_DIR:
+        index_file = os.path.join(FRONTEND_DIR, "index.html")
+        if os.path.exists(index_file):
+            return FileResponse(index_file)
+    return {"message": "Universal Training Hub API running. Frontend index.html not found."}
+
+@app.get("/api/v2/config")
+def get_hub_config():
+    """Returns runtime public configuration for client SDK & Google Identity Services."""
+    return {
+        "gcp_project_id": PROJECT_ID,
+        "dataset_id": DATASET_ID,
+        "google_client_id": GOOGLE_CLIENT_ID,
+        "default_course_id": "luxottica-bigquery-marketing",
+        "api_version": "2.1.0"
+    }
 
 @app.get("/healthz")
 def healthcheck():
@@ -43,6 +82,7 @@ def healthcheck():
         "status": "ok",
         "version": "2.1.0",
         "gcp_project": PROJECT_ID,
+        "frontend_mounted": bool(FRONTEND_DIR and os.path.exists(FRONTEND_DIR)),
         "available_courses": list(course_manager.list_courses().keys())
     }
 

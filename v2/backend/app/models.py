@@ -22,6 +22,8 @@ class StudentProfile(BaseModel):
     student_id: str
     name: str
     team_key: str
+    email: Optional[str] = None
+    picture: Optional[str] = None
     score: int = 0
     completed_challenges: Dict[str, bool] = Field(default_factory=dict)
     online: bool = True
@@ -33,8 +35,8 @@ class ChallengeValidationRequest(BaseModel):
     challenge_key: str
     submitted_value: Optional[str] = None
     view_name: Optional[str] = None
-    project_id: Optional[str] = "qwiklabs-gcp-04-9efaa47f1d21"
-    dataset_id: Optional[str] = "luxottica_marketing_analytics"
+    project_id: Optional[str] = None
+    dataset_id: Optional[str] = None
 
 class ChallengeValidationResponse(BaseModel):
     success: bool

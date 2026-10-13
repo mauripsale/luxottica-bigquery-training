@@ -7,11 +7,32 @@
 
 class TrainingHubClient {
   constructor(config = {}) {
-    this.apiBaseUrl = config.apiBaseUrl || "http://localhost:8080";
+    if (config.apiBaseUrl !== undefined) {
+      this.apiBaseUrl = config.apiBaseUrl;
+    } else if (typeof window !== "undefined" && window.location) {
+      this.apiBaseUrl = (window.location.port === "8000") ? "http://localhost:8080" : window.location.origin;
+    } else {
+      this.apiBaseUrl = "http://localhost:8080";
+    }
     this.courseId = config.courseId || "luxottica-bigquery-marketing";
     this.sessionId = config.sessionId || "default-session";
     this.onStateChangeCallback = null;
     this.manifest = null;
+    this.serverConfig = null;
+  }
+
+  // Load server public config (GCP project, Google OAuth client ID, etc.)
+  async loadConfig() {
+    try {
+      const resp = await fetch(`${this.apiBaseUrl}/api/v2/config`);
+      if (resp.ok) {
+        this.serverConfig = await resp.json();
+        return this.serverConfig;
+      }
+    } catch (e) {
+      console.debug("[HubClient] Could not fetch server config:", e);
+    }
+    return null;
   }
 
   // Load course manifest dynamically from FastAPI backend

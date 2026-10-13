@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
   <script src="assets/hub_client.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luxottica BigQuery Masterclass - Google Cloud Student Hub</title>
@@ -209,6 +210,7 @@
       <div id="student-profile-bar" class="flex items-center space-x-1.5 bg-slate-100 p-1 sm:p-1.5 rounded-xl border border-slate-200 text-xs">
         <button id="student-profile-trigger" popovertarget="student-profile-popover" class="flex items-center space-x-1.5 hover:bg-white px-2 py-1 rounded-lg transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs" title="Opzioni Profilo Studente">
           <span class="text-sm" id="student-avatar-icon">🕶️</span>
+          <img id="student-avatar-img" class="w-5 h-5 rounded-full object-cover hidden border border-slate-300" alt="Avatar">
           <span id="student-display-name" class="font-bold text-slate-800 hidden sm:inline">Detective</span>
           <span id="student-display-team" class="px-2 py-0.5 rounded-full font-bold text-[10px] bg-blue-100 text-blue-800">Team Ray-Ban</span>
           <svg class="w-3.5 h-3.5 text-slate-400 ml-0.5 hidden xs:inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -235,8 +237,14 @@
   <!-- STUDENT PROFILE CONTEXT POPOVER (MODERN WEB GUIDANCE: RESILIENT POPOVER BUTTON GROUP) -->
   <div id="student-profile-popover" popover="auto" class="text-slate-800 text-sm">
     <div class="px-3 py-2 border-b border-slate-100 bg-slate-50/70 rounded-t-lg">
-      <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider" id="popover-hdr-title">Account Studente</div>
-      <div class="font-bold text-slate-900 truncate" id="popover-profile-name">Detective</div>
+      <div class="flex items-center space-x-2 mb-1">
+        <img id="popover-avatar-img" class="w-7 h-7 rounded-full object-cover hidden border border-slate-200" alt="Avatar">
+        <div class="min-w-0 flex-1">
+          <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider" id="popover-hdr-title">Account Studente</div>
+          <div class="font-bold text-slate-900 truncate" id="popover-profile-name">Detective</div>
+        </div>
+      </div>
+      <div class="text-[11px] text-blue-600 truncate font-mono hidden" id="popover-profile-email"></div>
       <div class="text-[11px] text-slate-500 truncate" id="popover-profile-team">Team Ray-Ban</div>
     </div>
     <div class="p-1 space-y-0.5">
@@ -829,6 +837,16 @@
         </div>
         <h2 class="text-xl font-black text-slate-900" id="ob-title">Benvenuto al Workshop BigQuery!</h2>
         <p class="text-xs text-slate-500" id="ob-subtitle">Diventa un Marketing Data Detective per Luxottica. Inserisci il tuo nome per ricevere l'assegnazione alla tua squadra.</p>
+      </div>
+
+      <!-- GOOGLE SIGN-IN BUTTON CONTAINER (AUTOMATICALLY SHOWN IF GOOGLE_CLIENT_ID IS ACTIVE) -->
+      <div id="g-signin-wrapper" class="hidden space-y-2.5">
+        <div id="g-signin-btn" class="flex justify-center"></div>
+        <div class="flex items-center space-x-2 text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+          <div class="h-px bg-slate-200 flex-1"></div>
+          <span id="ob-lbl-or-manual">oppure accedi con nickname</span>
+          <div class="h-px bg-slate-200 flex-1"></div>
+        </div>
       </div>
 
       <div class="space-y-3">
@@ -4281,6 +4299,7 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('menu-jump-b4', lang === 'it' ? 'Blocco 4: Forensic Challenge' : 'Block 4: Forensic Challenge');
       setText('menu-jump-finale', lang === 'it' ? 'Conclusioni & Feedback' : 'Summary & Feedback');
       setText('ob-btn-reroll', lang === 'it' ? "Riassegna a un'altra squadra casuale" : "Re-assign to another random team");
+      setText('ob-lbl-or-manual', lang === 'it' ? 'oppure accedi con nickname' : 'or sign in with nickname');
 
       // QUIZ CARDS TRANSLATIONS BINDINGS
       // CH0
@@ -4484,6 +4503,9 @@ ORDER BY roas_multiplier DESC;</pre>
     let currentStudent = {
       id: '',
       name: '',
+      email: '',
+      picture: '',
+      googleSub: '',
       teamKey: '',
       score: 0,
       completedChallenges: {
@@ -4493,6 +4515,9 @@ ORDER BY roas_multiplier DESC;</pre>
         ch3: false
       }
     };
+
+    let googleClientId = null;
+    window.hubClient = typeof TrainingHubClient !== 'undefined' ? new TrainingHubClient() : null;
 
     // CLASSROOM STUDENTS DIRECTORY (STATEFUL IN LOCALSTORAGE + LIVE SSE)
     let classroomStudents = {};
@@ -4578,6 +4603,9 @@ ORDER BY roas_multiplier DESC;</pre>
       currentStudent = {
         id: '',
         name: '',
+        email: '',
+        picture: '',
+        googleSub: '',
         teamKey: '',
         score: 0,
         completedChallenges: {}
@@ -4678,10 +4706,20 @@ ORDER BY roas_multiplier DESC;</pre>
         localStorage.removeItem(getRoleStorageKey());
       } catch (e) {}
 
+      // Disable Google auto-select if GIS is present
+      if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+        try {
+          google.accounts.id.disableAutoSelect();
+        } catch (e) {}
+      }
+
       // Reset in-memory student object
       currentStudent = {
         id: '',
         name: '',
+        email: '',
+        picture: '',
+        googleSub: '',
         teamKey: '',
         score: 0,
         completedChallenges: {}
@@ -4695,6 +4733,16 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('menu-student-team', 'Team Ray-Ban');
       setText('popover-profile-name', 'Detective');
       setText('popover-profile-team', 'Team Ray-Ban');
+
+      // Reset avatars
+      const avatarIcon = document.getElementById('student-avatar-icon');
+      const avatarImg = document.getElementById('student-avatar-img');
+      const popoverImg = document.getElementById('popover-avatar-img');
+      const popoverEmail = document.getElementById('popover-profile-email');
+      if (avatarIcon) avatarIcon.classList.remove('hidden');
+      if (avatarImg) { avatarImg.src = ''; avatarImg.classList.add('hidden'); }
+      if (popoverImg) { popoverImg.src = ''; popoverImg.classList.add('hidden'); }
+      if (popoverEmail) { popoverEmail.textContent = ''; popoverEmail.classList.add('hidden'); }
 
       // Clear input fields
       const input = document.getElementById('student-input-name');
@@ -4737,6 +4785,7 @@ ORDER BY roas_multiplier DESC;</pre>
         preview.classList.add('hidden');
       }
 
+      renderGoogleSignInButton();
       showModalDialog('student-onboarding-modal');
       if (input) setTimeout(() => input.focus(), 100);
     }
@@ -4903,6 +4952,107 @@ ORDER BY roas_multiplier DESC;</pre>
         : `🎉 Welcome ${name}! Assigned to ${tObj ? tObj.name : 'Team'}!`);
     }
 
+    function decodeJwtResponse(token) {
+      try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+      } catch (e) {
+        console.error("Error decoding JWT:", e);
+        return null;
+      }
+    }
+
+    function handleGoogleSignInCallback(response) {
+      if (!response || !response.credential) return;
+      const payload = decodeJwtResponse(response.credential);
+      if (!payload) return;
+
+      const name = payload.name || payload.given_name || 'Detective';
+      currentStudent.name = name;
+      currentStudent.email = payload.email || '';
+      currentStudent.picture = payload.picture || '';
+      currentStudent.googleSub = payload.sub || '';
+
+      const isNewStudent = !currentStudent.id || !currentStudent.teamKey;
+      if (!currentStudent.id) {
+        const subSuffix = (payload.sub || Math.random().toString(36).substring(2, 8)).substring(0, 6);
+        currentStudent.id = `${sanitizeForSql(name)}_${subSuffix}`;
+      }
+
+      if (isNewStudent) {
+        const teamCounts = { rayban: 0, oakley: 0, persol: 0, oliver: 0 };
+        Object.values(classroomStudents).forEach(s => {
+          if (s.teamKey && teamCounts[s.teamKey] !== undefined) {
+            teamCounts[s.teamKey]++;
+          }
+        });
+        const minCount = Math.min(...Object.values(teamCounts));
+        const leastPopulatedTeams = TEAMS.filter(t => teamCounts[t.key] === minCount);
+        const pickedTeam = leastPopulatedTeams[Math.floor(Math.random() * leastPopulatedTeams.length)] || TEAMS[Math.floor(Math.random() * TEAMS.length)];
+        currentStudent.teamKey = pickedTeam.key;
+      }
+
+      saveStudentProfile();
+      applyStudentProfileUI();
+      registerStudentInClassroom(currentStudent);
+      broadcastStudentCheckin();
+      closeOnboardingModal();
+
+      const tObj = TEAMS.find(t => t.key === currentStudent.teamKey);
+      showToast(currentLang === 'it' 
+        ? `🎉 Benvenuto ${name}! Connesso con Google a ${tObj ? tObj.name : 'Team'}!` 
+        : `🎉 Welcome ${name}! Connected with Google to ${tObj ? tObj.name : 'Team'}!`);
+    }
+
+    function initGoogleAuth(clientId) {
+      if (!clientId) return;
+      googleClientId = clientId;
+
+      const checkGoogleScript = () => {
+        if (window.google && window.google.accounts && window.google.accounts.id) {
+          try {
+            google.accounts.id.initialize({
+              client_id: clientId,
+              callback: handleGoogleSignInCallback,
+              auto_select: false
+            });
+            renderGoogleSignInButton();
+          } catch (err) {
+            console.warn("Google Identity Services init error:", err);
+          }
+        } else {
+          setTimeout(checkGoogleScript, 200);
+        }
+      };
+      checkGoogleScript();
+    }
+
+    function renderGoogleSignInButton() {
+      const container = document.getElementById('g-signin-btn');
+      const wrapper = document.getElementById('g-signin-wrapper');
+      if (wrapper && googleClientId) {
+        wrapper.classList.remove('hidden');
+      }
+      if (container && window.google && window.google.accounts && window.google.accounts.id && googleClientId) {
+        try {
+          container.innerHTML = '';
+          google.accounts.id.renderButton(container, {
+            theme: 'outline',
+            size: 'large',
+            shape: 'pill',
+            text: 'continue_with',
+            width: 280
+          });
+        } catch (e) {
+          console.warn("renderButton error:", e);
+        }
+      }
+    }
+
     function applyStudentProfileUI() {
       const tObj = TEAMS.find(t => t.key === currentStudent.teamKey) || TEAMS[0];
       setText('student-display-name', currentStudent.name || 'Detective');
@@ -4912,6 +5062,38 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('menu-student-team', tObj.name);
       setText('popover-profile-name', currentStudent.name || 'Detective');
       setText('popover-profile-team', tObj.name);
+
+      // Handle Avatar and Email
+      const avatarIcon = document.getElementById('student-avatar-icon');
+      const avatarImg = document.getElementById('student-avatar-img');
+      const popoverImg = document.getElementById('popover-avatar-img');
+      const popoverEmail = document.getElementById('popover-profile-email');
+
+      if (currentStudent.picture) {
+        if (avatarIcon) avatarIcon.classList.add('hidden');
+        if (avatarImg) {
+          avatarImg.src = currentStudent.picture;
+          avatarImg.classList.remove('hidden');
+        }
+        if (popoverImg) {
+          popoverImg.src = currentStudent.picture;
+          popoverImg.classList.remove('hidden');
+        }
+      } else {
+        if (avatarIcon) avatarIcon.classList.remove('hidden');
+        if (avatarImg) { avatarImg.src = ''; avatarImg.classList.add('hidden'); }
+        if (popoverImg) { popoverImg.src = ''; popoverImg.classList.add('hidden'); }
+      }
+
+      if (popoverEmail) {
+        if (currentStudent.email) {
+          popoverEmail.textContent = currentStudent.email;
+          popoverEmail.classList.remove('hidden');
+        } else {
+          popoverEmail.textContent = '';
+          popoverEmail.classList.add('hidden');
+        }
+      }
 
       // DYNAMIC VIEW NAME WITH STUDENT NAME + TEAM
       const cleanName = sanitizeForSql(currentStudent.name);
@@ -6528,6 +6710,25 @@ ORDER BY total_vip_leads DESC;
 
       showBlock(initialBlock, false);
       loadStudentProfile();
+
+      // Fetch backend dynamic configuration (/api/v2/config)
+      if (window.hubClient) {
+        window.hubClient.loadConfig().then(cfg => {
+          if (!cfg) return;
+          console.log("[HubClient v2] Configuration loaded:", cfg);
+          if (cfg.google_client_id) {
+            initGoogleAuth(cfg.google_client_id);
+          }
+          if (cfg.gcp_project_id) {
+            document.querySelectorAll('.gcp-project-placeholder').forEach(el => {
+              el.textContent = cfg.gcp_project_id;
+            });
+          }
+        }).catch(e => {
+          console.warn("[HubClient v2] Could not load backend config:", e);
+        });
+      }
+
       // Ask trainer for current active block (solves late-joiners opening page after block switch)
       if (!isTrainerMode) {
         setTimeout(requestClassroomSync, 500);
