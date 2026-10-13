@@ -6,7 +6,7 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:$COMMIT_SHA'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:$BUILD_ID'
       - '-t'
       - 'us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:latest'
       - '-f'
@@ -31,7 +31,7 @@ steps:
       - 'run'
       - 'deploy'
       - 'luxottica-training-hub'
-      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:$COMMIT_SHA'
+      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:$BUILD_ID'
       - '--region=us-central1'
       - '--platform=managed'
       - '--service-account=training-hub-backend-sa@$PROJECT_ID.iam.gserviceaccount.com'
@@ -43,7 +43,7 @@ steps:
       - '--set-env-vars=GCP_PROJECT_ID=$PROJECT_ID,BQ_DATASET_ID=luxottica_marketing_analytics,PORT=8080,FRONTEND_DIR=/app/frontend'
 
 images:
-  - 'us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:$COMMIT_SHA'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:$BUILD_ID'
   - 'us-central1-docker.pkg.dev/$PROJECT_ID/training-hub/training-hub-app:latest'
 
 timeout: '900s'
