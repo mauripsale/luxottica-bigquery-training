@@ -68,98 +68,218 @@
     #toast-container:not(:popover-open) {
       display: none;
     }
+    /* Modern Web Guidance: Resilient Popover Action Menu with CSS Anchor Positioning */
+    #btn-hamburger-menu {
+      anchor-name: --hamburger-anchor;
+    }
+    #app-hamburger-menu[popover] {
+      position-anchor: --hamburger-anchor;
+      position-area: block-end span-inline-start;
+      position-try-fallbacks: flip-block, flip-inline;
+      margin: 0.5rem 0 0 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 1rem;
+      background: #ffffff;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+      padding: 0;
+      max-width: 320px;
+      width: calc(100vw - 2rem);
+      overflow: hidden;
+      inset: auto;
+    }
+    #app-hamburger-menu:not(:popover-open) {
+      display: none;
+    }
+    @supports not (position-area: block-end span-inline-start) {
+      #app-hamburger-menu[popover] {
+        position: fixed;
+        top: 64px;
+        right: 1.5rem;
+        left: auto;
+        bottom: auto;
+      }
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
-  <!-- TOP GOOGLE CLOUD NAVBAR -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm px-6 py-3 flex flex-wrap items-center justify-between gap-4">
-    <div class="flex items-center space-x-4">
+  <!-- TOP GOOGLE CLOUD NAVBAR (STREAMLINED & DECLUTTERED) -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+    <div class="flex items-center space-x-3 sm:space-x-4">
       <!-- SECRET TRIPLE CLICK ON LOGO FOR TRAINER PIN PROMPT -->
       <div class="flex items-center space-x-2 cursor-pointer select-none" id="logo-trigger" onclick="handleLogoClick()" title="Triplo-clic per accedere alla Console Docente">
-        <span class="text-2xl font-bold tracking-tight text-slate-800">Luxottica</span>
-        <span class="text-slate-300 font-light text-xl">|</span>
-        <span class="text-lg font-medium text-slate-600">Google Cloud Training</span>
+        <span class="text-xl sm:text-2xl font-bold tracking-tight text-slate-800">Luxottica</span>
+        <span class="text-slate-300 font-light text-lg sm:text-xl">|</span>
+        <span class="text-sm sm:text-base font-medium text-slate-600 hidden xs:inline">Google Cloud Training</span>
       </div>
       
       <!-- LIVE SYNC / LOCK STATUS BADGE -->
-      <div id="sync-status-badge" class="flex items-center space-x-2 bg-red-50 text-red-700 text-xs font-semibold px-3 py-1 rounded-full border border-red-200">
+      <div id="sync-status-badge" class="flex items-center space-x-1.5 sm:space-x-2 bg-red-50 text-red-700 text-xs font-semibold px-2.5 py-1 rounded-full border border-red-200">
         <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-        <span id="sync-status-text">🔒 Navigazione Bloccata dal Docente</span>
+        <span id="sync-status-text" class="truncate max-w-[140px] sm:max-w-none">🔒 Navigazione Bloccata</span>
       </div>
 
       <!-- DISCRETE NETWORK CONNECTION INDICATOR -->
-      <div id="net-status-badge" class="hidden sm:flex items-center space-x-1.5 bg-slate-100 text-slate-500 text-[10px] font-mono px-2 py-0.5 rounded-full border border-slate-200" title="Stato connessione cluster in tempo reale">
+      <div id="net-status-badge" class="hidden md:flex items-center space-x-1.5 bg-slate-100 text-slate-500 text-[10px] font-mono px-2 py-0.5 rounded-full border border-slate-200" title="Stato connessione cluster in tempo reale">
         <span id="net-status-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
         <span id="net-status-text">Live</span>
       </div>
 
       <!-- SYNCHRONIZED CLASSROOM COUNTDOWN TIMER (HIDDEN BY DEFAULT) -->
-      <div id="classroom-timer-badge" class="hidden flex items-center space-x-2 bg-amber-50 text-amber-900 border border-amber-300 text-xs font-mono font-bold px-3 py-1 rounded-full shadow-xs animate-pulse">
+      <div id="classroom-timer-badge" class="hidden flex items-center space-x-1.5 bg-amber-50 text-amber-900 border border-amber-300 text-xs font-mono font-bold px-2.5 py-1 rounded-full shadow-xs animate-pulse">
         <span>⏱️</span>
         <span id="classroom-timer-label" class="uppercase text-[10px] text-amber-700 font-sans font-semibold">Sfida:</span>
-        <span id="classroom-timer-clock" class="text-amber-950 font-black text-sm">15:00</span>
+        <span id="classroom-timer-clock" class="text-amber-950 font-black text-xs sm:text-sm">15:00</span>
       </div>
     </div>
 
-    <!-- CONTROLS: LANGUAGE TOGGLE, TIMER & ACTIVE TEAM -->
-    <div class="flex items-center space-x-3 flex-wrap">
-
-      <!-- TRAINER MODE TOGGLE (HIDDEN BY DEFAULT FROM STUDENTS) -->
-      <button onclick="toggleTrainerMode()" id="btn-trainer-toggle" class="hidden text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-900 text-white border border-slate-800 transition shadow-sm hover:bg-slate-800">
-        🎓 Modalità Docente (ATTIVA)
-      </button>
-
-      <!-- LANGUAGE TOGGLE SWITCH -->
-      <div class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
-        <button id="lang-btn-it" onclick="setLanguage('it')" class="px-3 py-1 text-xs font-bold rounded-md text-slate-600 hover:text-slate-900 transition">
-          🇮🇹 IT
-        </button>
-        <button id="lang-btn-en" onclick="setLanguage('en')" class="px-3 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition">
-          🇬🇧 EN
-        </button>
-      </div>
-
+    <!-- CONTROLS: STUDENT PROFILE BADGE & HAMBURGER ACTION MENU -->
+    <div class="flex items-center space-x-2 sm:space-x-3">
       <!-- STUDENT PROFILE & TEAM BADGE -->
-      <div id="student-profile-bar" class="flex items-center space-x-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200 text-xs">
-        <button onclick="openOnboardingModal(true)" class="flex items-center space-x-1.5 hover:bg-white px-2 py-1 rounded-lg transition" title="Modifica Profilo / Riassegna Squadra">
+      <div id="student-profile-bar" class="flex items-center space-x-1.5 bg-slate-100 p-1 sm:p-1.5 rounded-xl border border-slate-200 text-xs">
+        <button onclick="openOnboardingModal(true)" class="flex items-center space-x-1.5 hover:bg-white px-2 py-1 rounded-lg transition cursor-pointer" title="Modifica Profilo / Riassegna Squadra">
           <span class="text-sm" id="student-avatar-icon">🕶️</span>
-          <span id="student-display-name" class="font-bold text-slate-800">Detective</span>
+          <span id="student-display-name" class="font-bold text-slate-800 hidden sm:inline">Detective</span>
           <span id="student-display-team" class="px-2 py-0.5 rounded-full font-bold text-[10px] bg-blue-100 text-blue-800">Team Ray-Ban</span>
         </button>
         <div class="h-4 w-px bg-slate-300"></div>
-        <div class="flex items-center space-x-1 font-mono font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
+        <div class="flex items-center space-x-1 font-mono font-bold text-amber-600 bg-amber-50 px-2 sm:px-2.5 py-1 rounded-lg border border-amber-200">
           <span>🏆</span>
           <span id="student-display-score">0</span>
           <span class="text-[10px] text-amber-700 font-sans">pt</span>
         </div>
       </div>
 
-      <!-- LEADERBOARD MODAL BUTTON -->
-      <button onclick="openLeaderboardModal()" class="flex items-center space-x-1.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-xs transition cursor-pointer">
-        <span>🏆</span>
-        <span id="btn-leaderboard-text">Classifica Live</span>
-      </button>
-
-      <!-- TRAINER SOLUTIONS MODAL BUTTON (VISIBLE IN TRAINER MODE) -->
-      <button id="btn-top-trainer-solutions" onclick="openTrainerSolutionsModal()" class="hidden items-center space-x-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-2.5 py-1.5 rounded-lg transition cursor-pointer shadow-xs" title="Visualizza Soluzioni Sfide">
-        <span>🔑</span>
-        <span class="hidden md:inline" id="btn-top-solutions-text">Soluzioni Docente</span>
-      </button>
-
-      <!-- SWITCH ROLE BUTTON -->
-      <button onclick="openRoleSelectionModal()" class="flex items-center space-x-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold text-xs px-2.5 py-1.5 rounded-lg transition cursor-pointer" title="Cambia Ruolo (Studente / Docente)">
-        <span>🔄</span>
-        <span class="hidden md:inline" id="btn-switch-role-text">Ruolo</span>
-      </button>
-
-      <!-- LOGOUT / RESET STUDENT PROFILE BUTTON -->
-      <button onclick="logoutStudentProfile()" class="flex items-center space-x-1 bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-red-600 border border-transparent hover:border-red-200 font-semibold text-xs px-2.5 py-1.5 rounded-lg transition cursor-pointer" title="Esci e reimposta profilo studente">
-        <span>🚪</span>
-        <span class="hidden sm:inline" id="btn-logout-text">Logout</span>
+      <!-- HAMBURGER TRIGGER BUTTON (POPOVERTARGET) -->
+      <button id="btn-hamburger-menu" popovertarget="app-hamburger-menu" class="p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition flex items-center justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs" title="Menu e Strumenti" aria-label="Menu navigazione e impostazioni">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
       </button>
     </div>
   </header>
+
+  <!-- HAMBURGER ACTION MENU (MODERN WEB GUIDANCE: RESILIENT POPOVER BUTTON GROUP) -->
+  <div id="app-hamburger-menu" popover="auto" class="text-slate-800 divide-y divide-slate-100 text-sm">
+    <!-- POPUP HEADER: STUDENT PROFILE SUMMARY -->
+    <div class="p-3 bg-gradient-to-br from-slate-50 to-blue-50/50">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500" id="menu-hdr-title">Pannello Rapido</span>
+        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold">BigQuery Lab</span>
+      </div>
+      <div class="mt-2 flex items-center justify-between">
+        <div class="text-xs text-slate-600">
+          <span class="font-bold text-slate-900 block" id="menu-student-name">Detective</span>
+          <span class="text-[11px] text-slate-500" id="menu-student-team">Team Ray-Ban</span>
+        </div>
+        <div class="flex items-center space-x-1">
+          <button onclick="openOnboardingModal(true); closeHamburgerMenu();" class="p-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-600 transition cursor-pointer" title="Modifica Profilo">
+            ✏️
+          </button>
+          <button onclick="logoutStudentProfile(); closeHamburgerMenu();" class="p-1.5 rounded-lg bg-white border border-slate-200 hover:bg-red-50 text-red-600 hover:border-red-200 transition cursor-pointer" title="Logout Profilo">
+            🚪
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIMARY ACTIONS: LEADERBOARD, ROLE SWITCH, TRAINER TOOLS -->
+    <div class="p-2 space-y-1">
+      <button onclick="openLeaderboardModal(); closeHamburgerMenu();" class="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-amber-50 text-slate-700 hover:text-amber-900 font-medium transition cursor-pointer text-left">
+        <span class="flex items-center space-x-2.5">
+          <span class="text-base">🏆</span>
+          <span id="btn-leaderboard-text">Classifica Live</span>
+        </span>
+        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Top 10</span>
+      </button>
+
+      <button onclick="openRoleSelectionModal(); closeHamburgerMenu();" class="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-700 font-medium transition cursor-pointer text-left" title="Cambia Ruolo (Studente / Docente)">
+        <span class="flex items-center space-x-2.5">
+          <span class="text-base">🔄</span>
+          <span id="btn-switch-role-text">Cambia Ruolo</span>
+        </span>
+        <span class="text-[10px] text-slate-400">Docente / Studente</span>
+      </button>
+
+      <!-- HIDDEN BY DEFAULT: TRAINER TOOLS (ACTIVATED VIA TRAINER MODE) -->
+      <button onclick="toggleTrainerMode(); closeHamburgerMenu();" id="btn-trainer-toggle" class="hidden w-full flex items-center justify-between px-3 py-2 rounded-lg bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition cursor-pointer text-left">
+        <span class="flex items-center space-x-2">
+          <span>🎓</span>
+          <span>Modalità Docente (ATTIVA)</span>
+        </span>
+        <span class="text-[10px] text-amber-400">Console</span>
+      </button>
+
+      <button id="btn-top-trainer-solutions" onclick="openTrainerSolutionsModal(); closeHamburgerMenu();" class="hidden w-full flex items-center justify-between px-3 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition cursor-pointer text-left">
+        <span class="flex items-center space-x-2">
+          <span>🔑</span>
+          <span id="btn-top-solutions-text">Soluzioni Docente</span>
+        </span>
+        <span class="text-[10px] bg-slate-950 text-white px-1.5 py-0.5 rounded font-mono">Cheat Sheet</span>
+      </button>
+    </div>
+
+    <!-- LANGUAGE SELECTION SECTION -->
+    <div class="p-3 bg-slate-50/70">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider flex items-center space-x-1">
+          <span>🌐</span>
+          <span id="menu-lang-title">Lingua / Language</span>
+        </span>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <button id="lang-btn-it" onclick="setLanguage('it')" class="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 bg-white border border-slate-200 transition text-center shadow-2xs">
+          🇮🇹 IT
+        </button>
+        <button id="lang-btn-en" onclick="setLanguage('en')" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-blue-600 text-white shadow-xs transition text-center">
+          🇬🇧 EN
+        </button>
+      </div>
+    </div>
+
+    <!-- QUICK MODULE JUMP LINKS -->
+    <div class="p-2 space-y-0.5">
+      <div class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400" id="menu-nav-heading">
+        Salta al Modulo
+      </div>
+      <button onclick="switchTab('intro'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>🚀</span>
+        <span id="menu-jump-intro">Introduzione & Setup</span>
+      </button>
+      <button onclick="switchTab('blocco1'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>🔍</span>
+        <span id="menu-jump-b1">Blocco 1: BQ Studio</span>
+      </button>
+      <button onclick="switchTab('blocco2'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>🤖</span>
+        <span id="menu-jump-b2">Blocco 2: Gemini SQL</span>
+      </button>
+      <button onclick="switchTab('pausa'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>☕</span>
+        <span id="menu-jump-pausa">Pausa Caffè & Quiz</span>
+      </button>
+      <button onclick="switchTab('blocco3'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>⚡</span>
+        <span id="menu-jump-b3">Blocco 3: AI Functions</span>
+      </button>
+      <button onclick="switchTab('blocco4'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>🏆</span>
+        <span id="menu-jump-b4">Blocco 4: Forensic Challenge</span>
+      </button>
+      <button onclick="switchTab('finale'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>🏁</span>
+        <span id="menu-jump-finale">Conclusioni & Feedback</span>
+      </button>
+    </div>
+
+    <!-- LOGOUT FOOTER -->
+    <div class="p-2 bg-slate-50">
+      <button onclick="logoutStudentProfile(); closeHamburgerMenu();" class="w-full flex items-center justify-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:text-red-600 hover:bg-red-50 border border-slate-200 hover:border-red-200 transition cursor-pointer">
+        <span>🚪</span>
+        <span id="btn-logout-text">Logout Profilo Studente</span>
+      </button>
+    </div>
+  </div>
 
   <!-- TRAINER VERTICAL CONTROL SIDEBAR (CLEAN, ELEGANT, DEDICATED LEFT CONSOLE) -->
   <aside id="trainer-sidebar" class="hidden fixed top-0 left-0 bottom-0 w-[280px] z-50 bg-slate-950 text-white border-r border-amber-500/30 shadow-2xl flex flex-col overflow-y-auto">
@@ -2837,6 +2957,19 @@ ORDER BY roas_multiplier DESC;</pre>
       }
     }
 
+    function closeHamburgerMenu() {
+      const menu = document.getElementById('app-hamburger-menu');
+      if (menu && typeof menu.hidePopover === 'function') {
+        try {
+          if (menu.matches(':popover-open')) {
+            menu.hidePopover();
+          }
+        } catch (e) {
+          try { menu.hidePopover(); } catch (err) {}
+        }
+      }
+    }
+
     // ENABLE TRAINER MODE FUNCTION
     function enableTrainerMode() {
       isTrainerMode = true;
@@ -4010,9 +4143,19 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('role-student-badge', t.roleStudentBadge);
       setText('role-student-desc', t.roleStudentDesc);
       setText('role-student-action', t.roleStudentAction);
-      setText('role-modal-footer', t.roleModalFooter);
-      setText('btn-switch-role-text', lang === 'it' ? 'Ruolo' : 'Role');
-      setText('btn-logout-text', 'Logout');
+      setText('btn-leaderboard-text', lang === 'it' ? 'Classifica Live' : 'Live Leaderboard');
+      setText('btn-switch-role-text', lang === 'it' ? 'Cambia Ruolo' : 'Switch Role');
+      setText('btn-logout-text', lang === 'it' ? 'Logout Profilo Studente' : 'Logout Student Profile');
+      setText('menu-hdr-title', lang === 'it' ? 'Pannello Rapido' : 'Quick Panel');
+      setText('menu-lang-title', lang === 'it' ? 'Lingua / Language' : 'Language / Lingua');
+      setText('menu-nav-heading', lang === 'it' ? 'Salta al Modulo' : 'Jump to Module');
+      setText('menu-jump-intro', lang === 'it' ? 'Introduzione & Setup' : 'Introduction & Setup');
+      setText('menu-jump-b1', lang === 'it' ? 'Blocco 1: BQ Studio' : 'Block 1: BQ Studio');
+      setText('menu-jump-b2', lang === 'it' ? 'Blocco 2: Gemini SQL' : 'Block 2: Gemini SQL');
+      setText('menu-jump-pausa', lang === 'it' ? 'Pausa Caffè & Quiz' : 'Coffee Break & Quiz');
+      setText('menu-jump-b3', lang === 'it' ? 'Blocco 3: AI Functions' : 'Block 3: AI Functions');
+      setText('menu-jump-b4', lang === 'it' ? 'Blocco 4: Forensic Challenge' : 'Block 4: Forensic Challenge');
+      setText('menu-jump-finale', lang === 'it' ? 'Conclusioni & Feedback' : 'Summary & Feedback');
 
       // QUIZ CARDS TRANSLATIONS BINDINGS
       // CH0
@@ -4388,6 +4531,8 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('student-display-name', 'Detective');
       setText('student-display-team', 'Team Ray-Ban');
       setText('student-display-score', '0');
+      setText('menu-student-name', 'Detective');
+      setText('menu-student-team', 'Team Ray-Ban');
 
       // Clear input fields
       const input = document.getElementById('student-input-name');
@@ -4582,6 +4727,8 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('student-display-name', currentStudent.name || 'Detective');
       setText('student-display-team', tObj.name);
       setText('student-display-score', String(currentStudent.score || 0));
+      setText('menu-student-name', currentStudent.name || 'Detective');
+      setText('menu-student-team', tObj.name);
 
       // DYNAMIC VIEW NAME WITH STUDENT NAME + TEAM
       const cleanName = sanitizeForSql(currentStudent.name);
