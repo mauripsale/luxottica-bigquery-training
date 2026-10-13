@@ -33,6 +33,41 @@
         margin-left: 280px;
       }
     }
+    /* Modern Web Guidance: Native <dialog> and backdrop styling */
+    dialog {
+      border: none;
+      background: transparent;
+      padding: 1rem;
+      margin: auto;
+      max-width: 100vw;
+      max-height: 100vh;
+      overflow: visible;
+    }
+    dialog::backdrop {
+      background-color: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    dialog:not([open]) {
+      display: none;
+    }
+    /* Modern Web Guidance: content-visibility for deferred rendering below the fold */
+    .defer-render {
+      content-visibility: auto;
+      contain-intrinsic-size: auto none auto 400px;
+    }
+    /* Modern Web Guidance: Toast Popover Top Layer Stacking */
+    #toast-container[popover] {
+      inset: auto 1.5rem 1.5rem auto;
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+    }
+    #toast-container:not(:popover-open) {
+      display: none;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
@@ -472,7 +507,7 @@
   </aside>
 
   <!-- CUSTOM MASKED MODAL FOR TRAINER PIN (AVOIDS BROWSER CLEAR-TEXT PROMPT) -->
-  <div id="trainer-pin-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center hidden p-4">
+  <dialog id="trainer-pin-modal" closedby="any" aria-labelledby="t-modal-title" class="p-4 m-auto bg-transparent border-0 max-w-sm w-full text-white">
     <div class="bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl max-w-sm w-full p-6 text-white space-y-4 animate-in fade-in zoom-in duration-150">
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-xl">
@@ -500,10 +535,10 @@
         </button>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- ROLE SELECTION WELCOME SCREEN (STUDENT VS TRAINER) -->
-  <div id="role-selection-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
+  <dialog id="role-selection-modal" closedby="any" aria-labelledby="role-modal-title" class="p-4 m-auto bg-transparent border-0 max-w-xl w-full text-slate-900">
     <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-xl w-full p-6 sm:p-8 text-slate-900 space-y-6 animate-in fade-in zoom-in duration-200 relative">
       
       <!-- LANGUAGE SWITCHER (TOP RIGHT OF WELCOME MODAL) -->
@@ -570,10 +605,10 @@
         You can always switch roles or access the trainer console via the header or with the dedicated PIN.
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- STUDENT ONBOARDING MODAL (NAME INPUT & RANDOM TEAM SELECTION) -->
-  <div id="student-onboarding-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
+  <dialog id="student-onboarding-modal" closedby="any" aria-labelledby="ob-title" class="p-4 m-auto bg-transparent border-0 max-w-md w-full text-slate-900">
     <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 space-y-5 animate-in fade-in zoom-in duration-200">
       <div class="text-center space-y-2">
         <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white text-2xl shadow-lg">
@@ -613,10 +648,10 @@
         </button>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- RESUME STUDENT PROFILE MODAL (SECURED BY TRAINER PIN) -->
-  <div id="student-resume-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
+  <dialog id="student-resume-modal" closedby="any" aria-labelledby="res-title" class="p-4 m-auto bg-transparent border-0 max-w-md w-full text-slate-900">
     <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 space-y-5 animate-in fade-in zoom-in duration-200">
       <div class="text-center space-y-2">
         <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-600 text-2xl shadow-sm">
@@ -650,10 +685,10 @@
         </button>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- EXISTING SESSION PROMPT MODAL (WELCOME BACK OR NEW STUDENT) -->
-  <div id="student-session-prompt-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
+  <dialog id="student-session-prompt-modal" closedby="any" aria-labelledby="session-prompt-title" class="p-4 m-auto bg-transparent border-0 max-w-md w-full text-slate-900">
     <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 space-y-5 animate-in fade-in zoom-in duration-200">
       <div class="text-center space-y-2">
         <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white text-3xl shadow-lg">
@@ -699,10 +734,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- CLASSROOM LIVE LEADERBOARD MODAL (PROJECTABLE ON SCREEN) -->
-  <div id="leaderboard-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
+  <dialog id="leaderboard-modal" closedby="any" aria-labelledby="lb-modal-title" class="p-4 m-auto bg-transparent border-0 max-w-3xl w-full text-white">
     <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl shadow-2xl max-w-3xl w-full p-6 space-y-6 max-h-[90vh] flex flex-col">
       <div class="flex items-center justify-between border-b border-slate-800 pb-4">
         <div class="flex items-center space-x-3">
@@ -710,7 +745,7 @@
             🏆
           </div>
           <div>
-            <h2 class="text-lg font-black text-amber-400">Classifica Aula Masterclass</h2>
+            <h2 class="text-lg font-black text-amber-400" id="lb-modal-title">Classifica Aula Masterclass</h2>
             <p class="text-xs text-slate-400">Punteggi Individuali & Classifica Brand Detective Teams</p>
           </div>
         </div>
@@ -756,10 +791,10 @@
         </button>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- IN-PAGE CHALLENGE WORKBOOK MODAL (ELIMINATES GITHUB DEPENDENCY) -->
-  <div id="challenge-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
+  <dialog id="challenge-modal" closedby="any" aria-labelledby="cm-title" class="p-4 m-auto bg-transparent border-0 max-w-4xl w-full text-white">
     <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl shadow-2xl max-w-4xl w-full p-6 space-y-5 max-h-[90vh] flex flex-col animate-in fade-in zoom-in duration-200">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <div class="flex items-center space-x-3">
@@ -782,7 +817,7 @@
         </div>
       </div>
 
-      <div id="cm-body" class="overflow-y-auto pr-1 space-y-4 text-xs text-slate-300">
+      <div id="cm-body" class="defer-render overflow-y-auto pr-1 space-y-4 text-xs text-slate-300">
         <!-- Content injected dynamically by openChallengeModal(chNum) -->
       </div>
 
@@ -793,10 +828,10 @@
         </button>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- IN-PAGE STUDENT GUIDE MODAL -->
-  <div id="guide-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
+  <dialog id="guide-modal" closedby="any" aria-labelledby="gm-title" class="p-4 m-auto bg-transparent border-0 max-w-4xl w-full text-white">
     <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl shadow-2xl max-w-4xl w-full p-6 space-y-5 max-h-[90vh] flex flex-col animate-in fade-in zoom-in duration-200">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <div class="flex items-center space-x-3">
@@ -815,7 +850,7 @@
         </div>
       </div>
 
-      <div id="gm-body" class="overflow-y-auto pr-1 space-y-4 text-xs text-slate-300 leading-relaxed">
+      <div id="gm-body" class="defer-render overflow-y-auto pr-1 space-y-4 text-xs text-slate-300 leading-relaxed">
         <!-- Content injected dynamically -->
       </div>
 
@@ -825,10 +860,10 @@
         </button>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- IN-PAGE ACTION-BY-ACTION PLAYBOOK MODAL -->
-  <div id="playbook-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
+  <dialog id="playbook-modal" closedby="any" aria-labelledby="pm-title" class="p-4 m-auto bg-transparent border-0 max-w-5xl w-full text-white">
     <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl shadow-2xl max-w-5xl w-full p-6 space-y-5 max-h-[90vh] flex flex-col animate-in fade-in zoom-in duration-200">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <div class="flex items-center space-x-3">
@@ -847,7 +882,7 @@
         </div>
       </div>
 
-      <div id="pm-body" class="overflow-y-auto pr-1 space-y-4 text-xs text-slate-300 leading-relaxed">
+      <div id="pm-body" class="defer-render overflow-y-auto pr-1 space-y-4 text-xs text-slate-300 leading-relaxed">
         <!-- Playbook injected dynamically -->
       </div>
 
@@ -857,10 +892,10 @@
         </button>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- TRAINER SOLUTIONS CHEATSHEET MODAL (DEDICATED FULL-SCREEN DIALOG FOR INSTRUCTOR) -->
-  <div id="trainer-solutions-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center hidden p-4">
+  <dialog id="trainer-solutions-modal" closedby="any" aria-labelledby="ts-modal-title" class="p-4 m-auto bg-transparent border-0 max-w-2xl w-full text-white">
     <div class="bg-slate-900 border border-amber-500/40 text-white rounded-3xl shadow-2xl max-w-2xl w-full p-6 space-y-5 max-h-[90vh] flex flex-col animate-in fade-in zoom-in duration-200">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <div class="flex items-center space-x-3">
@@ -875,7 +910,7 @@
         <button onclick="closeTrainerSolutionsModal()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">✕</button>
       </div>
 
-      <div class="overflow-y-auto pr-1 space-y-4 text-xs text-slate-300">
+      <div class="defer-render overflow-y-auto pr-1 space-y-4 text-xs text-slate-300">
         <!-- WARM UP -->
         <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
           <div class="flex items-center justify-between">
@@ -962,7 +997,7 @@
         </button>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- MAIN APP LAYOUT (SHIFTS RIGHT WHEN TRAINER SIDEBAR IS OPEN) -->
   <div id="app-main-layout" class="flex-1 flex flex-col transition-all duration-300">
@@ -2050,10 +2085,8 @@ ORDER BY roas_multiplier DESC;</pre>
 
   </div> <!-- END APP MAIN LAYOUT -->
 
-  <!-- TOAST NOTIFICATION -->
-  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-xl transition opacity-0 pointer-events-none transform translate-y-2 flex items-center space-x-2">
-    <span id="toast-text">✅ Copiato negli Appunti!</span>
-  </div>
+  <!-- TOAST NOTIFICATION CONTAINER (TOP LAYER POPOVER) -->
+  <div id="toast-container" popover="manual" class="fixed bottom-6 right-6 z-50 m-0 p-0 bg-transparent border-0 flex flex-col gap-2 pointer-events-none"></div>
 
   <script>
     // TRANSLATIONS DICTIONARY DEFINED AT TOP TO AVOID REFERENCE ERRORS
@@ -2781,6 +2814,29 @@ ORDER BY roas_multiplier DESC;</pre>
       if (el && html !== undefined) el.innerHTML = html;
     }
 
+    // MODERN WEB GUIDANCE: NATIVE DIALOG MODAL HELPERS
+    function showModalDialog(idOrEl) {
+      const dlg = typeof idOrEl === 'string' ? document.getElementById(idOrEl) : idOrEl;
+      if (!dlg) return;
+      dlg.classList.remove('hidden');
+      if (typeof dlg.showModal === 'function') {
+        if (!dlg.open) dlg.showModal();
+      } else {
+        dlg.setAttribute('open', '');
+      }
+    }
+
+    function closeModalDialog(idOrEl) {
+      const dlg = typeof idOrEl === 'string' ? document.getElementById(idOrEl) : idOrEl;
+      if (!dlg) return;
+      if (typeof dlg.close === 'function') {
+        if (dlg.open) dlg.close();
+      } else {
+        dlg.removeAttribute('open');
+        dlg.classList.add('hidden');
+      }
+    }
+
     // ENABLE TRAINER MODE FUNCTION
     function enableTrainerMode() {
       isTrainerMode = true;
@@ -2857,19 +2913,12 @@ ORDER BY roas_multiplier DESC;</pre>
 
       if (errorMsg) errorMsg.classList.add('hidden');
       input.value = '';
-      modal.classList.remove('hidden');
+      showModalDialog(modal);
       setTimeout(() => input.focus(), 50);
     }
 
     function closeTrainerPinModal() {
-      const modal = document.getElementById('trainer-pin-modal');
-      if (modal) modal.classList.add('hidden');
-      if (!isTrainerMode) {
-        const savedRole = localStorage.getItem('lux_bq_user_role_v1');
-        if (!savedRole || savedRole !== 'student') {
-          openRoleSelectionModal();
-        }
-      }
+      closeModalDialog('trainer-pin-modal');
     }
 
     function submitTrainerPinModal() {
@@ -2911,7 +2960,7 @@ ORDER BY roas_multiplier DESC;</pre>
     window.addEventListener('keydown', (e) => {
       // Enter or Escape inside Trainer PIN modal
       const modal = document.getElementById('trainer-pin-modal');
-      if (modal && !modal.classList.contains('hidden')) {
+      if (modal && (modal.open || !modal.classList.contains('hidden'))) {
         if (e.key === 'Enter') {
           e.preventDefault();
           submitTrainerPinModal();
@@ -3195,13 +3244,11 @@ ORDER BY roas_multiplier DESC;</pre>
     }
 
     function openTrainerSolutionsModal() {
-      const modal = document.getElementById('trainer-solutions-modal');
-      if (modal) modal.classList.remove('hidden');
+      showModalDialog('trainer-solutions-modal');
     }
 
     function closeTrainerSolutionsModal() {
-      const modal = document.getElementById('trainer-solutions-modal');
-      if (modal) modal.classList.add('hidden');
+      closeModalDialog('trainer-solutions-modal');
     }
 
     function switchBoardSlide(slideIdx) {
@@ -3617,17 +3664,46 @@ ORDER BY roas_multiplier DESC;</pre>
       }
     }
 
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      setText('toast-text', msg);
-      if (toast) {
-        toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
-        toast.classList.add('opacity-100', 'translate-y-0');
-        setTimeout(() => {
-          toast.classList.remove('opacity-100', 'translate-y-0');
-          toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
-        }, 2500);
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+
+      try {
+        if (!container.matches(':popover-open')) {
+          container.showPopover();
+        }
+      } catch (e) {
+        // Fallback for browsers not supporting showPopover
       }
+
+      const toast = document.createElement('div');
+      toast.className = "flex items-center space-x-3 bg-slate-900/95 backdrop-blur-md text-white text-xs px-4 py-3 rounded-xl shadow-2xl border border-slate-700/60 pointer-events-auto transform transition-all duration-300 opacity-0 translate-y-2";
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      const dotColor = type === 'error' ? 'bg-red-400 animate-pulse' : (type === 'success' ? 'bg-emerald-400' : 'bg-blue-400 animate-ping');
+      toast.innerHTML = `<span class="w-2 h-2 rounded-full ${dotColor}"></span><span class="font-medium">${msg}</span>`;
+
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove('opacity-0', 'translate-y-2');
+        toast.classList.add('opacity-100', 'translate-y-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => {
+          toast.remove();
+          if (container.children.length === 0) {
+            try {
+              if (container.matches(':popover-open')) {
+                container.hidePopover();
+              }
+            } catch (e) {}
+          }
+        }, 300);
+      }, 3000);
     }
 
     function setLanguage(lang) {
@@ -4131,13 +4207,11 @@ ORDER BY roas_multiplier DESC;</pre>
     }
 
     function openRoleSelectionModal() {
-      const modal = document.getElementById('role-selection-modal');
-      if (modal) modal.classList.remove('hidden');
+      showModalDialog('role-selection-modal');
     }
 
     function closeRoleSelectionModal() {
-      const modal = document.getElementById('role-selection-modal');
-      if (modal) modal.classList.add('hidden');
+      closeModalDialog('role-selection-modal');
     }
 
     function backToRoleSelection() {
@@ -4176,12 +4250,11 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('session-card-challenges', `${chDone}/3 completate`);
       setText('session-btn-name', currentStudent.name || 'Detective');
 
-      modal.classList.remove('hidden');
+      showModalDialog('student-session-prompt-modal');
     }
 
     function closeExistingSessionPromptModal() {
-      const modal = document.getElementById('student-session-prompt-modal');
-      if (modal) modal.classList.add('hidden');
+      closeModalDialog('student-session-prompt-modal');
     }
 
     function resumeExistingLocalSession() {
@@ -4352,13 +4425,12 @@ ORDER BY roas_multiplier DESC;</pre>
         preview.classList.add('hidden');
       }
 
-      modal.classList.remove('hidden');
+      showModalDialog('student-onboarding-modal');
       if (input) setTimeout(() => input.focus(), 100);
     }
 
     function closeOnboardingModal() {
-      const modal = document.getElementById('student-onboarding-modal');
-      if (modal) modal.classList.add('hidden');
+      closeModalDialog('student-onboarding-modal');
     }
 
     function openResumeStudentModal() {
@@ -4380,12 +4452,11 @@ ORDER BY roas_multiplier DESC;</pre>
           }).join('');
       }
 
-      if (modal) modal.classList.remove('hidden');
+      showModalDialog('student-resume-modal');
     }
 
     function closeResumeStudentModal() {
-      const modal = document.getElementById('student-resume-modal');
-      if (modal) modal.classList.add('hidden');
+      closeModalDialog('student-resume-modal');
       openOnboardingModal(false);
     }
 
@@ -4443,8 +4514,7 @@ ORDER BY roas_multiplier DESC;</pre>
       });
       broadcastStudentCheckin();
 
-      const modal = document.getElementById('student-resume-modal');
-      if (modal) modal.classList.add('hidden');
+      closeModalDialog('student-resume-modal');
 
       showToast(currentLang === 'it' 
         ? `🎉 Bentornato/a ${target.name}! Profilo e ${target.score || 0} punti ripristinati con successo!` 
@@ -5054,15 +5124,12 @@ ORDER BY roas_multiplier DESC;</pre>
     }
 
     function openLeaderboardModal() {
-      const modal = document.getElementById('leaderboard-modal');
-      if (!modal) return;
       renderClassroomLeaderboard();
-      modal.classList.remove('hidden');
+      showModalDialog('leaderboard-modal');
     }
 
     function closeLeaderboardModal() {
-      const modal = document.getElementById('leaderboard-modal');
-      if (modal) modal.classList.add('hidden');
+      closeModalDialog('leaderboard-modal');
     }
 
     function renderClassroomLeaderboard() {
@@ -5758,7 +5825,7 @@ ORDER BY total_vip_leads DESC;
         </div>
       `).join('');
 
-      modal.classList.remove('hidden');
+      showModalDialog('challenge-modal');
     }
 
     function downloadChallengeSQL() {
@@ -5775,8 +5842,7 @@ ORDER BY total_vip_leads DESC;
     }
 
     function closeChallengeModal() {
-      const modal = document.getElementById('challenge-modal');
-      if (modal) modal.classList.add('hidden');
+      closeModalDialog('challenge-modal');
     }
 
     function openGuideModal(lang) {
@@ -5841,12 +5907,11 @@ ORDER BY total_vip_leads DESC;
         `;
       }
 
-      modal.classList.remove('hidden');
+      showModalDialog('guide-modal');
     }
 
     function closeGuideModal() {
-      const modal = document.getElementById('guide-modal');
-      if (modal) modal.classList.add('hidden');
+      closeModalDialog('guide-modal');
     }
 
     function openPlaybookModal(lang) {
@@ -6023,12 +6088,11 @@ ORDER BY total_vip_leads DESC;
         `;
       }
 
-      modal.classList.remove('hidden');
+      showModalDialog('playbook-modal');
     }
 
     function closePlaybookModal() {
-      const modal = document.getElementById('playbook-modal');
-      if (modal) modal.classList.add('hidden');
+      closeModalDialog('playbook-modal');
     }
 
     // DEDICATED PIN CODES PER STEP HINT (ALSO MASTER PIN 1926 ALWAYS UNLOCKS)
@@ -6075,8 +6139,42 @@ ORDER BY total_vip_leads DESC;
       }
     });
 
+    // MODERN WEB GUIDANCE: LIGHT-DISMISS FALLBACK FOR BROWSERS WITHOUT NATIVE closedby SUPPORT
+    function initDialogLightDismissFallback() {
+      document.querySelectorAll('dialog[closedby]').forEach(dialog => {
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog) {
+            const rect = dialog.getBoundingClientRect();
+            const isInDialog = (
+              rect.top <= event.clientY &&
+              event.clientY <= rect.top + rect.height &&
+              rect.left <= event.clientX &&
+              event.clientX <= rect.left + rect.width
+            );
+            if (!isInDialog) {
+              closeModalDialog(dialog);
+            }
+          }
+        });
+      });
+    }
+
     // AUTO-INITIALIZE TRAINER MODE & STUDENT PROFILE AT LOAD TIME
     (function initMasterclass() {
+      initDialogLightDismissFallback();
+
+      const trainerPinDialog = document.getElementById('trainer-pin-modal');
+      if (trainerPinDialog) {
+        trainerPinDialog.addEventListener('close', () => {
+          if (!isTrainerMode) {
+            const savedRole = localStorage.getItem('lux_bq_user_role_v1');
+            if (!savedRole || savedRole !== 'student') {
+              openRoleSelectionModal();
+            }
+          }
+        });
+      }
+
       const urlParams = new URLSearchParams(window.location.search);
       const role = urlParams.get('role');
       const pin = urlParams.get('pin');
