@@ -3,8 +3,8 @@
 
 **Corso:** BigQuery per l'Analisi Dati: Dominare i Dati Marketing con BigQuery SQL  
 **Nome Progetto GCP:** `bigquery-luxottica`  
-**ID Progetto GCP:** `qwiklabs-gcp-04-9efaa47f1d21`  
-**Dataset Target:** `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`  
+**ID Progetto GCP:** `qwiklabs-asl-02-9bb3224716de`  
+**Dataset Target:** `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics`  
 **Destinatari:** Global Analytics, Business Analyst, Digital Commerce & Retail Operations  
 **Data & Durata:** 12 Ottobre 2026 | 15:30 - 18:30 (3 Ore / 180 Minuti)
 
@@ -20,13 +20,13 @@
 ## 🚀 2. Guida Rapida: Connessione all'Ambiente BigQuery
 
 ### Passo 1: Apri BigQuery Studio
-1. Apri il browser e vai su: [https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21](https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21)
+1. Apri il browser e vai su: [https://console.cloud.google.com/bigquery?project=qwiklabs-asl-02-9bb3224716de](https://console.cloud.google.com/bigquery?project=qwiklabs-asl-02-9bb3224716de)
 2. Effettua l'accesso con l'account assegnato (`student-02-25b97e18011e@qwiklabs.net` o la tua email aziendale Luxottica).
 
 ### Passo 2: Fissa il Progetto (Pin) ed Esplora la Gerarchia
 1. Nel riquadro sinistro (**Explorer**), clicca sul pulsante **`+ ADD`** in alto.
 2. Seleziona **"Star a project by name"** (o *Fissa un progetto con nome*).
-3. Digita l'ID del progetto: **`qwiklabs-gcp-04-9efaa47f1d21`** (o cerca **`bigquery-luxottica`**) e clicca su **Star**.
+3. Digita l'ID del progetto: **`qwiklabs-asl-02-9bb3224716de`** (o cerca **`bigquery-luxottica`**) e clicca su **Star**.
 4. **Regola della Gerarchia in BigQuery:** In BigQuery le tabelle sono raggruppate dentro i *Dataset*. Clicca sulla freccetta accanto al progetto fissato ed espandi il dataset **`luxottica_marketing_analytics`** per visualizzare le 4 tabelle di lavoro:
    - `lux_crm_customers` (Anagrafica clienti e livelli fedeltà)
    - `lux_online_orders` (100.000 transazioni e-commerce e retail)

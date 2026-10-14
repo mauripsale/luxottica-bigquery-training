@@ -3,8 +3,8 @@
 
 **Course:** BigQuery for Data Analysis: Mastering Marketing Data with BigQuery SQL  
 **GCP Project Name:** `bigquery-luxottica`  
-**GCP Project ID:** `qwiklabs-gcp-04-9efaa47f1d21`  
-**Target Dataset:** `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`  
+**GCP Project ID:** `qwiklabs-asl-02-9bb3224716de`  
+**Target Dataset:** `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics`  
 **Client:** Luxottica Global Analytics, Business Analyst, Digital Commerce & Retail Operations  
 **Date & Time:** Oct 12th, 2026 | 15:30 - 18:30 (3 Hours / 180 Minutes)
 
@@ -20,13 +20,13 @@
 ## 🚀 2. Quick Start: Connecting to Your BigQuery Environment
 
 ### Step 1: Open BigQuery Studio
-1. Open your browser and go to: [https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21](https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21)
+1. Open your browser and go to: [https://console.cloud.google.com/bigquery?project=qwiklabs-asl-02-9bb3224716de](https://console.cloud.google.com/bigquery?project=qwiklabs-asl-02-9bb3224716de)
 2. Log in with your assigned account (`student-02-25b97e18011e@qwiklabs.net` or your Luxottica Corporate Email).
 
 ### Step 2: Pin the Training Project & Navigate the Hierarchy
 1. In the left navigation pane (**Explorer**), click the **`+ ADD`** button at the top.
 2. Select **"Star a project by name"** (or *Pin a project*).
-3. Type the project ID: **`qwiklabs-gcp-04-9efaa47f1d21`** (or search **`bigquery-luxottica`**) and click **Star**.
+3. Type the project ID: **`qwiklabs-asl-02-9bb3224716de`** (or search **`bigquery-luxottica`**) and click **Star**.
 4. **Explorer Hierarchy Tip:** In BigQuery, tables live inside datasets. Click the arrow next to the project, then expand the dataset **`luxottica_marketing_analytics`** to reveal the 4 lab tables:
    - `lux_crm_customers` (Customer profiles & loyalty tiers)
    - `lux_online_orders` (100k e-commerce & retail transactions)
