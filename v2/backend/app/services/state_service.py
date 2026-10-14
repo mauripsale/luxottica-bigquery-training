@@ -22,10 +22,12 @@ class FirestoreStateService:
         if not self.db:
             return None
         doc = self._session_doc_ref(course_id, session_id).get()
-        data = doc.to_dict() if doc.exists else {"session_id": session_id, "active_block": "cover"}
-        # Ensure updated_at is clean for Pydantic
-        if "updated_at" in data and hasattr(data["updated_at"], "isoformat"):
-            data["updated_at"] = data["updated_at"]
+        data = doc.to_dict() if doc.exists else {}
+        data["session_id"] = session_id
+        if "active_block" not in data:
+            data["active_block"] = "cover"
+        if "updated_at" in data:
+            del data["updated_at"]
         data["students"] = self.get_classroom_leaderboard(course_id, session_id)
         return SessionState(**data)
 
@@ -33,14 +35,14 @@ class FirestoreStateService:
         if not self.db:
             return False
         ref = self._session_doc_ref(course_id, session_id)
-        ref.set({"active_block": block_id, "updated_at": firestore.SERVER_TIMESTAMP}, merge=True)
+        ref.set({"session_id": session_id, "active_block": str(block_id), "updated_at": firestore.SERVER_TIMESTAMP}, merge=True)
         return True
 
     def set_session_lock(self, course_id: str, session_id: str, locked: bool) -> bool:
         if not self.db:
             return False
         ref = self._session_doc_ref(course_id, session_id)
-        ref.set({"is_locked": locked, "updated_at": firestore.SERVER_TIMESTAMP}, merge=True)
+        ref.set({"session_id": session_id, "is_locked": locked, "updated_at": firestore.SERVER_TIMESTAMP}, merge=True)
         return True
 
     def set_session_hints(self, course_id: str, session_id: str, hints: List[str]) -> bool:
