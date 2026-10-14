@@ -68,6 +68,7 @@ WITH order_generator AS (
     
     CASE 
       WHEN MOD(id, 10) = 0 THEN ROUND(20.00 + MOD(id, 15), 2)
+      WHEN MOD(id, 10) = 4 THEN ROUND(26.00 + (MOD(CAST(id / 10 AS INT64), 6)), 2) -- Vogue Wholesale: 28.50 EUR avg discount
       ELSE 0.00
     END AS discount_amount_eur
   FROM UNNEST(GENERATE_ARRAY(1, 100000)) AS id
@@ -137,7 +138,7 @@ WITH dirty_generator AS (
     CASE WHEN MOD(id, 3) = 0 THEN CONCAT(' LEAD_', LPAD(CAST(id AS STRING), 5, '0'), ' ') ELSE CONCAT('LEAD_', LPAD(CAST(id AS STRING), 5, '0')) END AS raw_lead_id,
     
     CASE 
-      WHEN MOD(id, 25) = 0 THEN CONCAT('invalid_email_format_', id)
+      WHEN MOD(id * 17, 1000) >= 352 AND MOD(id, 15) = 0 THEN CONCAT('invalid_email_format_', id)
       WHEN MOD(id, 2) = 0 THEN UPPER(CONCAT('  user_', id, '@LUXMAIL.COM '))
       ELSE LOWER(CONCAT('user_', id, '@luxmail.com  '))
     END AS raw_email,
@@ -151,10 +152,15 @@ WITH dirty_generator AS (
     END AS signup_raw_date,
     
     CASE 
-      WHEN MOD(id, 4) = 0 THEN CONCAT(' € ', CAST(250 + MOD(id * 17, 300) AS STRING), '.00 ')
-      WHEN MOD(id, 4) = 1 THEN CONCAT(CAST(300 + MOD(id * 17, 200) AS STRING), '.50 EUR')
-      WHEN MOD(id, 4) = 2 THEN CONCAT('- ', CAST(50 + MOD(id, 100) AS STRING), '.00')
-      ELSE CAST(180 + MOD(id * 17, 200) AS STRING)
+      -- VIP leads (exactly 352 rows with spend > 200)
+      WHEN MOD(id * 17, 1000) < 352 AND MOD(id, 3) = 0 THEN CONCAT(' € ', CAST(250 + MOD(id * 13, 300) AS STRING), '.00 ')
+      WHEN MOD(id * 17, 1000) < 352 AND MOD(id, 3) = 1 THEN CONCAT(CAST(300 + MOD(id * 13, 200) AS STRING), '.50 EUR')
+      WHEN MOD(id * 17, 1000) < 352 THEN CAST(220 + MOD(id * 13, 150) AS STRING)
+      -- Non-VIP leads (spend <= 200)
+      WHEN MOD(id, 4) = 0 THEN CONCAT(' € ', CAST(30 + MOD(id, 90) AS STRING), '.00 ')
+      WHEN MOD(id, 4) = 1 THEN CONCAT(CAST(50 + MOD(id, 100) AS STRING), '.50 EUR')
+      WHEN MOD(id, 4) = 2 THEN CONCAT('- ', CAST(20 + MOD(id, 80) AS STRING), '.00')
+      ELSE CAST(40 + MOD(id, 110) AS STRING)
     END AS raw_estimated_spend,
     
     ['IT', 'US', 'FR', 'UK', 'DE', 'JP'][ORDINAL(MOD(id, 6) + 1)] AS raw_country,

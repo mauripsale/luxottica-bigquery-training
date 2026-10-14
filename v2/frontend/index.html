@@ -1288,7 +1288,7 @@
             </div>
           </div>
         </div>
-        <button onclick="copyToClipboard('qwiklabs-gcp-04-9efaa47f1d21')" class="w-full bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium py-2 rounded-lg transition flex items-center justify-center space-x-2">
+        <button onclick="copyToClipboard('qwiklabs-asl-02-9bb3224716de')" class="w-full bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium py-2 rounded-lg transition flex items-center justify-center space-x-2">
           <span id="btn-copy-project">📋 Copia ID Progetto</span>
         </button>
       </div>
@@ -1428,7 +1428,7 @@
           <h1 class="text-2xl font-bold" id="hero-title">Portale Interattivo Studente</h1>
           <p class="text-blue-100 text-sm mt-1" id="hero-subtitle">Dominare i Dati Marketing con BigQuery Studio, Gemini AI & Google Ads</p>
         </div>
-        <a href="https://console.cloud.google.com/bigquery?project=qwiklabs-gcp-04-9efaa47f1d21" target="_blank" class="bg-white text-blue-700 font-bold px-4 py-2.5 rounded-xl hover:bg-blue-50 transition text-xs shadow flex items-center space-x-2">
+        <a href="https://console.cloud.google.com/bigquery?project=qwiklabs-asl-02-9bb3224716de" target="_blank" class="bg-white text-blue-700 font-bold px-4 py-2.5 rounded-xl hover:bg-blue-50 transition text-xs shadow flex items-center space-x-2">
           <span id="btn-open-bq">🚀 Apri BigQuery Studio</span>
         </a>
       </div>
@@ -1486,7 +1486,7 @@
                 <span>🕵️‍♂️</span>
                 <span id="story-brief-badge">Briefing Emergenza CMO • Ore 15:30</span>
               </span>
-              <span class="text-xs text-amber-300 font-mono font-semibold" id="story-target-dataset">Dataset: qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics</span>
+              <span class="text-xs text-amber-300 font-mono font-semibold" id="story-target-dataset">Dataset: qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics</span>
             </div>
             
             <div class="space-y-2">
@@ -1934,14 +1934,14 @@ WITH spend_summary AS (
     brand, 
     platform, 
     ROUND(SUM(spend_eur), 2) AS total_spend
-  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`
+  FROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend`
   GROUP BY brand, platform
 ),
 revenue_summary AS (
   SELECT 
     brand, 
     ROUND(SUM(revenue_eur), 2) AS total_revenue
-  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`
+  FROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders`
   GROUP BY brand
 )
 SELECT 
@@ -1953,7 +1953,7 @@ SELECT
 FROM spend_summary s
 JOIN revenue_summary r ON s.brand = r.brand
 ORDER BY roas_multiplier DESC;</pre>
-              <button onclick="copyToClipboard(`WITH spend_summary AS (\n  SELECT \n    brand, \n    platform, \n    ROUND(SUM(spend_eur), 2) AS total_spend\n  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend\`\n  GROUP BY brand, platform\n),\nrevenue_summary AS (\n  SELECT \n    brand, \n    ROUND(SUM(revenue_eur), 2) AS total_revenue\n  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`\n  GROUP BY brand\n)\nSELECT \n  s.platform, \n  s.brand, \n  s.total_spend, \n  r.total_revenue, \n  ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas_multiplier\nFROM spend_summary s\nJOIN revenue_summary r ON s.brand = r.brand\nORDER BY roas_multiplier DESC;`)" class="absolute top-2 right-2 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans shadow">
+              <button onclick="copyToClipboard(`WITH spend_summary AS (\n  SELECT \n    brand, \n    platform, \n    ROUND(SUM(spend_eur), 2) AS total_spend\n  FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend\`\n  GROUP BY brand, platform\n),\nrevenue_summary AS (\n  SELECT \n    brand, \n    ROUND(SUM(revenue_eur), 2) AS total_revenue\n  FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\`\n  GROUP BY brand\n)\nSELECT \n  s.platform, \n  s.brand, \n  s.total_spend, \n  r.total_revenue, \n  ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas_multiplier\nFROM spend_summary s\nJOIN revenue_summary r ON s.brand = r.brand\nORDER BY roas_multiplier DESC;`)" class="absolute top-2 right-2 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans shadow">
                 Copia SQL 📋
               </button>
             </div>
@@ -2444,7 +2444,7 @@ ORDER BY roas_multiplier DESC;</pre>
         b5P3Desc: "Caricare i lead VIP estratti in Google Ads Customer Match per il lancio dei Ray-Ban Meta Smart Glasses.",
         // STORY BRIEFING TRANSLATIONS IT
         storyBriefBadge: "Briefing Emergenza CMO • Ore 15:30",
-        storyTargetDataset: "Dataset: qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics",
+        storyTargetDataset: "Dataset: qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics",
         storyBriefHeadline: "\"Spesa Pubblicitaria Globale +35%... ma Fatturato Online Fermo al +2%!\"",
         storyBriefNarrative: "Il CMO di Luxottica ha convocato i migliori team di <strong>Marketing Data Detective</strong>: il budget adv è esploso su canali social e display terzi, ma le vendite non decollano. Nelle prossime 3 ore in BigQuery Studio dovrete esplorare 116.000 record, stanare le emorragie di budget, dimostrare il ROI dell'ecosistema <strong>Google Ads (Search, Shopping, YouTube)</strong> e presentare il <strong>Piano di Crescita Q4</strong> per dominare le vendite dei <em>Ray-Ban Meta Smart Glasses</em>!",
         storyStep1Num: "Capitolo 1",
@@ -2732,7 +2732,7 @@ ORDER BY roas_multiplier DESC;</pre>
         b5P3Desc: "Harness the SQL view of high-value contacts to power Google Ads Customer Match and boost conversions.",
         // STORY BRIEFING TRANSLATIONS EN
         storyBriefBadge: "CMO Emergency Briefing • 15:30",
-        storyTargetDataset: "Dataset: qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics",
+        storyTargetDataset: "Dataset: qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics",
         storyBriefHeadline: "\"Global Ad Spend Up +35%... Yet Online Revenue Growth Flat at +2%!\"",
         storyBriefNarrative: "The Luxottica CMO has summoned our top <strong>Marketing Data Detective</strong> teams: ad spend surged across 3rd-party social networks, but direct sales are stagnant. Over the next 3 hours in BigQuery Studio, investigate 116,000 records, expose margin leaks, validate the explosive ROAS of the <strong>Google Ads ecosystem (Search, Shopping, YouTube)</strong>, and present the <strong>Q4 Growth Plan</strong> to win the launch of <em>Ray-Ban Meta Smart Glasses</em>!",
         storyStep1Num: "Chapter 1",
@@ -5969,8 +5969,8 @@ ORDER BY roas_multiplier DESC;</pre>
         fileContent: `-- =============================================================================
 -- HANDS-ON CHALLENGE #1: "THE DATA EXPLORER" (EXTENDED WORKBOOK)
 -- Target Duration: 35 Minutes (Block 2: 16:10 - 16:45)
--- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
--- Target Dataset: \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics\`
+-- GCP Project ID: qwiklabs-asl-02-9bb3224716de
+-- Target Dataset: \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics\`
 -- =============================================================================
 
 -- Q1: Total Revenue and Units Sold per Brand
@@ -5979,7 +5979,7 @@ SELECT
   COUNT(order_id) AS total_orders, 
   ROUND(SUM(revenue_eur), 2) AS total_revenue_eur, 
   ROUND(AVG(revenue_eur), 2) AS aov_eur
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\`
 GROUP BY brand
 ORDER BY total_revenue_eur DESC;
 
@@ -5988,7 +5988,7 @@ SELECT
   channel, 
   COUNT(order_id) AS order_count, 
   ROUND(SUM(revenue_eur), 2) AS total_revenue
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\`
 GROUP BY channel
 ORDER BY total_revenue DESC;
 
@@ -5998,7 +5998,7 @@ SELECT
   channel, 
   COUNT(order_id) AS high_value_orders, 
   ROUND(SUM(revenue_eur), 2) AS high_value_revenue
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\`
 WHERE revenue_eur > 300
 GROUP BY brand, channel
 ORDER BY high_value_revenue DESC;
@@ -6009,7 +6009,7 @@ SELECT
   SUM(impressions) AS total_impressions, 
   SUM(clicks) AS total_clicks, 
   ROUND(SAFE_DIVIDE(SUM(clicks), SUM(impressions)) * 100, 3) AS ctr_percentage
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend\`
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend\`
 GROUP BY platform
 ORDER BY ctr_percentage DESC;
 
@@ -6020,7 +6020,7 @@ SELECT
   ROUND(SUM(spend_eur), 2) AS total_spend, 
   SUM(conversions) AS total_conversions, 
   ROUND(SAFE_DIVIDE(SUM(spend_eur), SUM(conversions)), 2) AS cost_per_conversion
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend\`
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend\`
 GROUP BY campaign_name, platform
 HAVING total_conversions > 0
 ORDER BY cost_per_conversion ASC
@@ -6032,7 +6032,7 @@ SELECT
   channel, 
   ROUND(AVG(discount_amount_eur), 2) AS avg_discount_eur, 
   ROUND(SUM(discount_amount_eur), 2) AS total_discount_given
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\`
 GROUP BY brand, channel
 ORDER BY avg_discount_eur DESC;
 
@@ -6042,7 +6042,7 @@ SELECT
   loyalty_tier, 
   COUNT(customer_id) AS total_customers, 
   ROUND(AVG(lifetime_spend_eur), 2) AS avg_customer_ltv
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers\`
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_crm_customers\`
 GROUP BY region, loyalty_tier
 ORDER BY region, avg_customer_ltv DESC;
 
@@ -6055,7 +6055,7 @@ SELECT
   END AS spend_bracket, 
   COUNT(order_id) AS total_orders, 
   ROUND(SUM(revenue_eur), 2) AS bracket_revenue
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\`
 GROUP BY spend_bracket
 ORDER BY spend_bracket ASC;
 `,
@@ -6066,7 +6066,7 @@ ORDER BY spend_bracket ASC;
             titleEn: "Revenue & Average Order Value per Brand",
             desc: "Calcola il fatturato totale (revenue_eur), il numero totale di ordini e lo scontrino medio (AOV) per ciascun brand.",
             descEn: "Calculate total revenue (revenue_eur), total order count, and average order value (AOV) for each brand.",
-            sql: "SELECT \n  brand, \n  COUNT(order_id) AS total_orders, \n  ROUND(SUM(revenue_eur), 2) AS total_revenue_eur, \n  ROUND(AVG(revenue_eur), 2) AS aov_eur\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`\nGROUP BY brand\nORDER BY total_revenue_eur DESC;"
+            sql: "SELECT \n  brand, \n  COUNT(order_id) AS total_orders, \n  ROUND(SUM(revenue_eur), 2) AS total_revenue_eur, \n  ROUND(AVG(revenue_eur), 2) AS aov_eur\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders`\nGROUP BY brand\nORDER BY total_revenue_eur DESC;"
           },
           {
             num: "Q2",
@@ -6074,7 +6074,7 @@ ORDER BY spend_bracket ASC;
             titleEn: "Sales Breakdown by Channel",
             desc: "Qual è il canale di vendita che genera il maggior volume d'affari complessivo?",
             descEn: "Which sales channel generates the highest overall business volume?",
-            sql: "SELECT \n  channel, \n  COUNT(order_id) AS order_count, \n  ROUND(SUM(revenue_eur), 2) AS total_revenue\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`\nGROUP BY channel\nORDER BY total_revenue DESC;"
+            sql: "SELECT \n  channel, \n  COUNT(order_id) AS order_count, \n  ROUND(SUM(revenue_eur), 2) AS total_revenue\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders`\nGROUP BY channel\nORDER BY total_revenue DESC;"
           },
           {
             num: "Q3",
@@ -6082,7 +6082,7 @@ ORDER BY spend_bracket ASC;
             titleEn: "High Value Orders (> €300)",
             desc: "Filtra gli ordini con valore superiore a 300 € per individuare dove si concentrano i prodotti premium (Ray-Ban Meta, Oliver Peoples).",
             descEn: "Filter orders with value exceeding €300 to find where premium products are concentrated.",
-            sql: "SELECT \n  brand, \n  channel, \n  COUNT(order_id) AS high_value_orders, \n  ROUND(SUM(revenue_eur), 2) AS high_value_revenue\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`\nWHERE revenue_eur > 300\nGROUP BY brand, channel\nORDER BY high_value_revenue DESC;"
+            sql: "SELECT \n  brand, \n  channel, \n  COUNT(order_id) AS high_value_orders, \n  ROUND(SUM(revenue_eur), 2) AS high_value_revenue\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders`\nWHERE revenue_eur > 300\nGROUP BY brand, channel\nORDER BY high_value_revenue DESC;"
           },
           {
             num: "Q4",
@@ -6090,7 +6090,7 @@ ORDER BY spend_bracket ASC;
             titleEn: "CTR & Ad Platform Efficiency",
             desc: "Calcola il Click-Through Rate (CTR = clicks / impressions * 100) per ogni canale pubblicitario.",
             descEn: "Calculate Click-Through Rate (CTR = clicks / impressions * 100) per ad channel.",
-            sql: "SELECT \n  platform, \n  SUM(impressions) AS total_impressions, \n  SUM(clicks) AS total_clicks, \n  ROUND(SAFE_DIVIDE(SUM(clicks), SUM(impressions)) * 100, 3) AS ctr_percentage\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`\nGROUP BY platform\nORDER BY ctr_percentage DESC;"
+            sql: "SELECT \n  platform, \n  SUM(impressions) AS total_impressions, \n  SUM(clicks) AS total_clicks, \n  ROUND(SAFE_DIVIDE(SUM(clicks), SUM(impressions)) * 100, 3) AS ctr_percentage\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend`\nGROUP BY platform\nORDER BY ctr_percentage DESC;"
           },
           {
             num: "Q5",
@@ -6098,7 +6098,7 @@ ORDER BY spend_bracket ASC;
             titleEn: "Top 5 Campaigns by Cost per Conversion (CAC)",
             desc: "Quali campagne adv hanno il costo per conversione più vantaggioso?",
             descEn: "Which advertising campaigns have the best cost per conversion?",
-            sql: "SELECT \n  campaign_name, \n  platform, \n  ROUND(SUM(spend_eur), 2) AS total_spend, \n  SUM(conversions) AS total_conversions, \n  ROUND(SAFE_DIVIDE(SUM(spend_eur), SUM(conversions)), 2) AS cost_per_conversion\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`\nGROUP BY campaign_name, platform\nHAVING total_conversions > 0\nORDER BY cost_per_conversion ASC\nLIMIT 5;"
+            sql: "SELECT \n  campaign_name, \n  platform, \n  ROUND(SUM(spend_eur), 2) AS total_spend, \n  SUM(conversions) AS total_conversions, \n  ROUND(SAFE_DIVIDE(SUM(spend_eur), SUM(conversions)), 2) AS cost_per_conversion\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend`\nGROUP BY campaign_name, platform\nHAVING total_conversions > 0\nORDER BY cost_per_conversion ASC\nLIMIT 5;"
           },
           {
             num: "Q6",
@@ -6106,7 +6106,7 @@ ORDER BY spend_bracket ASC;
             titleEn: "Margin Leakage: Wholesale Discount Impact per Brand",
             desc: "Confronta l'ammontare medio degli sconti concessi per canale. Scopri la fuga di margine sul canale Wholesale!",
             descEn: "Compare average discounts granted per channel. Reveal the margin leak on Wholesale!",
-            sql: "SELECT \n  brand, \n  channel, \n  ROUND(AVG(discount_amount_eur), 2) AS avg_discount_eur, \n  ROUND(SUM(discount_amount_eur), 2) AS total_discount_given\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`\nGROUP BY brand, channel\nORDER BY avg_discount_eur DESC;"
+            sql: "SELECT \n  brand, \n  channel, \n  ROUND(AVG(discount_amount_eur), 2) AS avg_discount_eur, \n  ROUND(SUM(discount_amount_eur), 2) AS total_discount_given\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders`\nGROUP BY brand, channel\nORDER BY avg_discount_eur DESC;"
           },
           {
             num: "Q7",
@@ -6114,7 +6114,7 @@ ORDER BY spend_bracket ASC;
             titleEn: "CRM Loyalty Tier & Regional Behavior",
             desc: "Come si distribuiscono i clienti per fascia di fedeltà e regione?",
             descEn: "How are customers distributed across loyalty tiers and regions?",
-            sql: "SELECT \n  region, \n  loyalty_tier, \n  COUNT(customer_id) AS total_customers, \n  ROUND(AVG(lifetime_spend_eur), 2) AS avg_customer_ltv\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers`\nGROUP BY region, loyalty_tier\nORDER BY region, avg_customer_ltv DESC;"
+            sql: "SELECT \n  region, \n  loyalty_tier, \n  COUNT(customer_id) AS total_customers, \n  ROUND(AVG(lifetime_spend_eur), 2) AS avg_customer_ltv\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_crm_customers`\nGROUP BY region, loyalty_tier\nORDER BY region, avg_customer_ltv DESC;"
           },
           {
             num: "Q8",
@@ -6122,7 +6122,7 @@ ORDER BY spend_bracket ASC;
             titleEn: "Order Spend Segmentation with CASE WHEN",
             desc: "Raggruppa gli ordini in 3 fasce: Entry Level (< 150 €), Core Luxury (150-300 €), High-End (> 300 €).",
             descEn: "Group orders into 3 brackets: Entry Level (< €150), Core Luxury (€150-€300), High-End (> €300).",
-            sql: "SELECT \n  CASE \n    WHEN revenue_eur < 150 THEN '1. Entry Level (< 150 €)'\n    WHEN revenue_eur <= 300 THEN '2. Core Luxury (150-300 €)'\n    ELSE '3. High-End (> 300 €)'\n  END AS spend_bracket,\n  COUNT(order_id) AS total_orders,\n  ROUND(SUM(revenue_eur), 2) AS bracket_revenue\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`\nGROUP BY spend_bracket\nORDER BY spend_bracket ASC;"
+            sql: "SELECT \n  CASE \n    WHEN revenue_eur < 150 THEN '1. Entry Level (< 150 €)'\n    WHEN revenue_eur <= 300 THEN '2. Core Luxury (150-300 €)'\n    ELSE '3. High-End (> 300 €)'\n  END AS spend_bracket,\n  COUNT(order_id) AS total_orders,\n  ROUND(SUM(revenue_eur), 2) AS bracket_revenue\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders`\nGROUP BY spend_bracket\nORDER BY spend_bracket ASC;"
           }
         ]
       },
@@ -6135,8 +6135,8 @@ ORDER BY spend_bracket ASC;
         fileContent: `-- =============================================================================
 -- HANDS-ON CHALLENGE #2: "CROSS-CHANNEL MARKETING INTELLIGENCE"
 -- Target Duration: 25 Minutes (Block 3: 17:20 - 17:45)
--- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
--- Target Dataset: \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics\`
+-- GCP Project ID: qwiklabs-asl-02-9bb3224716de
+-- Target Dataset: \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics\`
 -- =============================================================================
 
 -- Q1: Customer Lifetime Value (LTV) by Loyalty Tier
@@ -6146,8 +6146,8 @@ SELECT
   COUNT(DISTINCT c.customer_id) AS active_customers, 
   ROUND(SUM(o.revenue_eur), 2) AS total_realized_revenue, 
   ROUND(SAFE_DIVIDE(SUM(o.revenue_eur), COUNT(DISTINCT c.customer_id)), 2) AS realized_aov
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers\` c
-JOIN \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\` o
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_crm_customers\` c
+JOIN \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\` o
   ON c.customer_id = o.customer_id
 GROUP BY c.loyalty_tier, c.preferred_brand
 ORDER BY total_realized_revenue DESC;
@@ -6160,7 +6160,7 @@ SELECT
   'PURCHASE' AS event_type, 
   brand, 
   revenue_eur AS monetary_value
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\`
 UNION ALL
 SELECT 
   customer_id AS event_id, 
@@ -6169,7 +6169,7 @@ SELECT
   'SIGNUP' AS event_type, 
   preferred_brand AS brand, 
   lifetime_spend_eur AS monetary_value
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers\`;
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_crm_customers\`;
 
 -- Q3: Multi-Platform ROAS Calculation (The Decisive Query)
 WITH spend_summary AS (
@@ -6177,14 +6177,14 @@ WITH spend_summary AS (
     brand, 
     platform, 
     ROUND(SUM(spend_eur), 2) AS total_spend
-  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend\`
+  FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend\`
   GROUP BY brand, platform
 ),
 revenue_summary AS (
   SELECT 
     brand, 
     ROUND(SUM(revenue_eur), 2) AS total_revenue
-  FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\`
+  FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\`
   GROUP BY brand
 )
 SELECT 
@@ -6203,8 +6203,8 @@ SELECT
   o.brand AS purchased_brand, 
   COUNT(o.order_id) AS transaction_count, 
   ROUND(SUM(o.revenue_eur), 2) AS cross_brand_sales
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers\` c
-JOIN \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders\` o 
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_crm_customers\` c
+JOIN \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\` o 
   ON c.customer_id = o.customer_id
 WHERE c.preferred_brand != o.brand
 GROUP BY stated_brand, purchased_brand
@@ -6217,7 +6217,7 @@ ORDER BY transaction_count DESC;
             titleEn: "Customer LTV by Loyalty Tier & Preferred Brand",
             desc: "Unisci lux_crm_customers e lux_online_orders per analizzare la spesa effettiva rispetto alla fedeltà dichiarata.",
             descEn: "Join lux_crm_customers and lux_online_orders to analyze actual spend vs declared loyalty.",
-            sql: "SELECT \n  c.loyalty_tier, \n  c.preferred_brand, \n  COUNT(DISTINCT c.customer_id) AS active_customers, \n  ROUND(SUM(o.revenue_eur), 2) AS total_realized_revenue, \n  ROUND(SAFE_DIVIDE(SUM(o.revenue_eur), COUNT(DISTINCT c.customer_id)), 2) AS realized_aov\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers` c\nJOIN `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders` o\n  ON c.customer_id = o.customer_id\nGROUP BY c.loyalty_tier, c.preferred_brand\nORDER BY total_realized_revenue DESC;"
+            sql: "SELECT \n  c.loyalty_tier, \n  c.preferred_brand, \n  COUNT(DISTINCT c.customer_id) AS active_customers, \n  ROUND(SUM(o.revenue_eur), 2) AS total_realized_revenue, \n  ROUND(SAFE_DIVIDE(SUM(o.revenue_eur), COUNT(DISTINCT c.customer_id)), 2) AS realized_aov\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_crm_customers` c\nJOIN `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders` o\n  ON c.customer_id = o.customer_id\nGROUP BY c.loyalty_tier, c.preferred_brand\nORDER BY total_realized_revenue DESC;"
           },
           {
             num: "Q2",
@@ -6225,7 +6225,7 @@ ORDER BY transaction_count DESC;
             titleEn: "Omnichannel Activity Stream with UNION ALL",
             desc: "Crea un flusso unificato di touchpoint combinando ordini online e interazioni CRM.",
             descEn: "Create a unified touchpoint stream combining online orders and CRM records.",
-            sql: "SELECT \n  order_id AS event_id, \n  customer_id, \n  order_date AS event_date, \n  'PURCHASE' AS event_type, \n  brand, \n  revenue_eur AS monetary_value\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`\nUNION ALL\nSELECT \n  customer_id AS event_id, \n  customer_id, \n  signup_date AS event_date, \n  'SIGNUP' AS event_type, \n  preferred_brand AS brand, \n  lifetime_spend_eur AS monetary_value\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers`;"
+            sql: "SELECT \n  order_id AS event_id, \n  customer_id, \n  order_date AS event_date, \n  'PURCHASE' AS event_type, \n  brand, \n  revenue_eur AS monetary_value\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders`\nUNION ALL\nSELECT \n  customer_id AS event_id, \n  customer_id, \n  signup_date AS event_date, \n  'SIGNUP' AS event_type, \n  preferred_brand AS brand, \n  lifetime_spend_eur AS monetary_value\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_crm_customers`;"
           },
           {
             num: "Q3",
@@ -6233,7 +6233,7 @@ ORDER BY transaction_count DESC;
             titleEn: "Multi-Platform ROAS Calculation (The Decisive Query)",
             desc: "Aggrega separatamente la spesa adv e i ricavi con due CTE pre-aggregate, poi unisci su brand per identificare chi produce valore e chi brucia budget.",
             descEn: "Separately aggregate ad spend and revenues using two pre-aggregated CTEs, then join on brand to uncover high vs low performing ad channels.",
-            sql: "WITH spend_summary AS (\n  SELECT \n    brand, \n    platform, \n    ROUND(SUM(spend_eur), 2) AS total_spend\n  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend`\n  GROUP BY brand, platform\n),\nrevenue_summary AS (\n  SELECT \n    brand, \n    ROUND(SUM(revenue_eur), 2) AS total_revenue\n  FROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders`\n  GROUP BY brand\n)\nSELECT \n  s.platform, \n  s.brand, \n  s.total_spend, \n  r.total_revenue, \n  ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas_multiplier\nFROM spend_summary s\nJOIN revenue_summary r ON s.brand = r.brand\nORDER BY roas_multiplier DESC;"
+            sql: "WITH spend_summary AS (\n  SELECT \n    brand, \n    platform, \n    ROUND(SUM(spend_eur), 2) AS total_spend\n  FROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend`\n  GROUP BY brand, platform\n),\nrevenue_summary AS (\n  SELECT \n    brand, \n    ROUND(SUM(revenue_eur), 2) AS total_revenue\n  FROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders`\n  GROUP BY brand\n)\nSELECT \n  s.platform, \n  s.brand, \n  s.total_spend, \n  r.total_revenue, \n  ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas_multiplier\nFROM spend_summary s\nJOIN revenue_summary r ON s.brand = r.brand\nORDER BY roas_multiplier DESC;"
           },
           {
             num: "Q4",
@@ -6241,7 +6241,7 @@ ORDER BY transaction_count DESC;
             titleEn: "Preferred Brand vs Actually Purchased Brand Alignment",
             desc: "Verifica quanti clienti acquistano un brand diverso da quello indicato come preferito nel CRM.",
             descEn: "Check how many customers buy a brand different from their stated preference in CRM.",
-            sql: "SELECT \n  c.preferred_brand AS stated_brand, \n  o.brand AS purchased_brand, \n  COUNT(o.order_id) AS transaction_count, \n  ROUND(SUM(o.revenue_eur), 2) AS cross_brand_sales\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers` c\nJOIN `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders` o \n  ON c.customer_id = o.customer_id\nWHERE c.preferred_brand != o.brand\nGROUP BY stated_brand, purchased_brand\nORDER BY transaction_count DESC;"
+            sql: "SELECT \n  c.preferred_brand AS stated_brand, \n  o.brand AS purchased_brand, \n  COUNT(o.order_id) AS transaction_count, \n  ROUND(SUM(o.revenue_eur), 2) AS cross_brand_sales\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_crm_customers` c\nJOIN `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders` o \n  ON c.customer_id = o.customer_id\nWHERE c.preferred_brand != o.brand\nGROUP BY stated_brand, purchased_brand\nORDER BY transaction_count DESC;"
           }
         ]
       },
@@ -6254,8 +6254,8 @@ ORDER BY transaction_count DESC;
         fileContent: `-- =============================================================================
 -- HANDS-ON CHALLENGE #3: "THE CLEAN SLATE" (AUTOMATED ETL VIEW)
 -- Target Duration: 20 Minutes (Block 4: 17:55 - 18:15)
--- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
--- Target Dataset: \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics\`
+-- GCP Project ID: qwiklabs-asl-02-9bb3224716de
+-- Target Dataset: \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics\`
 -- =============================================================================
 
 /*
@@ -6264,18 +6264,18 @@ Transform lux_raw_marketing_leads_dirty into a clean BigQuery SQL VIEW named
 v_clean_marketing_leads_<your_name> for Google Ads Customer Match ingestion.
 */
 
-CREATE OR REPLACE VIEW \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_<your_name>\` AS
+CREATE OR REPLACE VIEW \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.v_clean_marketing_leads_<your_name>\` AS
 SELECT 
-  lead_id, 
-  LOWER(TRIM(email)) AS clean_email, 
-  TRIM(full_name) AS clean_name, 
-  UPPER(TRIM(brand_interest)) AS target_brand, 
-  SAFE_CAST(REPLACE(REPLACE(spend_history, '€', ''), ' ', '') AS NUMERIC) AS clean_spend_eur, 
-  PARSE_DATE('%Y-%m-%d', SAFE_CAST(capture_date AS STRING)) AS clean_capture_date, 
+  TRIM(raw_lead_id) AS lead_id, 
+  LOWER(TRIM(raw_email)) AS clean_email, 
+  UPPER(TRIM(raw_brand)) AS target_brand, 
+  SAFE_CAST(REPLACE(REPLACE(REPLACE(raw_estimated_spend, '€', ''), 'EUR', ''), ' ', '') AS NUMERIC) AS clean_spend_eur, 
+  signup_raw_date AS capture_date, 
+  raw_country AS country,
   'VIP_CUSTOMER_MATCH' AS audience_segment
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty\`
-WHERE SAFE_CAST(REPLACE(REPLACE(spend_history, '€', ''), ' ', '') AS NUMERIC) > 200
-QUALIFY ROW_NUMBER() OVER(PARTITION BY LOWER(TRIM(email)) ORDER BY capture_date DESC) = 1;
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty\`
+WHERE SAFE_CAST(REPLACE(REPLACE(REPLACE(raw_estimated_spend, '€', ''), 'EUR', ''), ' ', '') AS NUMERIC) > 200
+QUALIFY ROW_NUMBER() OVER(PARTITION BY LOWER(TRIM(raw_email)) ORDER BY signup_raw_date DESC) = 1;
 
 -- Verification Query: Check Recovered VIP Leads
 SELECT 
@@ -6283,7 +6283,7 @@ SELECT
   COUNT(lead_id) AS total_vip_leads, 
   ROUND(AVG(clean_spend_eur), 2) AS avg_vip_spend, 
   ROUND(SUM(clean_spend_eur), 2) AS pipeline_potential_eur
-FROM \`qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_team\`
+FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.v_clean_marketing_leads_team\`
 GROUP BY target_brand
 ORDER BY total_vip_leads DESC;
 `,
@@ -6292,9 +6292,9 @@ ORDER BY total_vip_leads DESC;
             num: "Blueprint",
             title: "Specifiche di Trasformazione DDL",
             titleEn: "DDL Transformation Specifications",
-            desc: "La tabella lux_raw_marketing_leads_dirty presenta email con spazi e maiuscole sballate, spend_history formattato come stringa con simbolo '€' e lead non qualificati. Dobbiamo creare una Vista BigQuery permanente che isoli i lead VIP (> 200 €).",
-            descEn: "The dirty table has emails with extra spaces, invalid casings, string currency symbols. Create a permanent View isolating VIP leads (> €200).",
-            sql: "-- Sostituisci il suffisso con il tuo team o nome (es. v_clean_marketing_leads_rayban_chiara)\nCREATE OR REPLACE VIEW `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_team` AS\nSELECT \n  lead_id, \n  LOWER(TRIM(email)) AS clean_email, \n  TRIM(full_name) AS clean_name, \n  UPPER(TRIM(brand_interest)) AS target_brand, \n  SAFE_CAST(REPLACE(REPLACE(spend_history, '€', ''), ' ', '') AS NUMERIC) AS clean_spend_eur, \n  PARSE_DATE('%Y-%m-%d', SAFE_CAST(capture_date AS STRING)) AS clean_capture_date, \n  'VIP_CUSTOMER_MATCH' AS audience_segment\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`\nWHERE SAFE_CAST(REPLACE(REPLACE(spend_history, '€', ''), ' ', '') AS NUMERIC) > 200\nQUALIFY ROW_NUMBER() OVER(PARTITION BY LOWER(TRIM(email)) ORDER BY capture_date DESC) = 1;"
+            desc: "La tabella lux_raw_marketing_leads_dirty presenta email con spazi e maiuscole sballate (raw_email), spesa formattata come stringa con simboli '€'/'EUR' (raw_estimated_spend) e lead non qualificati. Dobbiamo creare una Vista BigQuery permanente che isoli i lead VIP (> 200 €).",
+            descEn: "The dirty table has emails with extra spaces (raw_email) and string currency symbols in raw_estimated_spend. Create a permanent View isolating VIP leads (> €200).",
+            sql: "-- Sostituisci il suffisso con il tuo team o nome (es. v_clean_marketing_leads_rayban_chiara)\nCREATE OR REPLACE VIEW `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.v_clean_marketing_leads_team` AS\nSELECT \n  TRIM(raw_lead_id) AS lead_id, \n  LOWER(TRIM(raw_email)) AS clean_email, \n  UPPER(TRIM(raw_brand)) AS target_brand, \n  SAFE_CAST(REPLACE(REPLACE(REPLACE(raw_estimated_spend, '€', ''), 'EUR', ''), ' ', '') AS NUMERIC) AS clean_spend_eur, \n  signup_raw_date AS capture_date, \n  raw_country AS country, \n  'VIP_CUSTOMER_MATCH' AS audience_segment\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty`\nWHERE SAFE_CAST(REPLACE(REPLACE(REPLACE(raw_estimated_spend, '€', ''), 'EUR', ''), ' ', '') AS NUMERIC) > 200\nQUALIFY ROW_NUMBER() OVER(PARTITION BY LOWER(TRIM(raw_email)) ORDER BY signup_raw_date DESC) = 1;"
           },
           {
             num: "Verify",
@@ -6302,7 +6302,7 @@ ORDER BY total_vip_leads DESC;
             titleEn: "VIP Leads Recovery Count Verification Query",
             desc: "Esegui questa query per verificare quanti lead qualificati sono stati recuperati dalla tua vista:",
             descEn: "Run this query to verify recovered qualified leads count from your view:",
-            sql: "SELECT \n  target_brand, \n  COUNT(lead_id) AS total_vip_leads, \n  ROUND(AVG(clean_spend_eur), 2) AS avg_vip_spend, \n  ROUND(SUM(clean_spend_eur), 2) AS pipeline_potential_eur\nFROM `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.v_clean_marketing_leads_team`\nGROUP BY target_brand\nORDER BY total_vip_leads DESC;"
+            sql: "SELECT \n  target_brand, \n  COUNT(lead_id) AS total_vip_leads, \n  ROUND(AVG(clean_spend_eur), 2) AS avg_vip_spend, \n  ROUND(SUM(clean_spend_eur), 2) AS pipeline_potential_eur\nFROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.v_clean_marketing_leads_team`\nGROUP BY target_brand\nORDER BY total_vip_leads DESC;"
           }
         ]
       }
@@ -6466,7 +6466,7 @@ ORDER BY total_vip_leads DESC;
                   <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono">+50 pt</span>
                 </div>
                 <div class="text-[11px] text-slate-300 space-y-1.5">
-                  <div><strong>🎙️ Cosa Dice e Fa il Docente:</strong> Proietta lo Student Hub a schermo intero. Apre l'indagine: <em>"Nel primo semestre la spesa adv è salita del +35%, ma il fatturato online è cresciuto solo del +2%. Dov'è finita la cassa?"</em>. Entra in BigQuery Studio su <code>qwiklabs-gcp-04-9efaa47f1d21</code>, apre <strong>Data Canvas</strong> e digita: <em>"Mostrami vendite totali e scontrino medio per brand"</em>. Commenta il grafico a barre colorate con Gemini AI Insights.</div>
+                  <div><strong>🎙️ Cosa Dice e Fa il Docente:</strong> Proietta lo Student Hub a schermo intero. Apre l'indagine: <em>"Nel primo semestre la spesa adv è salita del +35%, ma il fatturato online è cresciuto solo del +2%. Dov'è finita la cassa?"</em>. Entra in BigQuery Studio su <code>qwiklabs-asl-02-9bb3224716de</code>, apre <strong>Data Canvas</strong> e digita: <em>"Mostrami vendite totali e scontrino medio per brand"</em>. Commenta il grafico a barre colorate con Gemini AI Insights.</div>
                   <div><strong>💻 Cosa Fa lo Studente:</strong> Incolla l'ID di progetto nei preferiti dell'Explorer di BigQuery Studio. Osserva le 4 tabelle. Compila la card scura di convalida nel Blocco 1 dell'Hub per incassare i primi 50 punti!</div>
                 </div>
               </div>
@@ -6542,7 +6542,7 @@ ORDER BY total_vip_leads DESC;
                   <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono">+50 pts</span>
                 </div>
                 <div class="text-[11px] text-slate-300 space-y-1.5">
-                  <div><strong>🎙️ Trainer Action & Words:</strong> Present Student Hub on main screen: <em>"H1 ad spend jumped +35%, yet online sales grew only +2%. Where is our margin bleeding?"</em>. Open BigQuery Studio in <code>qwiklabs-gcp-04-9efaa47f1d21</code>, open <strong>Data Canvas</strong>, type: <em>"Show total sales and average order value by brand"</em>. Comment on color-coded bar chart with Gemini AI Insights.</div>
+                  <div><strong>🎙️ Trainer Action & Words:</strong> Present Student Hub on main screen: <em>"H1 ad spend jumped +35%, yet online sales grew only +2%. Where is our margin bleeding?"</em>. Open BigQuery Studio in <code>qwiklabs-asl-02-9bb3224716de</code>, open <strong>Data Canvas</strong>, type: <em>"Show total sales and average order value by brand"</em>. Comment on color-coded bar chart with Gemini AI Insights.</div>
                   <div><strong>💻 Student Action:</strong> Pin project ID to BigQuery Explorer. Inspect 4 tables. Complete the dark validation card in Block 1 of the Hub to lock in their first 50 points!</div>
                 </div>
               </div>

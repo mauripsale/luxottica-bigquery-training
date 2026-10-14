@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
 Luxottica BigQuery Training - Pre-Flight Smoke Test
-Checks all 4 tables in qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics
+Checks all 4 tables in qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics
 """
 
 import sys
 
-PROJECT_ID = "qwiklabs-gcp-04-9efaa47f1d21"
+PROJECT_ID = "qwiklabs-asl-02-9bb3224716de"
 DATASET_ID = "luxottica_marketing_analytics"
 
 EXPECTED_TABLES = [
