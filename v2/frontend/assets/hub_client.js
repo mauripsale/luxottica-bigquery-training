@@ -79,6 +79,54 @@ class TrainingHubClient {
     }
   }
 
+  // Trainer: toggle classroom navigation lock
+  async setLock(locked) {
+    try {
+      const url = `${this.apiBaseUrl}/api/v2/session/${encodeURIComponent(this.sessionId)}/lock?locked=${encodeURIComponent(locked)}&course_id=${encodeURIComponent(this.courseId)}`;
+      const resp = await fetch(url, { method: "POST" });
+      if (resp.ok) {
+        const data = await resp.json();
+        return !!data.synced;
+      }
+      return false;
+    } catch (e) {
+      console.error("[HubClient] setLock error:", e);
+      return false;
+    }
+  }
+
+  // Trainer: update unlocked hints list
+  async setHints(hints) {
+    try {
+      const url = `${this.apiBaseUrl}/api/v2/session/${encodeURIComponent(this.sessionId)}/hints?course_id=${encodeURIComponent(this.courseId)}`;
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(hints)
+      });
+      return resp.ok;
+    } catch (e) {
+      console.error("[HubClient] setHints error:", e);
+      return false;
+    }
+  }
+
+  // Trainer: update classroom countdown timer
+  async setTimer(timerData) {
+    try {
+      const url = `${this.apiBaseUrl}/api/v2/session/${encodeURIComponent(this.sessionId)}/timer?course_id=${encodeURIComponent(this.courseId)}`;
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(timerData)
+      });
+      return resp.ok;
+    } catch (e) {
+      console.error("[HubClient] setTimer error:", e);
+      return false;
+    }
+  }
+
   // Student: check-in / profile registration
   async checkinStudent(student) {
     try {

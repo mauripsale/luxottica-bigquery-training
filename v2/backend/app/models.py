@@ -16,18 +16,21 @@ class SessionState(BaseModel):
     unlocked_hints: List[str] = Field(default_factory=list)
     timer: TimerState = Field(default_factory=TimerState)
     trainer_active: bool = True
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    students: List[Dict[str, Any]] = Field(default_factory=list)
+    updated_at: Optional[datetime] = None
 
 class StudentProfile(BaseModel):
-    student_id: str
-    name: str
-    team_key: str
+    student_id: Optional[str] = None
+    id: Optional[str] = None
+    name: str = "Detective"
+    team_key: Optional[str] = None
+    teamKey: Optional[str] = None
     email: Optional[str] = None
     picture: Optional[str] = None
     score: int = 0
     completed_challenges: Dict[str, bool] = Field(default_factory=dict)
     online: bool = True
-    last_seen: datetime = Field(default_factory=datetime.utcnow)
+    last_seen: Optional[datetime] = None
 
 class ChallengeValidationRequest(BaseModel):
     session_id: str

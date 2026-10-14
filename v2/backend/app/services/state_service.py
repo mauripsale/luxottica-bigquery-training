@@ -22,9 +22,12 @@ class FirestoreStateService:
         if not self.db:
             return None
         doc = self._session_doc_ref(course_id, session_id).get()
-        if doc.exists:
-            return SessionState(**doc.to_dict())
-        return None
+        data = doc.to_dict() if doc.exists else {"session_id": session_id, "active_block": "cover"}
+        # Ensure updated_at is clean for Pydantic
+        if "updated_at" in data and hasattr(data["updated_at"], "isoformat"):
+            data["updated_at"] = data["updated_at"]
+        data["students"] = self.get_classroom_leaderboard(course_id, session_id)
+        return SessionState(**data)
 
     def set_session_block(self, course_id: str, session_id: str, block_id: str) -> bool:
         if not self.db:
@@ -40,11 +43,41 @@ class FirestoreStateService:
         ref.set({"is_locked": locked, "updated_at": firestore.SERVER_TIMESTAMP}, merge=True)
         return True
 
+    def set_session_hints(self, course_id: str, session_id: str, hints: List[str]) -> bool:
+        if not self.db:
+            return False
+        ref = self._session_doc_ref(course_id, session_id)
+        ref.set({"unlocked_hints": hints, "updated_at": firestore.SERVER_TIMESTAMP}, merge=True)
+        return True
+
+    def set_session_timer(self, course_id: str, session_id: str, timer_data: Dict[str, Any]) -> bool:
+        if not self.db:
+            return False
+        ref = self._session_doc_ref(course_id, session_id)
+        ref.set({"timer": timer_data, "updated_at": firestore.SERVER_TIMESTAMP}, merge=True)
+        return True
+
     def register_or_update_student(self, course_id: str, session_id: str, student: StudentProfile) -> bool:
         if not self.db:
             return False
-        ref = self._session_doc_ref(course_id, session_id).collection("students").document(student.student_id)
-        data = student.model_dump()
+        sid = student.student_id or student.id
+        if not sid:
+            return False
+        team = student.team_key or student.teamKey or "rayban"
+        ref = self._session_doc_ref(course_id, session_id).collection("students").document(sid)
+        data = {
+            "student_id": sid,
+            "id": sid,
+            "name": student.name,
+            "team_key": team,
+            "teamKey": team,
+            "email": student.email,
+            "picture": student.picture,
+            "score": student.score,
+            "completed_challenges": student.completed_challenges,
+            "online": True,
+            "updated_at": firestore.SERVER_TIMESTAMP
+        }
         ref.set(data, merge=True)
         return True
 
@@ -52,6 +85,13 @@ class FirestoreStateService:
         if not self.db:
             return []
         docs = self._session_doc_ref(course_id, session_id).collection("students").stream()
-        students = [doc.to_dict() for doc in docs]
+        students = []
+        for doc in docs:
+            d = doc.to_dict()
+            if "updated_at" in d and hasattr(d["updated_at"], "isoformat"):
+                d["updated_at"] = d["updated_at"].isoformat()
+            if "last_seen" in d and hasattr(d["last_seen"], "isoformat"):
+                d["last_seen"] = d["last_seen"].isoformat()
+            students.append(d)
         students.sort(key=lambda s: s.get("score", 0), reverse=True)
         return students

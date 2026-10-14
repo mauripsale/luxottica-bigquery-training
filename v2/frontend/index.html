@@ -2937,45 +2937,15 @@ ORDER BY roas_multiplier DESC;</pre>
     }
 
     let CURRENT_ROOM = getRoomCode();
-    let RELAY_BASE_TOPIC = CURRENT_ROOM;
-
-    const RELAY_NODES = [
-      'https://ntfy.sh',
-      'https://ntfy.envs.net'
-    ];
-
-    // 4 SHARDED CHANNELS TO SPLIT TRAFFIC BY 75%:
-    let SHARD_TOPICS = [
-      `${RELAY_BASE_TOPIC}-rayban`,
-      `${RELAY_BASE_TOPIC}-oakley`,
-      `${RELAY_BASE_TOPIC}-persol`,
-      `${RELAY_BASE_TOPIC}-oliver`
-    ];
 
     function updateRoomTopics(newRoom) {
       if (!newRoom) return;
       CURRENT_ROOM = newRoom.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '') || 'lux-bq-2026';
-      RELAY_BASE_TOPIC = CURRENT_ROOM;
       try { localStorage.setItem('lux_bq_room_code_v1', CURRENT_ROOM); } catch(e) {}
-      SHARD_TOPICS = [
-        `${RELAY_BASE_TOPIC}-rayban`,
-        `${RELAY_BASE_TOPIC}-oakley`,
-        `${RELAY_BASE_TOPIC}-persol`,
-        `${RELAY_BASE_TOPIC}-oliver`
-      ];
       setText('trainer-room-code-badge', CURRENT_ROOM);
-      initClusterEventListener();
     }
 
-    // Helper to get channel for a student by team or hash
-    function getStudentChannel(teamKey) {
-      if (teamKey && teamKey.includes('oakley')) return `${RELAY_BASE_TOPIC}-oakley`;
-      if (teamKey && teamKey.includes('persol')) return `${RELAY_BASE_TOPIC}-persol`;
-      if (teamKey && teamKey.includes('oliver')) return `${RELAY_BASE_TOPIC}-oliver`;
-      return `${RELAY_BASE_TOPIC}-rayban`;
-    }
-
-    // LOCAL CROSS-TAB BUS FOR INSTANT ZERO-LATENCY SYNCHRONIZATION
+    // LOCAL CROSS-TAB BUS FOR INSTANT ZERO-LATENCY SYNCHRONIZATION (SAME BROWSER PROFILE)
     let localBroadcastBus = null;
     try {
       if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
@@ -2985,11 +2955,11 @@ ORDER BY roas_multiplier DESC;</pre>
       console.warn("BroadcastChannel not available:", e);
     }
 
-    // High-resilience publisher with round-robin failover between nodes & shards
-    async function publishBroadcast(payload, specificTeamKey = null) {
-      const dataStr = JSON.stringify(payload);
-      
-      // 1) INSTANT LOCAL CROSS-TAB SYNC (0ms latency for tabs on same browser/device)
+    // AUTHORITATIVE GOOGLE CLOUD RUN + FIRESTORE SYNC (ZERO THIRD-PARTY RELAYS)
+    async function publishBroadcast(payload) {
+      if (!payload || !payload.action) return;
+
+      // 1) INSTANT LOCAL CROSS-TAB SYNC (for tabs on same browser/device)
       try {
         if (localBroadcastBus) {
           localBroadcastBus.postMessage(payload);
@@ -3001,43 +2971,32 @@ ORDER BY roas_multiplier DESC;</pre>
         localStorage.setItem('lux_cross_tab_sync_msg', JSON.stringify({ payload, t: Date.now() }));
       } catch (e) {}
 
-      // 2) REMOTE RELAY SYNC (across different computers/networks)
-      // Determine target channels:
-      // If student message -> sends only to their own shard channel (saving 75% traffic)
-      // If trainer command -> broadcast to all 4 shard channels in parallel with failover
-      let targetChannels = [];
-      if (specificTeamKey) {
-        targetChannels = [getStudentChannel(specificTeamKey)];
-      } else if (payload.action === 'student_checkin' || payload.action === 'score_update') {
-        const teamKey = payload.student?.teamKey || payload.teamKey || (currentStudent ? currentStudent.teamKey : null);
-        targetChannels = [getStudentChannel(teamKey)];
-      } else {
-        // Trainer wide broadcast (change block, lock, unlock hint, ping, reset)
-        targetChannels = SHARD_TOPICS;
-      }
+      // 2) AUTHORITATIVE CLOUD RUN + FIRESTORE NATIVE PERSISTENCE
+      if (!window.hubClient) return;
 
-      // PARALLEL HIGH-SPEED FIRE-AND-FORGET BROADCAST (SUB-SECOND LATENCY)
-      const sendToChannel = async (channel) => {
-        for (const node of RELAY_NODES) {
-          try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 1200);
-            const resp = await fetch(`${node}/${channel}`, {
-              method: 'POST',
-              body: dataStr,
-              signal: controller.signal
-            });
-            clearTimeout(timeoutId);
-            if (resp.ok) return true;
-          } catch (e) {}
+      try {
+        if (payload.action === 'change_block') {
+          await window.hubClient.setBlock(payload.block);
+        } else if (payload.action === 'set_lock') {
+          await window.hubClient.setLock(payload.locked);
+        } else if (payload.action === 'student_checkin' || payload.action === 'score_update') {
+          const st = payload.student || currentStudent;
+          if (st && (st.id || st.student_id)) {
+            await window.hubClient.checkinStudent(st);
+          }
+        } else if (payload.action === 'unlock_hint' || payload.action === 'hide_hint') {
+          const state = getActiveClassroomState();
+          await window.hubClient.setHints(state.unlockedHints || []);
+        } else if (payload.action === 'timer_sync') {
+          await window.hubClient.setTimer({
+            is_active: !!payload.active,
+            label: payload.label || '',
+            end_timestamp: payload.active ? (Date.now() + (payload.remainingSec * 1000)) : null
+          });
         }
-        return false;
-      };
-
-      // Dispatch to all target channels concurrently
-      Promise.allSettled(targetChannels.map(sendToChannel)).catch(e => {
-        console.warn("[Cluster Parallel] Broadcast settled with minor warning:", e);
-      });
+      } catch (err) {
+        console.warn("[CloudSync] publishBroadcast error:", err);
+      }
     }
 
     // SAFE DOM HELPERS TO PREVENT SCRIPT CRASHES
@@ -3336,47 +3295,93 @@ ORDER BY roas_multiplier DESC;</pre>
       }
     });
 
-    // INITIALIZE REAL-TIME SSE LISTENER FOR ALL 50 STUDENTS & TRAINER
-    // Subscribes to all 4 shards simultaneously via comma-separated SSE topics
-    let eventSource = null;
+    // INITIALIZE REAL-TIME CLOUD RUN + FIRESTORE STATE SYNCHRONIZATION
+    let syncEngineActive = false;
 
     function initClusterEventListener() {
-      try {
-        if (eventSource) eventSource.close();
-        const sseStreamUrl = `${RELAY_NODES[0]}/${SHARD_TOPICS.join(',')}/sse`;
-        eventSource = new EventSource(sseStreamUrl);
-        
-        eventSource.onmessage = function(event) {
-          try {
-            const data = JSON.parse(event.data);
-            if (data.message) {
-              const payload = JSON.parse(data.message);
-              dispatchIncomingEvent(payload);
-            }
-          } catch(e) {
-            if (event.data) {
-              showBlock(event.data, true);
-            }
-          }
-        };
-
-        eventSource.onopen = function() {
-          const dot = document.getElementById('net-status-dot');
-          const text = document.getElementById('net-status-text');
-          if (dot) dot.className = "w-1.5 h-1.5 rounded-full bg-emerald-500";
-          if (text) text.innerText = "Live";
-        };
-
-        eventSource.onerror = function() {
-          const dot = document.getElementById('net-status-dot');
-          const text = document.getElementById('net-status-text');
-          if (dot) dot.className = "w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping";
-          if (text) text.innerText = currentLang === 'it' ? "Riconnessione..." : "Reconnecting...";
-          console.warn("[Cluster SSE] Primary SSE stream disconnected, will auto-reconnect...");
-        };
-      } catch(err) {
-        console.warn("[Cluster SSE] Init error:", err);
+      if (syncEngineActive) return;
+      if (!window.hubClient) {
+        setTimeout(initClusterEventListener, 200);
+        return;
       }
+      syncEngineActive = true;
+
+      const dot = document.getElementById('net-status-dot');
+      const text = document.getElementById('net-status-text');
+
+      window.hubClient.onStateChange((state) => {
+        if (!state) return;
+        if (dot) dot.className = "w-1.5 h-1.5 rounded-full bg-emerald-500";
+        if (text) text.innerText = "Cloud Run Live";
+
+        // 1) Active Block sync (students follow trainer)
+        if (state.active_block !== undefined && state.active_block !== null) {
+          if (!isTrainerMode) {
+            showBlock(state.active_block, true);
+          }
+        }
+
+        // 2) Lock state sync
+        if (state.is_locked !== undefined && state.is_locked !== null) {
+          if (!isTrainerMode) {
+            applyLockState(state.is_locked);
+          }
+        }
+
+        // 3) Unlocked hints sync
+        if (Array.isArray(state.unlocked_hints)) {
+          state.unlocked_hints.forEach(hId => {
+            if (typeof applyRemoteHintUnlock === 'function') {
+              applyRemoteHintUnlock(hId);
+            }
+          });
+        }
+
+        // 4) Timer sync
+        if (state.timer) {
+          if (state.timer.is_active && state.timer.end_timestamp) {
+            const remSec = Math.max(0, Math.floor((state.timer.end_timestamp - Date.now()) / 1000));
+            if (remSec > 0 && typeof applyRemoteTimerSync === 'function') {
+              applyRemoteTimerSync({
+                active: true,
+                label: state.timer.label || 'TIMER',
+                remainingSec: remSec
+              });
+            }
+          } else if (typeof stopClassroomTimer === 'function') {
+            stopClassroomTimer();
+          }
+        }
+
+        // 5) Students roster sync from Firestore
+        if (Array.isArray(state.students)) {
+          state.students.forEach(st => {
+            const sid = st.student_id || st.id;
+            if (sid) {
+              classroomStudents[sid] = {
+                id: sid,
+                name: st.name || 'Detective',
+                teamKey: st.team_key || st.teamKey || 'rayban',
+                email: st.email || '',
+                picture: st.picture || '',
+                score: st.score || 0,
+                completedChallenges: st.completed_challenges || {},
+                lastActive: Date.now(),
+                loggedOut: false
+              };
+            }
+          });
+          if (typeof refreshTrainerStudents === 'function') {
+            refreshTrainerStudents();
+          }
+          if (typeof renderLeaderboardUI === 'function') {
+            renderLeaderboardUI();
+          }
+        }
+      });
+
+      // Poll Cloud Run + Firestore every 2000ms
+      window.hubClient.startPolling(2000);
     }
 
     initClusterEventListener();
@@ -4517,7 +4522,7 @@ ORDER BY roas_multiplier DESC;</pre>
     };
 
     let googleClientId = null;
-    window.hubClient = typeof TrainingHubClient !== 'undefined' ? new TrainingHubClient() : null;
+    window.hubClient = window.hubClient || (typeof TrainingHubClient !== 'undefined' ? new TrainingHubClient() : null);
 
     // CLASSROOM STUDENTS DIRECTORY (STATEFUL IN LOCALSTORAGE + LIVE SSE)
     let classroomStudents = {};

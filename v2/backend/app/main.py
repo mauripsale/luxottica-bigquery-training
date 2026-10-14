@@ -1,7 +1,7 @@
 import os
 import logging
-from typing import Optional
-from fastapi import FastAPI, HTTPException, Query
+from typing import Optional, List, Dict, Any
+from fastapi import FastAPI, HTTPException, Query, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -125,10 +125,26 @@ def change_block(session_id: str, block_id: str, course_id: str = Query("luxotti
     success = state_service.set_session_block(course_id=course_id, session_id=session_id, block_id=block_id)
     return {"session_id": session_id, "course_id": course_id, "active_block": block_id, "synced": success}
 
+@app.post("/api/v2/session/{session_id}/lock")
+def change_lock(session_id: str, locked: bool = Query(...), course_id: str = Query("luxottica-bigquery-marketing")):
+    success = state_service.set_session_lock(course_id=course_id, session_id=session_id, locked=locked)
+    return {"session_id": session_id, "course_id": course_id, "is_locked": locked, "synced": success}
+
+@app.post("/api/v2/session/{session_id}/hints")
+def change_hints(session_id: str, hints: List[str] = Body(...), course_id: str = Query("luxottica-bigquery-marketing")):
+    success = state_service.set_session_hints(course_id=course_id, session_id=session_id, hints=hints)
+    return {"session_id": session_id, "course_id": course_id, "unlocked_hints": hints, "synced": success}
+
+@app.post("/api/v2/session/{session_id}/timer")
+def change_timer(session_id: str, timer: Dict[str, Any] = Body(...), course_id: str = Query("luxottica-bigquery-marketing")):
+    success = state_service.set_session_timer(course_id=course_id, session_id=session_id, timer_data=timer)
+    return {"session_id": session_id, "course_id": course_id, "timer": timer, "synced": success}
+
 @app.post("/api/v2/student/checkin")
 def student_checkin(session_id: str, student: StudentProfile, course_id: str = Query("luxottica-bigquery-marketing")):
     success = state_service.register_or_update_student(course_id=course_id, session_id=session_id, student=student)
-    return {"success": success, "session_id": session_id, "student_id": student.student_id}
+    sid = student.student_id or student.id
+    return {"success": success, "session_id": session_id, "student_id": sid}
 
 @app.get("/api/v2/session/{session_id}/leaderboard")
 def get_leaderboard(session_id: str, course_id: str = Query("luxottica-bigquery-marketing")):
