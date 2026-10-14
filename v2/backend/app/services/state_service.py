@@ -97,3 +97,37 @@ class FirestoreStateService:
             students.append(d)
         students.sort(key=lambda s: s.get("score", 0), reverse=True)
         return students
+
+    def delete_student(self, course_id: str, session_id: str, student_id: str) -> bool:
+        if not self.db or not student_id:
+            return False
+        doc_ref = self._session_doc_ref(course_id, session_id).collection("students").document(student_id)
+        doc_ref.delete()
+        logger.info(f"Deleted student {student_id} from {course_id}/{session_id}")
+        return True
+
+    def delete_students_batch(self, course_id: str, session_id: str, student_ids: List[str]) -> Dict[str, Any]:
+        if not self.db:
+            return {"deleted_count": 0, "success": False}
+        students_coll = self._session_doc_ref(course_id, session_id).collection("students")
+        batch = self.db.batch()
+        count = 0
+        
+        # If student_ids is empty or contains "all", wipe all students in session
+        if not student_ids or student_ids == ["__ALL__"]:
+            docs = list(students_coll.stream())
+            for d in docs:
+                batch.delete(d.reference)
+                count += 1
+        else:
+            for sid in student_ids:
+                if sid:
+                    batch.delete(students_coll.document(sid))
+                    count += 1
+
+        if count > 0:
+            batch.commit()
+            logger.info(f"Batch deleted {count} students from {course_id}/{session_id}")
+        return {"deleted_count": count, "success": True}
+
+

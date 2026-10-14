@@ -150,6 +150,20 @@ def student_checkin(session_id: str, student: StudentProfile, course_id: str = Q
 def get_leaderboard(session_id: str, course_id: str = Query("luxottica-bigquery-marketing")):
     return state_service.get_classroom_leaderboard(course_id=course_id, session_id=session_id)
 
+@app.delete("/api/v2/session/{session_id}/students/{student_id}")
+def delete_single_student(session_id: str, student_id: str, course_id: str = Query("luxottica-bigquery-marketing")):
+    """Removes a student permanently from the classroom session in Firestore."""
+    success = state_service.delete_student(course_id=course_id, session_id=session_id, student_id=student_id)
+    return {"success": success, "deleted_student_id": student_id, "session_id": session_id}
+
+@app.post("/api/v2/session/{session_id}/students/batch-delete")
+def delete_students_batch(session_id: str, payload: Dict[str, Any] = Body(...), course_id: str = Query("luxottica-bigquery-marketing")):
+    """Batch removes selected or all students from the classroom session in Firestore."""
+    student_ids = payload.get("student_ids", [])
+    result = state_service.delete_students_batch(course_id=course_id, session_id=session_id, student_ids=student_ids)
+    return {"success": result.get("success", False), "deleted_count": result.get("deleted_count", 0), "session_id": session_id}
+
+
 # =========================================================================
 # DYNAMIC CHALLENGE VALIDATION (READS FROM COURSE MANIFEST)
 # =========================================================================

@@ -143,6 +143,38 @@ class TrainingHubClient {
     }
   }
 
+  // Trainer: delete single student permanently from Firestore
+  async deleteStudent(studentId) {
+    try {
+      const url = `${this.apiBaseUrl}/api/v2/session/${encodeURIComponent(this.sessionId)}/students/${encodeURIComponent(studentId)}?course_id=${encodeURIComponent(this.courseId)}`;
+      const resp = await fetch(url, { method: "DELETE" });
+      return resp.ok;
+    } catch (e) {
+      console.error("[HubClient] deleteStudent error:", e);
+      return false;
+    }
+  }
+
+  // Trainer: batch delete selected students or all
+  async deleteStudentsBatch(studentIds = []) {
+    try {
+      const url = `${this.apiBaseUrl}/api/v2/session/${encodeURIComponent(this.sessionId)}/students/batch-delete?course_id=${encodeURIComponent(this.courseId)}`;
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ student_ids: studentIds })
+      });
+      if (resp.ok) {
+        return await resp.json();
+      }
+      return { success: false, deleted_count: 0 };
+    } catch (e) {
+      console.error("[HubClient] deleteStudentsBatch error:", e);
+      return { success: false, deleted_count: 0 };
+    }
+  }
+
+
   // Student / Trainer: submit challenge answer or view for validation
   async validateChallenge(challengeKey, submittedValue, viewName = null) {
     try {
