@@ -414,6 +414,41 @@
       transform: scale(0.96) !important;
       transition: transform 0.08s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
+
+    /* 16-Step Sequencer Grid definition */
+    .grid-cols-16 {
+      display: grid !important;
+      grid-template-columns: repeat(16, minmax(0, 1fr)) !important;
+    }
+
+    /* Coffee Break Card Light & Dark Theme explicit definitions */
+    html:not(.dark) #block-break .bg-white {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+    html:not(.dark) #block-break .bg-slate-50 {
+      background-color: #f8fafc !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+    html:not(.dark) #block-break .text-slate-900,
+    html:not(.dark) #block-break .text-slate-800,
+    html:not(.dark) #block-break .text-slate-700 {
+      color: #0f172a !important;
+    }
+    html:not(.dark) #block-break .text-slate-600,
+    html:not(.dark) #block-break .text-slate-500 {
+      color: #475569 !important;
+    }
+    html:not(.dark) #block-break textarea {
+      background-color: #ffffff !important;
+      border-color: #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+    html:not(.dark) #block-break textarea::placeholder {
+      color: #94a3b8 !important;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
@@ -2500,6 +2535,75 @@
               <span class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400">Modalità Aula</span>
               <span id="break-mode-status-text" class="text-xs font-black text-amber-600 dark:text-amber-400">Libera Scelta Studente</span>
               <span class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Scegli la tab o attendi regia</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPETITIVE CLASSROOM TOURNAMENT BANNER (+150 PTS BONUS) -->
+        <div class="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-rose-500/10 border-2 border-amber-500/40 rounded-3xl p-5 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-500/20 pb-3">
+            <div class="flex items-center space-x-3">
+              <span class="text-3xl">🏆</span>
+              <div>
+                <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white">Sfida Competitiva Coffee Break in Aula</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300">Completa le 3 mini-sfide durante la pausa: guadagni fino a <strong class="text-amber-600 dark:text-amber-400 font-black">+150 punti bonus</strong> per te e per la tua squadra!</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-3 py-1 rounded-full text-xs font-black bg-amber-500 text-slate-950 shadow-sm animate-pulse">
+                🔥 Sfida Live Attiva
+              </span>
+            </div>
+          </div>
+
+          <!-- 3 REWARD CARDS -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+            <!-- REWARD 1: BEAT MASTER -->
+            <div id="coffee-badge-card-dj" class="bg-white/90 dark:bg-slate-900/90 border border-amber-500/30 rounded-2xl p-3.5 flex items-center justify-between shadow-xs transition hover:border-amber-500">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">🎛️</span>
+                <div>
+                  <div class="text-xs font-black text-slate-900 dark:text-white">Query DJ Beat Master</div>
+                  <div class="text-[10px] text-slate-500 dark:text-slate-400">Avvia beat con ≥8 note attive</div>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span id="coffee-badge-dj-status" class="inline-block px-2.5 py-1 rounded-lg text-[10px] font-black bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
+                  +50 pt
+                </span>
+              </div>
+            </div>
+
+            <!-- REWARD 2: OPTICS CRAFTER -->
+            <div id="coffee-badge-card-optics" class="bg-white/90 dark:bg-slate-900/90 border border-cyan-500/30 rounded-2xl p-3.5 flex items-center justify-between shadow-xs transition hover:border-cyan-500">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">🔬</span>
+                <div>
+                  <div class="text-xs font-black text-slate-900 dark:text-white">Master Lens Crafter</div>
+                  <div class="text-[10px] text-slate-500 dark:text-slate-400">Calibra F=+120mm & Polarizzato</div>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span id="coffee-badge-optics-status" class="inline-block px-2.5 py-1 rounded-lg text-[10px] font-black bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-700">
+                  +50 pt
+                </span>
+              </div>
+            </div>
+
+            <!-- REWARD 3: ROAST SURVIVOR -->
+            <div id="coffee-badge-card-roast" class="bg-white/90 dark:bg-slate-900/90 border border-rose-500/30 rounded-2xl p-3.5 flex items-center justify-between shadow-xs transition hover:border-rose-500">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">🌶️</span>
+                <div>
+                  <div class="text-xs font-black text-slate-900 dark:text-white">AI Roast Survivor</div>
+                  <div class="text-[10px] text-slate-500 dark:text-slate-400">Fatti roastare una query SQL</div>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span id="coffee-badge-roast-status" class="inline-block px-2.5 py-1 rounded-lg text-[10px] font-black bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-700">
+                  +50 pt
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -4928,8 +5032,11 @@ ORDER BY roas_multiplier DESC;</pre>
       });
 
       // Special init triggers when switching
-      if (gameId === 'optics' && window.OpticsLab) {
-        setTimeout(() => OpticsLab.draw(), 50);
+      if (gameId === 'optics') {
+        requestAnimationFrame(() => {
+          if (typeof OpticsLab !== 'undefined' && OpticsLab.draw) OpticsLab.draw();
+          else if (window.OpticsLab && window.OpticsLab.draw) window.OpticsLab.draw();
+        });
       }
     }
 
@@ -5200,6 +5307,17 @@ ORDER BY roas_multiplier DESC;</pre>
           if (btn) btn.className = "px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-black text-xs transition flex items-center space-x-2 shadow-md cursor-pointer animate-pulse";
           const stepIntervalMs = (60 / bpm / 4) * 1000;
           intervalId = setInterval(step, stepIntervalMs);
+
+          // Classroom Competition Hook: Check if sequencer has >= 8 active notes
+          let totalActive = 0;
+          TRACKS.forEach(tr => {
+            if (grid[tr.id]) {
+              totalActive += grid[tr.id].filter(x => x === 1).length;
+            }
+          });
+          if (totalActive >= 8 && typeof awardCoffeeBadge === 'function') {
+            awardCoffeeBadge('dj', 50, '🎛️ Query DJ Beat Master');
+          }
         } else {
           if (icon) icon.innerText = '▶';
           if (text) text.innerText = 'AVVIA BEAT';
@@ -5394,12 +5512,17 @@ ORDER BY roas_multiplier DESC;</pre>
         // Update readouts
         const fReadout = document.getElementById('optics-focal-readout');
         const gReadout = document.getElementById('optics-glare-readout');
+        const mmVal = Math.round(focalDist * 0.8);
         if (fReadout) {
-          const mmVal = Math.round(focalDist * 0.8);
           fReadout.innerText = diopters >= 0 ? `+${mmVal} mm` : `${mmVal} mm (Virtuale)`;
         }
         if (gReadout) {
           gReadout.innerText = polarized ? '99.8% (P3 Plus)' : '42.0% (Standard)';
+        }
+
+        // Classroom Competition Hook: Target Calibration achieved (+120mm focal and polarized filter active)
+        if (diopters > 0 && Math.abs(mmVal - 120) <= 15 && polarized && typeof awardCoffeeBadge === 'function') {
+          awardCoffeeBadge('optics', 50, '🔬 Master Lens Crafter');
         }
       }
 
@@ -5591,6 +5714,9 @@ ORDER BY roas_multiplier DESC;</pre>
           card.classList.add('ring-2', 'ring-rose-500', 'animate-pulse');
           setTimeout(() => card.classList.remove('ring-2', 'ring-rose-500', 'animate-pulse'), 800);
         }
+
+        // Classroom Competition Award Hook: +50 pt for surviving the AI roast!
+        awardCoffeeBadge('roast', 50, '🌶️ AI Roast Survivor');
       }
 
       function loadSample() {
@@ -5607,10 +5733,65 @@ ORDER BY roas_multiplier DESC;</pre>
       };
     })();
 
+    // Expose game modules globally on window
+    window.QueryBeats = QueryBeats;
+    window.OpticsLab = OpticsLab;
+    window.TuringRoast = TuringRoast;
+
+    // -------------------------------------------------------------------------
+    // CLASSROOM COMPETITION COFFEE BREAK AWARDS SYSTEM (+50 / +150 PT BONUSES)
+    // -------------------------------------------------------------------------
+    function awardCoffeeBadge(gameKey, points, badgeTitle) {
+      if (!currentStudent || !currentStudent.id) return;
+      currentStudent.completedChallenges = currentStudent.completedChallenges || {};
+      const challengeKey = `coffee_${gameKey}`;
+      
+      // Prevent duplicate scoring
+      if (currentStudent.completedChallenges[challengeKey]) return;
+
+      currentStudent.completedChallenges[challengeKey] = true;
+      currentStudent.score = (currentStudent.score || 0) + points;
+      saveStudentProfile();
+      applyStudentProfileUI();
+      registerStudentInClassroom(currentStudent);
+      broadcastScoreUpdate(challengeKey, points);
+
+      // Celebrate award
+      fireConfettiAnimation();
+      updateCoffeeBadgesUI();
+      showToast(currentLang === 'it' 
+        ? `🏆 Sfida Coffee Break Vinta! Hai ottenuto "${badgeTitle}" e +${points} pt per ${currentStudent.teamKey ? currentStudent.teamKey.toUpperCase() : 'la tua squadra'}!` 
+        : `🏆 Coffee Break Challenge Won! You earned "${badgeTitle}" and +${points} pts!`);
+    }
+
+    function updateCoffeeBadgesUI() {
+      if (!currentStudent || !currentStudent.completedChallenges) return;
+      
+      const badges = [
+        { key: 'dj', chKey: 'coffee_dj' },
+        { key: 'optics', chKey: 'coffee_optics' },
+        { key: 'roast', chKey: 'coffee_roast' }
+      ];
+
+      badges.forEach(b => {
+        const isDone = !!currentStudent.completedChallenges[b.chKey];
+        const statusEl = document.getElementById(`coffee-badge-${b.key}-status`);
+        const cardEl = document.getElementById(`coffee-badge-card-${b.key}`);
+        if (statusEl && isDone) {
+          statusEl.innerText = currentLang === 'it' ? "Vinto! +50 pt ✅" : "Won! +50 pt ✅";
+          statusEl.className = "inline-block px-2.5 py-1 rounded-lg text-[10px] font-black bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 shadow-xs";
+        }
+        if (cardEl && isDone) {
+          cardEl.classList.add('ring-2', 'ring-emerald-500/50');
+        }
+      });
+    }
+
     // Initialize games on page ready
     document.addEventListener('DOMContentLoaded', () => {
       if (window.QueryBeats) QueryBeats.init();
       if (window.OpticsLab) OpticsLab.draw();
+      updateCoffeeBadgesUI();
     });
 
     // FULLSCREEN PROJECTOR MODE FOR LEADERBOARD
@@ -7189,6 +7370,9 @@ ORDER BY roas_multiplier DESC;</pre>
       renderQuizStatus('ch1', currentStudent.completedChallenges && currentStudent.completedChallenges.ch1);
       renderQuizStatus('ch2', currentStudent.completedChallenges && currentStudent.completedChallenges.ch2);
       renderQuizStatus('ch3', currentStudent.completedChallenges && currentStudent.completedChallenges.ch3);
+      if (typeof updateCoffeeBadgesUI === 'function') {
+        updateCoffeeBadgesUI();
+      }
       renderSidebarTeamLeaderboard();
       refreshTrainerStudents();
     }
