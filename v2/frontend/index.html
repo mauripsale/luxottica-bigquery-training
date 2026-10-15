@@ -165,11 +165,11 @@
   <div id="trainer-preview-banner" class="hidden bg-amber-500 text-slate-950 font-bold px-4 py-2.5 flex items-center justify-between shadow-md sticky top-0 z-50 text-xs">
     <div class="flex items-center space-x-2">
       <span class="text-base">👁️</span>
-      <span><strong>Modalità Anteprima Studente:</strong> Stai navigando l'interfaccia esattamente come la vede uno studente dell'aula.</span>
+      <span id="tcc-preview-banner-text"><strong>Modalità Anteprima Studente:</strong> Stai navigando l'interfaccia esattamente come la vede uno studente dell'aula.</span>
     </div>
     <button onclick="switchToTrainerCommandCenter()" class="px-3.5 py-1.5 bg-slate-950 hover:bg-slate-900 text-amber-300 font-extrabold rounded-lg transition cursor-pointer shadow-sm flex items-center space-x-1.5">
       <span>🎓</span>
-      <span>Torna alla Cabina di Regia</span>
+      <span id="tcc-preview-banner-btn-text">Torna alla Cabina di Regia</span>
     </button>
   </div>
 
@@ -413,7 +413,7 @@
         <div>
           <div class="flex items-center space-x-2">
             <h1 class="text-sm sm:text-base font-black uppercase tracking-wider text-amber-400" id="tb-badge">Cabina di Regia Docente</h1>
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500 text-slate-950 shadow-2xs">LIVE REGIA</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500 text-slate-950 shadow-2xs" id="tcc-live-regia-badge">LIVE REGIA</span>
           </div>
           <p class="text-xs text-slate-400" id="tb-subtitle">Luxottica BigQuery Masterclass — Controllo Aula & Broadcast</p>
         </div>
@@ -424,17 +424,17 @@
         <div class="flex items-center space-x-1.5 bg-slate-800/90 px-3 py-1.5 rounded-xl border border-slate-700 shadow-2xs">
           <span class="text-slate-400 text-[11px]" id="tb-lbl-room-channel">Stanza:</span>
           <code id="trainer-room-code-badge" class="font-mono text-emerald-400 font-bold">lux-bq-2026</code>
-          <button onclick="trainerChangeRoomCode()" class="text-cyan-400 hover:text-cyan-300 font-bold ml-1 cursor-pointer" title="Personalizza Codice Stanza Segreta">⚙️</button>
-          <button onclick="trainerCopyShareLink()" class="text-blue-400 hover:text-blue-300 font-bold ml-1 cursor-pointer" title="Copia Link Studenti con Codice Stanza">🔗</button>
+          <button onclick="trainerChangeRoomCode()" id="tcc-btn-change-room" class="text-cyan-400 hover:text-cyan-300 font-bold ml-1 cursor-pointer" title="Personalizza Codice Stanza Segreta">⚙️</button>
+          <button onclick="trainerCopyShareLink()" id="tcc-btn-share-link" class="text-blue-400 hover:text-blue-300 font-bold ml-1 cursor-pointer" title="Copia Link Studenti con Codice Stanza">🔗</button>
         </div>
 
         <div class="hidden sm:flex items-center space-x-1.5 bg-slate-800/90 px-3 py-1.5 rounded-xl border border-slate-700 shadow-2xs">
-          <span class="text-slate-400 text-[11px]">Aula:</span>
+          <span class="text-slate-400 text-[11px]" id="tcc-lbl-classroom">Aula:</span>
           <span id="tcc-lock-status-badge" class="font-bold text-red-400">🔒 Bloccata</span>
         </div>
 
         <div class="hidden md:flex items-center space-x-1.5 bg-slate-800/90 px-3 py-1.5 rounded-xl border border-slate-700 shadow-2xs">
-          <span class="text-slate-400 text-[11px]">Blocco:</span>
+          <span class="text-slate-400 text-[11px]" id="tcc-lbl-block">Blocco:</span>
           <span id="tcc-active-block-badge" class="font-bold text-amber-300">Intro</span>
         </div>
 
@@ -458,16 +458,16 @@
         </div>
 
         <!-- PREVIEW STUDENT VIEW -->
-        <button onclick="switchToStudentPreview()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 hover:text-white text-xs font-bold rounded-xl transition flex items-center space-x-1.5 cursor-pointer shadow-sm" title="Guarda l'interfaccia esattamente come la vede uno studente">
+        <button onclick="switchToStudentPreview()" id="tcc-btn-preview" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 hover:text-white text-xs font-bold rounded-xl transition flex items-center space-x-1.5 cursor-pointer shadow-sm" title="Guarda l'interfaccia esattamente come la vede uno studente">
           <span>👁️</span>
-          <span class="hidden sm:inline">Anteprima Studente</span>
-          <span class="sm:hidden">Anteprima</span>
+          <span class="hidden sm:inline" id="tcc-btn-preview-text">Anteprima Studente</span>
+          <span class="sm:hidden" id="tcc-btn-preview-short">Anteprima</span>
         </button>
 
         <!-- EXIT TRAINER -->
-        <button onclick="disableTrainerMode()" class="px-3 py-1.5 bg-red-950/60 hover:bg-red-900 border border-red-800/60 text-red-300 hover:text-white text-xs font-bold rounded-xl transition flex items-center space-x-1 cursor-pointer" title="Esci dalla modalità docente" id="btn-exit-trainer-text">
+        <button onclick="disableTrainerMode()" id="btn-exit-trainer" class="px-3 py-1.5 bg-red-950/60 hover:bg-red-900 border border-red-800/60 text-red-300 hover:text-white text-xs font-bold rounded-xl transition flex items-center space-x-1 cursor-pointer" title="Esci dalla modalità docente">
           <span>✕</span>
-          <span>Esci</span>
+          <span id="btn-exit-trainer-text">Esci</span>
         </button>
       </div>
     </header>
@@ -483,9 +483,9 @@
           <div class="flex items-center justify-between">
             <span class="text-xs uppercase font-extrabold text-slate-300 tracking-wider flex items-center space-x-1.5" id="tb-lbl-student-control">
               <span>🛡️</span>
-              <span>Controllo Navigazione Aula</span>
+              <span id="tb-lbl-student-control-text">Controllo Navigazione Aula</span>
             </span>
-            <span class="text-[10px] text-slate-400 font-mono">Sync Globale</span>
+            <span class="text-[10px] text-slate-400 font-mono" id="tcc-lbl-global-sync">Sync Globale</span>
           </div>
 
           <button id="btn-lock-control" onclick="toggleLockState()" class="w-full py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black transition flex items-center justify-center space-x-2 shadow-lg text-xs sm:text-sm cursor-pointer">
@@ -508,11 +508,11 @@
           <div class="flex items-center justify-between">
             <span class="text-xs uppercase font-extrabold text-slate-300 tracking-wider flex items-center space-x-1.5" id="tb-lbl-broadcast-hdr">
               <span>📡</span>
-              <span>Timeline Masterclass & Broadcast</span>
+              <span id="tb-lbl-broadcast-hdr-text">Timeline Masterclass & Broadcast</span>
             </span>
             <span class="text-[10px] text-amber-400 font-bold">180 MIN</span>
           </div>
-          <p class="text-[11px] text-slate-400">Clicca su un blocco per trasmetterlo istantaneamente a tutti gli studenti:</p>
+          <p class="text-[11px] text-slate-400" id="tcc-desc-broadcast">Clicca su un blocco per trasmetterlo istantaneamente a tutti gli studenti:</p>
 
           <div class="space-y-2 pt-1" id="trainer-broadcast-blocks-list">
             <!-- COVER -->
@@ -520,11 +520,11 @@
               <div class="flex items-center space-x-2.5">
                 <span class="text-base">🏠</span>
                 <div>
-                  <div class="text-xs font-bold text-white">Intro Masterclass & Welcome</div>
-                  <div class="text-[10px] text-slate-400">Agenda, regole e setup ambiente</div>
+                  <div class="text-xs font-bold text-white" id="tb-b-cover-title">Intro Masterclass & Welcome</div>
+                  <div class="text-[10px] text-slate-400" id="tb-b-cover-desc">Agenda, regole e setup ambiente</div>
                 </div>
               </div>
-              <span class="block-live-tag"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
+              <span class="block-live-tag" id="tb-live-tag-cover"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
             </button>
 
             <!-- BLOCK 1 -->
@@ -532,11 +532,11 @@
               <div class="flex items-center space-x-2.5">
                 <span class="text-base">🎨</span>
                 <div>
-                  <div class="text-xs font-bold text-white">Blocco 1: Data Canvas & Setup</div>
-                  <div class="text-[10px] text-slate-400">Esplorazione visuale e Macro vendite</div>
+                  <div class="text-xs font-bold text-white" id="tb-b-b1-title">Blocco 1: Data Canvas & Setup</div>
+                  <div class="text-[10px] text-slate-400" id="tb-b-b1-desc">Esplorazione visuale e Macro vendite</div>
                 </div>
               </div>
-              <span class="block-live-tag"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
+              <span class="block-live-tag" id="tb-live-tag-1"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
             </button>
 
             <!-- BLOCK 2 -->
@@ -544,11 +544,11 @@
               <div class="flex items-center space-x-2.5">
                 <span class="text-base">💎</span>
                 <div>
-                  <div class="text-xs font-bold text-white">Blocco 2: Sconti & High Margin</div>
-                  <div class="text-[10px] text-amber-400 font-medium">Sfida #1: Oliver Peoples & Ray-Ban (100 pt)</div>
+                  <div class="text-xs font-bold text-white" id="tb-b-b2-title">Blocco 2: Sconti & High Margin</div>
+                  <div class="text-[10px] text-amber-400 font-medium" id="tb-b-b2-desc">Sfida #1: Oliver Peoples & Ray-Ban (100 pt)</div>
                 </div>
               </div>
-              <span class="block-live-tag"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
+              <span class="block-live-tag" id="tb-live-tag-2"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
             </button>
 
             <!-- COFFEE BREAK -->
@@ -556,11 +556,11 @@
               <div class="flex items-center space-x-2.5">
                 <span class="text-base">☕</span>
                 <div>
-                  <div class="text-xs font-bold text-amber-300">Pausa Caffè & Quiz Rigenerante</div>
-                  <div class="text-[10px] text-slate-400">10-15 minuti di relax</div>
+                  <div class="text-xs font-bold text-amber-300" id="tb-b-break-title">Pausa Caffè & Quiz Rigenerante</div>
+                  <div class="text-[10px] text-slate-400" id="tb-b-break-desc">10-15 minuti di relax</div>
                 </div>
               </div>
-              <span class="block-live-tag"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
+              <span class="block-live-tag" id="tb-live-tag-break"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
             </button>
 
             <!-- BLOCK 3 -->
@@ -568,11 +568,11 @@
               <div class="flex items-center space-x-2.5">
                 <span class="text-base">📊</span>
                 <div>
-                  <div class="text-xs font-bold text-white">Blocco 3: Attribution ROAS CTE</div>
-                  <div class="text-[10px] text-amber-400 font-medium">Sfida #2: Google vs TikTok Fan-Out (100 pt)</div>
+                  <div class="text-xs font-bold text-white" id="tb-b-b3-title">Blocco 3: Attribution ROAS CTE</div>
+                  <div class="text-[10px] text-amber-400 font-medium" id="tb-b-b3-desc">Sfida #2: Google vs TikTok Fan-Out (100 pt)</div>
                 </div>
               </div>
-              <span class="block-live-tag"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
+              <span class="block-live-tag" id="tb-live-tag-3"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
             </button>
 
             <!-- BLOCK 4 -->
@@ -580,11 +580,11 @@
               <div class="flex items-center space-x-2.5">
                 <span class="text-base">🧹</span>
                 <div>
-                  <div class="text-xs font-bold text-white">Blocco 4: Data Clean & VIP Leads</div>
-                  <div class="text-[10px] text-amber-400 font-medium">Sfida #3: 352 Lead & Vista SQL (100 pt)</div>
+                  <div class="text-xs font-bold text-white" id="tb-b-b4-title">Blocco 4: Data Clean & VIP Leads</div>
+                  <div class="text-[10px] text-amber-400 font-medium" id="tb-b-b4-desc">Sfida #3: 352 Lead & Vista SQL (100 pt)</div>
                 </div>
               </div>
-              <span class="block-live-tag"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
+              <span class="block-live-tag" id="tb-live-tag-4"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
             </button>
 
             <!-- BLOCK 5 -->
@@ -592,11 +592,11 @@
               <div class="flex items-center space-x-2.5">
                 <span class="text-base">🎉</span>
                 <div>
-                  <div class="text-xs font-bold text-emerald-300">Blocco 5: Finale & Podio Vincitori</div>
-                  <div class="text-[10px] text-slate-400">Raccomandazioni CMO e celebrazione team</div>
+                  <div class="text-xs font-bold text-emerald-300" id="tb-b-b5-title">Blocco 5: Finale & Podio Vincitori</div>
+                  <div class="text-[10px] text-slate-400" id="tb-b-b5-desc">Raccomandazioni CMO e celebrazione team</div>
                 </div>
               </div>
-              <span class="block-live-tag"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
+              <span class="block-live-tag" id="tb-live-tag-5"><span class="text-[10px] text-slate-500 font-mono">Inattivo</span></span>
             </button>
           </div>
         </div>
@@ -606,7 +606,7 @@
           <div class="flex items-center justify-between">
             <span class="text-xs uppercase font-extrabold text-amber-400 tracking-wider flex items-center space-x-1.5" id="tb-lbl-timer-hdr">
               <span>⏱️</span>
-              <span>Timer Aula Sincronizzato</span>
+              <span id="tb-lbl-timer-hdr-text">Timer Aula Sincronizzato</span>
             </span>
             <span id="trainer-timer-quick-status" class="text-[10px] font-mono font-bold text-slate-400">Opzionale</span>
           </div>
@@ -637,7 +637,7 @@
             <div class="flex items-center justify-between">
               <span class="text-xs font-black text-amber-300 uppercase tracking-wide flex items-center space-x-1.5" id="tb-cs-title">
                 <span>🔑</span>
-                <span>Soluzioni Sfide (Cheat Sheet)</span>
+                <span id="tb-cs-title-text">Soluzioni Sfide (Cheat Sheet)</span>
               </span>
               <button onclick="openTrainerSolutionsModal()" class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[11px] transition cursor-pointer shadow-xs" id="tb-cs-btn-open">
                 Query Complete ↗
@@ -798,22 +798,22 @@
               </div>
               <div>
                 <h2 class="text-sm sm:text-base font-extrabold text-white flex items-center space-x-2">
-                  <span>Gestione Studenti & Live Roster</span>
-                  <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">Real-time</span>
+                  <span id="tcc-roster-title">Gestione Studenti & Live Roster</span>
+                  <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold" id="tcc-roster-badge">Real-time</span>
                 </h2>
-                <p class="text-xs text-slate-400">Controlla l'aula in diretta, assegna bonus, visualizza sfide ed elimina studenti singolarmente o in batch</p>
+                <p class="text-xs text-slate-400" id="tcc-roster-subtitle">Controlla l'aula in diretta, assegna bonus, visualizza sfide ed elimina studenti singolarmente o in batch</p>
               </div>
             </div>
 
             <!-- ACTION BUTTONS: PING, LEADERBOARD, RESET -->
             <div class="flex items-center space-x-2">
-              <button onclick="pingStudentsFromTrainer(); showToast('📡 Ping inviato agli studenti!');" class="py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center space-x-1.5 border border-slate-700 cursor-pointer shadow-xs" title="Invia Ping per forzare il refresh dello stato di presenza">
+              <button onclick="pingStudentsFromTrainer(); showToast(currentLang === 'it' ? '📡 Ping inviato agli studenti!' : '📡 Ping sent to students!');" id="tcc-btn-ping" class="py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center space-x-1.5 border border-slate-700 cursor-pointer shadow-xs" title="Invia Ping per forzare il refresh dello stato di presenza">
                 <span>🔄</span>
-                <span>Ping Aula</span>
+                <span id="tcc-btn-ping-text">Ping Aula</span>
               </button>
               <button onclick="openLeaderboardModal()" class="py-1.5 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500 border border-amber-500/40 text-amber-300 hover:text-slate-950 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow-xs" id="btn-tb-project-lb">
                 <span>🏆</span>
-                <span>Proietta Classifica</span>
+                <span id="btn-tb-project-lb-text">Proietta Classifica</span>
               </button>
               <button onclick="resetClassroomLeaderboard()" class="py-1.5 px-2.5 rounded-xl bg-red-950 hover:bg-red-800 text-red-300 hover:text-white border border-red-800 text-xs font-bold transition cursor-pointer" title="Azzera la classifica dell'aula" id="btn-tb-reset-lb">
                 <span>🗑️</span>
@@ -824,32 +824,32 @@
           <!-- METRICS CARDS & BATCH ACTIONS -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-950/70 p-3.5 rounded-xl border border-slate-800">
             <div>
-              <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Studenti Registrati</span>
+              <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider" id="tcc-m-total-lbl">Studenti Registrati</span>
               <div class="flex items-baseline space-x-1.5 pt-0.5">
                 <span id="trainer-student-count-total" class="text-xl sm:text-2xl font-black text-white">0</span>
-                <span class="text-[11px] text-slate-500">iscritti</span>
+                <span class="text-[11px] text-slate-500" id="tcc-m-total-sub">iscritti</span>
               </div>
             </div>
             <div>
-              <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Online Adesso</span>
+              <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider" id="tcc-m-online-lbl">Online Adesso</span>
               <div class="flex items-baseline space-x-1.5 pt-0.5">
                 <span id="trainer-student-count" class="text-xl sm:text-2xl font-black text-emerald-400">0</span>
-                <span class="text-[11px] text-emerald-500/80">connessi</span>
+                <span class="text-[11px] text-emerald-500/80" id="tcc-m-online-sub">connessi</span>
               </div>
             </div>
             <div>
-              <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Selezionati</span>
+              <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider" id="tcc-m-sel-lbl">Selezionati</span>
               <div class="flex items-baseline space-x-1.5 pt-0.5">
                 <span id="tcc-selected-count" class="text-xl sm:text-2xl font-black text-amber-400">0</span>
-                <span class="text-[11px] text-slate-500">studenti</span>
+                <span class="text-[11px] text-slate-500" id="tcc-m-sel-sub">studenti</span>
               </div>
             </div>
             <div class="flex items-center justify-end space-x-1.5">
               <button id="tcc-btn-batch-delete" onclick="executeBatchDeleteSelected()" disabled class="py-2 px-3 rounded-xl bg-red-600/30 text-red-300 border border-red-500/40 text-xs font-bold transition flex items-center space-x-1.5 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-red-600 hover:text-white shadow-xs">
                 <span>🗑️</span>
-                <span>Elimina Selezionati</span>
+                <span id="tcc-btn-batch-delete-text">Elimina Selezionati</span>
               </button>
-              <button onclick="executeBatchDeleteAll()" class="p-2 rounded-xl bg-red-950 hover:bg-red-800 text-red-300 hover:text-white border border-red-800 text-xs font-bold transition cursor-pointer" title="Svuota completamente l'aula per una nuova sessione">
+              <button onclick="executeBatchDeleteAll()" id="tcc-btn-batch-delete-all" class="p-2 rounded-xl bg-red-950 hover:bg-red-800 text-red-300 hover:text-white border border-red-800 text-xs font-bold transition cursor-pointer" title="Svuota completamente l'aula per una nuova sessione">
                 <span>💥</span>
               </button>
             </div>
@@ -862,7 +862,7 @@
             </div>
             <label class="flex items-center space-x-1.5 text-xs text-slate-400 cursor-pointer select-none px-2 py-1 bg-slate-950 rounded-xl border border-slate-800">
               <input type="checkbox" id="tcc-select-all-cb" onchange="toggleSelectAllStudents(this.checked)" class="rounded text-blue-600 focus:ring-0">
-              <span>Seleziona tutti</span>
+              <span id="tcc-select-all-lbl">Seleziona tutti</span>
             </label>
           </div>
 
@@ -874,12 +874,12 @@
                   <th class="p-3 w-10 text-center">
                     <input type="checkbox" id="tcc-header-cb" onchange="toggleSelectAllStudents(this.checked)" class="rounded text-blue-600 focus:ring-0">
                   </th>
-                  <th class="p-3">Studente</th>
-                  <th class="p-3">Squadra</th>
-                  <th class="p-3 text-center">Punteggio</th>
-                  <th class="p-3 text-center">Sfide</th>
-                  <th class="p-3 text-center">Stato</th>
-                  <th class="p-3 text-right">Azioni Rapide</th>
+                  <th class="p-3" id="tcc-th-student">Studente</th>
+                  <th class="p-3" id="tcc-th-team">Squadra</th>
+                  <th class="p-3 text-center" id="tcc-th-score">Punteggio</th>
+                  <th class="p-3 text-center" id="tcc-th-challenges">Sfide</th>
+                  <th class="p-3 text-center" id="tcc-th-status">Stato</th>
+                  <th class="p-3 text-right" id="tcc-th-actions">Azioni Rapide</th>
                 </tr>
               </thead>
               <tbody id="tcc-table-body" class="divide-y divide-slate-800/80">
@@ -890,8 +890,8 @@
 
           <!-- TCC ROSTER FOOTER -->
           <div class="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-800">
-            <span>Master PIN Docente: <code class="trainer-secret-pin text-amber-400 font-mono font-bold cursor-pointer select-none px-1.5 py-0.5 rounded bg-slate-800" data-pin="1926" onclick="toggleSinglePin(this)" title="Clicca per rivelare">••••</code></span>
-            <span>Massimo Punteggio Sfide: <strong>350 pt</strong></span>
+            <span><span id="tcc-footer-master-pin-lbl">Master PIN Docente:</span> <code class="trainer-secret-pin text-amber-400 font-mono font-bold cursor-pointer select-none px-1.5 py-0.5 rounded bg-slate-800" data-pin="1926" onclick="toggleSinglePin(this)" title="Clicca per rivelare">••••</code></span>
+            <span id="tcc-footer-max-score">Massimo Punteggio Sfide: <strong>350 pt</strong></span>
           </div>
         </div>
 
@@ -1319,13 +1319,13 @@
               <h2 class="text-lg md:text-xl font-black text-white" id="smm-modal-title">Gestione Studenti & Aula</h2>
               <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">Trainer Console</span>
             </div>
-            <p class="text-xs text-slate-400">Rimuovi studenti singolarmente o in batch, riassegna squadre e controlla lo stato in tempo reale</p>
+            <p class="text-xs text-slate-400" id="smm-modal-subtitle">Rimuovi studenti singolarmente o in batch, riassegna squadre e controlla lo stato in tempo reale</p>
           </div>
         </div>
         <div class="flex items-center space-x-2">
           <button onclick="refreshStudentManagerTable()" class="py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer border border-slate-700">
             <span>🔄</span>
-            <span>Ricarica</span>
+            <span id="smm-btn-reload-text">Ricarica</span>
           </button>
           <button onclick="closeStudentManagerModal()" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition">✕</button>
         </div>
@@ -1334,27 +1334,27 @@
       <!-- BATCH TOOLBAR & METRICS -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-3 bg-slate-950/70 p-3.5 rounded-2xl border border-slate-800">
         <div class="flex flex-col justify-center">
-          <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Studenti Registrati</span>
+          <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider" id="smm-m-total-lbl">Studenti Registrati</span>
           <div class="flex items-baseline space-x-2">
             <span id="smm-metric-total" class="text-2xl font-black text-white">0</span>
             <span id="smm-metric-active" class="text-xs text-emerald-400 font-medium">0 online</span>
           </div>
         </div>
         <div class="flex flex-col justify-center">
-          <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Selezionati</span>
+          <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider" id="smm-m-sel-lbl">Selezionati</span>
           <div class="flex items-baseline space-x-2">
             <span id="smm-selected-count" class="text-2xl font-black text-amber-400">0</span>
-            <span class="text-xs text-slate-400">studenti</span>
+            <span class="text-xs text-slate-400" id="smm-m-sel-sub">studenti</span>
           </div>
         </div>
         <div class="md:col-span-2 flex items-center justify-end space-x-2">
           <button id="smm-btn-batch-delete" onclick="executeBatchDeleteSelected()" disabled class="py-2 px-3.5 rounded-xl bg-red-600/30 text-red-300 border border-red-500/40 text-xs font-bold transition flex items-center space-x-1.5 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-red-600 hover:text-white">
             <span>🗑️</span>
-            <span>Elimina Selezionati</span>
+            <span id="smm-btn-batch-delete-text">Elimina Selezionati</span>
           </button>
-          <button onclick="executeBatchDeleteAll()" class="py-2 px-3.5 rounded-xl bg-red-950 hover:bg-red-800 text-red-300 hover:text-white border border-red-800 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer" title="Svuota completamente l'aula per una nuova sessione">
+          <button onclick="executeBatchDeleteAll()" id="smm-btn-batch-all" class="py-2 px-3.5 rounded-xl bg-red-950 hover:bg-red-800 text-red-300 hover:text-white border border-red-800 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer" title="Svuota completamente l'aula per una nuova sessione">
             <span>💥</span>
-            <span>Svuota Tutta l'Aula</span>
+            <span id="smm-btn-batch-all-text">Svuota Tutta l'Aula</span>
           </button>
         </div>
       </div>
@@ -1367,7 +1367,7 @@
         <div class="flex items-center space-x-2 text-xs">
           <label class="flex items-center space-x-1.5 text-slate-400 cursor-pointer select-none">
             <input type="checkbox" id="smm-select-all-cb" onchange="toggleSelectAllStudents(this.checked)" class="rounded text-blue-600 focus:ring-0">
-            <span>Seleziona tutti</span>
+            <span id="smm-select-all-lbl">Seleziona tutti</span>
           </label>
         </div>
       </div>
@@ -1380,12 +1380,12 @@
               <th class="p-3 w-10 text-center">
                 <input type="checkbox" id="smm-header-cb" onchange="toggleSelectAllStudents(this.checked)" class="rounded text-blue-600 focus:ring-0">
               </th>
-              <th class="p-3">Studente</th>
-              <th class="p-3">Squadra</th>
-              <th class="p-3 text-center">Punteggio</th>
-              <th class="p-3 text-center">Sfide</th>
-              <th class="p-3 text-center">Stato</th>
-              <th class="p-3 text-right">Azioni Rapide</th>
+              <th class="p-3" id="smm-th-student">Studente</th>
+              <th class="p-3" id="smm-th-team">Squadra</th>
+              <th class="p-3 text-center" id="smm-th-score">Punteggio</th>
+              <th class="p-3 text-center" id="smm-th-challenges">Sfide</th>
+              <th class="p-3 text-center" id="smm-th-status">Stato</th>
+              <th class="p-3 text-right" id="smm-th-actions">Azioni Rapide</th>
             </tr>
           </thead>
           <tbody id="smm-table-body" class="divide-y divide-slate-800/80">
@@ -1397,9 +1397,9 @@
       <!-- FOOTER -->
       <div class="border-t border-slate-800 pt-3 flex items-center justify-between text-xs text-slate-400">
         <div class="flex items-center space-x-2">
-          <span>💡 Le modifiche e le eliminazioni vengono sincronizzate immediatamente sul database Firestore di classe.</span>
+          <span id="smm-footer-text">💡 Le modifiche e le eliminazioni vengono sincronizzate immediatamente sul database Firestore di classe.</span>
         </div>
-        <button onclick="closeStudentManagerModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-white transition">
+        <button onclick="closeStudentManagerModal()" id="smm-btn-close-text" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-white transition">
           Chiudi Finestra ✕
         </button>
       </div>
@@ -2827,6 +2827,89 @@ ORDER BY roas_multiplier DESC;</pre>
         tsModalSubtitle: "Tutte le risposte ufficiali con tolleranze di punteggio e query di riscontro",
         tsModalFooter: "💡 Punteggio massimo accumulabile da ogni studente: <strong>350 punti</strong>.",
         btnTsModalClose: "Chiudi ✕",
+        // TRAINER COMMAND CENTER & MANAGER LOCALIZATION IT
+        tccLiveRegiaBadge: "LIVE REGIA",
+        tccBtnChangeRoomTitle: "Personalizza Codice Stanza Segreta",
+        tccBtnShareLinkTitle: "Copia Link Studenti con Codice Stanza",
+        tccLblClassroom: "Aula:",
+        tccLblBlock: "Blocco:",
+        tccBtnPreviewTitle: "Guarda l'interfaccia esattamente come la vede uno studente",
+        tccBtnPreviewText: "Anteprima Studente",
+        tccBtnPreviewShort: "Anteprima",
+        tccPreviewBannerText: "Modalità Anteprima Studente Attiva — Stai visualizzando l'interfaccia esattamente come la vede uno studente.",
+        tccPreviewBannerBtnText: "Torna alla Cabina di Regia",
+        btnExitTrainerTitle: "Esci dalla modalità docente",
+        btnExitTrainerText: "Esci",
+        tbLblStudentControlText: "Controllo Navigazione Aula",
+        tccLblGlobalSync: "Sync Globale",
+        btnForceSyncAllTitle: "Forza istantaneamente il blocco attuale su tutti i partecipanti",
+        tbLblBroadcastHdrText: "Timeline Masterclass & Broadcast",
+        tccDescBroadcast: "Clicca su un blocco per trasmetterlo istantaneamente a tutti gli studenti:",
+        tbBCoverTitle: "Intro Masterclass & Welcome",
+        tbBCoverDesc: "Agenda, regole e setup ambiente",
+        tbBB1Title: "Blocco 1: Data Canvas & Setup",
+        tbBB1Desc: "Esplorazione visuale e Macro vendite",
+        tbBB2Title: "Blocco 2: Sconti & High Margin",
+        tbBB2Desc: "Sfida #1: Oliver Peoples & Ray-Ban (100 pt)",
+        tbBBreakTitle: "Pausa Caffè & Quiz Rigenerante",
+        tbBBreakDesc: "10-15 minuti di relax",
+        tbBB3Title: "Blocco 3: Attribution ROAS CTE",
+        tbBB3Desc: "Sfida #2: Google vs TikTok Fan-Out (100 pt)",
+        tbBB4Title: "Blocco 4: Data Clean & VIP Leads",
+        tbBB4Desc: "Sfida #3: 352 Lead & Vista SQL (100 pt)",
+        tbBB5Title: "Blocco 5: Finale & Podio Vincitori",
+        tbBB5Desc: "Raccomandazioni CMO e celebrazione team",
+        tbLblTimerHdrText: "Timer Aula Sincronizzato",
+        trainerTimerQuickOptional: "Opzionale",
+        tbCsTitleText: "Soluzioni Sfide (Cheat Sheet)",
+        btnTogglePinVisTitle: "Mostra o nascondi i PIN",
+        pinVisTextShow: "Mostra PIN",
+        pinVisTextHide: "Nascondi PIN",
+        tccRosterTitle: "Gestione Studenti & Live Roster",
+        tccRosterSubtitle: "Controlla l'aula in diretta, assegna bonus, visualizza sfide ed elimina studenti singolarmente o in batch",
+        tccBtnPingTitle: "Invia Ping per forzare il refresh dello stato di presenza",
+        tccBtnPingText: "Ping Aula",
+        btnTbProjectLbText: "Proietta Classifica",
+        btnTbResetLbTitle: "Azzera la classifica dell'aula",
+        tccMTotalLbl: "Studenti Registrati",
+        tccMTotalSub: "iscritti",
+        tccMOnlineLbl: "Online Adesso",
+        tccMOnlineSub: "connessi",
+        tccMSelLbl: "Selezionati",
+        tccMSelSub: "studenti",
+        tccBtnBatchDeleteText: "Elimina Selezionati",
+        tccBtnBatchDeleteAllTitle: "Svuota completamente l'aula per una nuova sessione",
+        tccSearchPlaceholder: "Cerca per nome, email o squadra...",
+        tccSelectAllLbl: "Seleziona tutti",
+        tccThStudent: "Studente",
+        tccThTeam: "Squadra",
+        tccThScore: "Punteggio",
+        tccThChallenges: "Sfide",
+        tccThStatus: "Stato",
+        tccThActions: "Azioni Rapide",
+        tccFooterMasterPinLbl: "Master PIN Docente:",
+        tccFooterMaxScore: "Massimo Punteggio Sfide: <strong>350 pt</strong>",
+        smmModalSubtitle: "Rimuovi studenti singolarmente o in batch, riassegna squadre e controlla lo stato in tempo reale",
+        smmBtnReloadText: "Ricarica",
+        smmMTotalLbl: "Studenti Registrati",
+        smmMSelLbl: "Selezionati",
+        smmMSelSub: "studenti",
+        smmBtnBatchDeleteText: "Elimina Selezionati",
+        smmBtnBatchAllTitle: "Svuota completamente l'aula per una nuova sessione",
+        smmBtnBatchAllText: "Svuota Tutta l'Aula",
+        smmSearchPlaceholder: "Cerca studente per nome, email o brand...",
+        smmSelectAllLbl: "Seleziona tutti",
+        smmThStudent: "Studente",
+        smmThTeam: "Squadra",
+        smmThScore: "Punteggio",
+        smmThChallenges: "Sfide",
+        smmThStatus: "Stato",
+        smmThActions: "Azioni Rapide",
+        smmFooterText: "💡 Le modifiche e le eliminazioni vengono sincronizzate immediatamente sul database Firestore di classe.",
+        smmBtnCloseText: "Chiudi Finestra ✕",
+        tModalTitle: "Accesso Console Docente",
+        tModalDesc: "Inserisci il PIN per attivare i controlli",
+        trainerModalError: "❌ PIN errato!",
         // STUDENT DOCS CARD IT
         hdrStudentDocs: "Guida & Materiali",
         studentDocsLockBadgeLocked: "🔒 Bloccata",
@@ -3115,6 +3198,89 @@ ORDER BY roas_multiplier DESC;</pre>
         tsModalSubtitle: "Official answers, score tolerance ranges, and verification queries",
         tsModalFooter: "💡 Maximum score attainable by each student: <strong>350 points</strong>.",
         btnTsModalClose: "Close ✕",
+        // TRAINER COMMAND CENTER & MANAGER LOCALIZATION EN
+        tccLiveRegiaBadge: "LIVE TRAINER",
+        tccBtnChangeRoomTitle: "Customize Secret Room Code",
+        tccBtnShareLinkTitle: "Copy Student Link with Room Code",
+        tccLblClassroom: "Classroom:",
+        tccLblBlock: "Block:",
+        tccBtnPreviewTitle: "View interface exactly as a student sees it",
+        tccBtnPreviewText: "Student Preview",
+        tccBtnPreviewShort: "Preview",
+        tccPreviewBannerText: "Student Preview Mode Active — You are viewing the interface exactly as a student sees it.",
+        tccPreviewBannerBtnText: "Back to Trainer Console",
+        btnExitTrainerTitle: "Exit trainer mode",
+        btnExitTrainerText: "Exit",
+        tbLblStudentControlText: "Classroom Navigation Control",
+        tccLblGlobalSync: "Global Sync",
+        btnForceSyncAllTitle: "Instantly force current block onto all participants",
+        tbLblBroadcastHdrText: "Masterclass Timeline & Broadcast",
+        tccDescBroadcast: "Click a block to broadcast it instantly to all students:",
+        tbBCoverTitle: "Intro Masterclass & Welcome",
+        tbBCoverDesc: "Agenda, guidelines and environment setup",
+        tbBB1Title: "Block 1: Data Canvas & Setup",
+        tbBB1Desc: "Visual exploration & Macro sales",
+        tbBB2Title: "Block 2: Discounts & High Margin",
+        tbBB2Desc: "Challenge #1: Oliver Peoples & Ray-Ban (100 pt)",
+        tbBBreakTitle: "Coffee Break & Energizing Quiz",
+        tbBBreakDesc: "10-15 minutes of relaxation",
+        tbBB3Title: "Block 3: Attribution ROAS CTE",
+        tbBB3Desc: "Challenge #2: Google vs TikTok Fan-Out (100 pt)",
+        tbBB4Title: "Block 4: Data Clean & VIP Leads",
+        tbBB4Desc: "Challenge #3: 352 Leads & SQL View (100 pt)",
+        tbBB5Title: "Block 5: Finale & Winners Podium",
+        tbBB5Desc: "CMO recommendations & team celebration",
+        tbLblTimerHdrText: "Synchronized Classroom Timer",
+        trainerTimerQuickOptional: "Optional",
+        tbCsTitleText: "Challenge Solutions (Cheat Sheet)",
+        btnTogglePinVisTitle: "Show or hide PINs",
+        pinVisTextShow: "Show PINs",
+        pinVisTextHide: "Hide PINs",
+        tccRosterTitle: "Student Management & Live Roster",
+        tccRosterSubtitle: "Monitor classroom live, award bonuses, check challenges, and delete students individually or in batch",
+        tccBtnPingTitle: "Send Ping to force presence state refresh",
+        tccBtnPingText: "Ping Room",
+        btnTbProjectLbText: "Project Leaderboard",
+        btnTbResetLbTitle: "Reset classroom leaderboard",
+        tccMTotalLbl: "Registered Students",
+        tccMTotalSub: "enrolled",
+        tccMOnlineLbl: "Online Now",
+        tccMOnlineSub: "connected",
+        tccMSelLbl: "Selected",
+        tccMSelSub: "students",
+        tccBtnBatchDeleteText: "Delete Selected",
+        tccBtnBatchDeleteAllTitle: "Empty the classroom completely for a new session",
+        tccSearchPlaceholder: "Search by name, email or team...",
+        tccSelectAllLbl: "Select all",
+        tccThStudent: "Student",
+        tccThTeam: "Team",
+        tccThScore: "Score",
+        tccThChallenges: "Challenges",
+        tccThStatus: "Status",
+        tccThActions: "Quick Actions",
+        tccFooterMasterPinLbl: "Trainer Master PIN:",
+        tccFooterMaxScore: "Maximum Challenge Score: <strong>350 pts</strong>",
+        smmModalSubtitle: "Remove students individually or in batch, reassign teams, and monitor real-time status",
+        smmBtnReloadText: "Reload",
+        smmMTotalLbl: "Registered Students",
+        smmMSelLbl: "Selected",
+        smmMSelSub: "students",
+        smmBtnBatchDeleteText: "Delete Selected",
+        smmBtnBatchAllTitle: "Empty the classroom completely for a new session",
+        smmBtnBatchAllText: "Empty Classroom",
+        smmSearchPlaceholder: "Search student by name, email or brand...",
+        smmSelectAllLbl: "Select all",
+        smmThStudent: "Student",
+        smmThTeam: "Team",
+        smmThScore: "Score",
+        smmThChallenges: "Challenges",
+        smmThStatus: "Status",
+        smmThActions: "Quick Actions",
+        smmFooterText: "💡 Changes and deletions are synchronized immediately with the classroom Firestore database.",
+        smmBtnCloseText: "Close Window ✕",
+        tModalTitle: "Trainer Console Access",
+        tModalDesc: "Enter PIN to activate trainer controls",
+        trainerModalError: "❌ Incorrect PIN!",
         // STUDENT DOCS CARD EN
         hdrStudentDocs: "Guide & Materials",
         studentDocsLockBadgeLocked: "🔒 Locked",
@@ -3703,14 +3869,41 @@ ORDER BY roas_multiplier DESC;</pre>
         '5': 'tb-btn-b5'
       };
 
+      const blockBadgeNames = {
+        'cover': { it: 'Intro', en: 'Intro' },
+        '1': { it: 'Blocco 1', en: 'Block 1' },
+        '2': { it: 'Blocco 2', en: 'Block 2' },
+        'break': { it: 'Pausa Caffè', en: 'Coffee Break' },
+        '3': { it: 'Blocco 3', en: 'Block 3' },
+        '4': { it: 'Blocco 4', en: 'Block 4' },
+        '5': { it: 'Finale', en: 'Summary' }
+      };
+
+      const activeBadgeEl = document.getElementById('tcc-active-block-badge');
+      if (activeBadgeEl) {
+        const key = String(activeBlockId || 'cover');
+        const badgeInfo = blockBadgeNames[key] || { it: key, en: key };
+        activeBadgeEl.innerText = currentLang === 'it' ? badgeInfo.it : badgeInfo.en;
+      }
+
       Object.entries(blockButtonMap).forEach(([bId, btnId]) => {
         const btn = document.getElementById(btnId);
         if (!btn) return;
         const isActive = (String(bId) === String(activeBlockId));
         if (isActive) {
-          btn.className = "w-full text-left px-3 py-2 rounded-lg font-bold text-white bg-blue-600 shadow-md ring-2 ring-amber-400 ring-offset-1 ring-offset-slate-900 transition flex items-center justify-between";
+          btn.className = "w-full text-left p-3 rounded-xl font-bold text-white bg-blue-600 shadow-md ring-2 ring-amber-400 ring-offset-1 ring-offset-slate-900 transition flex items-center justify-between";
         } else {
-          btn.className = "w-full text-left px-3 py-2 rounded-lg font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center justify-between";
+          btn.className = "w-full text-left p-3 rounded-xl font-medium text-slate-300 hover:text-white bg-slate-950/70 hover:bg-slate-800/80 border border-slate-800 transition flex items-center justify-between group cursor-pointer";
+        }
+
+        const tagEl = document.getElementById(`tb-live-tag-${bId}`);
+        if (tagEl) {
+          if (isActive) {
+            tagEl.innerHTML = '<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-400 text-slate-950 animate-pulse">LIVE</span>';
+          } else {
+            const inactiveText = currentLang === 'it' ? 'Inattivo' : 'Inactive';
+            tagEl.innerHTML = `<span class="text-[10px] text-slate-500 font-mono">${inactiveText}</span>`;
+          }
         }
       });
     }
@@ -4019,7 +4212,7 @@ ORDER BY roas_multiplier DESC;</pre>
           if (clockEl) clockEl.innerText = "00:00";
           if (badge) badge.className = "flex items-center space-x-2 bg-red-100 text-red-900 border border-red-300 text-xs font-mono font-bold px-3 py-1 rounded-full shadow-xs animate-bounce";
           if (trainerStatus) {
-            trainerStatus.innerText = "Tempo Scaduto!";
+            trainerStatus.innerText = currentLang === 'it' ? "Tempo Scaduto!" : "Time's up!";
             trainerStatus.className = "text-[9px] font-mono font-bold text-red-400";
           }
           showToast(currentLang === 'it' ? "⏰ Tempo scaduto per l'attività!" : "⏰ Time is up for current activity!");
@@ -4045,7 +4238,7 @@ ORDER BY roas_multiplier DESC;</pre>
       const trainerStatus = document.getElementById('trainer-timer-status');
       if (badge) badge.classList.add('hidden');
       if (trainerStatus) {
-        trainerStatus.innerText = "Spento";
+        trainerStatus.innerText = currentLang === 'it' ? "Spento" : "Off";
         trainerStatus.className = "text-[9px] font-mono font-bold text-slate-500";
       }
     }
@@ -4059,13 +4252,13 @@ ORDER BY roas_multiplier DESC;</pre>
         label: label,
         endTime: endTime
       });
-      showToast(`⏱️ Timer di ${minutes} min avviato per l'aula!`);
+      showToast(currentLang === 'it' ? `⏱️ Timer di ${minutes} min avviato per l'aula!` : `⏱️ ${minutes} min timer started for classroom!`);
     }
 
     function trainerStopTimer() {
       handleRemoteTimerStop();
       publishBroadcast({ action: 'timer_stop' });
-      showToast("⏹️ Timer aula fermato.");
+      showToast(currentLang === 'it' ? "⏹️ Timer aula fermato." : "⏹️ Classroom timer stopped.");
     }
 
     // CONFETTI CELEBRATION
@@ -4211,6 +4404,17 @@ ORDER BY roas_multiplier DESC;</pre>
       });
       updateSyncBadge(locked);
       updateLockControlButton();
+
+      const tccLockBadge = document.getElementById('tcc-lock-status-badge');
+      if (tccLockBadge) {
+        if (locked) {
+          tccLockBadge.innerText = currentLang === 'it' ? '🔒 Bloccata' : '🔒 Locked';
+          tccLockBadge.className = 'font-bold text-red-400';
+        } else {
+          tccLockBadge.innerText = currentLang === 'it' ? '🔓 Libera' : '🔓 Free';
+          tccLockBadge.className = 'font-bold text-emerald-400';
+        }
+      }
     }
 
     // USER MANUAL TAB CLICK (ALLOWED ONLY WHEN UNLOCKED OR IN TRAINER MODE)
@@ -4495,53 +4699,143 @@ ORDER BY roas_multiplier DESC;</pre>
 
       setText('toast-text', t.toastText);
 
-      // TRAINER BAR & CONSOLE LOCALIZATION
-      setText('tb-badge', t.tbBadge);
+      // TRAINER COMMAND CENTER & PREVIEW BANNER LOCALIZATION
+      setText('tcc-preview-banner-text', t.tccPreviewBannerText);
+      setText('tcc-preview-banner-btn-text', t.tccPreviewBannerBtnText);
+      setText('tb-badge', lang === 'it' ? 'Cabina di Regia Docente' : 'Trainer Command Center');
+      setText('tcc-live-regia-badge', t.tccLiveRegiaBadge);
       setText('tb-subtitle', t.tbSubtitle);
-      setText('tb-btn-solutions-hdr', t.tbBtnSolutionsHdr);
-      setText('btn-top-solutions-text', t.btnTopSolutionsText);
-      setText('tb-cs-title', t.tbCsTitle);
-      setText('tb-cs-btn-open', t.tbCsBtnOpen);
-      setText('tb-cs-desc', t.tbCsDesc);
-      setText('tb-lbl-student-control', t.tbLblStudentControl);
+      setText('tb-lbl-room-channel', lang === 'it' ? 'Stanza:' : 'Room:');
+      const btnChgRoom = document.getElementById('tcc-btn-change-room');
+      if (btnChgRoom) btnChgRoom.title = t.tccBtnChangeRoomTitle;
+      const btnShareLink = document.getElementById('tcc-btn-share-link');
+      if (btnShareLink) btnShareLink.title = t.tccBtnShareLinkTitle;
+      setText('tcc-lbl-classroom', t.tccLblClassroom);
+      setText('tcc-lbl-block', t.tccLblBlock);
+      const btnPreview = document.getElementById('tcc-btn-preview');
+      if (btnPreview) btnPreview.title = t.tccBtnPreviewTitle;
+      setText('tcc-btn-preview-text', t.tccBtnPreviewText);
+      setText('tcc-btn-preview-short', t.tccBtnPreviewShort);
+      const btnExitTrainer = document.getElementById('btn-exit-trainer');
+      if (btnExitTrainer) btnExitTrainer.title = t.btnExitTrainerTitle;
+      setText('btn-exit-trainer-text', t.btnExitTrainerText);
+
+      // TCC CARD 1: LOCK & SYNC
+      setText('tb-lbl-student-control-text', t.tbLblStudentControlText);
+      setText('tcc-lbl-global-sync', t.tccLblGlobalSync);
       setText('tb-desc-student-control', t.tbDescStudentControl);
-      setText('tb-lbl-broadcast-hdr', t.tbLblBroadcastHdr);
+      const btnForceSyncAll = document.getElementById('btn-force-sync-all');
+      if (btnForceSyncAll) btnForceSyncAll.title = t.btnForceSyncAllTitle;
       setText('btn-force-sync-text', t.btnForceSyncText);
-      setText('tb-btn-cover', t.tbBtnCover);
-      setText('tb-btn-b1', t.tbBtnB1);
-      setText('tb-btn-b2', t.tbBtnB2);
-      setText('tb-btn-break', t.tbBtnBreak);
-      setText('tb-btn-b3', t.tbBtnB3);
-      setText('tb-btn-b4', t.tbBtnB4);
-      setText('tb-btn-b5', t.tbBtnB5);
-      setText('btn-exit-trainer-text', t.btnExitTrainer);
-      setText('tb-lbl-hints', t.tbLblHints);
-      setText('tb-cs-dropdown-title', t.tbCsDropdownTitle);
-      setText('tb-lbl-timer-hdr', t.tbLblTimerHdr);
+
+      // TCC CARD 2: TIMELINE & BLOCKS
+      setText('tb-lbl-broadcast-hdr-text', t.tbLblBroadcastHdrText);
+      setText('tcc-desc-broadcast', t.tccDescBroadcast);
+      setText('tb-b-cover-title', t.tbBCoverTitle);
+      setText('tb-b-cover-desc', t.tbBCoverDesc);
+      setText('tb-b-b1-title', t.tbBB1Title);
+      setText('tb-b-b1-desc', t.tbBB1Desc);
+      setText('tb-b-b2-title', t.tbBB2Title);
+      setText('tb-b-b2-desc', t.tbBB2Desc);
+      setText('tb-b-break-title', t.tbBBreakTitle);
+      setText('tb-b-break-desc', t.tbBBreakDesc);
+      setText('tb-b-b3-title', t.tbBB3Title);
+      setText('tb-b-b3-desc', t.tbBB3Desc);
+      setText('tb-b-b4-title', t.tbBB4Title);
+      setText('tb-b-b4-desc', t.tbBB4Desc);
+      setText('tb-b-b5-title', t.tbBB5Title);
+      setText('tb-b-b5-desc', t.tbBB5Desc);
+
+      // TCC CARD 3: TIMER
+      setText('tb-lbl-timer-hdr-text', t.tbLblTimerHdrText);
       setText('tb-desc-timer', t.tbDescTimer);
+      if (!classroomTimerInterval) {
+        setText('trainer-timer-quick-status', t.trainerTimerQuickOptional);
+        setText('trainer-timer-status', lang === 'it' ? 'Spento' : 'Off');
+      }
       setText('btn-timer-15-text', t.btnTimer15Text);
       setText('btn-timer-10-text', t.btnTimer10Text);
       setText('btn-timer-5-text', t.btnTimer5Text);
       setText('btn-timer-stop-text', t.btnTimerStopText);
+
+      // TCC CARD 4: CHEATSHEET & HINTS
+      setText('tb-cs-title-text', t.tbCsTitleText);
+      setText('tb-cs-btn-open', t.tbCsBtnOpen);
+      setText('tb-lbl-hints', t.tbLblHints);
+      const btnTogglePinVis = document.getElementById('btn-toggle-pin-visibility');
+      if (btnTogglePinVis) btnTogglePinVis.title = t.btnTogglePinVisTitle;
       setText('tb-lbl-docs-hdr', t.tbLblDocsHdr);
-      setText('tb-lbl-instructor-guide-title', t.tbLblInstructorGuideTitle);
-      setText('tb-desc-instructor-guide', t.tbDescInstructorGuide);
-      setText('tb-lbl-student-guides-title', t.tbLblStudentGuidesTitle);
-      setText('tb-desc-student-guides', t.tbDescStudentGuides);
-      setText('tb-lbl-students-hdr', t.tbLblStudentsHdr);
-      setText('btn-tb-project-lb', t.btnTbProjectLb);
-      setText('btn-tb-reset-lb', t.btnTbResetLb);
-      setText('tb-lbl-room-channel', t.tbLblRoomChannel);
-      setText('tb-desc-room-code', t.tbDescRoomCode);
-      setText('btn-tb-change-room', t.btnTbChangeRoom);
-      setText('btn-tb-share-link', t.btnTbShareLink);
-      setText('tb-lbl-master-pin', t.tbLblMasterPin);
+
+      // TCC RIGHT COLUMN: ROSTER & METRICS
+      setText('tcc-roster-title', t.tccRosterTitle);
+      setText('tcc-roster-subtitle', t.tccRosterSubtitle);
+      const btnPing = document.getElementById('tcc-btn-ping');
+      if (btnPing) btnPing.title = t.tccBtnPingTitle;
+      setText('tcc-btn-ping-text', t.tccBtnPingText);
+      setText('btn-tb-project-lb-text', t.btnTbProjectLbText);
+      const btnResetLb = document.getElementById('btn-tb-reset-lb');
+      if (btnResetLb) btnResetLb.title = t.btnTbResetLbTitle;
+      setText('tcc-m-total-lbl', t.tccMTotalLbl);
+      setText('tcc-m-total-sub', t.tccMTotalSub);
+      setText('tcc-m-online-lbl', t.tccMOnlineLbl);
+      setText('tcc-m-online-sub', t.tccMOnlineSub);
+      setText('tcc-m-sel-lbl', t.tccMSelLbl);
+      setText('tcc-m-sel-sub', t.tccMSelSub);
+      setText('tcc-btn-batch-delete-text', t.tccBtnBatchDeleteText);
+      const btnBatchDelAll = document.getElementById('tcc-btn-batch-delete-all');
+      if (btnBatchDelAll) btnBatchDelAll.title = t.tccBtnBatchDeleteAllTitle;
+      const tccSearch = document.getElementById('tcc-search-input');
+      if (tccSearch) tccSearch.placeholder = t.tccSearchPlaceholder;
+      setText('tcc-select-all-lbl', t.tccSelectAllLbl);
+      setText('tcc-th-student', t.tccThStudent);
+      setText('tcc-th-team', t.tccThTeam);
+      setText('tcc-th-score', t.tccThScore);
+      setText('tcc-th-challenges', t.tccThChallenges);
+      setText('tcc-th-status', t.tccThStatus);
+      setText('tcc-th-actions', t.tccThActions);
+      setText('tcc-footer-master-pin-lbl', t.tccFooterMasterPinLbl);
+      setHTML('tcc-footer-max-score', t.tccFooterMaxScore);
+
+      // STUDENT MANAGER MODAL (SMM)
+      setText('smm-modal-subtitle', t.smmModalSubtitle);
+      setText('smm-btn-reload-text', t.smmBtnReloadText);
+      setText('smm-m-total-lbl', t.smmMTotalLbl);
+      setText('smm-m-sel-lbl', t.smmMSelLbl);
+      setText('smm-m-sel-sub', t.smmMSelSub);
+      setText('smm-btn-batch-delete-text', t.smmBtnBatchDeleteText);
+      const smmBatchAll = document.getElementById('smm-btn-batch-all');
+      if (smmBatchAll) smmBatchAll.title = t.smmBtnBatchAllTitle;
+      setText('smm-btn-batch-all-text', t.smmBtnBatchAllText);
+      const smmSearch = document.getElementById('smm-search-input');
+      if (smmSearch) smmSearch.placeholder = t.smmSearchPlaceholder;
+      setText('smm-select-all-lbl', t.smmSelectAllLbl);
+      setText('smm-th-student', t.smmThStudent);
+      setText('smm-th-team', t.smmThTeam);
+      setText('smm-th-score', t.smmThScore);
+      setText('smm-th-challenges', t.smmThChallenges);
+      setText('smm-th-status', t.smmThStatus);
+      setText('smm-th-actions', t.smmThActions);
+      setText('smm-footer-text', t.smmFooterText);
+      setText('smm-btn-close-text', t.smmBtnCloseText);
+
+      // TRAINER PIN MODAL
+      setText('t-modal-title', t.tModalTitle);
+      setText('t-modal-desc', t.tModalDesc);
+      setText('trainer-modal-error', t.trainerModalError);
       setText('btn-trainer-pin-cancel', t.btnTrainerPinCancel);
       setText('btn-trainer-pin-submit', t.btnTrainerPinSubmit);
+
+      // TRAINER MODAL SOLUTIONS
       setText('ts-modal-title', t.tsModalTitle);
       setText('ts-modal-subtitle', t.tsModalSubtitle);
       setHTML('ts-modal-footer', t.tsModalFooter);
       setText('btn-ts-modal-close', t.btnTsModalClose);
+
+      // TRAINER DIRECT NAVBAR LANGUAGE BUTTONS
+      const tccLangIt = document.getElementById('tcc-lang-btn-it');
+      const tccLangEn = document.getElementById('tcc-lang-btn-en');
+      if (tccLangIt) tccLangIt.className = lang === 'it' ? "px-2.5 py-1 text-xs font-bold rounded-lg bg-blue-600 text-white shadow-xs transition" : "px-2.5 py-1 text-xs font-bold rounded-lg text-slate-300 hover:text-white transition";
+      if (tccLangEn) tccLangEn.className = lang === 'en' ? "px-2.5 py-1 text-xs font-bold rounded-lg bg-blue-600 text-white shadow-xs transition" : "px-2.5 py-1 text-xs font-bold rounded-lg text-slate-300 hover:text-white transition";
 
       // Student docs badge & button text
       const trainerBadge = document.getElementById('trainer-student-guides-badge');
@@ -4684,6 +4978,11 @@ ORDER BY roas_multiplier DESC;</pre>
       if (roleLangEn) roleLangEn.className = lang === 'en' ? "px-2.5 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition" : "px-2.5 py-1 text-xs font-bold rounded-md text-slate-600 hover:text-slate-900 transition";
 
       applyLockState(isStrictLocked);
+      const activeState = getActiveClassroomState();
+      updateTrainerBlockUI(activeState.block);
+      if (typeof refreshTrainerStudents === 'function') {
+        refreshTrainerStudents();
+      }
       const teamSelect = document.getElementById('team-select');
       if (teamSelect) switchTeam(teamSelect.value);
     }
@@ -6039,7 +6338,9 @@ ORDER BY roas_multiplier DESC;</pre>
       const rawList = Object.values(classroomStudents);
       const activeCount = rawList.filter(s => !s.loggedOut).length;
       if (countEl) countEl.innerText = `${activeCount}/${rawList.length}`;
-      if (totalCountEl) totalCountEl.innerText = `${activeCount} online / ${rawList.length} totali`;
+      if (totalCountEl) totalCountEl.innerText = currentLang === 'it' 
+        ? `${activeCount} online / ${rawList.length} totali` 
+        : `${activeCount} online / ${rawList.length} total`;
       if (selectedCountEl) selectedCountEl.innerText = selectedStudentIds.size;
       if (batchDeleteBtn) batchDeleteBtn.disabled = (selectedStudentIds.size === 0);
 
@@ -6055,8 +6356,8 @@ ORDER BY roas_multiplier DESC;</pre>
           <tr>
             <td colspan="7" class="p-12 text-center text-slate-500 italic">
               <div class="text-3xl mb-2">👥</div>
-              <div class="font-bold text-slate-400 text-sm">Nessuno studente ancora connesso a quest'aula.</div>
-              <div class="text-xs text-slate-500 mt-1">Gli studenti appariranno qui in tempo reale non appena effettuano il login.</div>
+              <div class="font-bold text-slate-400 text-sm">${currentLang === 'it' ? "Nessuno studente ancora connesso a quest'aula." : "No students connected to this classroom yet."}</div>
+              <div class="text-xs text-slate-500 mt-1">${currentLang === 'it' ? "Gli studenti appariranno qui in tempo reale non appena effettuano il login." : "Students will appear here in real time as soon as they sign in."}</div>
             </td>
           </tr>
         `;
@@ -6089,6 +6390,15 @@ ORDER BY roas_multiplier DESC;</pre>
         const tObj = TEAMS.find(t => t.key === s.teamKey) || TEAMS[0];
         const chDone = Object.values(s.completedChallenges || {}).filter(Boolean).length;
         const isLoggedOut = !!s.loggedOut;
+        const safeName = (s.name || '').replace(/'/g, "\\'");
+
+        const tipBonus50 = currentLang === 'it' ? 'Assegna +50 pt' : 'Award +50 pts';
+        const tipBonus100 = currentLang === 'it' ? 'Assegna +100 pt' : 'Award +100 pts';
+        const tipPin = currentLang === 'it' ? 'Vedi PIN di recupero' : 'View recovery PIN';
+        const tipReset = currentLang === 'it' ? 'Azzera punteggio' : 'Reset score';
+        const tipKick = currentLang === 'it' ? 'Disconnetti da remoto' : 'Disconnect remotely';
+        const tipDelete = currentLang === 'it' ? 'Elimina definitivamente da Firestore' : 'Permanently delete from Firestore';
+        const btnDeleteText = currentLang === 'it' ? 'Elimina' : 'Delete';
 
         return `
           <tr class="hover:bg-slate-800/50 transition border-b border-slate-800/60 ${isSelected ? 'bg-blue-950/25' : ''} ${isLoggedOut ? 'opacity-65' : ''}">
@@ -6130,14 +6440,14 @@ ORDER BY roas_multiplier DESC;</pre>
             </td>
             <td class="p-3 text-right">
               <div class="flex items-center justify-end space-x-1.5">
-                <button onclick="trainerAwardBonus('${s.id}', 50)" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold transition shadow-xs" title="Assegna +50 pt">+50</button>
-                <button onclick="trainerAwardBonus('${s.id}', 100)" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-emerald-300 text-xs font-bold transition shadow-xs" title="Assegna +100 pt">+100</button>
-                <button onclick="trainerShowRecoveryPin('${s.id}')" class="p-1.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 transition text-xs font-mono font-bold" title="Vedi PIN di recupero">🔑</button>
-                <button onclick="trainerResetSingleStudent('${s.id}', '${s.name.replace(/'/g, "\'")}'); refreshTrainerStudents();" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 transition text-xs" title="Azzera punteggio">🔄</button>
-                <button onclick="trainerKickStudent('${s.id}', '${s.name.replace(/'/g, "\'")}; refreshTrainerStudents();" class="p-1.5 rounded-lg bg-amber-950/60 hover:bg-amber-800 text-amber-400 transition text-xs" title="Disconnetti da remoto">⛔</button>
-                <button onclick="trainerDestroyStudent('${s.id}', '${s.name.replace(/'/g, "\'")}'); refreshTrainerStudents();" class="py-1 px-2.5 rounded-lg bg-red-950/80 hover:bg-red-800 border border-red-800 text-red-300 hover:text-white transition text-xs font-bold flex items-center space-x-1" title="Elimina definitivamente da Firestore">
+                <button onclick="trainerAwardBonus('${s.id}', 50)" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold transition shadow-xs cursor-pointer" title="${tipBonus50}">+50</button>
+                <button onclick="trainerAwardBonus('${s.id}', 100)" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-emerald-300 text-xs font-bold transition shadow-xs cursor-pointer" title="${tipBonus100}">+100</button>
+                <button onclick="trainerShowRecoveryPin('${s.id}')" class="p-1.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 transition text-xs font-mono font-bold cursor-pointer" title="${tipPin}">🔑</button>
+                <button onclick="trainerResetSingleStudent('${s.id}', '${safeName}'); refreshTrainerStudents();" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 transition text-xs cursor-pointer" title="${tipReset}">🔄</button>
+                <button onclick="trainerKickStudent('${s.id}', '${safeName}'); refreshTrainerStudents();" class="p-1.5 rounded-lg bg-amber-950/60 hover:bg-amber-800 text-amber-400 transition text-xs cursor-pointer" title="${tipKick}">⛔</button>
+                <button onclick="trainerDestroyStudent('${s.id}', '${safeName}'); refreshTrainerStudents();" class="py-1 px-2.5 rounded-lg bg-red-950/80 hover:bg-red-800 border border-red-800 text-red-300 hover:text-white transition text-xs font-bold flex items-center space-x-1 cursor-pointer" title="${tipDelete}">
                   <span>🗑️</span>
-                  <span>Elimina</span>
+                  <span>${btnDeleteText}</span>
                 </button>
               </div>
             </td>
@@ -6150,7 +6460,10 @@ ORDER BY roas_multiplier DESC;</pre>
       const s = classroomStudents[studentId];
       if (!s) return;
       const pin = s.recoveryPin || getStudentRecoveryPin(studentId);
-      prompt(`🔑 PIN di Recupero per lo studente "${s.name}":\n\nDì questo codice di 4 cifre allo studente per fargli riprendere il profilo:`, pin);
+      const msg = currentLang === 'it'
+        ? `🔑 PIN di Recupero per lo studente "${s.name}":\n\nDì questo codice di 4 cifre allo studente per fargli riprendere il profilo:`
+        : `🔑 Recovery PIN for student "${s.name}":\n\nShare this 4-digit code with the student to resume their profile:`;
+      prompt(msg, pin);
     }
 
     function trainerResumeStudent(studentId) {
@@ -6162,11 +6475,16 @@ ORDER BY roas_multiplier DESC;</pre>
         targetStudentId: studentId
       });
       handleRemoteStudentResume({ targetStudentId: studentId });
-      showToast(`🟢 Studente "${s.name}" riattivato in aula!`);
+      showToast(currentLang === 'it' 
+        ? `🟢 Studente "${s.name}" riattivato in aula!` 
+        : `🟢 Student "${s.name}" resumed in classroom!`);
     }
 
     function trainerResetSingleStudent(studentId, studentName) {
-      const ok = confirm(`Vuoi AZZERARE il punteggio e le sfide dello studente "${studentName}"?\n\nIl profilo rimarrà registrato, ma ripartirà da 0 punti e potrà rieseguire le challenge.`);
+      const confirmMsg = currentLang === 'it'
+        ? `Vuoi AZZERARE il punteggio e le sfide dello studente "${studentName}"?\n\nIl profilo rimarrà registrato, ma ripartirà da 0 punti e potrà rieseguire le challenge.`
+        : `Do you want to RESET score and challenges for student "${studentName}"?\n\nThe profile remains registered, but resets to 0 points to redo challenges.`;
+      const ok = confirm(confirmMsg);
       if (!ok) return;
 
       publishBroadcast({
@@ -6174,11 +6492,16 @@ ORDER BY roas_multiplier DESC;</pre>
         targetStudentId: studentId
       });
       handleRemoteStudentReset({ targetStudentId: studentId });
-      showToast(`🔄 Punteggio di "${studentName}" azzerato con successo!`);
+      showToast(currentLang === 'it'
+        ? `🔄 Punteggio di "${studentName}" azzerato con successo!`
+        : `🔄 Score for "${studentName}" successfully reset!`);
     }
 
     async function trainerDestroyStudent(studentId, studentName) {
-      const ok = confirm(`⚠️ ATTENZIONE: Vuoi ELIMINARE DEFINITIVAMENTE lo studente "${studentName}" dall'aula?\n\n- Il browser dello studente verrà resettato.\n- Il suo profilo verrà rimosso da Firestore.\n- Questa azione è irreversibile.`);
+      const confirmMsg = currentLang === 'it'
+        ? `⚠️ ATTENZIONE: Vuoi ELIMINARE DEFINITIVAMENTE lo studente "${studentName}" dall'aula?\n\n- Il browser dello studente verrà resettato.\n- Il suo profilo verrà rimosso da Firestore.\n- Questa azione è irreversibile.`
+        : `⚠️ WARNING: Permanently DELETE student "${studentName}" from classroom?\n\n- The student's browser will be reset.\n- Their profile will be deleted from Firestore.\n- This action cannot be undone.`;
+      const ok = confirm(confirmMsg);
       if (!ok) return;
 
       // 1) Delete from Firestore backend
@@ -6194,7 +6517,9 @@ ORDER BY roas_multiplier DESC;</pre>
       });
       handleRemoteStudentKick({ targetStudentId: studentId, permanent: true });
       refreshStudentManagerTable();
-      showToast(`🗑️ Studente "${studentName}" eliminato definitivamente!`);
+      showToast(currentLang === 'it'
+        ? `🗑️ Studente "${studentName}" eliminato definitivamente!`
+        : `🗑️ Student "${studentName}" permanently deleted!`);
     }
 
     // DEDICATED STUDENT MANAGEMENT SCREEN FUNCTIONS
@@ -6202,7 +6527,7 @@ ORDER BY roas_multiplier DESC;</pre>
 
     function openStudentManagerModal() {
       if (!isTrainerMode) {
-        showToast("⚠️ Questa funzione è riservata al Trainer");
+        showToast(currentLang === 'it' ? "⚠️ Questa funzione è riservata al Trainer" : "⚠️ This feature is reserved for Trainers");
         return;
       }
       selectedStudentIds.clear();
@@ -6230,7 +6555,7 @@ ORDER BY roas_multiplier DESC;</pre>
 
       const onlineCount = allStudents.filter(s => !s.loggedOut).length;
       if (totalCountEl) totalCountEl.innerText = allStudents.length;
-      if (activeCountEl) activeCountEl.innerText = `${onlineCount} online`;
+      if (activeCountEl) activeCountEl.innerText = currentLang === 'it' ? `${onlineCount} online` : `${onlineCount} online`;
       if (selectedCountEl) selectedCountEl.innerText = selectedStudentIds.size;
       if (batchDeleteBtn) {
         batchDeleteBtn.disabled = (selectedStudentIds.size === 0);
@@ -6245,10 +6570,13 @@ ORDER BY roas_multiplier DESC;</pre>
       }).sort((a, b) => (b.score || 0) - (a.score || 0));
 
       if (filtered.length === 0) {
+        const noStudentsMsg = currentLang === 'it'
+          ? (filterText ? 'Nessuno studente trovato per i criteri di ricerca correnti.' : 'Nessuno studente trovato nell\'aula.')
+          : (filterText ? 'No students found matching current search criteria.' : 'No students found in classroom.');
         tbody.innerHTML = `
           <tr>
             <td colspan="7" class="p-8 text-center text-slate-500 italic">
-              Nessuno studente trovato ${filterText ? 'per i criteri di ricerca correnti' : 'nell\'aula'}.
+              ${noStudentsMsg}
             </td>
           </tr>
         `;
@@ -6267,6 +6595,13 @@ ORDER BY roas_multiplier DESC;</pre>
         const tObj = TEAMS.find(t => t.key === s.teamKey) || TEAMS[0];
         const isLoggedOut = !!s.loggedOut;
         const chDone = Object.values(s.completedChallenges || {}).filter(Boolean).length;
+        const safeName = (s.name || '').replace(/'/g, "\\'");
+
+        const tipPin = currentLang === 'it' ? 'Vedi PIN di recupero' : 'View recovery PIN';
+        const tipReset = currentLang === 'it' ? 'Azzera punteggio' : 'Reset score';
+        const tipKick = currentLang === 'it' ? 'Disconnetti da remoto' : 'Disconnect remotely';
+        const tipDelete = currentLang === 'it' ? 'Elimina definitivamente da Firestore' : 'Permanently delete from Firestore';
+        const btnDeleteText = currentLang === 'it' ? 'Elimina' : 'Delete';
 
         return `
           <tr class="hover:bg-slate-800/40 transition ${isSelected ? 'bg-blue-950/20' : ''}">
@@ -6308,18 +6643,18 @@ ORDER BY roas_multiplier DESC;</pre>
             </td>
             <td class="p-3 text-right">
               <div class="flex items-center justify-end space-x-1.5">
-                <button onclick="trainerShowRecoveryPin('${s.id}')" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 transition text-[11px]" title="Vedi PIN di recupero">
+                <button onclick="trainerShowRecoveryPin('${s.id}')" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 transition text-[11px] cursor-pointer" title="${tipPin}">
                   🔑
                 </button>
-                <button onclick="trainerResetSingleStudent('${s.id}', '${s.name.replace(/'/g, "\\'")}'); refreshStudentManagerTable();" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 transition text-[11px]" title="Azzera punteggio">
+                <button onclick="trainerResetSingleStudent('${s.id}', '${safeName}'); refreshStudentManagerTable();" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 transition text-[11px] cursor-pointer" title="${tipReset}">
                   🔄
                 </button>
-                <button onclick="trainerKickStudent('${s.id}', '${s.name.replace(/'/g, "\\'")}'); refreshStudentManagerTable();" class="p-1.5 rounded-lg bg-amber-950/60 hover:bg-amber-800 text-amber-400 transition text-[11px]" title="Disconnetti da remoto">
+                <button onclick="trainerKickStudent('${s.id}', '${safeName}'); refreshStudentManagerTable();" class="p-1.5 rounded-lg bg-amber-950/60 hover:bg-amber-800 text-amber-400 transition text-[11px] cursor-pointer" title="${tipKick}">
                   ⛔
                 </button>
-                <button onclick="trainerDestroyStudent('${s.id}', '${s.name.replace(/'/g, "\\'")}');" class="py-1 px-2 rounded-lg bg-red-950/80 hover:bg-red-800 border border-red-800 text-red-300 hover:text-white transition text-xs font-bold flex items-center space-x-1" title="Elimina definitivamente da Firestore">
+                <button onclick="trainerDestroyStudent('${s.id}', '${safeName}');" class="py-1 px-2 rounded-lg bg-red-950/80 hover:bg-red-800 border border-red-800 text-red-300 hover:text-white transition text-xs font-bold flex items-center space-x-1 cursor-pointer" title="${tipDelete}">
                   <span>🗑️</span>
-                  <span>Elimina</span>
+                  <span>${btnDeleteText}</span>
                 </button>
               </div>
             </td>
@@ -6355,7 +6690,10 @@ ORDER BY roas_multiplier DESC;</pre>
       const ids = Array.from(selectedStudentIds);
       if (ids.length === 0) return;
 
-      const ok = confirm(`⚠️ Confermi l'eliminazione definitiva di ${ids.length} studenti selezionati?\n\nI profili verranno cancellati da Firestore e i loro browser verranno disconnessi.`);
+      const confirmMsg = currentLang === 'it'
+        ? `⚠️ Confermi l'eliminazione definitiva di ${ids.length} studenti selezionati?\n\nI profili verranno cancellati da Firestore e i loro browser verranno disconnessi.`
+        : `⚠️ Confirm permanent deletion of ${ids.length} selected students?\n\nProfiles will be deleted from Firestore and their browsers will be disconnected.`;
+      const ok = confirm(confirmMsg);
       if (!ok) return;
 
       // Call Firestore batch delete API
@@ -6374,17 +6712,22 @@ ORDER BY roas_multiplier DESC;</pre>
 
       selectedStudentIds.clear();
       refreshStudentManagerTable();
-      showToast(`🗑️ ${ids.length} studenti eliminati con successo!`);
+      showToast(currentLang === 'it' 
+        ? `🗑️ ${ids.length} studenti eliminati con successo!` 
+        : `🗑️ ${ids.length} students deleted successfully!`);
     }
 
     async function executeBatchDeleteAll() {
       const allStudents = Object.values(classroomStudents);
       if (allStudents.length === 0) {
-        showToast("L'aula è già vuota.");
+        showToast(currentLang === 'it' ? "L'aula è già vuota." : "The classroom is already empty.");
         return;
       }
 
-      const ok = confirm(`💥 ATTENZIONE: Sei sicuro di voler SVUOTARE COMPLETAMENTE L'AULA?\n\n- Verranno eliminati TUTTI i ${allStudents.length} studenti registrati.\n- I punteggi e le sfide verranno rimossi da Firestore.\n- Tutti i partecipanti collegati verranno riportati alla schermata iniziale.`);
+      const confirmMsg = currentLang === 'it'
+        ? `💥 ATTENZIONE: Sei sicuro di voler SVUOTARE COMPLETAMENTE L'AULA?\n\n- Verranno eliminati TUTTI i ${allStudents.length} studenti registrati.\n- I punteggi e le sfide verranno rimossi da Firestore.\n- Tutti i partecipanti collegati verranno riportati alla schermata iniziale.`
+        : `💥 WARNING: Are you sure you want to COMPLETELY CLEAR THE CLASSROOM?\n\n- ALL ${allStudents.length} registered students will be deleted.\n- Scores and challenges will be purged from Firestore.\n- All connected participants will be returned to the start screen.`;
+      const ok = confirm(confirmMsg);
       if (!ok) return;
 
       // Call Firestore batch delete API with __ALL__ flag
@@ -6403,7 +6746,7 @@ ORDER BY roas_multiplier DESC;</pre>
 
       selectedStudentIds.clear();
       refreshStudentManagerTable();
-      showToast("💥 Aula svuotata completamente con successo!");
+      showToast(currentLang === 'it' ? "💥 Aula svuotata completamente con successo!" : "💥 Classroom completely cleared!");
     }
 
     function handleRemoteTrainerChangeTeam(payload) {
@@ -6447,7 +6790,7 @@ ORDER BY roas_multiplier DESC;</pre>
         newTeamKey: newTeamKey
       });
 
-      showToast("🔄 Squadra aggiornata a " + tObj.name + "!");
+      showToast(currentLang === 'it' ? `🔄 Squadra aggiornata a ${tObj.name}!` : `🔄 Team updated to ${tObj.name}!`);
     }
 
 
@@ -6455,7 +6798,10 @@ ORDER BY roas_multiplier DESC;</pre>
       const s = classroomStudents[studentId];
       if (!s) return;
 
-      const choice = confirm(`Vuoi DISCONNETTERE lo studente "${studentName}"?\n\nLo studente verrà sloggato da remoto, ma manterrà i suoi punti e potrà rientrare con il PIN fornito dal docente.`);
+      const confirmMsg = currentLang === 'it'
+        ? `Vuoi DISCONNETTERE lo studente "${studentName}"?\n\nLo studente verrà sloggato da remoto, ma manterrà i suoi punti e potrà rientrare con il PIN fornito dal docente.`
+        : `Do you want to DISCONNECT student "${studentName}"?\n\nThe student will be logged out remotely, retaining points and able to re-enter using their recovery PIN.`;
+      const choice = confirm(confirmMsg);
       if (!choice) return;
 
       // Broadcast kick to student's browser and to the classroom
@@ -6466,7 +6812,9 @@ ORDER BY roas_multiplier DESC;</pre>
       });
 
       handleRemoteStudentKick({ targetStudentId: studentId, permanent: false });
-      showToast(`⛔ Studente "${studentName}" disconnesso da remoto!`);
+      showToast(currentLang === 'it' 
+        ? `⛔ Studente "${studentName}" disconnesso da remoto!` 
+        : `⛔ Student "${studentName}" remotely disconnected!`);
     }
 
     function trainerAwardBonus(studentId, delta) {
@@ -6480,10 +6828,13 @@ ORDER BY roas_multiplier DESC;</pre>
     }
 
     async function resetClassroomLeaderboard() {
-      if (!confirm("Sei sicuro di voler azzerare i punteggi e la classifica dell'intera classe?")) return;
+      const confirmMsg = currentLang === 'it'
+        ? "Sei sicuro di voler azzerare i punteggi e la classifica dell'intera classe?"
+        : "Are you sure you want to reset scores and leaderboard for the whole classroom?";
+      if (!confirm(confirmMsg)) return;
       handleRemoteResetScores();
       publishBroadcast({ action: 'reset_scores' });
-      showToast("🗑️ Classifica aula azzerata con successo!");
+      showToast(currentLang === 'it' ? "🗑️ Classifica aula azzerata con successo!" : "🗑️ Classroom leaderboard reset successfully!");
     }
 
 
@@ -6491,13 +6842,18 @@ ORDER BY roas_multiplier DESC;</pre>
     function trainerChangeRoomCode() {
       const suggested = `lux-oct12-${Math.random().toString(36).substring(2, 6)}`;
       const current = CURRENT_ROOM;
-      const entered = prompt(`🛡️ IMPOSTA STANZA / CANALE AULA SEGRETA:\n\nInserisci un identificativo univoco per isolare l'aula di oggi da interferenze esterne (solo lettere minuscole, numeri e trattini):`, current);
+      const promptMsg = currentLang === 'it'
+        ? `🛡️ IMPOSTA STANZA / CANALE AULA SEGRETA:\n\nInserisci un identificativo univoco per isolare l'aula di oggi da interferenze esterne (solo lettere minuscole, numeri e trattini):`
+        : `🛡️ SET SECRET CLASSROOM ROOM / CHANNEL:\n\nEnter a unique identifier to isolate today's room from external interference (lowercase letters, numbers, hyphens):`;
+      const entered = prompt(promptMsg, current);
       if (entered === null) return;
       const clean = (entered.trim() || suggested).toLowerCase().replace(/[^a-z0-9_-]/g, '');
       if (!clean) return;
 
       updateRoomTopics(clean);
-      showToast(`🛡️ Stanza aula impostata su: "${clean}"! Riconnessione in corso...`);
+      showToast(currentLang === 'it' 
+        ? `🛡️ Stanza aula impostata su: "${clean}"! Riconnessione in corso...` 
+        : `🛡️ Room set to: "${clean}"! Reconnecting...`);
       // Notify students connected in current room before moving
       publishBroadcast({
         action: 'trainer_override',
@@ -6520,7 +6876,10 @@ ORDER BY roas_multiplier DESC;</pre>
       url.searchParams.delete('role');
       const shareUrl = url.toString();
       copyToClipboard(shareUrl);
-      prompt(`🔗 LINK DA CONDIVIDERE CON GLI STUDENTI:\n(Gli studenti entreranno direttamente nella stanza segreta "${CURRENT_ROOM}" senza configurare nulla):`, shareUrl);
+      const promptMsg = currentLang === 'it'
+        ? `🔗 LINK DA CONDIVIDERE CON GLI STUDENTI:\n(Gli studenti entreranno direttamente nella stanza segreta "${CURRENT_ROOM}" senza configurare nulla):`
+        : `🔗 LINK TO SHARE WITH STUDENTS:\n(Students will join secret room "${CURRENT_ROOM}" directly without setup):`;
+      prompt(promptMsg, shareUrl);
     }
 
     // TEAM SELECTOR SWITCH (FALLBACK FOR MANUAL OVERRIDE)
