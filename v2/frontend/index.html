@@ -6,25 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luxottica BigQuery Masterclass - Google Cloud Student Hub</title>
-  <script>
-    /* Modern Web Guidance: Zero-FOUC Early Theme Resolver */
-    (function() {
-      try {
-        const theme = localStorage.getItem('lux_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      } catch (e) {}
-    })();
-  </script>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class'
-    };
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap');
@@ -160,150 +142,14 @@
     h1, h2, h3, .heading-balanced {
       text-wrap: balance;
     }
-    /* ==========================================================================
-       MODERN WEB GUIDANCE & ANTIGRAVITY DESIGN: THEMES, GLASSMORPHISM & TACTILE
-       ========================================================================== */
-    :root {
-      color-scheme: light dark;
+    p, .pretty-text {
+      text-wrap: pretty;
     }
-    html.dark {
-      color-scheme: dark;
-    }
-    html:not(.dark) {
-      color-scheme: light;
-    }
-
-    /* Code blocks, SQL editors & monospace terminals strictly dark */
-    pre, code, .code-surface, .sql-snippet {
-      color-scheme: only dark;
-    }
-
-    /* Dark Mode Theme Mapping for Student Surfaces */
-    html.dark body {
-      background-color: #070c18 !important;
-      color: #f1f5f9 !important;
-    }
-
-    html.dark #student-main-header {
-      background-color: rgba(11, 17, 32, 0.88) !important;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom-color: rgba(255, 255, 255, 0.08) !important;
-    }
-
-    html.dark #student-main-header span.text-slate-800 {
-      color: #f8fafc !important;
-    }
-
-    html.dark #student-main-header span.text-slate-600 {
-      color: #94a3b8 !important;
-    }
-
-    html.dark #student-profile-bar,
-    html.dark #student-main-header .bg-slate-100 {
-      background-color: rgba(30, 41, 59, 0.8) !important;
-      border-color: rgba(255, 255, 255, 0.1) !important;
-    }
-
-    html.dark #btn-hamburger-menu {
-      background-color: rgba(30, 41, 59, 0.8) !important;
-      border-color: rgba(255, 255, 255, 0.1) !important;
-      color: #cbd5e1 !important;
-    }
-
-    /* Glassmorphic 2.0 Cards for Student Blocks & Containers */
-    html.dark .bg-white:not(#trainer-command-center *):not(#student-manager-modal *) {
-      background-color: rgba(15, 23, 42, 0.85) !important;
-      border-color: rgba(255, 255, 255, 0.08) !important;
-      color: #f1f5f9;
-      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.4), 0 0 1px 1px rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-
-    html.dark .bg-slate-50:not(#trainer-command-center *):not(#student-manager-modal *) {
-      background-color: #090e1a !important;
-    }
-
-    html.dark .bg-slate-100:not(#trainer-command-center *):not(#student-manager-modal *) {
-      background-color: rgba(30, 41, 59, 0.7) !important;
-      border-color: rgba(255, 255, 255, 0.08) !important;
-    }
-
-    html.dark .text-slate-900:not(#trainer-command-center *):not(#student-manager-modal *) {
-      color: #f8fafc !important;
-    }
-
-    html.dark .text-slate-800:not(#trainer-command-center *):not(#student-manager-modal *) {
-      color: #e2e8f0 !important;
-    }
-
-    html.dark .text-slate-700:not(#trainer-command-center *):not(#student-manager-modal *) {
-      color: #cbd5e1 !important;
-    }
-
-    html.dark .text-slate-600:not(#trainer-command-center *):not(#student-manager-modal *) {
-      color: #94a3b8 !important;
-    }
-
-    html.dark .border-slate-200:not(#trainer-command-center *):not(#student-manager-modal *) {
-      border-color: rgba(255, 255, 255, 0.08) !important;
-    }
-
-    html.dark .border-slate-100:not(#trainer-command-center *):not(#student-manager-modal *) {
-      border-color: rgba(255, 255, 255, 0.05) !important;
-    }
-
-    /* Popovers & Floating Menus in Dark Mode */
-    html.dark #app-hamburger-menu[popover],
-    html.dark #student-profile-popover[popover] {
-      background-color: #0f172a !important;
-      border-color: rgba(255, 255, 255, 0.12) !important;
-      color: #f1f5f9 !important;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6) !important;
-    }
-
-    html.dark #student-profile-popover div.bg-slate-50\/70,
-    html.dark #app-hamburger-menu div.bg-gradient-to-br {
-      background: rgba(30, 41, 59, 0.8) !important;
-      border-color: rgba(255, 255, 255, 0.08) !important;
-    }
-
-    /* Antigravity Design Expert: Tactile Micro-Physics for Buttons */
-    button:active:not(:disabled),
-    .btn-tactile:active {
-      transform: scale(0.96) !important;
-      transition: transform 0.08s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-
-    /* Antigravity Design Expert: Spatial Glass Elevate Hover */
-    .spatial-card {
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .spatial-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.35), 0 0 1px 1px rgba(255, 255, 255, 0.1);
-    }
-
-    /* Modern Web Guidance: Circular Reveal View Transition */
+    /* Modern Web Guidance: Faster SPA View Transitions */
     ::view-transition-old(root),
     ::view-transition-new(root) {
-      animation: none;
-      mix-blend-mode: normal;
-    }
-    ::view-transition-old(root) {
-      z-index: 1;
-    }
-    ::view-transition-new(root) {
-      z-index: 999;
-    }
-
-    /* Modern Web Guidance: Form Input Validation with :user-valid and :user-invalid */
-    input:user-invalid, select:user-invalid, textarea:user-invalid {
-      border-color: #ef4444 !important;
-    }
-    input:user-valid:not(:placeholder-shown), select:user-valid {
-      border-color: #10b981 !important;
+      animation-duration: 0.22s;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     }
   </style>
 </head>
@@ -368,12 +214,6 @@
           🇬🇧 EN
         </button>
       </div>
-
-      <!-- THEME TOGGLE (LIGHT / DARK) -->
-      <button id="theme-toggle-btn" onclick="toggleTheme(event)" class="px-2.5 py-1 text-xs font-bold rounded-xl border border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center space-x-1.5 cursor-pointer shadow-2xs active:scale-95" title="Cambia tema Chiaro / Scuro" aria-label="Cambia tema">
-        <span id="theme-toggle-icon">🌙</span>
-        <span id="theme-toggle-label" class="hidden md:inline font-mono text-[11px]">Dark</span>
-      </button>
 
       <!-- STUDENT PROFILE & TEAM BADGE -->
       <div id="student-profile-bar" class="flex items-center space-x-1.5 bg-slate-100 p-1 sm:p-1.5 rounded-xl border border-slate-200 text-xs">
@@ -515,20 +355,6 @@
       </div>
     </div>
 
-    <!-- THEME SELECTION SECTION IN MOBILE MENU -->
-    <div class="p-3 bg-slate-50/70 border-t border-slate-100">
-      <div class="flex items-center justify-between mb-2">
-        <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider flex items-center space-x-1">
-          <span>🌓</span>
-          <span id="menu-theme-title">Tema / Theme</span>
-        </span>
-      </div>
-      <button onclick="toggleTheme(event); closeHamburgerMenu();" class="w-full py-1.5 px-3 rounded-lg text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 transition flex items-center justify-center space-x-2 shadow-2xs cursor-pointer active:scale-95">
-        <span id="menu-theme-icon">🌙</span>
-        <span id="menu-theme-label">Passa a Tema Scuro</span>
-      </button>
-    </div>
-
     <!-- QUICK MODULE JUMP LINKS -->
     <div class="p-2 space-y-0.5">
       <div class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400" id="menu-nav-heading">
@@ -587,13 +413,7 @@
         <div>
           <div class="flex items-center space-x-2">
             <h1 class="text-sm sm:text-base font-black uppercase tracking-wider text-amber-400" id="tb-badge">Cabina di Regia Docente</h1>
-            <span class="inline-flex items-center space-x-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500 text-slate-950 shadow-2xs" id="tcc-live-regia-badge">
-              <span class="relative flex h-1.5 w-1.5">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-slate-950"></span>
-              </span>
-              <span>LIVE REGIA</span>
-            </span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500 text-slate-950 shadow-2xs" id="tcc-live-regia-badge">LIVE REGIA</span>
           </div>
           <p class="text-xs text-slate-400" id="tb-subtitle">Luxottica BigQuery Masterclass — Controllo Aula & Broadcast</p>
         </div>
@@ -636,12 +456,6 @@
             🇬🇧 EN
           </button>
         </div>
-
-        <!-- THEME SWITCHER IN TRAINER NAVBAR -->
-        <button id="tcc-theme-toggle-btn" onclick="toggleTheme(event)" class="px-2.5 py-1 text-xs font-bold rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 transition flex items-center space-x-1.5 cursor-pointer shadow-2xs active:scale-95" title="Cambia tema Chiaro / Scuro" aria-label="Cambia tema">
-          <span id="tcc-theme-toggle-icon">🌙</span>
-          <span id="tcc-theme-toggle-label" class="hidden md:inline font-mono text-[11px]">Dark</span>
-        </button>
 
         <!-- PREVIEW STUDENT VIEW -->
         <button onclick="switchToStudentPreview()" id="tcc-btn-preview" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 hover:text-white text-xs font-bold rounded-xl transition flex items-center space-x-1.5 cursor-pointer shadow-sm" title="Guarda l'interfaccia esattamente come la vede uno studente">
@@ -2805,9 +2619,6 @@ ORDER BY roas_multiplier DESC;</pre>
         heroTitle: "Portale Interattivo Studente",
         heroSubtitle: "Dominare i Dati Marketing con BigQuery Studio, Gemini AI & Google Ads",
         btnOpenBQ: "🚀 Apri BigQuery Studio",
-        themeDark: "Scuro",
-        themeLight: "Chiaro",
-        themeTitle: "Cambia tema (Chiaro / Scuro)",
         tabCover: "🏠 Benvenuti / Intro",
         tabB1: "Blocco 1: Data Canvas",
         tabB2: "Blocco 2: Sconti",
@@ -3179,9 +2990,6 @@ ORDER BY roas_multiplier DESC;</pre>
         heroTitle: "Interactive Student Portal",
         heroSubtitle: "Master Marketing Data with BigQuery Studio, Gemini AI & Google Ads",
         btnOpenBQ: "🚀 Open BigQuery Studio",
-        themeDark: "Dark",
-        themeLight: "Light",
-        themeTitle: "Toggle theme (Light / Dark)",
         tabCover: "🏠 Welcome / Intro",
         tabB1: "Block 1: Data Canvas",
         tabB2: "Block 2: High Margin & Discounts",
@@ -4684,108 +4492,10 @@ ORDER BY roas_multiplier DESC;</pre>
       }, 3000);
     }
 
-    // =========================================================================
-    // MODERN WEB GUIDANCE & ANTIGRAVITY DESIGN: THEME MANAGEMENT (VIEW TRANSITIONS)
-    // =========================================================================
-    function updateThemeUI(theme) {
-      const isDark = theme === 'dark';
-      const t = translations[currentLang] || translations.it;
-      
-      const icon = document.getElementById('theme-toggle-icon');
-      const label = document.getElementById('theme-toggle-label');
-      const btn = document.getElementById('theme-toggle-btn');
-      if (icon) icon.textContent = isDark ? '☀️' : '🌙';
-      if (label) label.textContent = isDark ? (t.themeLight || 'Light') : (t.themeDark || 'Dark');
-      if (btn) btn.title = t.themeTitle || 'Toggle theme';
-
-      const tccIcon = document.getElementById('tcc-theme-toggle-icon');
-      const tccLabel = document.getElementById('tcc-theme-toggle-label');
-      const tccBtn = document.getElementById('tcc-theme-toggle-btn');
-      if (tccIcon) tccIcon.textContent = isDark ? '☀️' : '🌙';
-      if (tccLabel) tccLabel.textContent = isDark ? (t.themeLight || 'Light') : (t.themeDark || 'Dark');
-      if (tccBtn) tccBtn.title = t.themeTitle || 'Toggle theme';
-
-      const menuIcon = document.getElementById('menu-theme-icon');
-      const menuLabel = document.getElementById('menu-theme-label');
-      if (menuIcon) menuIcon.textContent = isDark ? '☀️' : '🌙';
-      if (menuLabel) menuLabel.textContent = isDark 
-        ? (currentLang === 'it' ? 'Passa a Tema Chiaro' : 'Switch to Light Theme')
-        : (currentLang === 'it' ? 'Passa a Tema Scuro' : 'Switch to Dark Theme');
-    }
-
-    function initTheme() {
-      let theme = 'light';
-      try {
-        const saved = localStorage.getItem('lux_theme');
-        if (saved) {
-          theme = saved;
-        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          theme = 'dark';
-        }
-      } catch (e) {}
-
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-      updateThemeUI(theme);
-    }
-
-    function toggleTheme(event) {
-      const isDark = document.documentElement.classList.contains('dark');
-      const nextTheme = isDark ? 'light' : 'dark';
-
-      const applyTheme = () => {
-        if (nextTheme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-        try { localStorage.setItem('lux_theme', nextTheme); } catch (e) {}
-        updateThemeUI(nextTheme);
-      };
-
-      // Modern Web Guidance: Circular Reveal with View Transitions API
-      if (!document.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        applyTheme();
-        return;
-      }
-
-      const x = event && event.clientX ? event.clientX : window.innerWidth / 2;
-      const y = event && event.clientY ? event.clientY : 40;
-      const endRadius = Math.hypot(
-        Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y)
-      );
-
-      const transition = document.startViewTransition(() => {
-        applyTheme();
-      });
-
-      transition.ready.then(() => {
-        document.documentElement.animate(
-          {
-            clipPath: [
-              `circle(0px at ${x}px ${y}px)`,
-              `circle(${endRadius}px at ${x}px ${y}px)`
-            ]
-          },
-          {
-            duration: 360,
-            easing: 'ease-in-out',
-            pseudoElement: '::view-transition-new(root)'
-          }
-        );
-      });
-    }
-
     function setLanguage(lang) {
       currentLang = lang;
       const t = translations[lang];
       if (!t) return;
-
-      updateThemeUI(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
 
       const btnIt = document.getElementById('lang-btn-it');
       const btnEn = document.getElementById('lang-btn-en');
@@ -5191,7 +4901,6 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('popover-btn-logout-text', lang === 'it' ? 'Logout' : 'Log out');
       setText('menu-hdr-title', lang === 'it' ? 'Pannello Rapido' : 'Quick Panel');
       setText('menu-lang-title', lang === 'it' ? 'Lingua / Language' : 'Language / Lingua');
-      setText('menu-theme-title', lang === 'it' ? 'Tema / Theme' : 'Theme / Tema');
       setText('menu-nav-heading', lang === 'it' ? 'Salta al Modulo' : 'Jump to Module');
       setText('menu-jump-intro', lang === 'it' ? 'Introduzione & Setup' : 'Introduction & Setup');
       setText('menu-jump-b1', lang === 'it' ? 'Blocco 1: BQ Studio' : 'Block 1: BQ Studio');
@@ -7941,7 +7650,6 @@ ORDER BY total_vip_leads DESC;
       }
       const initialLang = localStorage.getItem('lux_bq_lang') || 'it';
       setLanguage(initialLang);
-      initTheme();
 
       // Check if there is an active workshop block in progress; fallback to 'cover'
       let initialBlock = 'cover';
