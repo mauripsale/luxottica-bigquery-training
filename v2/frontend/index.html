@@ -6,7 +6,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luxottica BigQuery Masterclass - Google Cloud Student Hub</title>
+  <script>
+    /* Modern Web Guidance: Zero-FOUC Early Theme Resolver (Strict Default: Light) */
+    (function() {
+      try {
+        const theme = localStorage.getItem('lux_theme');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap');
@@ -151,6 +169,141 @@
       animation-duration: 0.22s;
       animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     }
+    /* ==========================================================================
+       MODERN WEB GUIDANCE & ANTIGRAVITY DESIGN: ELEGANT DARK MODE ARCHITECTURE
+       ========================================================================== */
+    :root {
+      color-scheme: light dark;
+    }
+    html.dark {
+      color-scheme: dark;
+    }
+    html:not(.dark) {
+      color-scheme: light;
+    }
+
+    /* Monospace Code surfaces & SQL editors strictly dark */
+    pre, code, .code-surface, .sql-snippet {
+      color-scheme: only dark;
+    }
+
+    /* Dark Mode Root & Body */
+    html.dark body {
+      background-color: #0b1120;
+      color: #f1f5f9;
+    }
+
+    /* Dark Mode Student Header */
+    html.dark #student-main-header {
+      background-color: rgba(15, 23, 42, 0.95);
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+    html.dark #student-main-header span.text-slate-800 {
+      color: #ffffff;
+    }
+    html.dark #student-main-header span.text-slate-600 {
+      color: #94a3b8;
+    }
+    html.dark #student-profile-bar,
+    html.dark #student-main-header div.bg-slate-100 {
+      background-color: rgba(30, 41, 59, 0.85);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    html.dark #student-profile-trigger span.text-slate-800 {
+      color: #f1f5f9;
+    }
+    html.dark #btn-hamburger-menu {
+      background-color: rgba(30, 41, 59, 0.85);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+    }
+
+    /* Popovers in Dark Mode */
+    html.dark #app-hamburger-menu[popover],
+    html.dark #student-profile-popover[popover] {
+      background-color: #0f172a;
+      border-color: rgba(255, 255, 255, 0.12);
+      color: #f1f5f9;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    }
+    html.dark #student-profile-popover div.bg-slate-50\/70,
+    html.dark #app-hamburger-menu div.bg-slate-50,
+    html.dark #app-hamburger-menu div.bg-slate-100 {
+      background: rgba(30, 41, 59, 0.85);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #f1f5f9;
+    }
+    html.dark #student-profile-popover button:hover,
+    html.dark #app-hamburger-menu button:hover {
+      background-color: rgba(51, 65, 85, 0.6);
+      color: #ffffff;
+    }
+
+    /* Student Main Layout Cards (Scoped to student containers, NEVER touching trainer) */
+    html.dark aside .bg-white,
+    html.dark main .bg-white {
+      background-color: rgba(15, 23, 42, 0.88);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #f1f5f9;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+    html.dark aside .bg-slate-50,
+    html.dark main .bg-slate-50 {
+      background-color: rgba(30, 41, 59, 0.5);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+    }
+    html.dark aside .border-slate-200,
+    html.dark main .border-slate-200 {
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    html.dark aside .text-slate-800,
+    html.dark main .text-slate-800 {
+      color: #f8fafc;
+    }
+    html.dark aside .text-slate-700,
+    html.dark main .text-slate-700 {
+      color: #e2e8f0;
+    }
+    html.dark aside .text-slate-600,
+    html.dark main .text-slate-600 {
+      color: #cbd5e1;
+    }
+    html.dark aside select,
+    html.dark main select,
+    html.dark aside input[type="text"],
+    html.dark main input[type="text"] {
+      background-color: #1e293b;
+      border-color: #334155;
+      color: #f8fafc;
+    }
+    html.dark .tab-btn.text-slate-600 {
+      color: #94a3b8;
+    }
+    html.dark .tab-btn.text-slate-600:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+      color: #f1f5f9;
+    }
+
+    /* Antigravity Design Expert: Tactile Micro-Physics for Buttons */
+    button:active:not(:disabled),
+    .btn-tactile:active {
+      transform: scale(0.96) !important;
+      transition: transform 0.08s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    /* Antigravity Design Expert: Pseudo-element circular reveal view transition */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal;
+    }
+    ::view-transition-old(root) {
+      z-index: 1;
+    }
+    ::view-transition-new(root) {
+      z-index: 9999;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
@@ -214,6 +367,11 @@
           🇬🇧 EN
         </button>
       </div>
+
+      <!-- MODERN WEB GUIDANCE & ANTIGRAVITY DESIGN: THEME TOGGLE (LIGHT / DARK) -->
+      <button id="theme-toggle-btn" onclick="toggleTheme(event)" class="p-2 rounded-xl border border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center justify-center cursor-pointer shadow-2xs" title="Passa a Tema Scuro / Chiaro" aria-label="Cambia Tema">
+        <span id="theme-toggle-icon" class="text-xs">🌙</span>
+      </button>
 
       <!-- STUDENT PROFILE & TEAM BADGE -->
       <div id="student-profile-bar" class="flex items-center space-x-1.5 bg-slate-100 p-1 sm:p-1.5 rounded-xl border border-slate-200 text-xs">
@@ -355,6 +513,23 @@
       </div>
     </div>
 
+    <!-- THEME SELECTION SECTION -->
+    <div class="p-3 bg-slate-50/70">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider flex items-center space-x-1">
+          <span id="menu-theme-icon-hdr">🌓</span>
+          <span id="menu-theme-title">Tema / Theme</span>
+        </span>
+      </div>
+      <button id="menu-theme-btn" onclick="toggleTheme(event)" class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition flex items-center justify-between cursor-pointer shadow-2xs">
+        <span class="flex items-center space-x-2">
+          <span id="menu-theme-current-icon">🌙</span>
+          <span id="menu-theme-current-text">Tema Scuro</span>
+        </span>
+        <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-900 text-slate-500 dark:text-slate-400">Toggle</span>
+      </button>
+    </div>
+
     <!-- QUICK MODULE JUMP LINKS -->
     <div class="p-2 space-y-0.5">
       <div class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400" id="menu-nav-heading">
@@ -413,7 +588,13 @@
         <div>
           <div class="flex items-center space-x-2">
             <h1 class="text-sm sm:text-base font-black uppercase tracking-wider text-amber-400" id="tb-badge">Cabina di Regia Docente</h1>
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500 text-slate-950 shadow-2xs" id="tcc-live-regia-badge">LIVE REGIA</span>
+            <span class="inline-flex items-center space-x-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500 text-slate-950 shadow-2xs" id="tcc-live-regia-badge">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
+              </span>
+              <span>LIVE REGIA</span>
+            </span>
           </div>
           <p class="text-xs text-slate-400" id="tb-subtitle">Luxottica BigQuery Masterclass — Controllo Aula & Broadcast</p>
         </div>
@@ -445,7 +626,7 @@
         </div>
       </div>
 
-      <!-- CONTROLS: IT/EN, STUDENT PREVIEW, LOGOUT -->
+      <!-- CONTROLS: IT/EN, THEME, STUDENT PREVIEW, LOGOUT -->
       <div class="flex items-center space-x-2 sm:space-x-3">
         <!-- DIRECT LANGUAGE SWITCHER IN TRAINER NAVBAR -->
         <div class="flex items-center bg-slate-800 p-0.5 rounded-xl border border-slate-700 shadow-2xs">
@@ -456,6 +637,11 @@
             🇬🇧 EN
           </button>
         </div>
+
+        <!-- THEME TOGGLE IN TRAINER NAVBAR -->
+        <button id="tcc-theme-toggle-btn" onclick="toggleTheme(event)" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition flex items-center justify-center cursor-pointer shadow-2xs" title="Passa a Tema Scuro / Chiaro" aria-label="Cambia Tema">
+          <span id="tcc-theme-toggle-icon" class="text-xs">🌙</span>
+        </button>
 
         <!-- PREVIEW STUDENT VIEW -->
         <button onclick="switchToStudentPreview()" id="tcc-btn-preview" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 hover:text-white text-xs font-bold rounded-xl transition flex items-center space-x-1.5 cursor-pointer shadow-sm" title="Guarda l'interfaccia esattamente come la vede uno studente">
@@ -932,15 +1118,15 @@
   </dialog>
 
   <!-- ROLE SELECTION WELCOME SCREEN (STUDENT VS TRAINER) -->
-  <dialog id="role-selection-modal" closedby="any" aria-labelledby="role-modal-title" class="p-4 m-auto bg-transparent border-0 max-w-xl w-full text-slate-900">
-    <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-xl w-full p-6 sm:p-8 text-slate-900 space-y-6 animate-in fade-in zoom-in duration-200 relative">
+  <dialog id="role-selection-modal" closedby="any" aria-labelledby="role-modal-title" class="p-4 m-auto bg-transparent border-0 max-w-xl w-full text-slate-900 dark:text-slate-100">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl max-w-xl w-full p-6 sm:p-8 text-slate-900 dark:text-slate-100 space-y-6 animate-in fade-in zoom-in duration-200 relative">
       
       <!-- LANGUAGE SWITCHER (TOP RIGHT OF WELCOME MODAL) -->
-      <div class="absolute top-5 right-5 flex items-center space-x-1 bg-slate-100 p-1 rounded-lg border border-slate-200">
+      <div class="absolute top-5 right-5 flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
         <button onclick="setLanguage('en')" id="role-lang-btn-en" class="px-2.5 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition">
           EN
         </button>
-        <button onclick="setLanguage('it')" id="role-lang-btn-it" class="px-2.5 py-1 text-xs font-bold rounded-md text-slate-600 hover:text-slate-900 transition">
+        <button onclick="setLanguage('it')" id="role-lang-btn-it" class="px-2.5 py-1 text-xs font-bold rounded-md text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition">
           IT
         </button>
       </div>
@@ -949,91 +1135,91 @@
         <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-amber-500 text-white text-2xl shadow-lg">
           🕶️
         </div>
-        <h2 class="text-2xl font-black text-slate-900 tracking-tight" id="role-modal-title">Luxottica BigQuery & Gemini Workshop</h2>
-        <p class="text-xs text-slate-500 max-w-md mx-auto" id="role-modal-subtitle">Welcome! Choose how you would like to join the interactive training session:</p>
+        <h2 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight" id="role-modal-title">Luxottica BigQuery & Gemini Workshop</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto" id="role-modal-subtitle">Welcome! Choose how you would like to join the interactive training session:</p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
         <!-- CARD 1: TRAINER -->
-        <button onclick="selectRoleTrainer()" type="button" class="group text-left p-5 rounded-2xl border-2 border-slate-200 hover:border-amber-500 bg-slate-50/70 hover:bg-amber-50/40 transition duration-150 cursor-pointer flex flex-col justify-between space-y-4 shadow-xs">
+        <button onclick="selectRoleTrainer()" type="button" class="group text-left p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-700/80 hover:border-amber-500 dark:hover:border-amber-400 bg-slate-50/70 dark:bg-slate-800/80 hover:bg-amber-50/40 dark:hover:bg-slate-800 transition duration-150 cursor-pointer flex flex-col justify-between space-y-4 shadow-xs">
           <div class="space-y-2">
-            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-600 border border-amber-500/30 flex items-center justify-center text-xl group-hover:scale-105 transition">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 flex items-center justify-center text-xl group-hover:scale-105 transition">
               🎓
             </div>
             <div>
-              <h3 class="font-extrabold text-sm text-slate-900 flex items-center space-x-1.5">
+              <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center space-x-1.5">
                 <span id="role-trainer-title">I am the Trainer</span>
-                <span class="text-[9px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded-md" id="role-trainer-badge">Instructor</span>
+                <span class="text-[9px] bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 font-bold px-1.5 py-0.5 rounded-md border border-amber-300/40" id="role-trainer-badge">Instructor</span>
               </h3>
-              <p class="text-[11px] text-slate-500 mt-1 leading-snug" id="role-trainer-desc">Broadcast blocks, manage hints & PINs, project classroom live leaderboard, award bonus points.</p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-snug" id="role-trainer-desc">Broadcast blocks, manage hints & PINs, project classroom live leaderboard, award bonus points.</p>
             </div>
           </div>
-          <div class="pt-2 border-t border-slate-200 group-hover:border-amber-200 flex items-center justify-between text-xs font-bold text-amber-700">
+          <div class="pt-2 border-t border-slate-200 dark:border-slate-700 group-hover:border-amber-200 dark:group-hover:border-amber-500/40 flex items-center justify-between text-xs font-bold text-amber-700 dark:text-amber-400">
             <span id="role-trainer-action">Enter with PIN</span>
             <span class="group-hover:translate-x-1 transition">→</span>
           </div>
         </button>
 
         <!-- CARD 2: STUDENT -->
-        <button onclick="selectRoleStudent()" type="button" class="group text-left p-5 rounded-2xl border-2 border-blue-500 bg-blue-50/50 hover:bg-blue-50/80 transition duration-150 cursor-pointer flex flex-col justify-between space-y-4 shadow-sm">
+        <button onclick="selectRoleStudent()" type="button" class="group text-left p-5 rounded-2xl border-2 border-blue-500 dark:border-blue-500/80 bg-blue-50/50 dark:bg-slate-800/80 hover:bg-blue-50/80 dark:hover:bg-slate-800 transition duration-150 cursor-pointer flex flex-col justify-between space-y-4 shadow-sm">
           <div class="space-y-2">
             <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl group-hover:scale-105 transition shadow-xs">
               🕵️
             </div>
             <div>
-              <h3 class="font-extrabold text-sm text-slate-900 flex items-center space-x-1.5">
+              <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center space-x-1.5">
                 <span id="role-student-title">I am a Student</span>
-                <span class="text-[9px] bg-blue-100 text-blue-800 font-bold px-1.5 py-0.5 rounded-md" id="role-student-badge">Participant</span>
+                <span class="text-[9px] bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300 font-bold px-1.5 py-0.5 rounded-md border border-blue-300/40" id="role-student-badge">Participant</span>
               </h3>
-              <p class="text-[11px] text-slate-500 mt-1 leading-snug" id="role-student-desc">Enter your name, get randomly sorted into a brand team (Ray-Ban, Oakley...), solve challenges and climb the leaderboard.</p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-snug" id="role-student-desc">Enter your name, get randomly sorted into a brand team (Ray-Ban, Oakley...), solve challenges and climb the leaderboard.</p>
             </div>
           </div>
-          <div class="pt-2 border-t border-blue-200 flex items-center justify-between text-xs font-bold text-blue-700">
+          <div class="pt-2 border-t border-blue-200 dark:border-slate-700 flex items-center justify-between text-xs font-bold text-blue-700 dark:text-blue-400">
             <span id="role-student-action">Start Challenge</span>
             <span class="group-hover:translate-x-1 transition">→</span>
           </div>
         </button>
       </div>
 
-      <div class="text-center pt-1 text-[11px] text-slate-400" id="role-modal-footer">
+      <div class="text-center pt-1 text-[11px] text-slate-400 dark:text-slate-500" id="role-modal-footer">
         You can always switch roles or access the trainer console via the header or with the dedicated PIN.
       </div>
     </div>
   </dialog>
 
   <!-- STUDENT ONBOARDING MODAL (NAME INPUT & RANDOM TEAM SELECTION) -->
-  <dialog id="student-onboarding-modal" closedby="any" aria-labelledby="ob-title" class="p-4 m-auto bg-transparent border-0 max-w-md w-full text-slate-900">
-    <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 space-y-5 animate-in fade-in zoom-in duration-200">
+  <dialog id="student-onboarding-modal" closedby="any" aria-labelledby="ob-title" class="p-4 m-auto bg-transparent border-0 max-w-md w-full text-slate-900 dark:text-slate-100">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 dark:text-slate-100 space-y-5 animate-in fade-in zoom-in duration-200">
       <div class="text-center space-y-2">
         <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white text-2xl shadow-lg">
           🕶️
         </div>
-        <h2 class="text-xl font-black text-slate-900" id="ob-title">Benvenuto al Workshop BigQuery!</h2>
-        <p class="text-xs text-slate-500" id="ob-subtitle">Diventa un Marketing Data Detective per Luxottica. Inserisci il tuo nome per ricevere l'assegnazione alla tua squadra.</p>
+        <h2 class="text-xl font-black text-slate-900 dark:text-white" id="ob-title">Benvenuto al Workshop BigQuery!</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400" id="ob-subtitle">Diventa un Marketing Data Detective per Luxottica. Inserisci il tuo nome per ricevere l'assegnazione alla tua squadra.</p>
       </div>
 
       <!-- GOOGLE SIGN-IN BUTTON CONTAINER (AUTOMATICALLY SHOWN IF GOOGLE_CLIENT_ID IS ACTIVE) -->
       <div id="g-signin-wrapper" class="hidden space-y-2.5">
         <div id="g-signin-btn" class="flex justify-center"></div>
         <div class="flex items-center space-x-2 text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-          <div class="h-px bg-slate-200 flex-1"></div>
+          <div class="h-px bg-slate-200 dark:bg-slate-700 flex-1"></div>
           <span id="ob-lbl-or-manual">oppure accedi con nickname</span>
-          <div class="h-px bg-slate-200 flex-1"></div>
+          <div class="h-px bg-slate-200 dark:bg-slate-700 flex-1"></div>
         </div>
       </div>
 
       <div class="space-y-3">
         <div>
-          <label for="student-input-name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1" id="ob-lbl-name">Il tuo Nome / Nickname:</label>
-          <input type="text" id="student-input-name" name="lux_student_nickname_field" placeholder="Es. Chiara o Marco" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" maxlength="30" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+          <label for="student-input-name" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1" id="ob-lbl-name">Il tuo Nome / Nickname:</label>
+          <input type="text" id="student-input-name" name="lux_student_nickname_field" placeholder="Es. Chiara o Marco" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" maxlength="30" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-slate-800 transition">
         </div>
 
-        <div id="ob-team-preview" class="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center space-y-2 hidden">
+        <div id="ob-team-preview" class="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 text-center space-y-2 hidden">
           <span class="text-[10px] uppercase font-bold text-slate-400" id="ob-lbl-assigned">Squadra Assegnata:</span>
-          <div id="ob-team-badge" class="text-base font-extrabold text-blue-700">🕶️ Team Ray-Ban</div>
-          <p class="text-[11px] text-slate-500" id="ob-team-desc">Smart Glasses & Categorie Iconiche</p>
-          <div class="pt-1.5 border-t border-slate-200/80">
-            <button type="button" onclick="rerollStudentTeam()" class="text-xs font-semibold text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center space-x-1 cursor-pointer">
+          <div id="ob-team-badge" class="text-base font-extrabold text-blue-700 dark:text-blue-400">🕶️ Team Ray-Ban</div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400" id="ob-team-desc">Smart Glasses & Categorie Iconiche</p>
+          <div class="pt-1.5 border-t border-slate-200/80 dark:border-slate-700">
+            <button type="button" onclick="rerollStudentTeam()" class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline inline-flex items-center space-x-1 cursor-pointer">
               <span>🎲</span>
               <span id="ob-btn-reroll">Riassegna a un'altra squadra casuale</span>
             </button>
@@ -1042,7 +1228,7 @@
       </div>
 
       <div class="pt-2 flex items-center space-x-2">
-        <button onclick="backToRoleSelection()" type="button" class="py-3 px-4 rounded-xl font-bold text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 transition">
+        <button onclick="backToRoleSelection()" type="button" class="py-3 px-4 rounded-xl font-bold text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
           ← Indietro
         </button>
         <button onclick="submitStudentOnboarding()" id="btn-submit-onboarding" class="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/25 transition cursor-pointer flex items-center justify-center space-x-2">
@@ -1051,8 +1237,8 @@
       </div>
 
       <!-- RESUME SESSION LINK -->
-      <div class="pt-2 border-t border-slate-100 text-center">
-        <button onclick="openResumeStudentModal()" type="button" class="text-xs text-blue-600 hover:text-blue-800 font-semibold hover:underline inline-flex items-center space-x-1 cursor-pointer">
+      <div class="pt-2 border-t border-slate-100 dark:border-slate-800 text-center">
+        <button onclick="openResumeStudentModal()" type="button" class="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-semibold hover:underline inline-flex items-center space-x-1 cursor-pointer">
           <span>🔑</span>
           <span id="ob-lbl-resume">Sei già registrato? Recupera profilo con PIN del docente</span>
         </button>
@@ -1061,33 +1247,33 @@
   </dialog>
 
   <!-- RESUME STUDENT PROFILE MODAL (SECURED BY TRAINER PIN) -->
-  <dialog id="student-resume-modal" closedby="any" aria-labelledby="res-title" class="p-4 m-auto bg-transparent border-0 max-w-md w-full text-slate-900">
-    <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 space-y-5 animate-in fade-in zoom-in duration-200">
+  <dialog id="student-resume-modal" closedby="any" aria-labelledby="res-title" class="p-4 m-auto bg-transparent border-0 max-w-md w-full text-slate-900 dark:text-slate-100">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 dark:text-slate-100 space-y-5 animate-in fade-in zoom-in duration-200">
       <div class="text-center space-y-2">
-        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-600 text-2xl shadow-sm">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-2xl shadow-sm">
           🔑
         </div>
-        <h2 class="text-xl font-black text-slate-900" id="res-title">Recupera il tuo Profilo</h2>
-        <p class="text-xs text-slate-500" id="res-subtitle">Hai chiuso il browser o fatto logout per sbaglio? Chiedi il PIN di recupero di 4 cifre al docente per ripristinare il tuo punteggio.</p>
+        <h2 class="text-xl font-black text-slate-900 dark:text-white" id="res-title">Recupera il tuo Profilo</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400" id="res-subtitle">Hai chiuso il browser o fatto logout per sbaglio? Chiedi il PIN di recupero di 4 cifre al docente per ripristinare il tuo punteggio.</p>
       </div>
 
       <div class="space-y-3">
         <div>
-          <label for="resume-select-student" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1" id="res-lbl-student">Seleziona il tuo nome:</label>
-          <select id="resume-select-student" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
+          <label for="resume-select-student" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1" id="res-lbl-student">Seleziona il tuo nome:</label>
+          <select id="resume-select-student" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-slate-800 transition">
             <option value="">-- Seleziona studente da ripristinare --</option>
           </select>
         </div>
 
         <div>
-          <label for="resume-input-pin" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1" id="res-lbl-pin">PIN di Recupero (fornito dal Docente):</label>
-          <input type="text" inputmode="numeric" id="resume-input-pin" maxlength="4" placeholder="••••" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-center font-mono text-lg font-bold tracking-widest text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition">
+          <label for="resume-input-pin" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1" id="res-lbl-pin">PIN di Recupero (fornito dal Docente):</label>
+          <input type="text" inputmode="numeric" id="resume-input-pin" maxlength="4" placeholder="••••" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-center font-mono text-lg font-bold tracking-widest text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-slate-800 transition">
           <p id="resume-error-msg" class="text-[11px] text-red-500 text-center hidden mt-1 font-semibold">❌ PIN non valido o errato per questo studente!</p>
         </div>
       </div>
 
       <div class="pt-2 flex items-center space-x-2">
-        <button onclick="closeResumeStudentModal()" type="button" class="py-3 px-4 rounded-xl font-bold text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 transition">
+        <button onclick="closeResumeStudentModal()" type="button" class="py-3 px-4 rounded-xl font-bold text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
           ← Annulla
         </button>
         <button onclick="submitStudentResume()" id="btn-submit-resume" class="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg shadow-amber-500/25 transition cursor-pointer flex items-center justify-center space-x-1.5">
@@ -1098,33 +1284,33 @@
   </dialog>
 
   <!-- EXISTING SESSION PROMPT MODAL (WELCOME BACK OR NEW STUDENT) -->
-  <dialog id="student-session-prompt-modal" closedby="any" aria-labelledby="session-prompt-title" class="p-4 m-auto bg-transparent border-0 max-w-md w-full text-slate-900">
-    <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 space-y-5 animate-in fade-in zoom-in duration-200">
+  <dialog id="student-session-prompt-modal" closedby="any" aria-labelledby="session-prompt-title" class="p-4 m-auto bg-transparent border-0 max-w-md w-full text-slate-900 dark:text-slate-100">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 dark:text-slate-100 space-y-5 animate-in fade-in zoom-in duration-200">
       <div class="text-center space-y-2">
         <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white text-3xl shadow-lg">
           🕶️
         </div>
-        <h2 class="text-xl font-black text-slate-900" id="session-prompt-title">Bentornato!</h2>
-        <p class="text-xs text-slate-500" id="session-prompt-subtitle">È presente una sessione studente registrata su questo browser:</p>
+        <h2 class="text-xl font-black text-slate-900 dark:text-white" id="session-prompt-title">Bentornato!</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400" id="session-prompt-subtitle">È presente una sessione studente registrata su questo browser:</p>
       </div>
 
       <!-- EXISTING PROFILE SUMMARY CARD -->
-      <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+      <div class="p-4 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-2xl space-y-2">
         <div class="flex items-center justify-between">
           <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Studente:</span>
-          <span id="session-card-name" class="font-extrabold text-slate-900 text-base">Johnny</span>
+          <span id="session-card-name" class="font-extrabold text-slate-900 dark:text-white text-base">Johnny</span>
         </div>
         <div class="flex items-center justify-between text-xs">
-          <span class="font-semibold text-slate-500">Squadra:</span>
-          <span id="session-card-team" class="font-bold text-blue-600">🕶️ Team Oakley</span>
+          <span class="font-semibold text-slate-500 dark:text-slate-400">Squadra:</span>
+          <span id="session-card-team" class="font-bold text-blue-600 dark:text-blue-400">🕶️ Team Oakley</span>
         </div>
         <div class="flex items-center justify-between text-xs">
-          <span class="font-semibold text-slate-500">Punti Accumulati:</span>
-          <span id="session-card-score" class="font-mono font-bold text-amber-600">150 pt</span>
+          <span class="font-semibold text-slate-500 dark:text-slate-400">Punti Accumulati:</span>
+          <span id="session-card-score" class="font-mono font-bold text-amber-600 dark:text-amber-400">150 pt</span>
         </div>
         <div class="flex items-center justify-between text-xs">
-          <span class="font-semibold text-slate-500">Sfide Superate:</span>
-          <span id="session-card-challenges" class="font-semibold text-emerald-600">2/3 completate</span>
+          <span class="font-semibold text-slate-500 dark:text-slate-400">Sfide Superate:</span>
+          <span id="session-card-challenges" class="font-semibold text-emerald-600 dark:text-emerald-400">2/3 completate</span>
         </div>
       </div>
 
@@ -1135,10 +1321,10 @@
         </button>
 
         <div class="flex items-center space-x-2 pt-1">
-          <button onclick="startAsNewStudent()" type="button" class="flex-1 py-2.5 px-3 rounded-xl font-bold text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer text-center">
+          <button onclick="startAsNewStudent()" type="button" class="flex-1 py-2.5 px-3 rounded-xl font-bold text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition cursor-pointer text-center">
             👤 Inizia come nuovo
           </button>
-          <button onclick="backToRoleSelectionFromPrompt()" type="button" class="py-2.5 px-3 rounded-xl font-bold text-xs bg-slate-100 hover:bg-slate-200 text-slate-500 transition cursor-pointer text-center">
+          <button onclick="backToRoleSelectionFromPrompt()" type="button" class="py-2.5 px-3 rounded-xl font-bold text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 transition cursor-pointer text-center">
             ← Ruoli
           </button>
         </div>
@@ -2973,7 +3159,10 @@ ORDER BY roas_multiplier DESC;</pre>
         lblQuizCh3Q2: "2. Quale funzione SQL ha eliminato gli spazi spuri prima e dopo le email?",
         optQuizCh3Q2Default: "-- Seleziona la funzione SQL --",
         quizFeedbackCh3: "Verifica la qualità del tuo dataset per Google Ads Customer Match",
-        btnValidateCh3Text: "Invia Risposte 🚀"
+        btnValidateCh3Text: "Invia Risposte 🚀",
+        themeDark: "Tema Scuro",
+        themeLight: "Tema Chiaro",
+        themeTitle: "Passa a Tema Scuro / Chiaro"
       },
       en: {
         lblClock: "Clock:",
@@ -3344,7 +3533,10 @@ ORDER BY roas_multiplier DESC;</pre>
         lblQuizCh3Q2: "2. Which SQL function removed whitespace before and after emails?",
         optQuizCh3Q2Default: "-- Select SQL function --",
         quizFeedbackCh3: "Verify dataset quality for Google Ads Customer Match",
-        btnValidateCh3Text: "Submit Answers 🚀"
+        btnValidateCh3Text: "Submit Answers 🚀",
+        themeDark: "Dark Theme",
+        themeLight: "Light Theme",
+        themeTitle: "Switch to Dark / Light Theme"
       }
     };
 
@@ -4492,6 +4684,122 @@ ORDER BY roas_multiplier DESC;</pre>
       }, 3000);
     }
 
+    /* =========================================================================
+       MODERN WEB GUIDANCE & ANTIGRAVITY DESIGN: THEME MANAGEMENT SYSTEM
+       (Strict Default: Light, Smooth Circular Reveal Transition, Full Localization)
+       ========================================================================= */
+    function initTheme() {
+      try {
+        const savedTheme = localStorage.getItem('lux_theme');
+        const theme = savedTheme === 'dark' ? 'dark' : 'light';
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        updateThemeUI(theme);
+      } catch (e) {
+        document.documentElement.classList.remove('dark');
+        updateThemeUI('light');
+      }
+    }
+
+    function updateThemeUI(theme) {
+      const isDark = theme === 'dark';
+      const t = (translations && translations[currentLang]) ? translations[currentLang] : {
+        themeDark: "Tema Scuro",
+        themeLight: "Tema Chiaro",
+        themeTitle: "Passa a Tema Scuro / Chiaro"
+      };
+
+      // 1. Student Header Toggle Button
+      const stdToggleBtn = document.getElementById('theme-toggle-btn');
+      const stdToggleIcon = document.getElementById('theme-toggle-icon');
+      if (stdToggleBtn) {
+        stdToggleBtn.title = t.themeTitle;
+        if (isDark) {
+          stdToggleBtn.className = "p-2 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-amber-300 transition flex items-center justify-center cursor-pointer shadow-2xs";
+          if (stdToggleIcon) stdToggleIcon.textContent = "☀️";
+        } else {
+          stdToggleBtn.className = "p-2 rounded-xl border border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center justify-center cursor-pointer shadow-2xs";
+          if (stdToggleIcon) stdToggleIcon.textContent = "🌙";
+        }
+      }
+
+      // 2. Trainer Command Center Toggle Button
+      const tccToggleBtn = document.getElementById('tcc-theme-toggle-btn');
+      const tccToggleIcon = document.getElementById('tcc-theme-toggle-icon');
+      if (tccToggleBtn) {
+        tccToggleBtn.title = t.themeTitle;
+        if (isDark) {
+          tccToggleBtn.className = "p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-300 hover:text-white transition flex items-center justify-center cursor-pointer shadow-2xs";
+          if (tccToggleIcon) tccToggleIcon.textContent = "☀️";
+        } else {
+          tccToggleBtn.className = "p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition flex items-center justify-center cursor-pointer shadow-2xs";
+          if (tccToggleIcon) tccToggleIcon.textContent = "🌙";
+        }
+      }
+
+      // 3. Hamburger Menu Theme Button
+      const menuThemeCurrentIcon = document.getElementById('menu-theme-current-icon');
+      const menuThemeCurrentText = document.getElementById('menu-theme-current-text');
+      if (menuThemeCurrentIcon) {
+        menuThemeCurrentIcon.textContent = isDark ? "☀️" : "🌙";
+      }
+      if (menuThemeCurrentText) {
+        menuThemeCurrentText.textContent = isDark ? t.themeLight : t.themeDark;
+      }
+    }
+
+    function toggleTheme(event) {
+      const isCurrentlyDark = document.documentElement.classList.contains('dark');
+      const newTheme = isCurrentlyDark ? 'light' : 'dark';
+
+      const applyTheme = () => {
+        if (newTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        try { localStorage.setItem('lux_theme', newTheme); } catch (e) {}
+        updateThemeUI(newTheme);
+      };
+
+      // Antigravity Design Expert: Modern Circular View Transition centered on click
+      if (event && document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const x = event.clientX || window.innerWidth / 2;
+        const y = event.clientY || window.innerHeight / 2;
+        const endRadius = Math.hypot(
+          Math.max(x, window.innerWidth - x),
+          Math.max(y, window.innerHeight - y)
+        );
+
+        const transition = document.startViewTransition(() => {
+          applyTheme();
+        });
+
+        transition.ready.then(() => {
+          document.documentElement.animate(
+            {
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${endRadius}px at ${x}px ${y}px)`
+              ]
+            },
+            {
+              duration: 360,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+              pseudoElement: '::view-transition-new(root)'
+            }
+          );
+        }).catch(() => {
+          applyTheme();
+        });
+      } else {
+        applyTheme();
+      }
+    }
+
     function setLanguage(lang) {
       currentLang = lang;
       const t = translations[lang];
@@ -4508,6 +4816,10 @@ ORDER BY roas_multiplier DESC;</pre>
       if (tccBtnEn) tccBtnEn.className = lang === 'en' ? "px-3 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition" : "px-3 py-1 text-xs font-bold rounded-md text-slate-400 hover:text-white transition";
 
       try { localStorage.setItem('lux_bq_lang', lang); } catch (e) {}
+
+      // Update Theme UI strings with current language
+      const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+      updateThemeUI(currentTheme);
 
       setText('lbl-clock', t.lblClock);
       setText('lbl-team', t.lblTeam);
@@ -7650,6 +7962,7 @@ ORDER BY total_vip_leads DESC;
       }
       const initialLang = localStorage.getItem('lux_bq_lang') || 'it';
       setLanguage(initialLang);
+      initTheme();
 
       // Check if there is an active workshop block in progress; fallback to 'cover'
       let initialBlock = 'cover';
