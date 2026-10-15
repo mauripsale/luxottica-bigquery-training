@@ -1121,14 +1121,19 @@
   <dialog id="role-selection-modal" closedby="any" aria-labelledby="role-modal-title" class="p-4 m-auto bg-transparent border-0 max-w-xl w-full text-slate-900 dark:text-slate-100">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl max-w-xl w-full p-6 sm:p-8 text-slate-900 dark:text-slate-100 space-y-6 animate-in fade-in zoom-in duration-200 relative">
       
-      <!-- LANGUAGE SWITCHER (TOP RIGHT OF WELCOME MODAL) -->
-      <div class="absolute top-5 right-5 flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
-        <button onclick="setLanguage('en')" id="role-lang-btn-en" class="px-2.5 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition">
-          EN
+      <!-- LANGUAGE & THEME CONTROLS (TOP RIGHT OF WELCOME MODAL) -->
+      <div class="absolute top-5 right-5 flex items-center space-x-2">
+        <button onclick="toggleTheme(event)" id="role-theme-toggle-btn" class="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition flex items-center justify-center cursor-pointer shadow-2xs text-xs" title="Passa a Tema Scuro / Chiaro">
+          <span id="role-theme-toggle-icon">🌙</span>
         </button>
-        <button onclick="setLanguage('it')" id="role-lang-btn-it" class="px-2.5 py-1 text-xs font-bold rounded-md text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition">
-          IT
-        </button>
+        <div class="flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
+          <button onclick="setLanguage('en')" id="role-lang-btn-en" class="px-2.5 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition">
+            EN
+          </button>
+          <button onclick="setLanguage('it')" id="role-lang-btn-it" class="px-2.5 py-1 text-xs font-bold rounded-md text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition">
+            IT
+          </button>
+        </div>
       </div>
 
       <div class="text-center space-y-2 pt-2">
@@ -3618,6 +3623,11 @@ ORDER BY roas_multiplier DESC;</pre>
           if (st && (st.id || st.student_id)) {
             await window.hubClient.checkinStudent(st);
           }
+        } else if (payload.action === 'trainer_change_team') {
+          const st = classroomStudents[payload.targetStudentId];
+          if (st) {
+            await window.hubClient.checkinStudent(st);
+          }
         } else if (payload.action === 'unlock_hint' || payload.action === 'hide_hint') {
           const state = getActiveClassroomState();
           await window.hubClient.setHints(state.unlockedHints || []);
@@ -4232,34 +4242,44 @@ ORDER BY roas_multiplier DESC;</pre>
     }
 
     // REMOTE UNLOCK HINT DISPATCHER (APPLIES TO LOCAL DOM)
-    function applyRemoteHintUnlock(hintId) {
+    function applyRemoteHintUnlock(hintId, silent = false) {
       const allHintIds = ['b1-s1', 'b1-s2', 'b2-s1', 'b2-s2', 'b3', 'b4'];
       const targets = (hintId === 'all') ? allHintIds : [hintId];
+      let anyWasLocked = false;
 
       targets.forEach(id => {
         const lockState = document.getElementById(`lock-state-${id}`);
         const content = document.getElementById(`content-${id}`);
+        if (lockState && !lockState.classList.contains('hidden')) {
+          anyWasLocked = true;
+        }
         if (lockState) lockState.classList.add('hidden');
         if (content) content.classList.remove('hidden');
       });
 
       updateTrainerHintUI();
 
-      const msg = (hintId === 'all')
-        ? (currentLang === 'it' ? "📢 Il Docente ha sbloccato TUTTI gli aiuti!" : "📢 The Trainer unlocked ALL hints!")
-        : (currentLang === 'it' ? `📢 Il Docente ha sbloccato l'aiuto (${hintId})!` : `📢 The Trainer unlocked hint (${hintId})!`);
-      showToast(msg);
+      if (!silent && anyWasLocked) {
+        const msg = (hintId === 'all')
+          ? (currentLang === 'it' ? "📢 Il Docente ha sbloccato TUTTI gli aiuti!" : "📢 The Trainer unlocked ALL hints!")
+          : (currentLang === 'it' ? `📢 Il Docente ha sbloccato l'aiuto (${hintId})!` : `📢 The Trainer unlocked hint (${hintId})!`);
+        showToast(msg);
+      }
     }
 
     // REMOTE HIDE HINT DISPATCHER (LOCKS HINT BACK BEHIND PIN)
-    function applyRemoteHintHide(hintId) {
+    function applyRemoteHintHide(hintId, silent = false) {
       const allHintIds = ['b1-s1', 'b1-s2', 'b2-s1', 'b2-s2', 'b3', 'b4'];
       const targets = (hintId === 'all') ? allHintIds : [hintId];
+      let anyWasUnlocked = false;
 
       targets.forEach(id => {
         const lockState = document.getElementById(`lock-state-${id}`);
         const content = document.getElementById(`content-${id}`);
         const pinInput = document.getElementById(`pin-${id}`);
+        if (content && !content.classList.contains('hidden')) {
+          anyWasUnlocked = true;
+        }
         if (content) content.classList.add('hidden');
         if (lockState) lockState.classList.remove('hidden');
         if (pinInput) pinInput.value = '';
@@ -4267,10 +4287,12 @@ ORDER BY roas_multiplier DESC;</pre>
 
       updateTrainerHintUI();
 
-      const msg = (hintId === 'all')
-        ? (currentLang === 'it' ? "🔒 Il Docente ha ri-bloccato TUTTI gli aiuti!" : "🔒 The Trainer re-locked ALL hints!")
-        : (currentLang === 'it' ? `🔒 Il Docente ha ri-bloccato l'aiuto (${hintId})!` : `🔒 The Trainer re-locked hint (${hintId})!`);
-      showToast(msg);
+      if (!silent && anyWasUnlocked) {
+        const msg = (hintId === 'all')
+          ? (currentLang === 'it' ? "🔒 Il Docente ha ri-bloccato TUTTI gli aiuti!" : "🔒 The Trainer re-locked ALL hints!")
+          : (currentLang === 'it' ? `🔒 Il Docente ha ri-bloccato l'aiuto (${hintId})!` : `🔒 The Trainer re-locked hint (${hintId})!`);
+        showToast(msg);
+      }
     }
 
     // ONE-CLICK TRAINER TOGGLE FOR INDIVIDUAL HINT
@@ -4748,6 +4770,20 @@ ORDER BY roas_multiplier DESC;</pre>
       }
       if (menuThemeCurrentText) {
         menuThemeCurrentText.textContent = isDark ? t.themeLight : t.themeDark;
+      }
+
+      // 4. Role Selection Welcome Modal Theme Button
+      const roleToggleBtn = document.getElementById('role-theme-toggle-btn');
+      const roleToggleIcon = document.getElementById('role-theme-toggle-icon');
+      if (roleToggleBtn) {
+        roleToggleBtn.title = t.themeTitle;
+        if (isDark) {
+          roleToggleBtn.className = "p-1.5 rounded-lg border border-slate-700 bg-slate-800 text-amber-300 hover:bg-slate-700 transition flex items-center justify-center cursor-pointer shadow-2xs text-xs";
+          if (roleToggleIcon) roleToggleIcon.textContent = "☀️";
+        } else {
+          roleToggleBtn.className = "p-1.5 rounded-lg border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center justify-center cursor-pointer shadow-2xs text-xs";
+          if (roleToggleIcon) roleToggleIcon.textContent = "🌙";
+        }
       }
     }
 
@@ -6656,8 +6692,9 @@ ORDER BY roas_multiplier DESC;</pre>
       if (selectedCountEl) selectedCountEl.innerText = selectedStudentIds.size;
       if (batchDeleteBtn) batchDeleteBtn.disabled = (selectedStudentIds.size === 0);
 
-      // Also refresh student manager modal if open
-      if (document.getElementById('smm-table-body')) {
+      // Also refresh student manager modal if actually open
+      const smmModal = document.getElementById('student-manager-modal');
+      if (smmModal && smmModal.open) {
         refreshStudentManagerTable();
       }
 
@@ -6732,7 +6769,7 @@ ORDER BY roas_multiplier DESC;</pre>
               </div>
             </td>
             <td class="p-3">
-              <select onchange="trainerChangeStudentTeam('${s.id}', this.value); refreshTrainerStudents();" class="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 text-xs font-semibold text-amber-300 focus:outline-none cursor-pointer">
+              <select onchange="trainerChangeStudentTeam('${s.id}', this.value)" class="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 text-xs font-semibold text-amber-300 focus:outline-none cursor-pointer">
                 ${TEAMS.map(t => `<option value="${t.key}" ${s.teamKey === t.key ? 'selected' : ''}>${t.name.replace('Team ', '')}</option>`).join('')}
               </select>
             </td>
@@ -7072,6 +7109,10 @@ ORDER BY roas_multiplier DESC;</pre>
         saveClassroomState();
         renderSidebarTeamLeaderboard();
         refreshTrainerStudents();
+        const smmModal = document.getElementById('student-manager-modal');
+        if (smmModal && smmModal.open) {
+          refreshStudentManagerTable();
+        }
         renderClassroomLeaderboard();
       }
 
