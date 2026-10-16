@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <script src="assets/hub_client.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxottica BigQuery Masterclass - Google Cloud Student Hub</title>
+  <script>
+  <!-- @include "../js/core/theme.js" -->
+  </script>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <script>
+    window.tailwind = window.tailwind || {};
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap');
+    body { font-family: 'Google Sans', 'Roboto', sans-serif; }
+    .tab-disabled { opacity: 0.5; cursor: not-allowed !important; pointer-events: none; }
+    .pin-input {
+      -webkit-text-security: disc;
+      letter-spacing: 0.35em;
+      font-size: 1rem;
+    }
+    /* Clean Trainer Full-Screen Command Center Transition */
+    #trainer-command-center {
+      min-height: 100vh;
+    }
+    /* Modern Web Guidance: Native <dialog> and backdrop styling */
+    dialog {
+      border: none;
+      background: transparent;
+      padding: 1rem;
+      margin: auto;
+      max-width: 100vw;
+      max-height: 100vh;
+      overflow: visible;
+    }
+    dialog::backdrop {
+      background-color: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    dialog:not([open]) {
+      display: none;
+    }
+    /* Modern Web Guidance: content-visibility for deferred rendering below the fold */
+    .defer-render {
+      content-visibility: auto;
+      contain-intrinsic-size: auto none auto 400px;
+    }
+    /* Modern Web Guidance: Toast Popover Top Layer Stacking */
+    #toast-container[popover] {
+      inset: auto 1.5rem 1.5rem auto;
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+    }
+    #toast-container:not(:popover-open) {
+      display: none;
+    }
+    /* Modern Web Guidance: Resilient Popover Action Menu with CSS Anchor Positioning */
+    #btn-hamburger-menu {
+      anchor-name: --hamburger-anchor;
+    }
+    #app-hamburger-menu[popover] {
+      position-anchor: --hamburger-anchor;
+      position-area: block-end span-inline-start;
+      position-try-fallbacks: flip-block, flip-inline;
+      margin: 0.5rem 0 0 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 1rem;
+      background: #ffffff;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+      padding: 0;
+      max-width: 320px;
+      width: calc(100vw - 2rem);
+      overflow: hidden;
+      inset: auto;
+    }
+    #app-hamburger-menu:not(:popover-open) {
+      display: none;
+    }
+    @supports not (position-area: block-end span-inline-start) {
+      #app-hamburger-menu[popover] {
+        position: fixed;
+        top: 64px;
+        right: 1.5rem;
+        left: auto;
+        bottom: auto;
+      }
+    }
+    /* Modern Web Guidance: Student Profile Popover Dropdown with CSS Anchor Positioning */
+    #student-profile-trigger {
+      anchor-name: --student-profile-anchor;
+    }
+    #student-profile-popover[popover] {
+      position-anchor: --student-profile-anchor;
+      position-area: block-end span-inline-start;
+      position-try-fallbacks: flip-block, flip-inline;
+      margin: 0.5rem 0 0 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.875rem;
+      background: #ffffff;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+      padding: 0.25rem;
+      min-width: 200px;
+      inset: auto;
+    }
+    #student-profile-popover:not(:popover-open) {
+      display: none;
+    }
+    @supports not (position-area: block-end span-inline-start) {
+      #student-profile-popover[popover] {
+        position: fixed;
+        top: 64px;
+        right: 4.5rem;
+        left: auto;
+        bottom: auto;
+      }
+    }
+    /* Modern Web Guidance: Scroll Progress Indicator (Zero-JS) */
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: scroll()) {
+        @keyframes grow-scroll-progress {
+          from { transform: scaleX(0); }
+          to { transform: scaleX(1); }
+        }
+        #scroll-progress-bar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: linear-gradient(90deg, #2563eb 0%, #3b82f6 50%, #f59e0b 100%);
+          transform-origin: 0 50%;
+          animation: grow-scroll-progress auto linear;
+          animation-timeline: scroll();
+          z-index: 100;
+          pointer-events: none;
+        }
+      }
+    }
+    /* Modern Web Guidance: Improve Text Layout and Legibility */
+    h1, h2, h3, .heading-balanced {
+      text-wrap: balance;
+    }
+    p, .pretty-text {
+      text-wrap: pretty;
+    }
+    /* Modern Web Guidance: Faster SPA View Transitions */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: 0.22s;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    /* ==========================================================================
+       MODERN WEB GUIDANCE & ANTIGRAVITY DESIGN: ELEGANT DARK MODE ARCHITECTURE
+       ========================================================================== */
+    :root {
+      color-scheme: light dark;
+    }
+    html.dark {
+      color-scheme: dark;
+    }
+    html:not(.dark) {
+      color-scheme: light;
+    }
+
+    /* Monospace Code surfaces & SQL editors strictly dark */
+    pre, code, .code-surface, .sql-snippet {
+      color-scheme: only dark;
+    }
+
+    /* Dark Mode Root & Body */
+    html.dark body {
+      background-color: #0b1120;
+      color: #f1f5f9;
+    }
+
+    /* Dark Mode Student Header */
+    html.dark #student-main-header {
+      background-color: rgba(15, 23, 42, 0.95);
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+    html.dark #student-main-header span.text-slate-800 {
+      color: #ffffff;
+    }
+    html.dark #student-main-header span.text-slate-600 {
+      color: #94a3b8;
+    }
+    html.dark #student-profile-bar,
+    html.dark #student-main-header div.bg-slate-100 {
+      background-color: rgba(30, 41, 59, 0.85);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    html.dark #student-profile-trigger span.text-slate-800 {
+      color: #f1f5f9;
+    }
+    html.dark #btn-hamburger-menu {
+      background-color: rgba(30, 41, 59, 0.85);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+    }
+
+    /* Popovers in Dark Mode */
+    html.dark #app-hamburger-menu[popover],
+    html.dark #student-profile-popover[popover] {
+      background-color: #0f172a;
+      border-color: rgba(255, 255, 255, 0.12);
+      color: #f1f5f9;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    }
+    html.dark #student-profile-popover div.bg-slate-50\/70,
+    html.dark #app-hamburger-menu div.bg-slate-50,
+    html.dark #app-hamburger-menu div.bg-slate-100 {
+      background: rgba(30, 41, 59, 0.85);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #f1f5f9;
+    }
+    html.dark #student-profile-popover button:hover,
+    html.dark #app-hamburger-menu button:hover {
+      background-color: rgba(51, 65, 85, 0.6);
+      color: #ffffff;
+    }
+
+    /* Student Main Layout Cards */
+    html.dark aside .bg-white,
+    html.dark main .bg-white {
+      background-color: rgba(15, 23, 42, 0.88);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #f1f5f9;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+    html.dark aside .bg-slate-50,
+    html.dark main .bg-slate-50 {
+      background-color: rgba(30, 41, 59, 0.5);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+    }
+    html.dark aside .border-slate-200,
+    html.dark main .border-slate-200 {
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    html.dark aside .text-slate-800,
+    html.dark main .text-slate-800 {
+      color: #f8fafc;
+    }
+    html.dark aside .text-slate-700,
+    html.dark main .text-slate-700 {
+      color: #e2e8f0;
+    }
+    html.dark aside .text-slate-600,
+    html.dark main .text-slate-600 {
+      color: #cbd5e1;
+    }
+    html.dark aside select,
+    html.dark main select,
+    html.dark aside input[type="text"],
+    html.dark main input[type="text"] {
+      background-color: #1e293b;
+      border-color: #334155;
+      color: #f8fafc;
+    }
+    html.dark .tab-btn.text-slate-600 {
+      color: #94a3b8;
+    }
+    html.dark .tab-btn.text-slate-600:hover {
+      background-color: rgba(30, 41, 59, 0.8);
+      color: #f1f5f9;
+    }
+
+    /* Trainer Command Center Explicit Light & Dark Theming */
+    html.dark #trainer-command-center {
+      background-color: #020617;
+      color: #f8fafc;
+    }
+    html.dark #trainer-command-center header {
+      background-color: rgba(15, 23, 42, 0.95);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    html.dark #trainer-command-center .bg-white {
+      background-color: #0f172a;
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #f8fafc;
+    }
+    html.dark #trainer-command-center .bg-slate-50 {
+      background-color: rgba(2, 6, 23, 0.6);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+    }
+    html.dark #trainer-command-center .text-slate-900,
+    html.dark #trainer-command-center .text-slate-800,
+    html.dark #trainer-command-center .text-slate-700 {
+      color: #f8fafc;
+    }
+    html.dark #trainer-command-center .text-slate-500 {
+      color: #94a3b8;
+    }
+
+    html:not(.dark) #trainer-command-center {
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+    html:not(.dark) #trainer-command-center header {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-color: #e2e8f0;
+    }
+    html:not(.dark) #trainer-command-center .bg-white {
+      background-color: #ffffff;
+      border-color: #e2e8f0;
+      color: #0f172a;
+    }
+
+    /* Dialog Modals: Light & Dark Surfaces */
+    html:not(.dark) dialog > div {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18) !important;
+    }
+    html:not(.dark) dialog h2,
+    html:not(.dark) dialog h3 {
+      color: #0f172a !important;
+    }
+    html:not(.dark) dialog input[type="text"],
+    html:not(.dark) dialog input[type="password"],
+    html:not(.dark) dialog input[type="search"],
+    html:not(.dark) dialog select {
+      background-color: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+    html.dark dialog > div {
+      background-color: #0f172a !important;
+      border-color: #1e293b !important;
+      color: #f8fafc !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+    }
+    html.dark dialog input[type="text"],
+    html.dark dialog input[type="password"],
+    html.dark dialog input[type="search"],
+    html.dark dialog select {
+      background-color: #1e293b !important;
+      border-color: #334155 !important;
+      color: #f8fafc !important;
+    }
+
+    /* Quiz Cards Dual Theming (Prevents Dark/Light Mix in Light Mode) */
+    html:not(.dark) [id^="quiz-card-ch"] {
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0 !important;
+      color: #0f172a !important;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+    }
+    html:not(.dark) [id^="quiz-card-ch"] label {
+      color: #334155 !important;
+    }
+    html:not(.dark) [id^="quiz-card-ch"] select {
+      background-color: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+    html:not(.dark) [id^="quiz-card-ch"] div[id^="quiz-feedback-"] {
+      color: #64748b !important;
+    }
+    html:not(.dark) [id^="quiz-card-ch"] .border-slate-800 {
+      border-color: #e2e8f0 !important;
+    }
+    html.dark [id^="quiz-card-ch"] {
+      background: #0f172a !important;
+      border: 1px solid #1e293b !important;
+      color: #f1f5f9 !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    /* Hint Boxes Dual Theming */
+    html:not(.dark) [id^="hint-box-"] {
+      background-color: #fffbeb !important;
+      border: 1px solid #fde68a !important;
+      color: #78350f !important;
+    }
+    html:not(.dark) [id^="hint-box-"] span.text-slate-300 {
+      color: #92400e !important;
+    }
+    html:not(.dark) [id^="hint-box-"] span.text-slate-400 {
+      color: #b45309 !important;
+    }
+    html.dark [id^="hint-box-"] {
+      background-color: #0f172a !important;
+      border: 1px solid #334155 !important;
+      color: #f1f5f9 !important;
+    }
+
+    /* Antigravity Design Expert: Tactile Micro-Physics for Buttons */
+    button:active:not(:disabled),
+    .btn-tactile:active {
+      transform: scale(0.96) !important;
+      transition: transform 0.08s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    /* 16-Step Sequencer Grid definition */
+    .grid-cols-16 {
+      display: grid !important;
+      grid-template-columns: repeat(16, minmax(0, 1fr)) !important;
+    }
+
+    /* Coffee Break Card Light & Dark Theme explicit definitions */
+    html:not(.dark) #block-break .bg-white {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+    html:not(.dark) #block-break .bg-slate-50 {
+      background-color: #f8fafc !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+    html:not(.dark) #block-break .text-slate-900,
+    html:not(.dark) #block-break .text-slate-800,
+    html:not(.dark) #block-break .text-slate-700 {
+      color: #0f172a !important;
+    }
+    html:not(.dark) #block-break .text-slate-600,
+    html:not(.dark) #block-break .text-slate-500 {
+      color: #475569 !important;
+    }
+    html:not(.dark) #block-break textarea {
+      background-color: #ffffff !important;
+      border-color: #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+    html:not(.dark) #block-break textarea::placeholder {
+      color: #94a3b8 !important;
+    }
+  </style>
+</head>

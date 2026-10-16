@@ -1,0 +1,227 @@
+      <div id="block-5" class="block-section space-y-6 hidden">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Strategic Finale</span>
+              <h2 class="text-lg font-bold text-slate-800" id="b5-title">Blocco 5: Piano Strategico Q4 per il CMO & Premiazione</h2>
+            </div>
+            <span class="bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold" id="b5-badge">🎉 Gran Finale</span>
+          </div>
+
+          <!-- BLOCK 5 NARRATIVE BRIEFING -->
+          <div class="p-4 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl shadow-sm space-y-2 border border-indigo-700/30">
+            <div class="flex items-center space-x-2">
+              <span class="text-xl">👔</span>
+              <span class="text-xs uppercase font-extrabold tracking-wider text-indigo-400" id="b5-brief-tag">Mission Debrief • L'Incontro con il Board Esecutivo</span>
+            </div>
+            <h3 class="text-sm font-black text-white" id="b5-brief-title">Dalla Query alla Strategia: Convincere il CMO con i Dati di BigQuery</h3>
+            <p class="text-xs text-indigo-100/90 leading-relaxed" id="b5-brief-desc">
+              Le tre indagini sono concluse. Non siamo più analisti che tirano a indovinare: abbiamo dimostrato dove si creano i margini, quali canali pubblicitari generano vero valore economico e come attivare i clienti più preziosi. Ora ogni squadra presenta le proprie raccomandazioni al <strong>Chief Marketing Officer</strong> e al <strong>Board di Luxottica</strong> attraverso le 3 slide esecutive ufficiali.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 hover:border-blue-300 transition">
+              <span class="text-2xl">💰</span>
+              <h4 class="font-bold text-slate-800" id="b5-p1-title">1. Riallocare Budget Adv</h4>
+              <p class="text-slate-600" id="b5-p1-desc">Spostare il budget adv dai canali con ROAS deficitario verso le campagne ad alto rendimento (Google Search, Shopping e YouTube).</p>
+            </div>
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 hover:border-blue-300 transition">
+              <span class="text-2xl">🛡️</span>
+              <h4 class="font-bold text-slate-800" id="b5-p2-title">2. Proteggere i Margini</h4>
+              <p class="text-slate-600" id="b5-p2-desc">Eliminare gli sconti indiscriminati sui prodotti iconici e fissare tetti massimi promozionali sui canali wholesale partner.</p>
+            </div>
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 hover:border-blue-300 transition">
+              <span class="text-2xl">🎯</span>
+              <h4 class="font-bold text-slate-800" id="b5-p3-title">3. Attivare Lead VIP</h4>
+              <p class="text-slate-600" id="b5-p3-desc">Sfruttare la vista SQL dei contatti ad alto valore per alimentare Google Ads Customer Match e massimizzare le conversioni.</p>
+            </div>
+          </div>
+
+          <!-- EXECUTIVE BOARD PITCH DECK SLIDES CAROUSEL -->
+          <div class="mt-6 pt-5 border-t border-slate-200 space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center space-x-2">
+                <span class="text-lg">📊</span>
+                <h3 class="font-bold text-slate-900 text-sm" id="b5-deck-title">Executive Pitch Deck per il CMO (Slides Interattive)</h3>
+              </div>
+              <div class="flex items-center space-x-1.5 text-xs">
+                <button onclick="switchBoardSlide(0)" id="btn-slide-0" class="px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white shadow-xs">Slide 1: Margini</button>
+                <button onclick="switchBoardSlide(1)" id="btn-slide-1" class="px-2.5 py-1 rounded-lg font-bold bg-slate-100 hover:bg-slate-200 text-slate-600">Slide 2: ROAS</button>
+                <button onclick="switchBoardSlide(2)" id="btn-slide-2" class="px-2.5 py-1 rounded-lg font-bold bg-slate-100 hover:bg-slate-200 text-slate-600">Slide 3: VIP Leads</button>
+              </div>
+            </div>
+
+            <!-- SLIDE 1: PRODUCT & CHANNEL MARGINS -->
+            <div id="board-slide-0" class="board-slide bg-slate-900 text-white p-5 rounded-2xl border border-slate-800 space-y-3">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400">Executive Slide 1/3 • Redditività di Prodotto & Canale</span>
+                <span class="text-[10px] text-slate-400 font-mono">Fonte: lux_online_orders (Challenge #1)</span>
+              </div>
+              <h4 class="text-base font-black text-slate-100">"Non tutti i canali creano valore allo stesso modo: proteggiamo i prodotti eroi"</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
+                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 space-y-1">
+                  <div class="text-emerald-400 font-bold flex items-center space-x-1">
+                    <span>💎</span>
+                    <span>Opportunità: High AOV Clusters</span>
+                  </div>
+                  <p class="text-slate-300">I prodotti di punta come <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> viaggiano a uno scontrino medio record sui canali <strong>E-Commerce Direct</strong> e <strong>Flagship Store</strong>.</p>
+                </div>
+                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 space-y-1">
+                  <div class="text-red-400 font-bold flex items-center space-x-1">
+                    <span>⚠️</span>
+                    <span>Minaccia: Erosione Margini Wholesale</span>
+                  </div>
+                  <p class="text-slate-300">I rivenditori wholesale applicano sconti promozionali eccessivi sui marchi fashion. La raccomandazione è <strong>fissare un price floor contrattuale</strong> per salvaguardare il posizionamento del brand.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 2: ATTRIBUTION & ROAS REALLOCATION -->
+            <div id="board-slide-1" class="board-slide hidden bg-slate-900 text-white p-5 rounded-2xl border border-slate-800 space-y-3">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Executive Slide 2/3 • Attribuzione Adv & Rendimento ROAS</span>
+                <span class="text-[10px] text-slate-400 font-mono">Fonte: lux_ad_spend + lux_online_orders CTE (Challenge #2)</span>
+              </div>
+              <h4 class="text-base font-black text-slate-100">"Stop al budget bruciato sui social terzi: raddoppiare sull'ecosistema Google Ads"</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
+                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 space-y-1">
+                  <div class="text-emerald-400 font-bold flex items-center space-x-1">
+                    <span>🚀</span>
+                    <span>Campione di Redditività: Google Ads</span>
+                  </div>
+                  <p class="text-slate-300">Google Search, Performance Max e YouTube intercettano domanda con altissima intenzione d'acquisto, garantendo il <strong>moltiplicatore ROAS più elevato del mix media</strong>.</p>
+                </div>
+                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 space-y-1">
+                  <div class="text-red-400 font-bold flex items-center space-x-1">
+                    <span>💸</span>
+                    <span>Emorragia Budget: Piattaforme Dispendiose</span>
+                  </div>
+                  <p class="text-slate-300">I canali social orientati al mero traffico freddo registrano un ROAS inferiore a 1.0x (costo superiore al ricavo). Spostiamo il <strong>60% di questo budget</strong> sui formati Google ad alta conversione.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 3: FIRST-PARTY DATA & CUSTOMER MATCH -->
+            <div id="board-slide-2" class="board-slide hidden bg-slate-900 text-white p-5 rounded-2xl border border-slate-800 space-y-3">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-blue-400">Executive Slide 3/3 • First-Party Data & Customer Match</span>
+                <span class="text-[10px] text-slate-400 font-mono">Fonte: Vista BigQuery Lead VIP (Challenge #3)</span>
+              </div>
+              <h4 class="text-base font-black text-slate-100">"Data Governance come Motore di Ricavi: 350+ Lead VIP Pronti all'Uso"</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
+                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 space-y-1">
+                  <div class="text-blue-400 font-bold flex items-center space-x-1">
+                    <span>🔒</span>
+                    <span>Pipeline DDL Automatizzata</span>
+                  </div>
+                  <p class="text-slate-300">Abbiamo trasformato lead sporchi e duplicati in una <strong>Vista BigQuery permanente</strong> che normalizza le email e isola solo acquirenti con spesa qualificata superiore a 200 €.</p>
+                </div>
+                <div class="p-3 bg-slate-800/80 rounded-xl border border-slate-700/80 space-y-1">
+                  <div class="text-amber-400 font-bold flex items-center space-x-1">
+                    <span>🎯</span>
+                    <span>Attivazione Google Ads Customer Match</span>
+                  </div>
+                  <p class="text-slate-300">I profili VIP estratti vengono caricati direttamente nei segmenti Customer Match per alimentare campagne Lookalike e messaggi personalizzati ad altissimo tasso di conversione.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROSETTA STONE COLLAPSIBLE ACCORDION & QUICK LAUNCHER -->
+      <details id="rosetta-accordion" class="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs transition overflow-hidden">
+        <summary class="flex items-center justify-between p-4 sm:p-5 cursor-pointer select-none bg-slate-50/70 hover:bg-slate-100/80 dark:bg-slate-800/40 dark:hover:bg-slate-800/70 transition">
+          <div class="flex items-center space-x-3">
+            <span class="text-xl">📖</span>
+            <div>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider" id="hdr-rosetta">Ricerca Rosetta Stone Excel vs BigQuery SQL</h3>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">Dizionario delle formule Excel tradotte nella sintassi BigQuery</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button type="button" onclick="event.preventDefault(); event.stopPropagation(); openRosettaModal();" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 transition cursor-pointer flex items-center space-x-1 shadow-2xs">
+              <span>🔍</span>
+              <span class="hidden sm:inline">Apri a Tutto Schermo</span>
+            </button>
+            <span class="text-slate-400 group-open:rotate-180 transition-transform duration-200 font-mono text-xs">▼</span>
+          </div>
+        </summary>
+        
+        <div class="p-5 border-t border-slate-200 dark:border-slate-800 space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs text-slate-500 dark:text-slate-400">Filtro rapido nella tabella:</span>
+            <input type="text" id="rosetta-search" oninput="filterRosetta()" onkeyup="filterRosetta()" placeholder="Cerca termini Excel (es. Pivot, VLOOKUP, Somma)..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs rounded-lg px-3 py-1.5 w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white">
+          </div>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+            <table class="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+              <thead class="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 uppercase font-semibold text-[11px] border-b border-slate-200 dark:border-slate-700">
+                <tr>
+                  <th class="p-2.5" id="th-excel">Funzione Excel</th>
+                  <th class="p-2.5" id="th-sql">Equivalente BigQuery SQL</th>
+                  <th class="p-2.5" id="th-example">Esempio Codice SQL</th>
+                </tr>
+              </thead>
+              <tbody id="rosetta-table-body" class="divide-y divide-slate-100 dark:divide-slate-800 font-mono">
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row1-excel">Righe Tabella Pivot</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row1-sql">GROUP BY colonna</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">GROUP BY brand</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row2-excel">CERCA.VERT / VLOOKUP</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row2-sql">LEFT JOIN tabella ON chiave</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">LEFT JOIN lux_crm_customers ON ...</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row3-excel">Filtro Colonna</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row3-sql">WHERE condizione</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">WHERE brand = 'Ray-Ban'</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row4-excel">Filtro Opzioni Multiple</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row4-sql">WHERE colonna IN ('A', 'B')</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">WHERE channel IN ('E-Commerce Direct', 'App')</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row5-excel">Somma Valori</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row5-sql">SUM(colonna)</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">SUM(revenue_eur)</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row6-excel">Conteggio Univoco / CONTA.VALORI</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row6-sql">COUNT(DISTINCT id)</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">COUNT(DISTINCT customer_id)</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row7-excel">Divisione Sicura / SE.ERRORE(A/B, 0)</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row7-sql">SAFE_DIVIDE(num, den)</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">SAFE_DIVIDE(SUM(revenue), SUM(spend))</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row8-excel">Tabelle Modulari (Fogli Separati)</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row8-sql">WITH nome_cte AS (...)</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">WITH spend_agg AS (SELECT ...)</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row9-excel">Pulizia Testo / ANNULLA.SPAZI</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row9-sql">TRIM(colonna) / LOWER(colonna)</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">LOWER(TRIM(email))</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row10-excel">Conversione Tipo / VALORE</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row10-sql">SAFE_CAST(colonna AS NUMERIC)</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">SAFE_CAST(cleaned_string AS NUMERIC)</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row11-excel">Rimuovi Duplicati Avanzato</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row11-sql">QUALIFY ROW_NUMBER() OVER(...) = 1</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">Keep latest record per email</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </details>
+

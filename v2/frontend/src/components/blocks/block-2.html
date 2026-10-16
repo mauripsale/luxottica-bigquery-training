@@ -1,0 +1,133 @@
+      <div id="block-2" class="block-section space-y-6 hidden">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Challenge #1</span>
+              <h2 class="text-lg font-bold text-slate-800" id="b2-title">Blocco 2: Challenge #1 - High Margin Discovery & Analisi Sconti</h2>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button onclick="document.getElementById('quiz-card-ch1').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/60 dark:hover:bg-amber-900 border border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs cursor-pointer">
+                <span>🎯</span>
+                <span>Convalida (+100 pt)</span>
+              </button>
+              <button onclick="openChallengeModal(1)" class="px-3.5 py-2 bg-gradient-to-r from-amber-500/15 to-orange-500/15 hover:from-amber-500/25 hover:to-orange-500/25 text-amber-950 border-2 border-amber-500/60 rounded-xl text-xs font-black transition flex items-center space-x-2 cursor-pointer shadow-sm hover:shadow-md">
+                <span class="text-base">📄</span>
+                <div class="text-left leading-tight">
+                  <div class="font-bold text-[10px] text-amber-800 uppercase tracking-wider">File SQL Sbloccato:</div>
+                  <div class="font-mono text-xs text-amber-950 font-black">challenge_1_data_explorer.sql ▾</div>
+                </div>
+              </button>
+              <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1.5 rounded-full font-bold">🏆 +100 Punti</span>
+            </div>
+          </div>
+
+          <!-- BLOCK 2 DETECTIVE NARRATIVE INTRO -->
+          <div class="p-4 bg-gradient-to-r from-amber-900 via-orange-950 to-slate-900 text-white rounded-2xl shadow-sm space-y-2 border border-amber-700/30">
+            <div class="flex items-center space-x-2">
+              <span class="text-xl">🔍</span>
+              <span class="text-xs uppercase font-extrabold tracking-wider text-amber-400" id="b2-detective-tag">Detective Mission • Capitolo 1</span>
+            </div>
+            <h3 class="text-sm font-black text-white" id="b2-detective-title">Dove Finiscono i Margini? Il Paradosso Ray-Ban Meta vs Wholesale</h3>
+            <p class="text-xs text-amber-100/90 leading-relaxed" id="b2-detective-desc">
+              Il budget adv è aumentato ma la redditività stagna. La tua missione è analizzare gli ordini e individuare la disparità cruciale: mentre i prodotti e cluster premium viaggiano a scontrini record (<strong>AOV elevato</strong>) sui canali diretti, altri canali e marchi stanno subendo un'emorragia di sconti promozionali aggressivi. Trova i dati e il brand campione di AOV per dimostrarlo al CMO!
+            </p>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold uppercase text-slate-500" id="b2-prompt-title">Passo 2.1: Trovare le Vendite ad Alto Scontrino (AOV > 300 €)</h4>
+            <div class="p-3 bg-amber-50/90 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/60 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-amber-950 dark:text-amber-300" id="b2-s1-brief-title">🎯 Brief per il Detective:</span>
+              <p class="text-amber-900 dark:text-amber-200" id="b2-s1-brief-desc">Interroga la tabella <code>lux_online_orders</code> con Gemini per analizzare ricavi e scontrino medio per brand e canale. Trova dove si concentrano gli ordini ad alto valore (superiori a 300 €)!</p>
+            </div>
+            <!-- LOCKED HINT 2.1 -->
+            <div id="hint-box-b2-s1" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <div id="lock-state-b2-s1" class="flex items-center justify-between gap-2 flex-wrap">
+                <div class="flex items-center space-x-2">
+                  <span class="text-amber-400">🔒</span>
+                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b2s1">Suggerimento Protetto da PIN:</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="text" inputmode="numeric" id="pin-b2-s1" placeholder="PIN" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
+                  <button onclick="unlockHint('b2-s1')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b2s1">Sblocca 🔓</button>
+                </div>
+              </div>
+              <div id="content-b2-s1" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+                <span id="p-b2-s1">Mostrami il fatturato totale, gli ordini e lo scontrino medio per brand e canale dalla tabella lux_online_orders, filtrando ordini ad alto valore con fatturato > 300 euro.</span>
+                <button onclick="copyToClipboard(document.getElementById('p-b2-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold uppercase text-slate-500" id="b2-prompt2-title">Passo 2.2: Stanare l'Erosione dei Margini (Sconti per Canale)</h4>
+            <div class="p-3 bg-amber-50/90 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/60 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-amber-950 dark:text-amber-300" id="b2-s2-brief-title">🎯 Brief per il Detective:</span>
+              <p class="text-amber-900 dark:text-amber-200" id="b2-s2-brief-desc">Chiedi a Gemini di calcolare la media degli sconti in euro per brand e canale di vendita da <code>lux_online_orders</code>, e ordina i risultati in modo da vedere chi regala più margine in cima!</p>
+            </div>
+            <!-- LOCKED HINT 2.2 -->
+            <div id="hint-box-b2-s2" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <div id="lock-state-b2-s2" class="flex items-center justify-between gap-2 flex-wrap">
+                <div class="flex items-center space-x-2">
+                  <span class="text-amber-400">🔒</span>
+                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b2s2">Suggerimento Protetto da PIN:</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="text" inputmode="numeric" id="pin-b2-s2" placeholder="PIN" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
+                  <button onclick="unlockHint('b2-s2')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b2s2">Sblocca 🔓</button>
+                </div>
+              </div>
+              <div id="content-b2-s2" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+                <span id="p-b2-s2">Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.</span>
+                <button onclick="copyToClipboard(document.getElementById('p-b2-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs space-y-1">
+            <span class="font-bold text-emerald-800" id="b2-discovery-title">💎 Plot Twist #1 per il CMO (High Margin Discovery):</span>
+            <p class="text-emerald-900" id="b2-discovery-desc">I <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> registrano lo scontrino medio più alto in assoluto (<strong>AOV > 300 €</strong>) su E-Commerce Direct! Al contempo, i partner wholesale erodono margini con sconti elevati su Vogue.</p>
+          </div>
+
+          <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (CHALLENGE #1) -->
+          <div id="quiz-card-ch1" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border border-slate-800 shadow-md space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div class="flex items-center space-x-2">
+                <span class="text-amber-400 text-base">🎯</span>
+                <span class="font-bold text-sm text-amber-300" id="quiz-title-ch1">Convalida Risultati Challenge #1 & Ottieni Punti</span>
+              </div>
+              <span id="quiz-badge-ch1" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <!-- QUESTION 1 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch1-q1">1. Quale brand guida lo scontrino medio (AOV) più elevato?</label>
+                <select id="quiz-ch1-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                  <option value="" id="opt-quiz-ch1-q1-default">-- Seleziona il brand --</option>
+                  <option value="Oliver Peoples">Oliver Peoples</option>
+                  <option value="Ray-Ban">Ray-Ban</option>
+                  <option value="Oakley">Oakley</option>
+                  <option value="Persol">Persol</option>
+                  <option value="Vogue Eyewear">Vogue Eyewear</option>
+                </select>
+              </div>
+
+              <!-- QUESTION 2 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch1-q2">2. Quanto vale lo sconto medio (€) su Wholesale Vogue?</label>
+                <input type="text" id="quiz-ch1-q2" placeholder="Es. 15.00" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <p class="text-[10px] text-slate-400" id="hint-quiz-ch1-q2">Inserisci il valore numerico dello sconto medio ottenuto dalla tua query</p>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+              <div id="quiz-feedback-ch1" class="text-xs font-medium text-slate-400">Rispondi per sbloccare i punti per te e per la squadra</div>
+              <button onclick="validateChallenge1()" id="btn-validate-ch1" class="px-5 py-2 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md cursor-pointer flex items-center space-x-1.5">
+                <span id="btn-validate-ch1-text">Invia Risposte 🚀</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COFFEE BREAK CONTENT (COMPLETE 3-GAME SUITE + TRAINER BROADCAST INTEGRATION) -->

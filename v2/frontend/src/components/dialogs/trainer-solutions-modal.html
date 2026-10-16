@@ -1,0 +1,103 @@
+  <dialog id="trainer-solutions-modal" closedby="any" aria-labelledby="ts-modal-title" class="p-4 m-auto bg-transparent border-0 max-w-2xl w-full text-slate-900 dark:text-slate-100">
+    <div class="bg-white dark:bg-slate-900 border border-amber-500/40 text-slate-900 dark:text-white rounded-3xl shadow-2xl max-w-2xl w-full p-6 space-y-5 max-h-[90vh] flex flex-col animate-in fade-in zoom-in duration-200">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-xl text-amber-500 dark:text-amber-300">
+            🔑
+          </div>
+          <div>
+            <h2 class="text-base md:text-lg font-black text-amber-600 dark:text-amber-400" id="ts-modal-title">Soluzioni Sfide • Guida Risposte Docente</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400" id="ts-modal-subtitle">Tutte le risposte ufficiali con tolleranze di punteggio e query di riscontro</p>
+          </div>
+        </div>
+        <button onclick="closeTrainerSolutionsModal()" class="p-2 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">✕</button>
+      </div>
+
+      <div class="defer-render overflow-y-auto pr-1 space-y-4 text-xs text-slate-700 dark:text-slate-300">
+        <!-- WARM UP -->
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Blocco 1 • Warm-Up Exploration</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-700 dark:text-blue-300">50 pt</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+            <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400 block text-[10px]">Domanda 1 (Brand top ordini):</span>
+              <span class="text-amber-600 dark:text-amber-300 font-bold text-sm">Ray-Ban</span>
+            </div>
+            <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400 block text-[10px]">Domanda 2 (Numero tabelle):</span>
+              <span class="text-amber-600 dark:text-amber-300 font-bold text-sm">4</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHALLENGE 1 -->
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Blocco 2 • Challenge #1: High Margin Discovery</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-700 dark:text-amber-300">100 pt</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+            <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400 block text-[10px]">Domanda 1 (Brand max AOV):</span>
+              <span class="text-amber-600 dark:text-amber-300 font-bold text-sm">Oliver Peoples</span>
+              <span class="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5 font-sans">(AOV ~312 € su E-Commerce Direct)</span>
+            </div>
+            <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400 block text-[10px]">Domanda 2 (Sconto medio Wholesale Vogue):</span>
+              <span class="text-amber-600 dark:text-amber-300 font-bold text-sm">28.50 €</span>
+              <span class="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5 font-sans">(Accetta valori tra 28.0 e 29.0 €)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHALLENGE 2 -->
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Blocco 3 • Challenge #2: Multi-Platform ROAS</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-700 dark:text-emerald-300">100 pt</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+            <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400 block text-[10px]">Domanda 1 (Canale in perdita netta):</span>
+              <span class="text-amber-600 dark:text-amber-300 font-bold text-sm">TikTok Ads</span>
+              <span class="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5 font-sans">(ROAS 0.52x, brucia cassa aziendale)</span>
+            </div>
+            <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400 block text-[10px]">Domanda 2 (ROAS Google Ads):</span>
+              <span class="text-amber-600 dark:text-amber-300 font-bold text-sm">7.08x</span>
+              <span class="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5 font-sans">(Accetta valori tra 7.0 e 7.15x)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHALLENGE 3 -->
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Blocco 4 • Challenge #3: Clean VIP Leads View</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-700 dark:text-indigo-300">100 pt</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+            <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400 block text-[10px]">Domanda 1 (Righe / Lead VIP identificati):</span>
+              <span class="text-amber-600 dark:text-amber-300 font-bold text-sm">352</span>
+              <span class="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5 font-sans">(Accetta tra 345 e 360 lead)</span>
+            </div>
+            <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="text-slate-500 dark:text-slate-400 block text-[10px]">Domanda 2 (Funzione rimozione spazi):</span>
+              <span class="text-amber-600 dark:text-amber-300 font-bold text-sm">TRIM</span>
+              <span class="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5 font-sans">(Es. TRIM(email) oppure LOWER(TRIM(email)))</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-200 dark:border-slate-800 pt-3 flex items-center justify-between text-xs">
+        <span class="text-slate-500 dark:text-slate-400 font-sans" id="ts-modal-footer">💡 Punteggio massimo accumulabile da ogni studente: <strong>350 punti</strong>.</span>
+        <button onclick="closeTrainerSolutionsModal()" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold text-slate-800 dark:text-white transition">
+          <span id="btn-ts-modal-close">Chiudi ✕</span>
+        </button>
+      </div>
+    </div>
+  </dialog>

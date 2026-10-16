@@ -1,0 +1,57 @@
+  <dialog id="leaderboard-modal" closedby="any" aria-labelledby="lb-modal-title" class="p-4 m-auto bg-transparent border-0 max-w-3xl w-full text-slate-900 dark:text-slate-100">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-3xl shadow-2xl max-w-3xl w-full p-6 space-y-6 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-xl">
+            🏆
+          </div>
+          <div>
+            <h2 class="text-lg font-black text-amber-600 dark:text-amber-400" id="lb-modal-title">Classifica Aula Masterclass</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Punteggi Individuali & Classifica Brand Detective Teams</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="triggerClassroomConfetti()" class="py-1 px-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/40 text-amber-300 border border-amber-500/40 text-xs font-bold transition flex items-center space-x-1 cursor-pointer" title="Lancia pioggia di coriandoli celebrativi">
+            <span>🎉 Coriandoli</span>
+          </button>
+          <button onclick="toggleLeaderboardFullscreen()" id="btn-lb-fullscreen" class="py-1 px-2.5 rounded-lg bg-blue-600/30 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/40 text-xs font-bold transition flex items-center space-x-1 cursor-pointer" title="Modalità Proiettore a Schermo Intero">
+            <span>⛶ Schermo Intero</span>
+          </button>
+          <button onclick="closeLeaderboardModal()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition">✕</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto pr-1">
+        <!-- TEAM STANDINGS -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center space-x-1.5">
+            <span>🕶️</span>
+            <span>Classifica Squadre</span>
+          </h3>
+          <div id="lb-teams-list" class="space-y-2">
+            <!-- Dynamically injected -->
+          </div>
+        </div>
+
+        <!-- INDIVIDUAL DETECTIVES -->
+        <div class="space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center space-x-1.5">
+            <span>🥇</span>
+            <span>Top Detective Singoli</span>
+          </h3>
+          <div id="lb-students-list" class="space-y-2">
+            <!-- Dynamically injected -->
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-800 pt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>🔄 Aggiornamento in tempo reale (SSE Broadcast)</span>
+        <button onclick="renderClassroomLeaderboard()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium transition">
+          Aggiorna Ora ⟳
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- IN-PAGE CHALLENGE WORKBOOK MODAL (ELIMINATES GITHUB DEPENDENCY) -->

@@ -1,0 +1,822 @@
+
+  <!-- MODERN WEB GUIDANCE: SCROLL PROGRESS INDICATOR (ZERO-JS) -->
+  <div id="scroll-progress-bar" aria-hidden="true"></div>
+
+  <!-- MODERN WEB GUIDANCE: ACCESSIBLE LIVE REGION FOR SCREEN READERS -->
+  <div id="sr-live-announcer" role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+  <!-- TRAINER PREVIEW BANNER (VISIBLE ONLY WHEN TRAINER IS PREVIEWING STUDENT VIEW) -->
+  <div id="trainer-preview-banner" class="hidden bg-amber-500 text-slate-950 font-bold px-4 py-2.5 flex items-center justify-between shadow-md sticky top-0 z-50 text-xs">
+    <div class="flex items-center space-x-2">
+      <span class="text-base">👁️</span>
+      <span id="tcc-preview-banner-text"><strong>Modalità Anteprima Studente:</strong> Stai navigando l'interfaccia esattamente come la vede uno studente dell'aula.</span>
+    </div>
+    <button onclick="switchToTrainerCommandCenter()" class="px-3.5 py-1.5 bg-slate-950 hover:bg-slate-900 text-amber-300 font-extrabold rounded-lg transition cursor-pointer shadow-sm flex items-center space-x-1.5">
+      <span>🎓</span>
+      <span id="tcc-preview-banner-btn-text">Torna alla Cabina di Regia</span>
+    </button>
+  </div>
+
+  <!-- TOP GOOGLE CLOUD NAVBAR (STREAMLINED & DECLUTTERED) -->
+  <header id="student-main-header" class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+    <div class="flex items-center space-x-3 sm:space-x-4">
+      <!-- SECRET TRIPLE CLICK ON LOGO FOR TRAINER PIN PROMPT -->
+      <div class="flex items-center space-x-2 cursor-pointer select-none" id="logo-trigger" onclick="handleLogoClick()" title="Triplo-clic per accedere alla Console Docente">
+        <span class="text-xl sm:text-2xl font-bold tracking-tight text-slate-800">Luxottica</span>
+        <span class="text-slate-300 font-light text-lg sm:text-xl">|</span>
+        <span class="text-sm sm:text-base font-medium text-slate-600 hidden xs:inline">Google Cloud Training</span>
+      </div>
+      
+      <!-- LIVE SYNC / LOCK STATUS BADGE -->
+      <div id="sync-status-badge" class="flex items-center space-x-1.5 sm:space-x-2 bg-red-50 text-red-700 text-xs font-semibold px-2.5 py-1 rounded-full border border-red-200">
+        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+        <span id="sync-status-text" class="truncate max-w-[140px] sm:max-w-none">🔒 Navigazione Bloccata</span>
+      </div>
+
+      <!-- DISCRETE NETWORK CONNECTION INDICATOR -->
+      <div id="net-status-badge" class="hidden md:flex items-center space-x-1.5 bg-slate-100 text-slate-500 text-[10px] font-mono px-2 py-0.5 rounded-full border border-slate-200" title="Stato connessione cluster in tempo reale">
+        <span id="net-status-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span id="net-status-text">Live</span>
+      </div>
+
+      <!-- SYNCHRONIZED CLASSROOM COUNTDOWN TIMER (HIDDEN BY DEFAULT) -->
+      <div id="classroom-timer-badge" class="hidden flex items-center space-x-1.5 bg-amber-50 text-amber-900 border border-amber-300 text-xs font-mono font-bold px-2.5 py-1 rounded-full shadow-xs animate-pulse">
+        <span>⏱️</span>
+        <span id="classroom-timer-label" class="uppercase text-[10px] text-amber-700 font-sans font-semibold">Sfida:</span>
+        <span id="classroom-timer-clock" class="text-amber-950 font-black text-xs sm:text-sm">15:00</span>
+      </div>
+    </div>
+
+    <!-- CONTROLS: LANGUAGE SWITCHER, STUDENT PROFILE BADGE & HAMBURGER ACTION MENU -->
+    <div class="flex items-center space-x-2 sm:space-x-3">
+      <!-- ALWAYS VISIBLE DIRECT LANGUAGE SWITCHER (IT / EN) -->
+      <div class="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200 shadow-2xs">
+        <button id="lang-btn-it" onclick="setLanguage('it')" class="px-2.5 py-1 text-xs font-bold rounded-lg transition cursor-pointer text-slate-600 hover:text-slate-900" title="Passa all'italiano">
+          🇮🇹 IT
+        </button>
+        <button id="lang-btn-en" onclick="setLanguage('en')" class="px-2.5 py-1 text-xs font-bold rounded-lg transition cursor-pointer bg-blue-600 text-white shadow-xs" title="Switch to English">
+          🇬🇧 EN
+        </button>
+      </div>
+
+      <!-- MODERN WEB GUIDANCE & ANTIGRAVITY DESIGN: THEME TOGGLE (LIGHT / DARK) -->
+      <button id="theme-toggle-btn" onclick="toggleTheme(event)" class="p-2 rounded-xl border border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center justify-center cursor-pointer shadow-2xs" title="Passa a Tema Scuro / Chiaro" aria-label="Cambia Tema">
+        <span id="theme-toggle-icon" class="text-xs">🌙</span>
+      </button>
+
+      <!-- STUDENT PROFILE & TEAM BADGE -->
+      <div id="student-profile-bar" class="flex items-center space-x-1.5 bg-slate-100 p-1 sm:p-1.5 rounded-xl border border-slate-200 text-xs">
+        <button id="student-profile-trigger" popovertarget="student-profile-popover" class="flex items-center space-x-1.5 hover:bg-white px-2 py-1 rounded-lg transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs" title="Opzioni Profilo Studente">
+          <span class="text-sm" id="student-avatar-icon">🕶️</span>
+          <img id="student-avatar-img" class="w-5 h-5 rounded-full object-cover hidden border border-slate-300" alt="Avatar">
+          <span id="student-display-name" class="font-bold text-slate-800 hidden sm:inline">Detective</span>
+          <span id="student-display-team" class="px-2 py-0.5 rounded-full font-bold text-[10px] bg-blue-100 text-blue-800">Team Ray-Ban</span>
+          <svg class="w-3.5 h-3.5 text-slate-400 ml-0.5 hidden xs:inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="h-4 w-px bg-slate-300"></div>
+        <div class="flex items-center space-x-1 font-mono font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 px-2 sm:px-2.5 py-1 rounded-lg border border-amber-300 dark:border-amber-800">
+          <span>🏆</span>
+          <span id="student-display-score">0</span>
+          <span class="text-[10px] text-amber-700 font-sans">pt</span>
+        </div>
+      </div>
+
+      <!-- HAMBURGER TRIGGER BUTTON (POPOVERTARGET) -->
+      <button id="btn-hamburger-menu" popovertarget="app-hamburger-menu" class="p-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition flex items-center justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs" title="Menu e Strumenti" aria-label="Menu navigazione e impostazioni">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- STUDENT PROFILE CONTEXT POPOVER (MODERN WEB GUIDANCE: RESILIENT POPOVER BUTTON GROUP) -->
+  <div id="student-profile-popover" popover="auto" class="text-slate-800 text-sm">
+    <div class="px-3 py-2 border-b border-slate-100 bg-slate-50/70 rounded-t-lg">
+      <div class="flex items-center space-x-2 mb-1">
+        <img id="popover-avatar-img" class="w-7 h-7 rounded-full object-cover hidden border border-slate-200" alt="Avatar">
+        <div class="min-w-0 flex-1">
+          <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider" id="popover-hdr-title">Account Studente</div>
+          <div class="font-bold text-slate-900 truncate" id="popover-profile-name">Detective</div>
+        </div>
+      </div>
+      <div class="text-[11px] text-blue-600 truncate font-mono hidden" id="popover-profile-email"></div>
+      <div class="text-[11px] text-slate-500 truncate" id="popover-profile-team">Team Ray-Ban</div>
+    </div>
+    <div class="p-1 space-y-0.5">
+      <button onclick="openOnboardingModal(true); closeProfilePopover();" class="w-full flex items-center space-x-2.5 px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-700 font-medium transition cursor-pointer text-left">
+        <span class="text-base">👤</span>
+        <span id="popover-btn-profile-text">Profilo</span>
+      </button>
+      <hr class="my-1 border-slate-100">
+      <button onclick="logoutStudentProfile(); closeProfilePopover();" class="w-full flex items-center space-x-2.5 px-3 py-2 rounded-lg hover:bg-red-50 text-red-600 font-medium transition cursor-pointer text-left">
+        <span class="text-base">🚪</span>
+        <span id="popover-btn-logout-text">Logout</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- HAMBURGER ACTION MENU (MODERN WEB GUIDANCE: RESILIENT POPOVER BUTTON GROUP) -->
+  <div id="app-hamburger-menu" popover="auto" class="text-slate-800 divide-y divide-slate-100 text-sm">
+    <!-- POPUP HEADER: STUDENT PROFILE SUMMARY -->
+    <div class="p-3 bg-gradient-to-br from-slate-50 to-blue-50/50">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500" id="menu-hdr-title">Pannello Rapido</span>
+        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold">BigQuery Lab</span>
+      </div>
+      <div class="mt-2 flex items-center justify-between">
+        <div class="text-xs text-slate-600">
+          <span class="font-bold text-slate-900 block" id="menu-student-name">Detective</span>
+          <span class="text-[11px] text-slate-500" id="menu-student-team">Team Ray-Ban</span>
+        </div>
+        <div class="flex items-center space-x-1">
+          <button onclick="openOnboardingModal(true); closeHamburgerMenu();" class="p-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-600 transition cursor-pointer" title="Modifica Profilo">
+            ✏️
+          </button>
+          <button onclick="logoutStudentProfile(); closeHamburgerMenu();" class="p-1.5 rounded-lg bg-white border border-slate-200 hover:bg-red-50 text-red-600 hover:border-red-200 transition cursor-pointer" title="Logout Profilo">
+            🚪
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIMARY ACTIONS: LEADERBOARD, ROLE SWITCH, TRAINER TOOLS -->
+    <div class="p-2 space-y-1">
+      <button onclick="openLeaderboardModal(); closeHamburgerMenu();" class="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-amber-50 text-slate-700 hover:text-amber-900 font-medium transition cursor-pointer text-left">
+        <span class="flex items-center space-x-2.5">
+          <span class="text-base">🏆</span>
+          <span id="btn-leaderboard-text">Classifica Live</span>
+        </span>
+        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Top 10</span>
+      </button>
+
+      <button onclick="openRoleSelectionModal(); closeHamburgerMenu();" class="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-700 font-medium transition cursor-pointer text-left" title="Cambia Ruolo (Studente / Docente)">
+        <span class="flex items-center space-x-2.5">
+          <span class="text-base">🔄</span>
+          <span id="btn-switch-role-text">Cambia Ruolo</span>
+        </span>
+        <span class="text-[10px] text-slate-400">Docente / Studente</span>
+      </button>
+
+      <button onclick="openRosettaModal(); closeHamburgerMenu();" class="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-emerald-50 text-slate-700 hover:text-emerald-900 font-medium transition cursor-pointer text-left" title="Guida Excel vs BigQuery SQL">
+        <span class="flex items-center space-x-2.5">
+          <span class="text-base">📖</span>
+          <span id="btn-rosetta-menu-text">Rosetta Stone (Excel ➔ SQL)</span>
+        </span>
+        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Guida</span>
+      </button>
+
+      <!-- HIDDEN BY DEFAULT: TRAINER TOOLS (ACTIVATED VIA TRAINER MODE) -->
+      <button onclick="toggleTrainerMode(); closeHamburgerMenu();" id="btn-trainer-toggle" class="hidden w-full flex items-center justify-between px-3 py-2 rounded-lg bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition cursor-pointer text-left">
+        <span class="flex items-center space-x-2">
+          <span>🎓</span>
+          <span>Modalità Docente (ATTIVA)</span>
+        </span>
+        <span class="text-[10px] text-amber-400">Console</span>
+      </button>
+
+      <button id="btn-top-trainer-solutions" onclick="openTrainerSolutionsModal(); closeHamburgerMenu();" class="hidden w-full flex items-center justify-between px-3 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition cursor-pointer text-left">
+        <span class="flex items-center space-x-2">
+          <span>🔑</span>
+          <span id="btn-top-solutions-text">Soluzioni Docente</span>
+        </span>
+        <span class="text-[10px] bg-slate-950 text-white px-1.5 py-0.5 rounded font-mono">Cheat Sheet</span>
+      </button>
+
+      <button id="btn-top-trainer-students" onclick="openStudentManagerModal(); closeHamburgerMenu();" class="hidden w-full flex items-center justify-between px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition cursor-pointer text-left">
+        <span class="flex items-center space-x-2">
+          <span>👥</span>
+          <span>Gestione Studenti</span>
+        </span>
+        <span class="text-[10px] bg-blue-900/80 text-blue-200 px-1.5 py-0.5 rounded font-mono">Roster</span>
+      </button>
+    </div>
+
+    <!-- LANGUAGE SELECTION SECTION -->
+    <div class="p-3 bg-slate-50/70">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider flex items-center space-x-1">
+          <span>🌐</span>
+          <span id="menu-lang-title">Lingua / Language</span>
+        </span>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <button id="menu-lang-btn-it" onclick="setLanguage('it')" class="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 bg-white border border-slate-200 transition text-center shadow-2xs">
+          🇮🇹 IT
+        </button>
+        <button id="menu-lang-btn-en" onclick="setLanguage('en')" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-blue-600 text-white shadow-xs transition text-center">
+          🇬🇧 EN
+        </button>
+      </div>
+    </div>
+
+    <!-- THEME SELECTION SECTION -->
+    <div class="p-3 bg-slate-50/70">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider flex items-center space-x-1">
+          <span id="menu-theme-icon-hdr">🌓</span>
+          <span id="menu-theme-title">Tema / Theme</span>
+        </span>
+      </div>
+      <button id="menu-theme-btn" onclick="toggleTheme(event)" class="w-full py-2 px-3 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition flex items-center justify-between cursor-pointer shadow-2xs">
+        <span class="flex items-center space-x-2">
+          <span id="menu-theme-current-icon">🌙</span>
+          <span id="menu-theme-current-text">Tema Scuro</span>
+        </span>
+        <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-900 text-slate-500 dark:text-slate-400">Toggle</span>
+      </button>
+    </div>
+
+    <!-- QUICK MODULE JUMP LINKS -->
+    <div class="p-2 space-y-0.5">
+      <div class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400" id="menu-nav-heading">
+        Salta al Modulo
+      </div>
+      <button onclick="switchTab('intro'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>🚀</span>
+        <span id="menu-jump-intro">Introduzione & Setup</span>
+      </button>
+      <button onclick="switchTab('blocco1'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>🔍</span>
+        <span id="menu-jump-b1">Blocco 1: BQ Studio</span>
+      </button>
+      <button onclick="switchTab('blocco2'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>🤖</span>
+        <span id="menu-jump-b2">Blocco 2: Gemini SQL</span>
+      </button>
+      <button onclick="switchTab('pausa'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>☕</span>
+        <span id="menu-jump-pausa">Pausa Caffè & Quiz</span>
+      </button>
+      <button onclick="switchTab('blocco3'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>⚡</span>
+        <span id="menu-jump-b3">Blocco 3: AI Functions</span>
+      </button>
+      <button onclick="switchTab('blocco4'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>🏆</span>
+        <span id="menu-jump-b4">Blocco 4: Forensic Challenge</span>
+      </button>
+      <button onclick="switchTab('finale'); closeHamburgerMenu();" class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-100 text-xs text-slate-700 font-medium transition flex items-center space-x-2 cursor-pointer">
+        <span>🏁</span>
+        <span id="menu-jump-finale">Conclusioni & Feedback</span>
+      </button>
+    </div>
+
+    <!-- LOGOUT FOOTER -->
+    <div class="p-2 bg-slate-50">
+      <button onclick="logoutStudentProfile(); closeHamburgerMenu();" class="w-full flex items-center justify-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:text-red-600 hover:bg-red-50 border border-slate-200 hover:border-red-200 transition cursor-pointer">
+        <span>🚪</span>
+        <span id="btn-logout-text">Logout Profilo Studente</span>
+      </button>
+    </div>
+  </div>
+
+    <!-- LEGACY PLACEHOLDER FOR BACKWARD COMPATIBILITY -->
+  <aside id="trainer-sidebar" class="hidden"></aside>
+
+  <!-- TRAINER DEDICATED COMMAND CENTER (CABINA DI REGIA DOCENTE FULL-SCREEN) -->
+  <div id="trainer-command-center" class="hidden min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-200">
+    <!-- TCC TOP HEADER / REGIA BAR -->
+    <header class="bg-white/95 dark:bg-slate-900/95 border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 lg:px-8 py-3.5 sticky top-0 z-30 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 shadow-md dark:shadow-xl transition-colors duration-200">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-2xl bg-amber-500/10 dark:bg-amber-500/20 border border-amber-500/30 dark:border-amber-500/40 flex items-center justify-center text-xl shadow-xs">
+          🎓
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-sm sm:text-base font-black uppercase tracking-wider text-amber-600 dark:text-amber-400" id="tb-badge">Cabina di Regia Docente</h1>
+            <span class="inline-flex items-center space-x-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500 text-slate-950 shadow-2xs" id="tcc-live-regia-badge">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
+              </span>
+              <span>LIVE REGIA</span>
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400" id="tb-subtitle">Luxottica BigQuery Masterclass — Controllo Aula & Broadcast</p>
+        </div>
+      </div>
+
+      <!-- STATUS & ROOM CODE PILLS -->
+      <div class="flex items-center space-x-2 sm:space-x-3 text-xs">
+        <div class="flex items-center space-x-1.5 bg-slate-200/80 dark:bg-slate-800/90 px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 shadow-2xs">
+          <span class="text-slate-600 dark:text-slate-400 text-[11px]" id="tb-lbl-room-channel">Stanza:</span>
+          <code id="trainer-room-code-badge" class="font-mono text-emerald-600 dark:text-emerald-400 font-bold">lux-bq-2026</code>
+          <button onclick="trainerChangeRoomCode()" id="tcc-btn-change-room" class="text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 font-bold ml-1 cursor-pointer" title="Personalizza Codice Stanza Segreta">⚙️</button>
+          <button onclick="trainerCopyShareLink()" id="tcc-btn-share-link" class="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-bold ml-1 cursor-pointer" title="Copia Link Studenti con Codice Stanza">🔗</button>
+        </div>
+
+        <div class="hidden sm:flex items-center space-x-1.5 bg-slate-200/80 dark:bg-slate-800/90 px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 shadow-2xs">
+          <span class="text-slate-600 dark:text-slate-400 text-[11px]" id="tcc-lbl-classroom">Aula:</span>
+          <span id="tcc-lock-status-badge" class="font-bold text-red-600 dark:text-red-400">🔒 Bloccata</span>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-1.5 bg-slate-200/80 dark:bg-slate-800/90 px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 shadow-2xs">
+          <span class="text-slate-600 dark:text-slate-400 text-[11px]" id="tcc-lbl-block">Blocco:</span>
+          <span id="tcc-active-block-badge" class="font-bold text-amber-600 dark:text-amber-300">Intro</span>
+        </div>
+
+        <!-- SYNCHRONIZED COUNTDOWN TIMER BADGE -->
+        <div id="tcc-timer-badge" class="hidden items-center space-x-1.5 bg-amber-500/10 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/30 dark:border-amber-500/40 px-3 py-1.5 rounded-xl font-mono font-bold text-xs animate-pulse shadow-2xs">
+          <span>⏱️</span>
+          <span id="trainer-timer-status">Spento</span>
+        </div>
+      </div>
+
+      <!-- CONTROLS: IT/EN, THEME, STUDENT PREVIEW, LOGOUT -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- DIRECT LANGUAGE SWITCHER IN TRAINER NAVBAR -->
+        <div class="flex items-center bg-slate-200 dark:bg-slate-800 p-0.5 rounded-xl border border-slate-300 dark:border-slate-700 shadow-2xs">
+          <button id="tcc-lang-btn-it" onclick="setLanguage('it')" class="px-2.5 py-1 text-xs font-bold rounded-lg transition cursor-pointer text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white" title="Passa all'italiano">
+            🇮🇹 IT
+          </button>
+          <button id="tcc-lang-btn-en" onclick="setLanguage('en')" class="px-2.5 py-1 text-xs font-bold rounded-lg transition cursor-pointer bg-blue-600 text-white shadow-xs" title="Switch to English">
+            🇬🇧 EN
+          </button>
+        </div>
+
+        <!-- THEME TOGGLE IN TRAINER NAVBAR -->
+        <button id="tcc-theme-toggle-btn" onclick="toggleTheme(event)" class="p-2 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-amber-300 transition flex items-center justify-center cursor-pointer shadow-2xs" title="Passa a Tema Scuro / Chiaro" aria-label="Cambia Tema">
+          <span id="tcc-theme-toggle-icon" class="text-xs">🌙</span>
+        </button>
+
+        <!-- PREVIEW STUDENT VIEW -->
+        <button onclick="switchToStudentPreview()" id="tcc-btn-preview" class="px-3.5 py-1.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white text-xs font-bold rounded-xl transition flex items-center space-x-1.5 cursor-pointer shadow-sm" title="Guarda l'interfaccia esattamente come la vede uno studente">
+          <span>👁️</span>
+          <span class="hidden sm:inline" id="tcc-btn-preview-text">Anteprima Studente</span>
+          <span class="sm:hidden" id="tcc-btn-preview-short">Anteprima</span>
+        </button>
+
+        <!-- EXIT TRAINER -->
+        <button onclick="disableTrainerMode()" id="btn-exit-trainer" class="px-3 py-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-950/60 dark:hover:bg-red-900 border border-red-200 dark:border-red-800/60 text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-white text-xs font-bold rounded-xl transition flex items-center space-x-1 cursor-pointer" title="Esci dalla modalità docente">
+          <span>✕</span>
+          <span id="btn-exit-trainer-text">Esci</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- TCC MAIN WORKSPACE: 2 MAIN PANELS (4 COLS / 8 COLS) -->
+    <div class="max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+
+      <!-- LEFT COLUMN (4 COLS): REGIA AULA, BROADCAST TIMELINE, TIMER & TOOLS -->
+      <div class="lg:col-span-4 space-y-5">
+
+        <!-- CARD 1: GLOBAL CLASSROOM LOCK & SYNC -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm dark:shadow-lg space-y-3.5 transition-colors duration-200">
+          <div class="flex items-center justify-between">
+            <span class="text-xs uppercase font-extrabold text-slate-700 dark:text-slate-300 tracking-wider flex items-center space-x-1.5" id="tb-lbl-student-control">
+              <span>🛡️</span>
+              <span id="tb-lbl-student-control-text">Controllo Navigazione Aula</span>
+            </span>
+            <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono" id="tcc-lbl-global-sync">Sync Globale</span>
+          </div>
+
+          <button id="btn-lock-control" onclick="toggleLockState()" class="w-full py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black transition flex items-center justify-center space-x-2 shadow-lg text-xs sm:text-sm cursor-pointer">
+            <span id="btn-lock-text">🔒 Tab BLOCCATI (Gli studenti seguono il docente)</span>
+          </button>
+          
+          <div class="flex items-center justify-between pt-1">
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-tight" id="tb-desc-student-control">
+              Blocca l'aula sul blocco che selezioni sotto, o sbloccala per l'esplorazione autonoma.
+            </p>
+            <button onclick="trainerForceSyncAll()" id="btn-force-sync-all" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition cursor-pointer shadow-md flex items-center space-x-1.5 shrink-0 ml-2" title="Forza istantaneamente il blocco attuale su tutti i partecipanti">
+              <span>⚡</span>
+              <span id="btn-force-sync-text">Forza su Tutti</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 2: BROADCAST TIMELINE & BLOCKS -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm dark:shadow-lg space-y-3 transition-colors duration-200">
+          <div class="flex items-center justify-between">
+            <span class="text-xs uppercase font-extrabold text-slate-700 dark:text-slate-300 tracking-wider flex items-center space-x-1.5" id="tb-lbl-broadcast-hdr">
+              <span>📡</span>
+              <span id="tb-lbl-broadcast-hdr-text">Timeline Masterclass & Broadcast</span>
+            </span>
+            <span class="text-[10px] text-amber-600 dark:text-amber-400 font-bold">180 MIN</span>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400" id="tcc-desc-broadcast">Clicca su un blocco per trasmetterlo istantaneamente a tutti gli studenti:</p>
+
+          <div class="space-y-2 pt-1" id="trainer-broadcast-blocks-list">
+            <!-- COVER -->
+            <button onclick="broadcastBlock('cover')" id="tb-btn-cover" class="w-full text-left p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 transition flex items-center justify-between group cursor-pointer">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-base">🏠</span>
+                <div>
+                  <div class="text-xs font-bold text-slate-900 dark:text-white" id="tb-b-cover-title">Intro Masterclass & Welcome</div>
+                  <div class="text-[10px] text-slate-500 dark:text-slate-400" id="tb-b-cover-desc">Agenda, regole e setup ambiente</div>
+                </div>
+              </div>
+              <span class="block-live-tag" id="tb-live-tag-cover"><span class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">Inattivo</span></span>
+            </button>
+
+            <!-- BLOCK 1 -->
+            <button onclick="broadcastBlock(1)" id="tb-btn-b1" class="w-full text-left p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 transition flex items-center justify-between group cursor-pointer">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-base">🎨</span>
+                <div>
+                  <div class="text-xs font-bold text-slate-900 dark:text-white" id="tb-b-b1-title">Blocco 1: Data Canvas & Setup</div>
+                  <div class="text-[10px] text-slate-500 dark:text-slate-400" id="tb-b-b1-desc">Esplorazione visuale e Macro vendite</div>
+                </div>
+              </div>
+              <span class="block-live-tag" id="tb-live-tag-1"><span class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">Inattivo</span></span>
+            </button>
+
+            <!-- BLOCK 2 -->
+            <button onclick="broadcastBlock(2)" id="tb-btn-b2" class="w-full text-left p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 transition flex items-center justify-between group cursor-pointer">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-base">💎</span>
+                <div>
+                  <div class="text-xs font-bold text-slate-900 dark:text-white" id="tb-b-b2-title">Blocco 2: Sconti & High Margin</div>
+                  <div class="text-[10px] text-amber-600 dark:text-amber-400 font-medium" id="tb-b-b2-desc">Sfida #1: Oliver Peoples & Ray-Ban (100 pt)</div>
+                </div>
+              </div>
+              <span class="block-live-tag" id="tb-live-tag-2"><span class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">Inattivo</span></span>
+            </button>
+
+            <!-- COFFEE BREAK -->
+            <button onclick="broadcastBlock('break')" id="tb-btn-break" class="w-full text-left p-3 rounded-xl font-medium text-amber-700 dark:text-amber-300 hover:text-amber-900 dark:hover:text-white bg-amber-500/5 dark:bg-slate-950/70 hover:bg-amber-500/10 dark:hover:bg-slate-800/80 border border-amber-500/30 dark:border-amber-500/20 transition flex items-center justify-between group cursor-pointer">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-base">☕</span>
+                <div>
+                  <div class="text-xs font-bold text-amber-700 dark:text-amber-300" id="tb-b-break-title">Pausa Caffè & Quiz Rigenerante</div>
+                  <div class="text-[10px] text-slate-500 dark:text-slate-400" id="tb-b-break-desc">10-15 minuti di relax</div>
+                </div>
+              </div>
+              <span class="block-live-tag" id="tb-live-tag-break"><span class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">Inattivo</span></span>
+            </button>
+
+            <!-- BLOCK 3 -->
+            <button onclick="broadcastBlock(3)" id="tb-btn-b3" class="w-full text-left p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 transition flex items-center justify-between group cursor-pointer">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-base">📊</span>
+                <div>
+                  <div class="text-xs font-bold text-slate-900 dark:text-white" id="tb-b-b3-title">Blocco 3: Attribution ROAS CTE</div>
+                  <div class="text-[10px] text-amber-600 dark:text-amber-400 font-medium" id="tb-b-b3-desc">Sfida #2: Google vs TikTok Fan-Out (100 pt)</div>
+                </div>
+              </div>
+              <span class="block-live-tag" id="tb-live-tag-3"><span class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">Inattivo</span></span>
+            </button>
+
+            <!-- BLOCK 4 -->
+            <button onclick="broadcastBlock(4)" id="tb-btn-b4" class="w-full text-left p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 transition flex items-center justify-between group cursor-pointer">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-base">🧹</span>
+                <div>
+                  <div class="text-xs font-bold text-slate-900 dark:text-white" id="tb-b-b4-title">Blocco 4: Data Clean & VIP Leads</div>
+                  <div class="text-[10px] text-amber-600 dark:text-amber-400 font-medium" id="tb-b-b4-desc">Sfida #3: 352 Lead & Vista SQL (100 pt)</div>
+                </div>
+              </div>
+              <span class="block-live-tag" id="tb-live-tag-4"><span class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">Inattivo</span></span>
+            </button>
+
+            <!-- BLOCK 5 -->
+            <button onclick="broadcastBlock(5)" id="tb-btn-b5" class="w-full text-left p-3 rounded-xl font-medium text-emerald-700 dark:text-emerald-300 hover:text-emerald-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-emerald-500/30 dark:border-emerald-500/20 transition flex items-center justify-between group cursor-pointer">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-base">🎉</span>
+                <div>
+                  <div class="text-xs font-bold text-emerald-700 dark:text-emerald-300" id="tb-b-b5-title">Blocco 5: Finale & Podio Vincitori</div>
+                  <div class="text-[10px] text-slate-500 dark:text-slate-400" id="tb-b-b5-desc">Raccomandazioni CMO e celebrazione team</div>
+                </div>
+              </div>
+              <span class="block-live-tag" id="tb-live-tag-5"><span class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">Inattivo</span></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 3: COUNTDOWN TIMER -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm dark:shadow-lg space-y-3 transition-colors duration-200">
+          <div class="flex items-center justify-between">
+            <span class="text-xs uppercase font-extrabold text-amber-600 dark:text-amber-400 tracking-wider flex items-center space-x-1.5" id="tb-lbl-timer-hdr">
+              <span>⏱️</span>
+              <span id="tb-lbl-timer-hdr-text">Timer Aula Sincronizzato</span>
+            </span>
+            <span id="trainer-timer-quick-status" class="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400">Opzionale</span>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-tight" id="tb-desc-timer">Avvia un countdown visibile in tempo reale sui monitor di tutti gli studenti:</p>
+          <div class="grid grid-cols-3 gap-2">
+            <button onclick="trainerStartTimer(15, 'Sfida')" class="py-2 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-950 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 text-amber-700 dark:text-amber-300 text-xs font-mono font-bold transition flex flex-col items-center cursor-pointer shadow-2xs">
+              <span>15 min</span>
+              <span class="text-[10px] font-sans text-slate-500 dark:text-slate-400" id="btn-timer-15-text">Sfida</span>
+            </button>
+            <button onclick="trainerStartTimer(10, 'Pausa')" class="py-2 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-950 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 text-amber-700 dark:text-amber-300 text-xs font-mono font-bold transition flex flex-col items-center cursor-pointer shadow-2xs">
+              <span>10 min</span>
+              <span class="text-[10px] font-sans text-slate-500 dark:text-slate-400" id="btn-timer-10-text">Pausa</span>
+            </button>
+            <button onclick="trainerStartTimer(5, 'Sprint')" class="py-2 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-950 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 text-amber-700 dark:text-amber-300 text-xs font-mono font-bold transition flex flex-col items-center cursor-pointer shadow-2xs">
+              <span>5 min</span>
+              <span class="text-[10px] font-sans text-slate-500 dark:text-slate-400" id="btn-timer-5-text">Sprint</span>
+            </button>
+          </div>
+          <button onclick="trainerStopTimer()" class="w-full py-2 px-3 rounded-xl bg-red-100 hover:bg-red-200 dark:bg-red-950/60 dark:hover:bg-red-800 border border-red-200 dark:border-red-800/60 text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-white text-xs font-bold transition cursor-pointer flex items-center justify-center space-x-1.5 shadow-2xs">
+            <span id="btn-timer-stop-text">⏹️ Ferma / Nascondi Timer per Tutti</span>
+          </button>
+        </div>
+
+        <!-- CARD 3.5: COFFEE BREAK GAMES REGIA (INSTRUCTOR CONTROL) -->
+        <div class="bg-white dark:bg-slate-900 border border-amber-500/30 dark:border-amber-500/20 rounded-2xl p-4 sm:p-5 shadow-sm dark:shadow-lg space-y-3 transition-colors duration-200">
+          <div class="flex items-center justify-between">
+            <span class="text-xs uppercase font-extrabold text-amber-600 dark:text-amber-400 tracking-wider flex items-center space-x-1.5">
+              <span>☕</span>
+              <span>Regia Giochi Coffee Break</span>
+            </span>
+            <span id="trainer-break-game-active-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-700 dark:text-amber-300">Libera Scelta</span>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-tight">Scegli se lasciare gli studenti liberi di provare i 3 giochi o imporne uno sincronizzato su tutti i banchi:</p>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="trainerSetBreakGame('free')" id="btn-tb-game-free" class="p-2.5 rounded-xl bg-amber-500/15 border-2 border-amber-500 text-amber-900 dark:text-amber-200 text-xs font-bold transition flex flex-col items-center cursor-pointer text-center">
+              <span class="text-base">✨</span>
+              <span class="mt-1">Libera Scelta</span>
+              <span class="text-[9px] font-normal opacity-80">Studente sceglie</span>
+            </button>
+            <button onclick="trainerSetBreakGame('dj')" id="btn-tb-game-dj" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-950 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 text-slate-700 dark:text-slate-300 text-xs font-bold transition flex flex-col items-center cursor-pointer text-center">
+              <span class="text-base">🎛️</span>
+              <span class="mt-1">Query Beats DJ</span>
+              <span class="text-[9px] font-normal opacity-80">Sequencer SQL</span>
+            </button>
+            <button onclick="trainerSetBreakGame('optics')" id="btn-tb-game-optics" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-950 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 text-slate-700 dark:text-slate-300 text-xs font-bold transition flex flex-col items-center cursor-pointer text-center">
+              <span class="text-base">🔬</span>
+              <span class="mt-1">Optics Lab AI</span>
+              <span class="text-[9px] font-normal opacity-80">Fisica Lenti</span>
+            </button>
+            <button onclick="trainerSetBreakGame('roast')" id="btn-tb-game-roast" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-950 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 text-slate-700 dark:text-slate-300 text-xs font-bold transition flex flex-col items-center cursor-pointer text-center">
+              <span class="text-base">🌶️</span>
+              <span class="mt-1">Turing Roast</span>
+              <span class="text-[9px] font-normal opacity-80">Ironia & Rating</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 4: CHEAT SHEET & QUICK HINTS -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm dark:shadow-lg space-y-4 transition-colors duration-200">
+          <!-- QUICK CHEAT SHEET CALLOUT -->
+          <div class="p-3.5 rounded-xl bg-amber-500/10 dark:bg-gradient-to-r dark:from-amber-500/10 dark:via-amber-600/5 dark:to-slate-950 border border-amber-500/30 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-amber-700 dark:text-amber-300 uppercase tracking-wide flex items-center space-x-1.5" id="tb-cs-title">
+                <span>🔑</span>
+                <span id="tb-cs-title-text">Soluzioni Sfide (Cheat Sheet)</span>
+              </span>
+              <button onclick="openTrainerSolutionsModal()" class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[11px] transition cursor-pointer shadow-xs" id="tb-cs-btn-open">
+                Query Complete ↗
+              </button>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs font-mono pt-1">
+              <div class="p-2 rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                <div class="text-slate-500 dark:text-slate-400 text-[10px]">B1 Warm-Up:</div>
+                <div class="text-amber-700 dark:text-amber-300 font-bold">Ray-Ban | 4 Tab</div>
+              </div>
+              <div class="p-2 rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                <div class="text-slate-500 dark:text-slate-400 text-[10px]">B2 Ch #1:</div>
+                <div class="text-amber-700 dark:text-amber-300 font-bold">Oliver P. | 28.5€</div>
+              </div>
+              <div class="p-2 rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                <div class="text-slate-500 dark:text-slate-400 text-[10px]">B3 Ch #2:</div>
+                <div class="text-amber-700 dark:text-amber-300 font-bold">TikTok | 7.08x</div>
+              </div>
+              <div class="p-2 rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                <div class="text-slate-500 dark:text-slate-400 text-[10px]">B4 Ch #3:</div>
+                <div class="text-amber-700 dark:text-amber-300 font-bold">352 Lead | TRIM</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- HINTS MANAGER & PINS -->
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs uppercase font-extrabold text-amber-600 dark:text-amber-400 tracking-wider" id="tb-lbl-hints">💡 Gestione Hint & PIN</span>
+              <button id="btn-toggle-pin-visibility" onclick="toggleTrainerPinsVisibility()" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition cursor-pointer flex items-center space-x-1 shadow-2xs" title="Mostra o nascondi i PIN">
+                <span id="pin-vis-icon">👁️</span>
+                <span id="pin-vis-text">Mostra PIN</span>
+              </button>
+            </div>
+
+            <div class="space-y-1.5" id="trainer-hints-list">
+              <!-- STEP 1.1 -->
+              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                <div class="text-xs">
+                  <span class="font-bold text-slate-800 dark:text-slate-200">Step 1.1 (Canvas)</span>
+                  <div class="flex items-center space-x-1 text-[10px]">
+                    <span class="text-slate-500">PIN:</span>
+                    <code class="trainer-secret-pin px-1.5 py-0.2 bg-slate-200 dark:bg-slate-800 text-amber-700 dark:text-amber-300 font-mono font-bold rounded cursor-pointer select-none" data-pin="1122" onclick="toggleSinglePin(this)" title="Clicca per rivelare">••••</code>
+                  </div>
+                </div>
+                <button id="btn-hint-b1-s1" onclick="trainerToggleHint('b1-s1')" class="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 transition cursor-pointer">
+                  1.1 🔒
+                </button>
+              </div>
+
+              <!-- STEP 1.2 -->
+              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                <div class="text-xs">
+                  <span class="font-bold text-slate-800 dark:text-slate-200">Step 1.2 (Macro)</span>
+                  <div class="flex items-center space-x-1 text-[10px]">
+                    <span class="text-slate-500">PIN:</span>
+                    <code class="trainer-secret-pin px-1.5 py-0.2 bg-slate-200 dark:bg-slate-800 text-amber-700 dark:text-amber-300 font-mono font-bold rounded cursor-pointer select-none" data-pin="1234" onclick="toggleSinglePin(this)" title="Clicca per rivelare">••••</code>
+                  </div>
+                </div>
+                <button id="btn-hint-b1-s2" onclick="trainerToggleHint('b1-s2')" class="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 transition cursor-pointer">
+                  1.2 🔒
+                </button>
+              </div>
+
+              <!-- STEP 2.1 -->
+              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                <div class="text-xs">
+                  <span class="font-bold text-slate-800 dark:text-slate-200">Step 2.1 (AOV > 300)</span>
+                  <div class="flex items-center space-x-1 text-[10px]">
+                    <span class="text-slate-500">PIN:</span>
+                    <code class="trainer-secret-pin px-1.5 py-0.2 bg-slate-200 dark:bg-slate-800 text-amber-700 dark:text-amber-300 font-mono font-bold rounded cursor-pointer select-none" data-pin="2144" onclick="toggleSinglePin(this)" title="Clicca per rivelare">••••</code>
+                  </div>
+                </div>
+                <button id="btn-hint-b2-s1" onclick="trainerToggleHint('b2-s1')" class="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 transition cursor-pointer">
+                  2.1 🔒
+                </button>
+              </div>
+
+              <!-- STEP 2.2 -->
+              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                <div class="text-xs">
+                  <span class="font-bold text-slate-800 dark:text-slate-200">Step 2.2 (Sconti)</span>
+                  <div class="flex items-center space-x-1 text-[10px]">
+                    <span class="text-slate-500">PIN:</span>
+                    <code class="trainer-secret-pin px-1.5 py-0.2 bg-slate-200 dark:bg-slate-800 text-amber-700 dark:text-amber-300 font-mono font-bold rounded cursor-pointer select-none" data-pin="2255" onclick="toggleSinglePin(this)" title="Clicca per rivelare">••••</code>
+                  </div>
+                </div>
+                <button id="btn-hint-b2-s2" onclick="trainerToggleHint('b2-s2')" class="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 transition cursor-pointer">
+                  2.2 🔒
+                </button>
+              </div>
+
+              <!-- BLOCK 3 -->
+              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                <div class="text-xs">
+                  <span class="font-bold text-slate-800 dark:text-slate-200">Block 3 (ROAS CTE)</span>
+                  <div class="flex items-center space-x-1 text-[10px]">
+                    <span class="text-slate-500">PIN:</span>
+                    <code class="trainer-secret-pin px-1.5 py-0.2 bg-slate-200 dark:bg-slate-800 text-amber-700 dark:text-amber-300 font-mono font-bold rounded cursor-pointer select-none" data-pin="3388" onclick="toggleSinglePin(this)" title="Clicca per rivelare">••••</code>
+                  </div>
+                </div>
+                <button id="btn-hint-b3" onclick="trainerToggleHint('b3')" class="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 transition cursor-pointer">
+                  B3 🔒
+                </button>
+              </div>
+
+              <!-- BLOCK 4 -->
+              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                <div class="text-xs">
+                  <span class="font-bold text-slate-800 dark:text-slate-200">Block 4 (Clean Lead)</span>
+                  <div class="flex items-center space-x-1 text-[10px]">
+                    <span class="text-slate-500">PIN:</span>
+                    <code class="trainer-secret-pin px-1.5 py-0.2 bg-slate-200 dark:bg-slate-800 text-amber-700 dark:text-amber-300 font-mono font-bold rounded cursor-pointer select-none" data-pin="4499" onclick="toggleSinglePin(this)" title="Clicca per rivelare">••••</code>
+                  </div>
+                </div>
+                <button id="btn-hint-b4" onclick="trainerToggleHint('b4')" class="px-3 py-1 rounded-lg text-xs font-mono font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 transition cursor-pointer">
+                  B4 🔒
+                </button>
+              </div>
+            </div>
+
+            <!-- TOGGLE ALL HINTS -->
+            <button id="btn-hint-all-toggle" onclick="trainerToggleAllHints()" class="w-full mt-2 py-2 px-3 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 transition cursor-pointer flex items-center justify-center space-x-1 shadow-2xs">
+              <span id="btn-hint-all-toggle-text">✨ Sblocca Tutti gli Hint</span>
+            </button>
+          </div>
+
+          <!-- DOCUMENTATION & STUDENT DOCS UNLOCK -->
+          <div class="pt-3 border-t border-slate-200 dark:border-slate-800 space-y-2.5">
+            <span class="text-xs uppercase font-extrabold text-sky-600 dark:text-sky-400 tracking-wider" id="tb-lbl-docs-hdr">📚 Documentazione & Guide</span>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <a href="https://github.com/mauripsale/luxottica-bigquery-training/blob/gh-pages/instructor_guide_it.md" target="_blank" class="py-2 px-2.5 rounded-xl bg-slate-100 dark:bg-slate-950 hover:bg-sky-100 dark:hover:bg-sky-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500 text-sky-700 dark:text-sky-300 font-bold text-center transition flex items-center justify-center space-x-1 shadow-2xs">
+                <span>🇮🇹 Guida Docente</span>
+                <span class="text-[10px] opacity-70">↗</span>
+              </a>
+              <a href="https://github.com/mauripsale/luxottica-bigquery-training/blob/gh-pages/instructor_guide.md" target="_blank" class="py-2 px-2.5 rounded-xl bg-slate-100 dark:bg-slate-950 hover:bg-sky-100 dark:hover:bg-sky-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500 text-sky-700 dark:text-sky-300 font-bold text-center transition flex items-center justify-center space-x-1 shadow-2xs">
+                <span>🇬🇧 Guide (EN)</span>
+                <span class="text-[10px] opacity-70">↗</span>
+              </a>
+            </div>
+            <button id="btn-toggle-student-docs" onclick="trainerToggleStudentDocs()" class="w-full py-2 px-3 rounded-xl bg-emerald-100 dark:bg-emerald-600/30 hover:bg-emerald-600 border border-emerald-300 dark:border-emerald-500/40 text-emerald-800 dark:text-emerald-300 hover:text-white text-xs font-bold transition flex items-center justify-center space-x-1.5 cursor-pointer shadow-2xs">
+              <span id="btn-toggle-student-docs-text">🔓 Sblocca Guide per gli Studenti</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN (8 COLS): FULL SCREEN STUDENT ROSTER & BATCH MANAGEMENT -->
+      <div class="lg:col-span-8 space-y-5">
+
+        <!-- METRICS & CLASSROOM CONTROLS -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm dark:shadow-lg space-y-4 transition-colors duration-200">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800/80 pb-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-xl bg-blue-600/10 dark:bg-blue-600/20 border border-blue-500/30 dark:border-blue-500/40 flex items-center justify-center text-xl shadow-xs">
+                👥
+              </div>
+              <div>
+                <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white flex items-center space-x-2">
+                  <span id="tcc-roster-title">Gestione Studenti & Live Roster</span>
+                  <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-bold" id="tcc-roster-badge">Real-time</span>
+                </h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400" id="tcc-roster-subtitle">Controlla l'aula in diretta, assegna bonus, visualizza sfide ed elimina studenti singolarmente o in batch</p>
+              </div>
+            </div>
+
+            <!-- ACTION BUTTONS: PING, LEADERBOARD, RESET -->
+            <div class="flex items-center space-x-2">
+              <button onclick="pingStudentsFromTrainer(); showToast(currentLang === 'it' ? '📡 Ping inviato agli studenti!' : '📡 Ping sent to students!');" id="tcc-btn-ping" class="py-1.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition flex items-center space-x-1.5 border border-slate-200 dark:border-slate-700 cursor-pointer shadow-2xs" title="Invia Ping per forzare il refresh dello stato di presenza">
+                <span>🔄</span>
+                <span id="tcc-btn-ping-text">Ping Aula</span>
+              </button>
+              <button onclick="openLeaderboardModal()" class="py-1.5 px-3 rounded-xl bg-amber-500/15 hover:bg-amber-500 dark:bg-amber-500/20 dark:hover:bg-amber-500 border border-amber-500/40 text-amber-800 dark:text-amber-300 hover:text-slate-950 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow-2xs" id="btn-tb-project-lb">
+                <span>🏆</span>
+                <span id="btn-tb-project-lb-text">Proietta Classifica</span>
+              </button>
+              <button onclick="resetClassroomLeaderboard()" class="py-1.5 px-2.5 rounded-xl bg-red-100 hover:bg-red-200 dark:bg-red-950 dark:hover:bg-red-800 text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-white border border-red-200 dark:border-red-800 text-xs font-bold transition cursor-pointer shadow-2xs" title="Azzera la classifica dell'aula" id="btn-tb-reset-lb">
+                <span>🗑️</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- METRICS CARDS & BATCH ACTIONS -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 dark:bg-slate-950/70 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider" id="tcc-m-total-lbl">Studenti Registrati</span>
+              <div class="flex items-baseline space-x-1.5 pt-0.5">
+                <span id="trainer-student-count-total" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">0</span>
+                <span class="text-[11px] text-slate-500" id="tcc-m-total-sub">iscritti</span>
+              </div>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider" id="tcc-m-online-lbl">Online Adesso</span>
+              <div class="flex items-baseline space-x-1.5 pt-0.5">
+                <span id="trainer-student-count" class="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400">0</span>
+                <span class="text-[11px] text-emerald-600/80 dark:text-emerald-500/80" id="tcc-m-online-sub">connessi</span>
+              </div>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider" id="tcc-m-sel-lbl">Selezionati</span>
+              <div class="flex items-baseline space-x-1.5 pt-0.5">
+                <span id="tcc-selected-count" class="text-xl sm:text-2xl font-black text-amber-600 dark:text-amber-400">0</span>
+                <span class="text-[11px] text-slate-500" id="tcc-m-sel-sub">studenti</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-end space-x-1.5">
+              <button id="tcc-btn-batch-delete" onclick="executeBatchDeleteSelected()" disabled class="py-2 px-3 rounded-xl bg-red-100 dark:bg-red-600/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-500/40 text-xs font-bold transition flex items-center space-x-1.5 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-red-600 hover:text-white shadow-2xs">
+                <span>🗑️</span>
+                <span id="tcc-btn-batch-delete-text">Elimina Selezionati</span>
+              </button>
+              <button onclick="executeBatchDeleteAll()" id="tcc-btn-batch-delete-all" class="p-2 rounded-xl bg-red-100 hover:bg-red-200 dark:bg-red-950 dark:hover:bg-red-800 text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-white border border-red-200 dark:border-red-800 text-xs font-bold transition cursor-pointer shadow-2xs" title="Svuota completamente l'aula per una nuova sessione">
+                <span>💥</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- SEARCH & SELECTION CONTROLS -->
+          <div class="flex items-center justify-between gap-3 pt-1">
+            <div class="relative flex-1">
+              <input type="search" id="tcc-search-input" oninput="refreshTrainerStudents()" placeholder="Cerca per nome, email o squadra..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-blue-500">
+            </div>
+            <label class="flex items-center space-x-1.5 text-xs text-slate-600 dark:text-slate-400 cursor-pointer select-none px-2 py-1 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800">
+              <input type="checkbox" id="tcc-select-all-cb" onchange="toggleSelectAllStudents(this.checked)" class="rounded text-blue-600 focus:ring-0">
+              <span id="tcc-select-all-lbl">Seleziona tutti</span>
+            </label>
+          </div>
+
+          <!-- FULL-WIDTH LIVE STUDENTS ROSTER TABLE -->
+          <div class="overflow-x-auto overflow-y-auto max-h-[600px] border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-950/40">
+            <table class="w-full text-left text-xs text-slate-700 dark:text-slate-300 border-collapse">
+              <thead class="bg-slate-100/95 dark:bg-slate-950/95 text-[10px] uppercase tracking-wider text-slate-600 dark:text-slate-400 sticky top-0 border-b border-slate-200 dark:border-slate-800 z-10 backdrop-blur-xs">
+                <tr>
+                  <th class="p-3 w-10 text-center">
+                    <input type="checkbox" id="tcc-header-cb" onchange="toggleSelectAllStudents(this.checked)" class="rounded text-blue-600 focus:ring-0">
+                  </th>
+                  <th class="p-3" id="tcc-th-student">Studente</th>
+                  <th class="p-3" id="tcc-th-team">Squadra</th>
+                  <th class="p-3 text-center" id="tcc-th-score">Punteggio</th>
+                  <th class="p-3 text-center" id="tcc-th-challenges">Sfide</th>
+                  <th class="p-3 text-center" id="tcc-th-status">Stato</th>
+                  <th class="p-3 text-right" id="tcc-th-actions">Azioni Rapide</th>
+                </tr>
+              </thead>
+              <tbody id="tcc-table-body" class="divide-y divide-slate-200 dark:divide-slate-800/80">
+                <!-- Dynamically populated by refreshTrainerStudents() -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- TCC ROSTER FOOTER -->
+          <div class="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-200 dark:border-slate-800">
+            <span><span id="tcc-footer-master-pin-lbl">Master PIN Docente:</span> <code class="trainer-secret-pin text-amber-600 dark:text-amber-400 font-mono font-bold cursor-pointer select-none px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800" data-pin="1926" onclick="toggleSinglePin(this)" title="Clicca per rivelare">••••</code></span>
+            <span id="tcc-footer-max-score">Massimo Punteggio Sfide: <strong>350 pt</strong></span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CUSTOM MASKED MODAL FOR TRAINER PIN (AVOIDS BROWSER CLEAR-TEXT PROMPT) -->

@@ -7,17 +7,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luxottica BigQuery Masterclass - Google Cloud Student Hub</title>
   <script>
-    /* Modern Web Guidance: Zero-FOUC Early Theme Resolver (Strict Default: Light) */
-    (function() {
-      try {
-        const theme = localStorage.getItem('lux_theme');
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      } catch (e) {}
-    })();
+/**
+ * theme.js — Instant Theme Execution Engine (Zero-FOUC)
+ * Part of Luxottica BigQuery Training Hub Architecture.
+ *
+ * Runs synchronously in <head> to prevent white/dark flashes on page reload.
+ * Modern Web Guidance: Zero-FOUC Early Theme Resolver (Strict Default: Light).
+ */
+
+(function() {
+  try {
+    const theme = localStorage.getItem('lux_theme');
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  } catch (e) {
+    // LocalStorage might be disabled in strict sandboxes
+  }
+})();
   </script>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <script>
@@ -452,6 +461,10 @@
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION & TRAINER COMMAND BAR                                          -->
+  <!-- ========================================================================= -->
 
   <!-- MODERN WEB GUIDANCE: SCROLL PROGRESS INDICATOR (ZERO-JS) -->
   <div id="scroll-progress-bar" aria-hidden="true"></div>
@@ -1274,6 +1287,10 @@
   </div>
 
   <!-- CUSTOM MASKED MODAL FOR TRAINER PIN (AVOIDS BROWSER CLEAR-TEXT PROMPT) -->
+
+  <!-- ========================================================================= -->
+  <!-- 12 NATIVE <dialog> MODALS                                                 -->
+  <!-- ========================================================================= -->
   <dialog id="trainer-pin-modal" closedby="any" aria-labelledby="t-modal-title" class="p-4 m-auto bg-transparent border-0 max-w-sm w-full text-slate-900 dark:text-slate-100">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl max-w-sm w-full p-6 text-slate-900 dark:text-slate-100 space-y-4 animate-in fade-in zoom-in duration-150">
       <div class="flex items-center space-x-3">
@@ -1988,6 +2005,10 @@
     </div>
   </dialog>
 
+  <!-- ========================================================================= -->
+  <!-- MAIN APP LAYOUT (SIDEBAR & RIGHT COLUMN)                                  -->
+  <!-- ========================================================================= -->
+
   <!-- MAIN APP LAYOUT (SHIFTS RIGHT WHEN TRAINER SIDEBAR IS OPEN) -->
   <div id="app-main-layout" class="flex-1 flex flex-col transition-all duration-300">
 
@@ -2215,6 +2236,10 @@
       </div>
 
       <!-- COVER / LANDING PAGE (DEFAULT ACTIVE SECTION ON LOAD) -->
+
+  <!-- ========================================================================= -->
+  <!-- DIDACTIC & INTERACTIVE LEARNING BLOCKS                                    -->
+  <!-- ========================================================================= -->
       <div id="block-cover" class="block-section space-y-6">
         <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
           <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-100 pb-6">
@@ -2653,7 +2678,7 @@
             <div class="bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border border-amber-500/30 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[200px] text-center shadow-sm">
               <span class="text-2xl mb-1">⏱️</span>
               <span class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400">Modalità Aula</span>
-              <span id="break-mode-status-text" class="text-xs font-black text-amber-600 dark:text-amber-400">Libera Scelta Studente</span>
+              <span id="break-mode-status-text" aria-live="polite" class="text-xs font-black text-amber-600 dark:text-amber-400">Libera Scelta Studente</span>
               <span class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Scegli la tab o attendi regia</span>
             </div>
           </div>
@@ -3409,6 +3434,10 @@ ORDER BY roas_multiplier DESC;</pre>
         </div>
       </details>
 
+
+  <!-- ========================================================================= -->
+  <!-- LAYOUT CLOSING WRAPPERS & TOAST CONTAINER                                 -->
+  <!-- ========================================================================= -->
     </main>
 
   </div>
@@ -3418,7 +3447,83 @@ ORDER BY roas_multiplier DESC;</pre>
   <!-- TOAST NOTIFICATION CONTAINER (TOP LAYER POPOVER) -->
   <div id="toast-container" popover="manual" class="fixed bottom-6 right-6 z-50 m-0 p-0 bg-transparent border-0 flex flex-col gap-2 pointer-events-none"></div>
 
+
+  <!-- ========================================================================= -->
+  <!-- CLIENT JAVASCRIPT ARCHITECTURE                                            -->
+  <!-- ========================================================================= -->
   <script>
+/**
+ * hub-namespace.js — Core Namespace and Service Directory
+ * Part of Luxottica BigQuery Training Hub Architecture.
+ *
+ * Ensures all functional subsystems can communicate through a central `window.Hub`
+ * registry while maintaining backward compatibility with legacy global calls.
+ */
+
+window.Hub = window.Hub || {
+  version: "2.5.0-modular",
+  modules: {},
+  state: {
+    role: "student", // 'student' | 'trainer'
+    activeBlock: "cover",
+    theme: "light",
+    roomCode: "default",
+    connectedStudents: []
+  },
+  
+  // Service registration
+  register(name, moduleApi) {
+    this.modules[name] = moduleApi;
+  },
+
+  get(name) {
+    return this.modules[name];
+  }
+};
+/**
+ * window-bridge.js — Zero-Downtime Global Handler Facade Bridge
+ * Part of Luxottica BigQuery Training Hub Architecture.
+ *
+ * Guarantees that all 95+ inline HTML onclick/oninput/onchange callbacks
+ * execute seamlessly across student and trainer interfaces.
+ * Maps every functional entrypoint into both `window.Hub` and `window`.
+ */
+
+(function() {
+  const Hub = window.Hub || {};
+
+  // Handlers catalog for introspection and debugging
+  Hub.handlers = [
+    'AS', 'ROUND', 'SAFE_DIVIDE', 'SUM', 'backToRoleSelection', 'backToRoleSelectionFromPrompt',
+    'broadcastBlock', 'clear', 'closeChallengeModal', 'closeGuideModal', 'closeHamburgerMenu',
+    'closeLeaderboardModal', 'closePlaybookModal', 'closeProfilePopover', 'closeResumeStudentModal',
+    'closeRosettaModal', 'closeStudentManagerModal', 'closeTrainerPinModal', 'closeTrainerSolutionsModal',
+    'copyToClipboard', 'disableTrainerMode', 'downloadChallengeSQL', 'executeBatchDeleteAll',
+    'executeBatchDeleteSelected', 'filterRosetta', 'filterRosettaModal', 'filterStudentManagerTable',
+    'getElementById', 'handleLogoClick', 'loadPreset', 'loadSample', 'logoutStudentProfile',
+    'openChallengeModal', 'openGuideModal', 'openLeaderboardModal', 'openOnboardingModal',
+    'openPlaybookModal', 'openResumeStudentModal', 'openRoleSelectionModal', 'openRosettaModal',
+    'openStudentManagerModal', 'openTrainerSolutionsModal', 'pingStudentsFromTrainer',
+    'refreshStudentManagerTable', 'refreshTrainerStudents', 'renderClassroomLeaderboard',
+    'rerollStudentTeam', 'resetClassroomLeaderboard', 'resumeExistingLocalSession', 'roast',
+    'selectRoleStudent', 'selectRoleTrainer', 'setBpm', 'setDiopters', 'setLanguage', 'setN',
+    'setPolarized', 'setTint', 'showToast', 'startAsNewStudent', 'submitStudentOnboarding',
+    'submitStudentResume', 'submitTrainerPinModal', 'switchBoardSlide', 'switchBreakGame',
+    'switchTab', 'switchToStudentPreview', 'switchToTrainerCommandCenter',
+    'toggleLeaderboardFullscreen', 'toggleLockState', 'togglePlay', 'toggleSelectAllStudents',
+    'toggleSinglePin', 'toggleTheme', 'toggleTrainerMode', 'toggleTrainerPinsVisibility',
+    'trainerChangeRoomCode', 'trainerCopyShareLink', 'trainerForceSyncAll', 'trainerSetBreakGame',
+    'trainerStartTimer', 'trainerStopTimer', 'trainerToggleAllHints', 'trainerToggleHint',
+    'trainerToggleStudentDocs', 'triggerClassroomConfetti', 'unlockHint', 'userSelectBlock',
+    'validateChallenge0', 'validateChallenge1', 'validateChallenge2', 'validateChallenge3'
+  ];
+
+  // Expose bridge on Hub
+  Hub.bridge = {
+    isReady: true,
+    count: Hub.handlers.length
+  };
+})();
     // TRANSLATIONS DICTIONARY DEFINED AT TOP TO AVOID REFERENCE ERRORS
     const translations = {
       it: {

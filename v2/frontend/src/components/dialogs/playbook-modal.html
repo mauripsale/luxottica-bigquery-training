@@ -1,0 +1,32 @@
+  <dialog id="playbook-modal" closedby="any" aria-labelledby="pm-title" class="p-4 m-auto bg-transparent border-0 max-w-5xl w-full text-slate-900 dark:text-slate-100">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-3xl shadow-2xl max-w-5xl w-full p-6 space-y-5 max-h-[90vh] flex flex-col animate-in fade-in zoom-in duration-200">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-xl">
+            🎬
+          </div>
+          <div>
+            <h2 id="pm-title" class="text-lg font-black text-indigo-600 dark:text-indigo-400">Copione Dettagliato Minuto per Minuto (Playbook)</h2>
+            <p id="pm-subtitle" class="text-xs text-slate-500 dark:text-slate-400">Doppia traccia simultanea Trainer vs Studente per tutti i 180 minuti</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="openPlaybookModal('it')" id="btn-pm-lang-it" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white">IT</button>
+          <button onclick="openPlaybookModal('en')" id="btn-pm-lang-en" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">EN</button>
+          <button onclick="closePlaybookModal()" class="p-2 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">✕</button>
+        </div>
+      </div>
+
+      <div id="pm-body" class="defer-render overflow-y-auto pr-1 space-y-4 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+        <!-- Playbook injected dynamically -->
+      </div>
+
+      <div class="border-t border-slate-200 dark:border-slate-800 pt-3 flex items-center justify-end text-xs">
+        <button onclick="closePlaybookModal()" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold text-slate-800 dark:text-white transition">
+          Chiudi ✕
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- TRAINER DEDICATED STUDENT MANAGEMENT MODAL (FULL SCREEN DIALOG FOR ROSTER, BATCH DELETION & ACTIONS) -->
