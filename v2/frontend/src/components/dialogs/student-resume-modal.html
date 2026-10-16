@@ -1,0 +1,37 @@
+  <dialog id="student-resume-modal" closedby="any" aria-labelledby="res-title" class="p-4 m-auto bg-transparent border-0 max-w-md w-full text-slate-900 dark:text-slate-100">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl max-w-md w-full p-6 text-slate-900 dark:text-slate-100 space-y-5 animate-in fade-in zoom-in duration-200">
+      <div class="text-center space-y-2">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-2xl shadow-sm">
+          🔑
+        </div>
+        <h2 class="text-xl font-black text-slate-900 dark:text-white" id="res-title">Recupera il tuo Profilo</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400" id="res-subtitle">Hai chiuso il browser o fatto logout per sbaglio? Chiedi il PIN di recupero di 4 cifre al docente per ripristinare il tuo punteggio.</p>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label for="resume-select-student" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1" id="res-lbl-student">Seleziona il tuo nome:</label>
+          <select id="resume-select-student" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-slate-800 transition">
+            <option value="">-- Seleziona studente da ripristinare --</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="resume-input-pin" class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1" id="res-lbl-pin">PIN di Recupero (fornito dal Docente):</label>
+          <input type="text" inputmode="numeric" id="resume-input-pin" maxlength="4" placeholder="••••" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-center font-mono text-lg font-bold tracking-widest text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white dark:focus:bg-slate-800 transition">
+          <p id="resume-error-msg" class="text-[11px] text-red-500 text-center hidden mt-1 font-semibold">❌ PIN non valido o errato per questo studente!</p>
+        </div>
+      </div>
+
+      <div class="pt-2 flex items-center space-x-2">
+        <button onclick="closeResumeStudentModal()" type="button" class="py-3 px-4 rounded-xl font-bold text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+          ← Annulla
+        </button>
+        <button onclick="submitStudentResume()" id="btn-submit-resume" class="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg shadow-amber-500/25 transition cursor-pointer flex items-center justify-center space-x-1.5">
+          <span>Ripristina Sessione 🚀</span>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- EXISTING SESSION PROMPT MODAL (WELCOME BACK OR NEW STUDENT) -->

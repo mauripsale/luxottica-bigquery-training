@@ -1,0 +1,310 @@
+      <div id="block-break" class="block-section space-y-6 hidden">
+        <!-- HEADER HERO BANNER -->
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-500/15 via-orange-500/10 to-amber-600/20 dark:from-amber-950/40 dark:via-slate-900 dark:to-orange-950/40 border border-amber-500/30 dark:border-amber-500/20 p-6 sm:p-8 shadow-sm">
+          <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="space-y-2 max-w-xl">
+              <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-800 dark:text-amber-300 text-xs font-bold">
+                <span>☕</span>
+                <span>Luxottica Coffee Lounge & Interactive Lab</span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight" id="break-title">Pausa Caffè & Smart Games</h2>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed" id="break-desc">
+                Ricarica le energie con i tre mini-giochi interattivi creati per la classe: crea beat musicali con le tue clausole SQL, testa l'ottica e la rifrazione Ray-Ban nel simulatore di lenti, o fatti "roastare" una query dall'AI con rating di piccantezza!
+              </p>
+            </div>
+            <!-- BREAK QUICK STATUS & REGIA NOTICE -->
+            <div class="bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border border-amber-500/30 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[200px] text-center shadow-sm">
+              <span class="text-2xl mb-1">⏱️</span>
+              <span class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400">Modalità Aula</span>
+              <span id="break-mode-status-text" aria-live="polite" class="text-xs font-black text-amber-600 dark:text-amber-400">Libera Scelta Studente</span>
+              <span class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Scegli la tab o attendi regia</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPETITIVE CLASSROOM TOURNAMENT BANNER (+150 PTS BONUS) -->
+        <div class="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-rose-500/10 border-2 border-amber-500/40 rounded-3xl p-5 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-500/20 pb-3">
+            <div class="flex items-center space-x-3">
+              <span class="text-3xl">🏆</span>
+              <div>
+                <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white">Sfida Competitiva Coffee Break in Aula</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300">Completa le 3 mini-sfide durante la pausa: guadagni fino a <strong class="text-amber-600 dark:text-amber-400 font-black">+150 punti bonus</strong> per te e per la tua squadra!</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-3 py-1 rounded-full text-xs font-black bg-amber-500 text-slate-950 shadow-sm animate-pulse">
+                🔥 Sfida Live Attiva
+              </span>
+            </div>
+          </div>
+
+          <!-- 3 REWARD CARDS -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+            <!-- REWARD 1: BEAT MASTER -->
+            <div id="coffee-badge-card-dj" class="bg-white/90 dark:bg-slate-900/90 border border-amber-500/30 rounded-2xl p-3.5 flex items-center justify-between shadow-xs transition hover:border-amber-500">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">🎛️</span>
+                <div>
+                  <div class="text-xs font-black text-slate-900 dark:text-white">Query DJ Beat Master</div>
+                  <div class="text-[10px] text-slate-500 dark:text-slate-400">Avvia beat con ≥8 note attive</div>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span id="coffee-badge-dj-status" class="inline-block px-2.5 py-1 rounded-lg text-[10px] font-black bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
+                  +50 pt
+                </span>
+              </div>
+            </div>
+
+            <!-- REWARD 2: OPTICS CRAFTER -->
+            <div id="coffee-badge-card-optics" class="bg-white/90 dark:bg-slate-900/90 border border-cyan-500/30 rounded-2xl p-3.5 flex items-center justify-between shadow-xs transition hover:border-cyan-500">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">🔬</span>
+                <div>
+                  <div class="text-xs font-black text-slate-900 dark:text-white">Master Lens Crafter</div>
+                  <div class="text-[10px] text-slate-500 dark:text-slate-400">Calibra F=+120mm & Polarizzato</div>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span id="coffee-badge-optics-status" class="inline-block px-2.5 py-1 rounded-lg text-[10px] font-black bg-cyan-100 text-cyan-800 dark:bg-cyan-950 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-700">
+                  +50 pt
+                </span>
+              </div>
+            </div>
+
+            <!-- REWARD 3: ROAST SURVIVOR -->
+            <div id="coffee-badge-card-roast" class="bg-white/90 dark:bg-slate-900/90 border border-rose-500/30 rounded-2xl p-3.5 flex items-center justify-between shadow-xs transition hover:border-rose-500">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">🌶️</span>
+                <div>
+                  <div class="text-xs font-black text-slate-900 dark:text-white">AI Roast Survivor</div>
+                  <div class="text-[10px] text-slate-500 dark:text-slate-400">Fatti roastare una query SQL</div>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span id="coffee-badge-roast-status" class="inline-block px-2.5 py-1 rounded-lg text-[10px] font-black bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-700">
+                  +50 pt
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 GAMES NAVIGATION TABS -->
+        <div class="flex items-center space-x-2 p-1.5 bg-slate-200/80 dark:bg-slate-900/90 rounded-2xl border border-slate-300 dark:border-slate-800 overflow-x-auto shadow-inner">
+          <button onclick="switchBreakGame('dj')" id="btn-tab-game-dj" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-400 shadow-sm cursor-pointer">
+            <span class="text-base">🎛️</span>
+            <span>Query Beats DJ</span>
+          </button>
+          <button onclick="switchBreakGame('optics')" id="btn-tab-game-optics" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer">
+            <span class="text-base">🔬</span>
+            <span>Virtual Optics Lab</span>
+          </button>
+          <button onclick="switchBreakGame('roast')" id="btn-tab-game-roast" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer">
+            <span class="text-base">🌶️</span>
+            <span>AI Turing Roast</span>
+          </button>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- GAME 1: SQL PROMPT DJ / QUERY BEATS       -->
+        <!-- ========================================== -->
+        <div id="game-container-dj" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-11 h-11 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-2xl">
+                🎛️
+              </div>
+              <div>
+                <h3 class="text-base font-black text-slate-900 dark:text-white">SQL Prompt DJ • Query Beats 16-Step Sequencer</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Ogni clausola SQL suona uno strumento sintetico proceduralmente nel tuo browser (Web Audio API)</p>
+              </div>
+            </div>
+            <!-- TRANSPORT CONTROLS -->
+            <div class="flex items-center space-x-2">
+              <button onclick="QueryBeats.togglePlay()" id="qb-btn-play" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition flex items-center space-x-2 shadow-sm cursor-pointer">
+                <span id="qb-play-icon">▶</span>
+                <span id="qb-play-text">AVVIA BEAT</span>
+              </button>
+              <button onclick="QueryBeats.clear()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs transition cursor-pointer">
+                Svuota
+              </button>
+            </div>
+          </div>
+
+          <!-- SEQUENCER TOOLBAR: BPM & PRESETS -->
+          <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-50 dark:bg-slate-950 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs">
+            <div class="flex items-center space-x-3">
+              <span class="font-bold text-slate-600 dark:text-slate-400">Tempo (BPM):</span>
+              <input type="range" id="qb-bpm-slider" min="80" max="150" value="116" oninput="QueryBeats.setBpm(this.value)" class="w-28 accent-amber-500 cursor-pointer">
+              <span id="qb-bpm-display" class="font-mono font-bold text-amber-600 dark:text-amber-400 w-12">116 BPM</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="font-bold text-slate-600 dark:text-slate-400">Preset:</span>
+              <button onclick="QueryBeats.loadPreset('agordo')" class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-amber-500 font-medium transition cursor-pointer">Agordo Techno</button>
+              <button onclick="QueryBeats.loadPreset('datalake')" class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-amber-500 font-medium transition cursor-pointer">Data Lake Lo-Fi</button>
+              <button onclick="QueryBeats.loadPreset('funk')" class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-amber-500 font-medium transition cursor-pointer">CTE Groove</button>
+            </div>
+          </div>
+
+          <!-- 16-STEP GRID -->
+          <div class="overflow-x-auto pb-2">
+            <div class="min-w-[640px] space-y-3" id="qb-grid-container">
+              <!-- Grid rendered dynamically by QueryBeats.render() -->
+            </div>
+          </div>
+
+          <!-- SOUND SPECS BANNER -->
+          <div class="border-t border-slate-100 dark:border-slate-800 pt-3 flex flex-wrap items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 gap-2">
+            <div class="flex items-center space-x-4">
+              <span>🥁 <strong>SELECT</strong> = 808 Deep Kick</span>
+              <span>👏 <strong>FROM</strong> = Snappy Snare</span>
+              <span>✨ <strong>JOIN</strong> = Closed Hi-Hat</span>
+              <span>🎸 <strong>ORDER BY</strong> = Sub Synth Bass</span>
+            </div>
+            <span class="font-mono text-[10px]">Zero campioni esterni • Web Audio API Synthesizer</span>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- GAME 2: VIRTUAL OPTICS LAB (LENS CRAFTER)  -->
+        <!-- ========================================== -->
+        <div id="game-container-optics" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-6 hidden">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-11 h-11 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-2xl">
+                🔬
+              </div>
+              <div>
+                <h3 class="text-base font-black text-slate-900 dark:text-white">Luxottica Virtual Optics Lab • Ray-Ban Lens Crafter</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Simulatore fisico di rifrazione ottica 2D in tempo reale basato sulla Legge di Snell (Snell's Law)</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button onclick="OpticsLab.loadPreset('aviator')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 cursor-pointer transition">Ray-Ban Aviator G-15</button>
+              <button onclick="OpticsLab.loadPreset('wayfarer')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 cursor-pointer transition">Wayfarer Polarized</button>
+            </div>
+          </div>
+
+          <!-- OPTICS SIMULATION WORKSPACE -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- CANVAS RAY TRACER (LEFT 2 COLS) -->
+            <div class="lg:col-span-2 relative bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden shadow-inner flex flex-col items-center justify-center p-3">
+              <canvas id="optics-canvas" width="600" height="320" class="w-full max-w-full h-auto rounded-xl"></canvas>
+              <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-800 text-[11px] text-cyan-300 font-mono">
+                Punto Focale F: <span id="optics-focal-readout" class="font-bold text-white">+120 mm</span> • Abbattimento Glare: <span id="optics-glare-readout" class="font-bold text-emerald-400">99.8%</span>
+              </div>
+            </div>
+
+            <!-- CONTROLS PANEL (RIGHT 1 COL) -->
+            <div class="space-y-4 bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs">
+              <!-- REFRACTIVE INDEX -->
+              <div class="space-y-1.5">
+                <div class="flex justify-between">
+                  <label class="font-bold text-slate-700 dark:text-slate-300">Indice di Rifrazione (n):</label>
+                  <span id="optics-n-val" class="font-mono font-bold text-cyan-600 dark:text-cyan-400">1.60</span>
+                </div>
+                <input type="range" id="optics-n-slider" min="1.50" max="1.74" step="0.02" value="1.60" oninput="OpticsLab.setN(this.value)" class="w-full accent-cyan-500 cursor-pointer">
+                <span class="text-[10px] text-slate-500 dark:text-slate-400 block">1.50 (CR-39) • 1.59 (Policarbonato) • 1.67-1.74 (Ultra Sottile)</span>
+              </div>
+
+              <!-- DIOPTERS / CURVATURE -->
+              <div class="space-y-1.5">
+                <div class="flex justify-between">
+                  <label class="font-bold text-slate-700 dark:text-slate-300">Potere Diottrico (D):</label>
+                  <span id="optics-d-val" class="font-mono font-bold text-cyan-600 dark:text-cyan-400">+2.50 D</span>
+                </div>
+                <input type="range" id="optics-d-slider" min="-5.0" max="5.0" step="0.5" value="2.5" oninput="OpticsLab.setDiopters(this.value)" class="w-full accent-cyan-500 cursor-pointer">
+                <span class="text-[10px] text-slate-500 dark:text-slate-400 block">&lt; 0 Divergente (Miopia) • &gt; 0 Convergente (Presbiopia)</span>
+              </div>
+
+              <!-- LENS TINT -->
+              <div class="space-y-1.5">
+                <label class="font-bold text-slate-700 dark:text-slate-300 block">Tinta & Trattamento Ray-Ban:</label>
+                <div class="grid grid-cols-3 gap-1.5">
+                  <button onclick="OpticsLab.setTint('g15')" id="optics-tint-g15" class="py-1.5 rounded-lg border-2 border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-bold text-[10px] cursor-pointer">Verde G-15</button>
+                  <button onclick="OpticsLab.setTint('b15')" id="optics-tint-b15" class="py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-bold text-[10px] cursor-pointer">Marrone B-15</button>
+                  <button onclick="OpticsLab.setTint('clear')" id="optics-tint-clear" class="py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-bold text-[10px] cursor-pointer">Trasparente</button>
+                </div>
+              </div>
+
+              <!-- POLARIZATION FILTER TOGGLE -->
+              <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <div>
+                  <span class="font-bold text-slate-700 dark:text-slate-300 block">Filtro Polarizzato P3 Plus</span>
+                  <span class="text-[10px] text-slate-500 dark:text-slate-400">Elimina i riverberi orizzontali</span>
+                </div>
+                <input type="checkbox" id="optics-polar-cb" checked onchange="OpticsLab.setPolarized(this.checked)" class="w-4 h-4 rounded text-cyan-600 cursor-pointer">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- GAME 3: PROMPT ARENA • THE AI TURING ROAST -->
+        <!-- ========================================== -->
+        <div id="game-container-roast" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-6 hidden">
+          <div class="flex items-center space-x-3 border-b border-slate-100 dark:border-slate-800 pb-4">
+            <div class="w-11 h-11 rounded-2xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-2xl">
+              🌶️
+            </div>
+            <div>
+              <h3 class="text-base font-black text-slate-900 dark:text-white">Prompt Arena • The AI Turing Roast</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Incolla la tua query SQL o il tuo prompt Gemini: il nostro AI critico ne smaschererà vizi, sprechi di byte e fan-out!</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- INPUT FORM -->
+            <div class="space-y-3">
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Incolla Query SQL o Prompt da Roostare:</label>
+              <textarea id="roast-input" rows="7" placeholder="SELECT * FROM `luxottica_orders` WHERE status = 'COMPLETED'..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 text-xs font-mono text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-rose-500 resize-none"></textarea>
+              <div class="flex items-center justify-between">
+                <button onclick="TuringRoast.loadSample()" class="text-xs text-rose-600 dark:text-rose-400 hover:underline cursor-pointer">Carica query peggiore di sempre 🤦</button>
+                <button onclick="TuringRoast.roast()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-600 hover:to-orange-600 text-white font-extrabold text-xs transition shadow-sm cursor-pointer flex items-center space-x-2">
+                  <span>🔥</span>
+                  <span>Roastami Questa Query!</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- ROAST RESULT CARD -->
+            <div id="roast-result-card" class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 flex flex-col justify-between space-y-4">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Verdetto AI Critico</span>
+                  <div class="flex items-center space-x-1" id="roast-spiciness-rating">
+                    <span class="text-xs font-bold text-rose-600 dark:text-rose-400">Piccantezza:</span>
+                    <span>🌶️🌶️🌶️</span>
+                  </div>
+                </div>
+                <div id="roast-badge" class="inline-block px-2.5 py-1 rounded-full text-xs font-extrabold bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/30">
+                  SELECT * Criminale
+                </div>
+                <p id="roast-quote" class="text-xs italic text-slate-800 dark:text-slate-200 leading-relaxed font-sans">
+                  "SELECT * su una tabella di produzione? Hai intenzione di far fondere la cassa dell'azienda prima ancora del secondo caffè o hai solo paura che BigQuery si dimentichi una colonna?"
+                </p>
+              </div>
+
+              <!-- ROAST METRICS & OPTIMIZATION TIP -->
+              <div class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2 text-[11px]">
+                <div class="flex justify-between text-slate-600 dark:text-slate-400">
+                  <span>Byte Scansionati Stimati:</span>
+                  <span id="roast-bytes-metric" class="font-bold text-rose-600 dark:text-rose-400">4.2 TB (Spavento)</span>
+                </div>
+                <div class="flex justify-between text-slate-600 dark:text-slate-400">
+                  <span>Voto Efficienza BigQuery:</span>
+                  <span id="roast-grade-metric" class="font-bold text-amber-500">D- (Richiamo Formale)</span>
+                </div>
+                <div class="text-[11px] text-emerald-600 dark:text-emerald-400 pt-1 border-t border-slate-100 dark:border-slate-800 flex items-start space-x-1">
+                  <span>💡</span>
+                  <span id="roast-advice">Consiglio Salva-Vita: Specifica sempre i campi esatti nel SELECT ed evita JOIN cartesiane.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOCK 3 CONTENT -->

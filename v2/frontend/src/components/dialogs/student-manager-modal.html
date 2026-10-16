@@ -1,0 +1,102 @@
+  <dialog id="student-manager-modal" closedby="any" aria-labelledby="smm-modal-title" class="p-4 m-auto bg-transparent border-0 max-w-5xl w-full text-slate-900 dark:text-slate-100">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-white rounded-3xl shadow-2xl max-w-5xl w-full p-6 space-y-6 max-h-[92vh] flex flex-col animate-in fade-in zoom-in duration-200">
+      
+      <!-- HEADER -->
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-11 h-11 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-2xl">
+            👥
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <h2 class="text-lg md:text-xl font-black text-slate-900 dark:text-white" id="smm-modal-title">Gestione Studenti & Aula</h2>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-600 dark:text-amber-300 border border-amber-500/30">Trainer Console</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400" id="smm-modal-subtitle">Rimuovi studenti singolarmente o in batch, riassegna squadre e controlla lo stato in tempo reale</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="refreshStudentManagerTable()" class="py-1.5 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer border border-slate-200 dark:border-slate-700">
+            <span>🔄</span>
+            <span id="smm-btn-reload-text">Ricarica</span>
+          </button>
+          <button onclick="closeStudentManagerModal()" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">✕</button>
+        </div>
+      </div>
+
+      <!-- BATCH TOOLBAR & METRICS -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 bg-slate-50 dark:bg-slate-950/70 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800">
+        <div class="flex flex-col justify-center">
+          <span class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider" id="smm-m-total-lbl">Studenti Registrati</span>
+          <div class="flex items-baseline space-x-2">
+            <span id="smm-metric-total" class="text-2xl font-black text-slate-900 dark:text-white">0</span>
+            <span id="smm-metric-active" class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">0 online</span>
+          </div>
+        </div>
+        <div class="flex flex-col justify-center">
+          <span class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider" id="smm-m-sel-lbl">Selezionati</span>
+          <div class="flex items-baseline space-x-2">
+            <span id="smm-selected-count" class="text-2xl font-black text-amber-600 dark:text-amber-400">0</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400" id="smm-m-sel-sub">studenti</span>
+          </div>
+        </div>
+        <div class="md:col-span-2 flex items-center justify-end space-x-2">
+          <button id="smm-btn-batch-delete" onclick="executeBatchDeleteSelected()" disabled class="py-2 px-3.5 rounded-xl bg-red-600/20 text-red-700 dark:text-red-300 border border-red-500/40 text-xs font-bold transition flex items-center space-x-1.5 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-red-600 hover:text-white">
+            <span>🗑️</span>
+            <span id="smm-btn-batch-delete-text">Elimina Selezionati</span>
+          </button>
+          <button onclick="executeBatchDeleteAll()" id="smm-btn-batch-all" class="py-2 px-3.5 rounded-xl bg-red-100 dark:bg-red-950 hover:bg-red-200 dark:hover:bg-red-800 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer" title="Svuota completamente l'aula per una nuova sessione">
+            <span>💥</span>
+            <span id="smm-btn-batch-all-text">Svuota Tutta l'Aula</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SEARCH & FILTERS -->
+      <div class="flex items-center justify-between gap-3">
+        <div class="relative flex-1">
+          <input type="text" id="smm-search-input" oninput="filterStudentManagerTable()" placeholder="Cerca studente per nome, email o brand..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-blue-500">
+        </div>
+        <div class="flex items-center space-x-2 text-xs">
+          <label class="flex items-center space-x-1.5 text-slate-500 dark:text-slate-400 cursor-pointer select-none">
+            <input type="checkbox" id="smm-select-all-cb" onchange="toggleSelectAllStudents(this.checked)" class="rounded text-blue-600 focus:ring-0">
+            <span id="smm-select-all-lbl">Seleziona tutti</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- STUDENTS TABLE CONTAINER -->
+      <div class="overflow-y-auto max-h-[50vh] border border-slate-200 dark:border-slate-800 rounded-2xl">
+        <table class="w-full text-left text-xs text-slate-700 dark:text-slate-300 border-collapse">
+          <thead class="bg-slate-100 dark:bg-slate-950/90 text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 sticky top-0 border-b border-slate-200 dark:border-slate-800 z-10 backdrop-blur-xs">
+            <tr>
+              <th class="p-3 w-10 text-center">
+                <input type="checkbox" id="smm-header-cb" onchange="toggleSelectAllStudents(this.checked)" class="rounded text-blue-600 focus:ring-0">
+              </th>
+              <th class="p-3" id="smm-th-student">Studente</th>
+              <th class="p-3" id="smm-th-team">Squadra</th>
+              <th class="p-3 text-center" id="smm-th-score">Punteggio</th>
+              <th class="p-3 text-center" id="smm-th-challenges">Sfide</th>
+              <th class="p-3 text-center" id="smm-th-status">Stato</th>
+              <th class="p-3 text-right" id="smm-th-actions">Azioni Rapide</th>
+            </tr>
+          </thead>
+          <tbody id="smm-table-body" class="divide-y divide-slate-200 dark:divide-slate-800/80">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="border-t border-slate-200 dark:border-slate-800 pt-3 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+        <div class="flex items-center space-x-2">
+          <span id="smm-footer-text">💡 Le modifiche e le eliminazioni vengono sincronizzate immediatamente sul database Firestore di classe.</span>
+        </div>
+        <button onclick="closeStudentManagerModal()" id="smm-btn-close-text" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold text-slate-800 dark:text-white transition">
+          Chiudi Finestra ✕
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- TRAINER SOLUTIONS CHEATSHEET MODAL (DEDICATED FULL-SCREEN DIALOG FOR INSTRUCTOR) -->

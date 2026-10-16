@@ -2,18 +2,18 @@
 -- LUXOTTICA MARKETING ANALYTICS - GOOGLE HERO DATA STORYTELLING DATASET (116,000+ ROWS)
 -- Course: Mastering Marketing Data with BigQuery SQL (Google Ecosystem Edition)
 -- Storyline: "Unlocking High-ROAS Google Ads Growth & Capturing Ray-Ban Meta Search Demand"
--- GCP Project ID: qwiklabs-gcp-04-9efaa47f1d21
--- Target Dataset: `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
+-- GCP Project ID: qwiklabs-asl-02-9bb3224716de
+-- Target Dataset: `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics`
 -- =============================================================================
 
-CREATE SCHEMA IF NOT EXISTS `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics`
+CREATE SCHEMA IF NOT EXISTS `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics`
 OPTIONS(location="US");
 
 -- -----------------------------------------------------------------------------
 -- 1. CRM CUSTOMERS MASTER TABLE (10,000 Global Customers)
 -- Embedded Story Insight: VIP & Gold tier customers love Oliver Peoples & Ray-Ban Meta
 -- -----------------------------------------------------------------------------
-CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_crm_customers` AS
+CREATE OR REPLACE TABLE `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_crm_customers` AS
 WITH customer_generator AS (
   SELECT
     id,
@@ -46,7 +46,7 @@ FROM customer_generator;
 -- 2. ONLINE & RETAIL ORDERS TABLE (100,000 Transactions)
 -- Embedded Story Insight: Smart Glasses & Luxury frames have high AOV (>300 EUR)
 -- -----------------------------------------------------------------------------
-CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_online_orders` AS
+CREATE OR REPLACE TABLE `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders` AS
 WITH order_generator AS (
   SELECT
     id,
@@ -68,6 +68,7 @@ WITH order_generator AS (
     
     CASE 
       WHEN MOD(id, 10) = 0 THEN ROUND(20.00 + MOD(id, 15), 2)
+      WHEN MOD(id, 10) = 4 THEN ROUND(26.00 + (MOD(CAST(id / 10 AS INT64), 6)), 2) -- Vogue Wholesale: 28.50 EUR avg discount
       ELSE 0.00
     END AS discount_amount_eur
   FROM UNNEST(GENERATE_ARRAY(1, 100000)) AS id
@@ -89,7 +90,7 @@ FROM order_generator;
 -- Embedded Story Insight: Google Search & Shopping = Massive High ROAS (>6.8x)
 -- Competitor third-party social (TikTok/Criteo) = Wasteful low ROAS (<0.8x)
 -- -----------------------------------------------------------------------------
-CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_ad_spend` AS
+CREATE OR REPLACE TABLE `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend` AS
 WITH campaign_generator AS (
   SELECT
     id,
@@ -130,14 +131,14 @@ SELECT * FROM campaign_generator;
 -- 4. RAW DIRTY MARKETING LEADS TABLE (1,000 Messy Lead Records)
 -- Embedded Story Insight: Cleaning unlocks 350+ VIP leads for Google Ads Customer Match!
 -- -----------------------------------------------------------------------------
-CREATE OR REPLACE TABLE `qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty` AS
+CREATE OR REPLACE TABLE `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_raw_marketing_leads_dirty` AS
 WITH dirty_generator AS (
   SELECT
     id,
     CASE WHEN MOD(id, 3) = 0 THEN CONCAT(' LEAD_', LPAD(CAST(id AS STRING), 5, '0'), ' ') ELSE CONCAT('LEAD_', LPAD(CAST(id AS STRING), 5, '0')) END AS raw_lead_id,
     
     CASE 
-      WHEN MOD(id, 25) = 0 THEN CONCAT('invalid_email_format_', id)
+      WHEN MOD(id * 17, 1000) >= 352 AND MOD(id, 15) = 0 THEN CONCAT('invalid_email_format_', id)
       WHEN MOD(id, 2) = 0 THEN UPPER(CONCAT('  user_', id, '@LUXMAIL.COM '))
       ELSE LOWER(CONCAT('user_', id, '@luxmail.com  '))
     END AS raw_email,
@@ -151,10 +152,15 @@ WITH dirty_generator AS (
     END AS signup_raw_date,
     
     CASE 
-      WHEN MOD(id, 4) = 0 THEN CONCAT(' € ', CAST(250 + MOD(id * 17, 300) AS STRING), '.00 ')
-      WHEN MOD(id, 4) = 1 THEN CONCAT(CAST(300 + MOD(id * 17, 200) AS STRING), '.50 EUR')
-      WHEN MOD(id, 4) = 2 THEN CONCAT('- ', CAST(50 + MOD(id, 100) AS STRING), '.00')
-      ELSE CAST(180 + MOD(id * 17, 200) AS STRING)
+      -- VIP leads (exactly 352 rows with spend > 200)
+      WHEN MOD(id * 17, 1000) < 352 AND MOD(id, 3) = 0 THEN CONCAT(' € ', CAST(250 + MOD(id * 13, 300) AS STRING), '.00 ')
+      WHEN MOD(id * 17, 1000) < 352 AND MOD(id, 3) = 1 THEN CONCAT(CAST(300 + MOD(id * 13, 200) AS STRING), '.50 EUR')
+      WHEN MOD(id * 17, 1000) < 352 THEN CAST(220 + MOD(id * 13, 150) AS STRING)
+      -- Non-VIP leads (spend <= 200)
+      WHEN MOD(id, 4) = 0 THEN CONCAT(' € ', CAST(30 + MOD(id, 90) AS STRING), '.00 ')
+      WHEN MOD(id, 4) = 1 THEN CONCAT(CAST(50 + MOD(id, 100) AS STRING), '.50 EUR')
+      WHEN MOD(id, 4) = 2 THEN CONCAT('- ', CAST(20 + MOD(id, 80) AS STRING), '.00')
+      ELSE CAST(40 + MOD(id, 110) AS STRING)
     END AS raw_estimated_spend,
     
     ['IT', 'US', 'FR', 'UK', 'DE', 'JP'][ORDINAL(MOD(id, 6) + 1)] AS raw_country,

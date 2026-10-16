@@ -47,11 +47,11 @@ class BigQueryValidator:
             logger.warning(f"Could not initialize BigQuery client automatically: {e}")
             self.client = None
 
-    def validate_answer(self, challenge_key: str, submitted_value: str) -> Dict[str, Any]:
+    def validate_answer(self, challenge_key: str, submitted_value: str, custom_rule: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Validates simple answer submissions with normalization and tolerance."""
-        rule = CHALLENGE_RULES.get(challenge_key)
+        rule = custom_rule or CHALLENGE_RULES.get(challenge_key)
         if not rule:
-            return {"valid": False, "points": 0, "message": "Unknown challenge key"}
+            return {"valid": False, "points": 0, "message": "Unknown challenge key or missing rule"}
 
         val = (submitted_value or "").strip().lower()
 
@@ -63,7 +63,11 @@ class BigQueryValidator:
 
         elif rule["type"] == "numeric_range":
             try:
-                num = float(val.replace("€", "").replace("x", "").replace(",", ".").strip())
+                # Strip currency, multipliers, commas and at most one trailing percent sign
+                clean_str = val.replace("€", "").replace("x", "").replace(",", ".").strip()
+                if clean_str.endswith("%"):
+                    clean_str = clean_str[:-1].strip()
+                num = float(clean_str)
                 expected = rule["expected"]
                 tolerance = rule["tolerance"]
                 if (expected - tolerance) <= num <= (expected + tolerance):

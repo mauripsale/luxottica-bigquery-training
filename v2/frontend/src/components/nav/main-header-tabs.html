@@ -1,0 +1,40 @@
+    <!-- RIGHT MAIN CONTENT: INTERACTIVE MODULES & CODE LAUNCHER -->
+    <main class="lg:col-span-3 space-y-6">
+
+      <!-- WELCOME HERO BANNER -->
+      <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-6 text-white shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold" id="hero-title">Portale Interattivo Studente</h1>
+          <p class="text-blue-100 text-sm mt-1" id="hero-subtitle">Dominare i Dati Marketing con BigQuery Studio, Gemini AI & Google Ads</p>
+        </div>
+        <a href="https://console.cloud.google.com/bigquery?project=qwiklabs-asl-02-9bb3224716de" target="_blank" class="bg-white text-blue-700 font-bold px-4 py-2.5 rounded-xl hover:bg-blue-50 transition text-xs shadow flex items-center space-x-2">
+          <span id="btn-open-bq">🚀 Apri BigQuery Studio</span>
+        </a>
+      </div>
+
+      <!-- BLOCK TABS NAVIGATION (STRICTLY LOCKED BY DEFAULT) -->
+      <div class="bg-white p-2 rounded-xl border border-slate-200 shadow-sm flex flex-wrap gap-2">
+        <button onclick="userSelectBlock('cover')" id="tab-cover" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold bg-blue-600 text-white shadow-xs">
+          🏠 Welcome / Intro
+        </button>
+        <button onclick="userSelectBlock(1)" id="tab-b1" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          Block 1: Data Canvas
+        </button>
+        <button onclick="userSelectBlock(2)" id="tab-b2" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          Block 2: Discounts
+        </button>
+        <button onclick="userSelectBlock('break')" id="tab-break" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 hover:bg-amber-100">
+          ☕ Coffee Break
+        </button>
+        <button onclick="userSelectBlock(3)" id="tab-b3" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          Block 3: ROAS & JOIN
+        </button>
+        <button onclick="userSelectBlock(4)" id="tab-b4" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          Block 4: VIP Leads
+        </button>
+        <button onclick="userSelectBlock(5)" id="tab-b5" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          Block 5: CMO Plan
+        </button>
+      </div>
+
+      <!-- COVER / LANDING PAGE (DEFAULT ACTIVE SECTION ON LOAD) -->

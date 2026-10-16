@@ -1,0 +1,131 @@
+      <div id="block-3" class="block-section space-y-6 hidden">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Challenge #2</span>
+              <h2 class="text-lg font-bold text-slate-800" id="b3-title">Blocco 3: Challenge #2 - ROAS Multi-Canale con CTE & JOIN</h2>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button onclick="document.getElementById('quiz-card-ch2').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/60 dark:hover:bg-amber-900 border border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs cursor-pointer">
+                <span>🎯</span>
+                <span>Convalida (+100 pt)</span>
+              </button>
+              <button onclick="openChallengeModal(2)" class="px-3.5 py-2 bg-gradient-to-r from-indigo-500/15 to-blue-500/15 hover:from-indigo-500/25 hover:to-blue-500/25 text-indigo-950 border-2 border-indigo-500/60 rounded-xl text-xs font-black transition flex items-center space-x-2 cursor-pointer shadow-sm hover:shadow-md">
+                <span class="text-base">📄</span>
+                <div class="text-left leading-tight">
+                  <div class="font-bold text-[10px] text-indigo-800 uppercase tracking-wider">File SQL Sbloccato:</div>
+                  <div class="font-mono text-xs text-indigo-950 font-black">challenge_2_cross_channel.sql ▾</div>
+                </div>
+              </button>
+              <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1.5 rounded-full font-bold">🏆 +100 Punti</span>
+            </div>
+          </div>
+
+          <!-- BLOCK 3 DETECTIVE NARRATIVE INTRO -->
+          <div class="p-4 bg-gradient-to-r from-indigo-950 via-slate-900 to-blue-950 text-white rounded-2xl shadow-sm space-y-2 border border-indigo-700/30">
+            <div class="flex items-center space-x-2">
+              <span class="text-xl">📊</span>
+              <span class="text-xs uppercase font-extrabold tracking-wider text-indigo-400" id="b3-detective-tag">Detective Mission • Capitolo 2</span>
+            </div>
+            <h3 class="text-sm font-black text-white" id="b3-detective-title">L'Attacco al Budget ADV: Voragine Social Terzi vs Google Ads Dominance</h3>
+            <p class="text-xs text-indigo-100/90 leading-relaxed" id="b3-detective-desc">
+              Ecco il momento decisivo: incrociare la spesa marketing per canale con le vendite e-commerce reali. Devi calcolare il <strong>ROAS (Return on Ad Spend)</strong> evitando la trappola del <em>Fan-Out SQL</em> (duplicazione dei ricavi). Scoprirai chi genera redditività stellare e chi brucia cassa aziendale su traffico freddo!
+            </p>
+          </div>
+
+          <div class="p-3 bg-blue-50/60 border border-blue-200 rounded-xl text-xs space-y-1">
+            <span class="font-bold text-blue-900" id="b3-brief-title">🎯 La Sfida dell'Attribution (Evitare il SQL Fan-Out):</span>
+            <p class="text-blue-800" id="b3-desc">I dati di spesa (<code>lux_ad_spend</code>) e di vendita (<code>lux_online_orders</code>) hanno granularità diverse. Un JOIN diretto causerebbe duplicazioni moltiplicando i ricavi! Usa le CTE (Common Table Expressions) per pre-aggregare i totali per brand, poi unisci con JOIN e calcola il ROAS (Ricavi / Spesa).</p>
+          </div>
+
+          <!-- LOCKED HINT 3 -->
+          <div id="hint-box-b3" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+            <div id="lock-state-b3" class="flex items-center justify-between gap-2 flex-wrap">
+              <div class="flex items-center space-x-2">
+                <span class="text-amber-400">🔒</span>
+                <span class="text-slate-300 font-sans" id="lbl-hint-locked-b3">Query Soluzione Protetta da PIN:</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="text" inputmode="numeric" id="pin-b3" placeholder="PIN" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
+                <button onclick="unlockHint('b3')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b3">Sblocca 🔓</button>
+              </div>
+            </div>
+            <div id="content-b3" class="hidden relative mt-2 pt-2 border-t border-slate-800">
+              <pre class="font-mono text-xs overflow-x-auto text-slate-200 leading-relaxed">
+WITH spend_summary AS (
+  SELECT 
+    brand, 
+    platform, 
+    ROUND(SUM(spend_eur), 2) AS total_spend
+  FROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend`
+  GROUP BY brand, platform
+),
+revenue_summary AS (
+  SELECT 
+    brand, 
+    ROUND(SUM(revenue_eur), 2) AS total_revenue
+  FROM `qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders`
+  GROUP BY brand
+)
+SELECT 
+  s.platform, 
+  s.brand, 
+  s.total_spend, 
+  r.total_revenue, 
+  ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas_multiplier
+FROM spend_summary s
+JOIN revenue_summary r ON s.brand = r.brand
+ORDER BY roas_multiplier DESC;</pre>
+              <button onclick="copyToClipboard(`WITH spend_summary AS (\n  SELECT \n    brand, \n    platform, \n    ROUND(SUM(spend_eur), 2) AS total_spend\n  FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend\`\n  GROUP BY brand, platform\n),\nrevenue_summary AS (\n  SELECT \n    brand, \n    ROUND(SUM(revenue_eur), 2) AS total_revenue\n  FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\`\n  GROUP BY brand\n)\nSELECT \n  s.platform, \n  s.brand, \n  s.total_spend, \n  r.total_revenue, \n  ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas_multiplier\nFROM spend_summary s\nJOIN revenue_summary r ON s.brand = r.brand\nORDER BY roas_multiplier DESC;`)" class="absolute top-2 right-2 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans shadow">
+                Copia SQL 📋
+              </button>
+            </div>
+          </div>
+
+          <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs space-y-1">
+            <span class="font-bold text-emerald-800" id="b3-roas-title">🚀 Verdetto del ROAS per il CMO:</span>
+            <p class="text-emerald-900" id="b3-roas-desc">Confronta il moltiplicatore ROAS tra Google Ads, Meta Ads e TikTok Ads per rivelare chi produce valore e chi brucia cassa.</p>
+          </div>
+
+          <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (CHALLENGE #2) -->
+          <div id="quiz-card-ch2" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border border-slate-800 shadow-md space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div class="flex items-center space-x-2">
+                <span class="text-amber-400 text-base">🎯</span>
+                <span class="font-bold text-sm text-amber-300" id="quiz-title-ch2">Convalida Risultati Challenge #2 & Ottieni Punti</span>
+              </div>
+              <span id="quiz-badge-ch2" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <!-- QUESTION 1 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch2-q1">1. Quale canale registra il ROAS più basso (&lt; 1.0x)?</label>
+                <select id="quiz-ch2-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                  <option value="" id="opt-quiz-ch2-q1-default">-- Seleziona canale pubblicitario --</option>
+                  <option value="TikTok Ads">TikTok Ads</option>
+                  <option value="Google Ads">Google Ads</option>
+                  <option value="Meta Ads">Meta Ads</option>
+                  <option value="Pinterest Ads">Pinterest Ads</option>
+                </select>
+              </div>
+
+              <!-- QUESTION 2 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch2-q2">2. A quanto ammonta il ROAS generato da Google Ads?</label>
+                <input type="text" id="quiz-ch2-q2" placeholder="Es. 4.5" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <p class="text-[10px] text-slate-400" id="hint-quiz-ch2-q2">Inserisci il valore numerico del moltiplicatore ROAS calcolato dalla query</p>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+              <div id="quiz-feedback-ch2" class="text-xs font-medium text-slate-400">Dimostra al CMO il rendimento delle campagne adv</div>
+              <button onclick="validateChallenge2()" id="btn-validate-ch2" class="px-5 py-2 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md cursor-pointer flex items-center space-x-1.5">
+                <span id="btn-validate-ch2-text">Invia Risposte 🚀</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOCK 4 CONTENT -->

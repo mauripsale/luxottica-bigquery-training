@@ -1,0 +1,11 @@
+# =============================================================================
+# Luxottica Training Hub - Terraform Input Variables Example
+# Copy this file to terraform.tfvars or pass -var="project_id=YOUR_PROJECT"
+# =============================================================================
+
+project_id          = "qwiklabs-asl-02-9bb3224716de"
+region              = "us-central1"
+firestore_location  = "nam5"
+bigquery_location   = "US"
+bigquery_dataset_id = "luxottica_marketing_analytics"
+service_name        = "luxottica-training-hub"

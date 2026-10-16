@@ -1,0 +1,161 @@
+      <div id="block-cover" class="block-section space-y-6">
+        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-100 pb-6">
+            <div>
+              <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
+                <span>🎓</span>
+                <span id="cover-badge">Live Masterclass Session • Interactive Lab</span>
+              </span>
+              <h2 class="text-2xl font-black text-slate-900 mt-2" id="cover-title">Benvenuti alla Masterclass BigQuery & Gemini</h2>
+              <p class="text-sm text-slate-600 mt-1" id="cover-subtitle">Luxottica Digital Commerce & Marketing Analytics Team</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="relative flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+              </span>
+              <span class="text-xs font-bold text-slate-700 font-mono" id="cover-waiting-status">In attesa dell'inizio della sessione...</span>
+            </div>
+          </div>
+
+          <!-- EXECUTIVE MISSION BRIEFING BANNER -->
+          <div class="p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 border border-indigo-500/30 text-white space-y-4 shadow-xl">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
+                <span>🕵️‍♂️</span>
+                <span id="story-brief-badge">Briefing Emergenza CMO • Ore 15:30</span>
+              </span>
+              <span class="text-xs text-amber-300 font-mono font-semibold" id="story-target-dataset">Dataset: qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics</span>
+            </div>
+            
+            <div class="space-y-2">
+              <h3 class="text-lg md:text-xl font-black text-white leading-tight" id="story-brief-headline">
+                "Spesa Pubblicitaria Globale +35%... ma Fatturato Online Fermo al +2%!"
+              </h3>
+              <p class="text-xs md:text-sm text-slate-300 leading-relaxed" id="story-brief-narrative">
+                Il CMO di Luxottica ha convocato i migliori team di <strong>Marketing Data Detective</strong>: il budget adv è esploso su canali social e display terzi, ma le vendite non decollano. Nelle prossime 3 ore in BigQuery Studio dovrete esplorare 116.000 record, stanare le emorragie di budget, dimostrare il ROI dell'ecosistema <strong>Google Ads (Search, Shopping, YouTube)</strong> e presentare il <strong>Piano di Crescita Q4</strong> per dominare le vendite dei <em>Ray-Ban Meta Smart Glasses</em>!
+              </p>
+            </div>
+
+            <!-- INVESTIGATION MILESTONES PIPELINE -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2 text-xs">
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
+                <div class="flex items-center justify-between text-[11px] text-blue-400 font-bold">
+                  <span id="story-step1-num">Capitolo 1</span>
+                  <span>16:15</span>
+                </div>
+                <h4 class="font-bold text-white text-xs" id="story-step1-title">High Margin Discovery</h4>
+                <p class="text-[11px] text-slate-400" id="story-step1-desc">Fatturato per brand e identificazione dei cluster ad alto scontrino medio (AOV).</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
+                <div class="flex items-center justify-between text-[11px] text-amber-400 font-bold">
+                  <span id="story-step2-num">Capitolo 2</span>
+                  <span>17:20</span>
+                </div>
+                <h4 class="font-bold text-white text-xs" id="story-step2-title">The Google ROAS Revelation</h4>
+                <p class="text-[11px] text-slate-400" id="story-step2-desc">Confronto efficienza: identificazione dei canali in perdita vs le piattaforme pubblicitarie ad alto rendimento.</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
+                <div class="flex items-center justify-between text-[11px] text-indigo-400 font-bold">
+                  <span id="story-step3-num">Capitolo 3</span>
+                  <span>17:55</span>
+                </div>
+                <h4 class="font-bold text-white text-xs" id="story-step3-title">Customer Match & VIP Leads</h4>
+                <p class="text-[11px] text-slate-400" id="story-step3-desc">Pulizia lead con SQL: estrazione e qualifica dei lead alto-spendenti per Google Ads Customer Match.</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
+                <div class="flex items-center justify-between text-[11px] text-emerald-400 font-bold">
+                  <span id="story-step4-num">Gran Finale</span>
+                  <span>18:25</span>
+                </div>
+                <h4 class="font-bold text-white text-xs" id="story-step4-title">Q4 Growth Plan per il CMO</h4>
+                <p class="text-[11px] text-slate-400" id="story-step4-desc">Riallocazione budget 60% su Google Ads, stop sconti inutili e proclamazione del team vincitore!</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- AGENDA OVERVIEW TILES -->
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3" id="cover-agenda-hdr">Programma della Masterclass (5 Blocchi Guidati)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-blue-600" id="agenda-b1-lbl">Block 1</span>
+                  <span class="text-slate-400 font-mono" id="agenda-b1-tag">Setup & AI</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b1-title">BigQuery Data Canvas & Gemini</h4>
+                <p class="text-slate-600 leading-relaxed" id="cover-b1-desc">Esplorazione visuale senza codice e prompt in linguaggio naturale con Gemini in BigQuery.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-blue-600" id="agenda-b2-lbl">Block 2</span>
+                  <span class="text-amber-600 font-mono" id="agenda-b2-tag">Challenge #1</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b2-title">Challenge #1: Sconti & Margini</h4>
+                <p class="text-slate-600 leading-relaxed" id="cover-b2-desc">Aggregazioni SQL (GROUP BY, HAVING) per stanare le emorragie di sconti su Ray-Ban e Vogue.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-amber-50/90 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-amber-700" id="agenda-break-lbl">Break</span>
+                  <span class="text-amber-600 font-mono" id="agenda-break-tag">Coffee</span>
+                </div>
+                <h4 class="font-bold text-amber-900 text-sm mb-1" id="cover-break-title">☕ Coffee Break & Networking</h4>
+                <p class="text-amber-800 leading-relaxed" id="cover-break-desc">Pausa rigenerante prima dell'analisi avanzata del ROAS e del calcolo dei costi adv.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-blue-600" id="agenda-b3-lbl">Block 3</span>
+                  <span class="text-amber-600 font-mono" id="agenda-b3-tag">Challenge #2</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b3-title">Challenge #2: Multi-Platform ROAS</h4>
+                <p class="text-slate-600 leading-relaxed" id="cover-b3-desc">CTE e JOIN senza duplicazioni fan-out per confrontare il rendimento Google Ads vs TikTok.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-blue-600" id="agenda-b4-lbl">Block 4</span>
+                  <span class="text-amber-600 font-mono" id="agenda-b4-tag">Challenge #3</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm mb-1" id="cover-b4-title">Challenge #3: Clean VIP Leads View</h4>
+                <p class="text-slate-600 leading-relaxed" id="cover-b4-desc">Data cleaning con funzioni stringa e creazione viste SQL sicure con il prefisso del tuo team.</p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-bold text-emerald-700" id="agenda-b5-lbl">Block 5</span>
+                  <span class="text-emerald-600 font-mono" id="agenda-b5-tag">Podium</span>
+                </div>
+                <h4 class="font-bold text-emerald-900 text-sm mb-1" id="cover-b5-title">🎉 Piano Strategico & Podio</h4>
+                <p class="text-emerald-800 leading-relaxed" id="cover-b5-desc">Presentazione delle 3 raccomandazioni al CMO e proclamazione del team vincitore!</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- GETTING READY CHECKLIST -->
+          <div class="p-5 rounded-xl bg-blue-50/60 border border-blue-200 space-y-3">
+            <h4 class="text-xs font-bold uppercase text-blue-800" id="cover-ready-hdr">📋 Check-in Rapido Prima di Iniziare:</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-blue-950">
+              <div class="flex items-center space-x-2">
+                <span class="text-emerald-600 font-bold">✓</span>
+                <span id="cover-step1">Squadra assegnata in automatico al check-in (Ray-Ban, Oakley, Persol o Oliver Peoples)</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="text-emerald-600 font-bold">✓</span>
+                <span id="cover-step2">Apri BigQuery Studio cliccando il pulsante blu</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="text-emerald-600 font-bold">✓</span>
+                <span id="cover-step3">Il docente attiverà i blocchi di lavoro in sequenza</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOCK 1 CONTENT -->

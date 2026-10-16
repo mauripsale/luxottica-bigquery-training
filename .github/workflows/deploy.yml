@@ -1,0 +1,93 @@
+name: CI/CD Pipeline - Luxottica Training Hub
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: 🔍 Lint, Build & Verify Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build Modular Frontend
+        run: |
+          python3 tools/build_frontend.py
+
+      - name: Verify Bundle Integrity
+        run: |
+          python3 tools/verify_frontend_bundle.py
+
+  deploy:
+    name: 🚀 Build & Deploy to Google Cloud Run
+    needs: verify
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Assemble Frontend Prior to Container Build
+        run: |
+          python3 tools/build_frontend.py
+          python3 tools/verify_frontend_bundle.py
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Submit Build and Deploy via Cloud Build
+        run: |
+          BUILD_OUTPUT=$(gcloud builds submit \
+            --project="${{ secrets.GCP_PROJECT_ID }}" \
+            --config="v2/cloudbuild.yaml" \
+            . 2>&1) || true
+          echo "$BUILD_OUTPUT"
+          
+          # Extract build ID or check latest build
+          BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE "builds/[a-f0-9-]+" | cut -d'/' -f2 | head -n 1 || true)
+          if [[ -n "$BUILD_ID" ]]; then
+            echo "Checking Cloud Build $BUILD_ID status..."
+            STATUS=$(gcloud builds describe "$BUILD_ID" --project="${{ secrets.GCP_PROJECT_ID }}" --format="value(status)")
+            echo "Cloud Build status: $STATUS"
+            if [[ "$STATUS" != "SUCCESS" ]]; then
+              echo "❌ Cloud Build failed with status: $STATUS"
+              exit 1
+            fi
+          fi
+
+      - name: Verify Live Service URL
+        run: |
+          SERVICE_URL=$(gcloud run services describe luxottica-training-hub \
+            --project="${{ secrets.GCP_PROJECT_ID }}" \
+            --region=us-central1 \
+            --format="value(status.url)")
+          echo "🎉 Successfully deployed to Cloud Run!"
+          echo "🌐 Live URL: $SERVICE_URL"

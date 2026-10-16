@@ -1,0 +1,13 @@
+.DS_Store
+*/.DS_Store
+__pycache__/
+*.pyc
+.env
+venv/
+.venv/
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+node_modules/
+audit_*.py

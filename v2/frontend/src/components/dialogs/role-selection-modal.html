@@ -1,0 +1,75 @@
+  <dialog id="role-selection-modal" closedby="any" aria-labelledby="role-modal-title" class="p-4 m-auto bg-transparent border-0 max-w-xl w-full text-slate-900 dark:text-slate-100">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl max-w-xl w-full p-6 sm:p-8 text-slate-900 dark:text-slate-100 space-y-6 animate-in fade-in zoom-in duration-200 relative">
+      
+      <!-- LANGUAGE & THEME CONTROLS (TOP RIGHT OF WELCOME MODAL) -->
+      <div class="absolute top-5 right-5 flex items-center space-x-2">
+        <button onclick="toggleTheme(event)" id="role-theme-toggle-btn" class="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition flex items-center justify-center cursor-pointer shadow-2xs text-xs" title="Passa a Tema Scuro / Chiaro">
+          <span id="role-theme-toggle-icon">🌙</span>
+        </button>
+        <div class="flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
+          <button onclick="setLanguage('en')" id="role-lang-btn-en" class="px-2.5 py-1 text-xs font-bold rounded-md bg-blue-600 text-white shadow-xs transition">
+            EN
+          </button>
+          <button onclick="setLanguage('it')" id="role-lang-btn-it" class="px-2.5 py-1 text-xs font-bold rounded-md text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition">
+            IT
+          </button>
+        </div>
+      </div>
+
+      <div class="text-center space-y-2 pt-2">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-amber-500 text-white text-2xl shadow-lg">
+          🕶️
+        </div>
+        <h2 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight" id="role-modal-title">Luxottica BigQuery & Gemini Workshop</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto" id="role-modal-subtitle">Welcome! Choose how you would like to join the interactive training session:</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+        <!-- CARD 1: TRAINER -->
+        <button onclick="selectRoleTrainer()" type="button" class="group text-left p-5 rounded-2xl border-2 border-slate-200 dark:border-slate-700/80 hover:border-amber-500 dark:hover:border-amber-400 bg-slate-50/70 dark:bg-slate-800/80 hover:bg-amber-50/40 dark:hover:bg-slate-800 transition duration-150 cursor-pointer flex flex-col justify-between space-y-4 shadow-xs">
+          <div class="space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 flex items-center justify-center text-xl group-hover:scale-105 transition">
+              🎓
+            </div>
+            <div>
+              <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center space-x-1.5">
+                <span id="role-trainer-title">I am the Trainer</span>
+                <span class="text-[9px] bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 font-bold px-1.5 py-0.5 rounded-md border border-amber-300/40" id="role-trainer-badge">Instructor</span>
+              </h3>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-snug" id="role-trainer-desc">Broadcast blocks, manage hints & PINs, project classroom live leaderboard, award bonus points.</p>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-slate-200 dark:border-slate-700 group-hover:border-amber-200 dark:group-hover:border-amber-500/40 flex items-center justify-between text-xs font-bold text-amber-700 dark:text-amber-400">
+            <span id="role-trainer-action">Enter with PIN</span>
+            <span class="group-hover:translate-x-1 transition">→</span>
+          </div>
+        </button>
+
+        <!-- CARD 2: STUDENT -->
+        <button onclick="selectRoleStudent()" type="button" class="group text-left p-5 rounded-2xl border-2 border-blue-500 dark:border-blue-500/80 bg-blue-50/50 dark:bg-slate-800/80 hover:bg-blue-50/80 dark:hover:bg-slate-800 transition duration-150 cursor-pointer flex flex-col justify-between space-y-4 shadow-sm">
+          <div class="space-y-2">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl group-hover:scale-105 transition shadow-xs">
+              🕵️
+            </div>
+            <div>
+              <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center space-x-1.5">
+                <span id="role-student-title">I am a Student</span>
+                <span class="text-[9px] bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300 font-bold px-1.5 py-0.5 rounded-md border border-blue-300/40" id="role-student-badge">Participant</span>
+              </h3>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-snug" id="role-student-desc">Enter your name, get randomly sorted into a brand team (Ray-Ban, Oakley...), solve challenges and climb the leaderboard.</p>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-blue-200 dark:border-slate-700 flex items-center justify-between text-xs font-bold text-blue-700 dark:text-blue-400">
+            <span id="role-student-action">Start Challenge</span>
+            <span class="group-hover:translate-x-1 transition">→</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="text-center pt-1 text-[11px] text-slate-400 dark:text-slate-500" id="role-modal-footer">
+        You can always switch roles or access the trainer console via the header or with the dedicated PIN.
+      </div>
+    </div>
+  </dialog>
+
+  <!-- STUDENT ONBOARDING MODAL (NAME INPUT & RANDOM TEAM SELECTION) -->

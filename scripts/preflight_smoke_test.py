@@ -1,13 +1,29 @@
 #!/usr/bin/env python3
 """
 Luxottica BigQuery Training - Pre-Flight Smoke Test
-Checks all 4 tables in qwiklabs-gcp-04-9efaa47f1d21.luxottica_marketing_analytics
+Checks all 4 tables in <PROJECT_ID>.luxottica_marketing_analytics
 """
 
+import os
+import subprocess
 import sys
 
-PROJECT_ID = "qwiklabs-gcp-04-9efaa47f1d21"
-DATASET_ID = "luxottica_marketing_analytics"
+def get_project_id():
+    if len(sys.argv) > 1 and not sys.argv[1].startswith("-"):
+        return sys.argv[1]
+    if os.environ.get("GCP_PROJECT_ID"):
+        return os.environ.get("GCP_PROJECT_ID")
+    try:
+        proc = subprocess.run(["gcloud", "config", "get-value", "project"], capture_output=True, text=True, check=True)
+        proj = proc.stdout.strip()
+        if proj:
+            return proj
+    except Exception:
+        pass
+    return "qwiklabs-asl-02-9bb3224716de"
+
+PROJECT_ID = get_project_id()
+DATASET_ID = os.environ.get("BQ_DATASET_ID", "luxottica_marketing_analytics")
 
 EXPECTED_TABLES = [
     ("lux_online_orders", "Transazioni E-commerce & Store Direct"),

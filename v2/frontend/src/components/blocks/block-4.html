@@ -1,0 +1,106 @@
+      <div id="block-4" class="block-section space-y-6 hidden">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Challenge #3</span>
+              <h2 class="text-lg font-bold text-slate-800" id="b4-title">Blocco 4: Challenge #3 - Creazione Vista Pulita Lead VIP</h2>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button onclick="document.getElementById('quiz-card-ch3').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/60 dark:hover:bg-amber-900 border border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs cursor-pointer">
+                <span>🎯</span>
+                <span>Convalida (+100 pt)</span>
+              </button>
+              <button onclick="openChallengeModal(3)" class="px-3.5 py-2 bg-gradient-to-r from-emerald-500/15 to-teal-500/15 hover:from-emerald-500/25 hover:to-teal-500/25 text-emerald-950 border-2 border-emerald-500/60 rounded-xl text-xs font-black transition flex items-center space-x-2 cursor-pointer shadow-sm hover:shadow-md">
+                <span class="text-base">📄</span>
+                <div class="text-left leading-tight">
+                  <div class="font-bold text-[10px] text-emerald-800 uppercase tracking-wider">File SQL Sbloccato:</div>
+                  <div class="font-mono text-xs text-emerald-950 font-black">challenge_3_clean_slate.sql ▾</div>
+                </div>
+              </button>
+              <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1.5 rounded-full font-bold">🏆 +100 Punti</span>
+            </div>
+          </div>
+
+          <!-- BLOCK 4 DETECTIVE NARRATIVE INTRO -->
+          <div class="p-4 bg-gradient-to-r from-emerald-950 via-teal-950 to-slate-900 text-white rounded-2xl shadow-sm space-y-2 border border-emerald-700/30">
+            <div class="flex items-center space-x-2">
+              <span class="text-xl">🎯</span>
+              <span class="text-xs uppercase font-extrabold tracking-wider text-emerald-400" id="b4-detective-tag">Detective Mission • Capitolo 3</span>
+            </div>
+            <h3 class="text-sm font-black text-white" id="b4-detective-title">Customer Match & BigQuery View: Recuperare i Lead VIP ad Alta Conversione</h3>
+            <p class="text-xs text-emerald-100/90 leading-relaxed" id="b4-detective-desc">
+              Ora che abbiamo provato l'efficacia schiacciante di Google Ads, dobbiamo alimentarlo con i migliori dati di prima parte! La tabella <code>lux_raw_marketing_leads_dirty</code> è piena di errori, spazi e formati inconsistenti. Pulisci i dati, estrai i <strong>lead VIP ad alto valore (spesa &gt; 200 €)</strong> e incapsula la trasformazione in una <strong>Vista BigQuery sicura</strong> pronta per il caricamento in <em>Google Ads Customer Match</em>!
+            </p>
+          </div>
+
+          <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900 font-medium">
+            ⚠️ <span id="b4-team-rule"><strong>Regola Nome Vista Individuale:</strong> Assegna alla vista il tuo nome univoco (es. <code id="suffix-example">v_clean_marketing_leads_chiara</code>) per non sovrascrivere il lavoro dei colleghi!</span>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold uppercase text-slate-500" id="b4-prompt-title">Brief Data Cleaning: Creazione Vista per Google Ads Customer Match</h4>
+            <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-emerald-900" id="b4-brief-title">🎯 Cosa deve fare il tuo prompt per Gemini:</span>
+              <p class="text-emerald-800" id="b4-brief-desc">Partendo dalla tabella sporca <code>lux_raw_marketing_leads_dirty</code>, crea una View SQL con il tuo nome che normalizzi le email (senza spazi e tutte in minuscolo) e selezioni solo i clienti VIP con storico di spesa > 200 euro.</p>
+            </div>
+            <!-- LOCKED HINT 4 -->
+            <div id="hint-box-b4" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+              <div id="lock-state-b4" class="flex items-center justify-between gap-2 flex-wrap">
+                <div class="flex items-center space-x-2">
+                  <span class="text-amber-400">🔒</span>
+                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b4">Suggerimento Protetto da PIN:</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <input type="text" inputmode="numeric" id="pin-b4" placeholder="PIN" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
+                  <button onclick="unlockHint('b4')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b4">Sblocca 🔓</button>
+                </div>
+              </div>
+              <div id="content-b4" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
+                <span id="prompt-view-text">Crea la vista luxottica_marketing_analytics.v_clean_marketing_leads_chiara prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.</span>
+                <button onclick="copyToClipboard(document.getElementById('prompt-view-text').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (CHALLENGE #3) -->
+          <div id="quiz-card-ch3" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border border-slate-800 shadow-md space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div class="flex items-center space-x-2">
+                <span class="text-amber-400 text-base">🎯</span>
+                <span class="font-bold text-sm text-amber-300" id="quiz-title-ch3">Convalida Risultati Challenge #3 & Ottieni Punti</span>
+              </div>
+              <span id="quiz-badge-ch3" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <!-- QUESTION 1 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch3-q1">1. Quanti lead VIP validi (spesa &gt; 200 €) ha recuperato la tua View?</label>
+                <input type="text" id="quiz-ch3-q1" placeholder="Es. 150 (inserisci conteggio)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <p class="text-[10px] text-slate-400" id="hint-quiz-ch3-q1">Inserisci il conteggio totale di righe restituite dalla vista creata</p>
+              </div>
+
+              <!-- QUESTION 2 -->
+              <div class="space-y-1.5">
+                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch3-q2">2. Quale funzione SQL ha eliminato gli spazi spuri prima e dopo le email?</label>
+                <select id="quiz-ch3-q2" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                  <option value="" id="opt-quiz-ch3-q2-default">-- Seleziona la funzione SQL --</option>
+                  <option value="TRIM">TRIM(email)</option>
+                  <option value="LOWER">LOWER(email)</option>
+                  <option value="REPLACE">REPLACE(email, ' ', '')</option>
+                  <option value="SUBSTR">SUBSTR(email, 1, 10)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+              <div id="quiz-feedback-ch3" class="text-xs font-medium text-slate-400">Verifica la qualità del tuo dataset per Google Ads Customer Match</div>
+              <button onclick="validateChallenge3()" id="btn-validate-ch3" class="px-5 py-2 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md cursor-pointer flex items-center space-x-1.5">
+                <span id="btn-validate-ch3-text">Invia Risposte 🚀</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOCK 5 CONTENT -->
