@@ -65,10 +65,23 @@ jobs:
 
       - name: Submit Build and Deploy via Cloud Build
         run: |
-          gcloud builds submit \
+          BUILD_OUTPUT=$(gcloud builds submit \
             --project="${{ secrets.GCP_PROJECT_ID }}" \
             --config="v2/cloudbuild.yaml" \
-            .
+            . 2>&1) || true
+          echo "$BUILD_OUTPUT"
+          
+          # Extract build ID or check latest build
+          BUILD_ID=$(echo "$BUILD_OUTPUT" | grep -oE "builds/[a-f0-9-]+" | cut -d'/' -f2 | head -n 1 || true)
+          if [[ -n "$BUILD_ID" ]]; then
+            echo "Checking Cloud Build $BUILD_ID status..."
+            STATUS=$(gcloud builds describe "$BUILD_ID" --project="${{ secrets.GCP_PROJECT_ID }}" --format="value(status)")
+            echo "Cloud Build status: $STATUS"
+            if [[ "$STATUS" != "SUCCESS" ]]; then
+              echo "❌ Cloud Build failed with status: $STATUS"
+              exit 1
+            fi
+          fi
 
       - name: Verify Live Service URL
         run: |
