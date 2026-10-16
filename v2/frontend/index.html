@@ -530,7 +530,7 @@
           </svg>
         </button>
         <div class="h-4 w-px bg-slate-300"></div>
-        <div class="flex items-center space-x-1 font-mono font-bold text-amber-600 bg-amber-50 px-2 sm:px-2.5 py-1 rounded-lg border border-amber-200">
+        <div class="flex items-center space-x-1 font-mono font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 px-2 sm:px-2.5 py-1 rounded-lg border border-amber-300 dark:border-amber-800">
           <span>🏆</span>
           <span id="student-display-score">0</span>
           <span class="text-[10px] text-amber-700 font-sans">pt</span>
@@ -612,6 +612,14 @@
           <span id="btn-switch-role-text">Cambia Ruolo</span>
         </span>
         <span class="text-[10px] text-slate-400">Docente / Studente</span>
+      </button>
+
+      <button onclick="openRosettaModal(); closeHamburgerMenu();" class="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-emerald-50 text-slate-700 hover:text-emerald-900 font-medium transition cursor-pointer text-left" title="Guida Excel vs BigQuery SQL">
+        <span class="flex items-center space-x-2.5">
+          <span class="text-base">📖</span>
+          <span id="btn-rosetta-menu-text">Rosetta Stone (Excel ➔ SQL)</span>
+        </span>
+        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">Guida</span>
       </button>
 
       <!-- HIDDEN BY DEFAULT: TRAINER TOOLS (ACTIVATED VIA TRAINER MODE) -->
@@ -1642,6 +1650,105 @@
     </div>
   </dialog>
 
+  <!-- IN-PAGE ROSETTA STONE MODAL (EXCEL VS BIGQUERY SQL QUICK REFERENCE) -->
+  <dialog id="rosetta-modal" closedby="any" aria-labelledby="hdr-rosetta" class="p-4 m-auto bg-transparent border-0 max-w-4xl w-full text-slate-900 dark:text-slate-100">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-3xl shadow-2xl max-w-4xl w-full p-6 space-y-4 max-h-[90vh] flex flex-col animate-in fade-in zoom-in duration-200">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-xl">
+            📖
+          </div>
+          <div>
+            <h2 id="hdr-rosetta-modal" class="text-lg font-black text-emerald-600 dark:text-emerald-400">Rosetta Stone: Excel ➔ BigQuery SQL</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Guida di traduzione immediata tra fogli di calcolo e sintassi SQL analitica</p>
+          </div>
+        </div>
+        <button onclick="closeRosettaModal()" class="p-2 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">✕</button>
+      </div>
+
+      <div class="flex items-center justify-between flex-wrap gap-2 pt-1">
+        <span class="text-xs font-bold text-slate-500 dark:text-slate-400">Filtra funzioni e formule:</span>
+        <input type="text" id="rosetta-modal-search" oninput="filterRosettaModal()" onkeyup="filterRosettaModal()" placeholder="Cerca termini Excel (es. Pivot, VLOOKUP, Somma)..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs rounded-xl px-3 py-1.5 w-72 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 dark:text-white">
+      </div>
+
+      <div class="overflow-y-auto max-h-[58vh] rounded-xl border border-slate-200 dark:border-slate-800">
+        <table class="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+          <thead class="bg-slate-50 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 uppercase font-semibold text-[11px] border-b border-slate-200 dark:border-slate-700 sticky top-0 z-10">
+            <tr>
+              <th class="p-2.5" id="th-excel-modal">Funzione Excel</th>
+              <th class="p-2.5" id="th-sql-modal">Equivalente BigQuery SQL</th>
+              <th class="p-2.5" id="th-example-modal">Esempio Codice SQL</th>
+            </tr>
+          </thead>
+          <tbody id="rosetta-modal-table-body" class="divide-y divide-slate-100 dark:divide-slate-800 font-mono">
+            <tr class="rosetta-modal-row">
+              <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-m-row1-excel">Righe Tabella Pivot</td>
+              <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-m-row1-sql">GROUP BY colonna</td>
+              <td class="p-2.5 text-slate-600 dark:text-slate-400">GROUP BY brand</td>
+            </tr>
+            <tr class="rosetta-modal-row">
+              <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-m-row2-excel">CERCA.VERT / VLOOKUP</td>
+              <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-m-row2-sql">LEFT JOIN tabella ON chiave</td>
+              <td class="p-2.5 text-slate-600 dark:text-slate-400">LEFT JOIN lux_crm_customers ON ...</td>
+            </tr>
+            <tr class="rosetta-modal-row">
+              <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-m-row3-excel">Filtro Colonna</td>
+              <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-m-row3-sql">WHERE condizione</td>
+              <td class="p-2.5 text-slate-600 dark:text-slate-400">WHERE brand = 'Ray-Ban'</td>
+            </tr>
+            <tr class="rosetta-modal-row">
+              <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-m-row4-excel">Filtro Opzioni Multiple</td>
+              <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-m-row4-sql">WHERE colonna IN ('A', 'B')</td>
+              <td class="p-2.5 text-slate-600 dark:text-slate-400">WHERE channel IN ('E-Commerce Direct', 'App')</td>
+            </tr>
+            <tr class="rosetta-modal-row">
+              <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-m-row5-excel">Somma Valori</td>
+              <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-m-row5-sql">SUM(colonna)</td>
+              <td class="p-2.5 text-slate-600 dark:text-slate-400">SUM(revenue_eur)</td>
+            </tr>
+            <tr class="rosetta-modal-row">
+              <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-m-row6-excel">Conteggio Univoco / CONTA.VALORI</td>
+              <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-m-row6-sql">COUNT(DISTINCT id)</td>
+              <td class="p-2.5 text-slate-600 dark:text-slate-400">COUNT(DISTINCT customer_id)</td>
+            </tr>
+            <tr class="rosetta-modal-row">
+              <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-m-row7-excel">Divisione Sicura / SE.ERRORE(A/B, 0)</td>
+              <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-m-row7-sql">SAFE_DIVIDE(num, den)</td>
+              <td class="p-2.5 text-slate-600 dark:text-slate-400">SAFE_DIVIDE(SUM(revenue), SUM(spend))</td>
+            </tr>
+            <tr class="rosetta-modal-row">
+              <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-m-row8-excel">Tabelle Modulari (Fogli Separati)</td>
+              <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-m-row8-sql">WITH nome_cte AS (...)</td>
+              <td class="p-2.5 text-slate-600 dark:text-slate-400">WITH spend_agg AS (SELECT ...)</td>
+            </tr>
+            <tr class="rosetta-modal-row">
+              <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-m-row9-excel">Pulizia Testo / ANNULLA.SPAZI</td>
+              <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-m-row9-sql">TRIM(colonna) / LOWER(colonna)</td>
+              <td class="p-2.5 text-slate-600 dark:text-slate-400">LOWER(TRIM(email))</td>
+            </tr>
+            <tr class="rosetta-modal-row">
+              <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-m-row10-excel">Conversione Tipo / VALORE</td>
+              <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-m-row10-sql">SAFE_CAST(colonna AS NUMERIC)</td>
+              <td class="p-2.5 text-slate-600 dark:text-slate-400">SAFE_CAST(cleaned_string AS NUMERIC)</td>
+            </tr>
+            <tr class="rosetta-modal-row">
+              <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-m-row11-excel">Rimuovi Duplicati Avanzato</td>
+              <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-m-row11-sql">QUALIFY ROW_NUMBER() OVER(...) = 1</td>
+              <td class="p-2.5 text-slate-600 dark:text-slate-400">Keep latest record per email</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="border-t border-slate-200 dark:border-slate-800 pt-3 flex items-center justify-between text-xs">
+        <span class="text-slate-500 dark:text-slate-400">💡 Cerca una formula Excel per ottenere la corrispondenza BigQuery SQL esatta.</span>
+        <button onclick="closeRosettaModal()" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold text-slate-800 dark:text-white transition cursor-pointer">
+          Chiudi ✕
+        </button>
+      </div>
+    </div>
+  </dialog>
+
   <!-- IN-PAGE ACTION-BY-ACTION PLAYBOOK MODAL -->
   <dialog id="playbook-modal" closedby="any" aria-labelledby="pm-title" class="p-4 m-auto bg-transparent border-0 max-w-5xl w-full text-slate-900 dark:text-slate-100">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white rounded-3xl shadow-2xl max-w-5xl w-full p-6 space-y-5 max-h-[90vh] flex flex-col animate-in fade-in zoom-in duration-200">
@@ -1927,7 +2034,7 @@
               <div class="bg-white px-2 py-1 rounded border border-slate-200">
                 <div class="flex items-center justify-between">
                   <span class="text-slate-700 font-semibold truncate text-[9.5px]">lux_raw_marketing_leads_dirty</span>
-                  <span class="text-[9px] bg-amber-50 text-amber-700 border border-amber-200 px-1 rounded ml-1 shrink-0 font-sans">Lead Raw</span>
+                  <span class="text-[9px] bg-amber-50 text-amber-800 border border-amber-300 px-1 rounded ml-1 shrink-0 font-sans">Lead Raw</span>
                 </div>
               </div>
             </div>
@@ -1968,6 +2075,10 @@
           <button onclick="openPlaybookModal()" class="w-full p-2 rounded-xl bg-indigo-50/80 hover:bg-indigo-100 border border-indigo-200 text-indigo-900 text-xs font-bold transition flex items-center justify-between shadow-2xs cursor-pointer text-left">
             <span>🎬 Copione Dettagliato (Playbook)</span>
             <span>📖</span>
+          </button>
+          <button onclick="openRosettaModal()" class="w-full p-2 rounded-xl bg-emerald-50/80 hover:bg-emerald-100 border border-emerald-200 text-emerald-950 text-xs font-bold transition flex items-center justify-between shadow-2xs cursor-pointer text-left">
+            <span>📖 Rosetta Stone (Excel ➔ SQL)</span>
+            <span>🔍</span>
           </button>
           <div class="pt-2 border-t border-slate-100 space-y-1.5">
             <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">File SQL dei Blocchi:</span>
@@ -2043,7 +2154,7 @@
           <span class="text-xs text-amber-500 font-bold" id="badge-challenges">🏆 3 Sfide</span>
         </div>
         <div class="space-y-3 text-xs">
-          <div class="flex items-center justify-between p-2 rounded bg-amber-50 border border-amber-200">
+          <div class="flex items-center justify-between p-2 rounded bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800">
             <span class="font-bold text-slate-800">🕶️ Team Ray-Ban</span>
             <span class="font-bold text-amber-700 font-mono text-sm" id="score-rayban">350 pts</span>
           </div>
@@ -2089,7 +2200,7 @@
         <button onclick="userSelectBlock(2)" id="tab-b2" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
           Block 2: Discounts
         </button>
-        <button onclick="userSelectBlock('break')" id="tab-break" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 hover:bg-amber-100">
+        <button onclick="userSelectBlock('break')" id="tab-break" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 hover:bg-amber-100">
           ☕ Coffee Break
         </button>
         <button onclick="userSelectBlock(3)" id="tab-b3" class="tab-btn tab-disabled px-4 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">
@@ -2205,7 +2316,7 @@
                 <p class="text-slate-600 leading-relaxed" id="cover-b2-desc">Aggregazioni SQL (GROUP BY, HAVING) per stanare le emorragie di sconti su Ray-Ban e Vogue.</p>
               </div>
 
-              <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200">
+              <div class="p-4 rounded-xl bg-amber-50/90 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800">
                 <div class="flex items-center justify-between mb-1">
                   <span class="font-bold text-amber-700" id="agenda-break-lbl">Break</span>
                   <span class="text-amber-600 font-mono" id="agenda-break-tag">Coffee</span>
@@ -2271,8 +2382,13 @@
             <div>
               <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Guided Lab</span>
               <h2 class="text-lg font-bold text-slate-800" id="b1-title">Blocco 1: Setup BigQuery & Esplorazione Data Canvas</h2>
+            <div class="flex items-center space-x-2">
+              <button onclick="document.getElementById('quiz-card-ch0').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:hover:bg-blue-900 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs cursor-pointer">
+                <span>🎯</span>
+                <span>Convalida (+50 pt)</span>
+              </button>
+              <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-semibold">Hands-on</span>
             </div>
-            <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-semibold">Hands-on</span>
           </div>
 
           <!-- BLOCK 1 DETECTIVE NARRATIVE INTRO -->
@@ -2394,6 +2510,10 @@
               <h2 class="text-lg font-bold text-slate-800" id="b2-title">Blocco 2: Challenge #1 - High Margin Discovery & Analisi Sconti</h2>
             </div>
             <div class="flex items-center space-x-2">
+              <button onclick="document.getElementById('quiz-card-ch1').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/60 dark:hover:bg-amber-900 border border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs cursor-pointer">
+                <span>🎯</span>
+                <span>Convalida (+100 pt)</span>
+              </button>
               <button onclick="openChallengeModal(1)" class="px-3.5 py-2 bg-gradient-to-r from-amber-500/15 to-orange-500/15 hover:from-amber-500/25 hover:to-orange-500/25 text-amber-950 border-2 border-amber-500/60 rounded-xl text-xs font-black transition flex items-center space-x-2 cursor-pointer shadow-sm hover:shadow-md">
                 <span class="text-base">📄</span>
                 <div class="text-left leading-tight">
@@ -2419,9 +2539,9 @@
 
           <div class="space-y-3">
             <h4 class="text-xs font-bold uppercase text-slate-500" id="b2-prompt-title">Passo 2.1: Trovare le Vendite ad Alto Scontrino (AOV > 300 €)</h4>
-            <div class="p-3 bg-amber-50/60 border border-amber-200 rounded-xl text-xs space-y-1">
-              <span class="font-bold text-amber-900" id="b2-s1-brief-title">🎯 Brief per il Detective:</span>
-              <p class="text-amber-800" id="b2-s1-brief-desc">Interroga la tabella <code>lux_online_orders</code> con Gemini per analizzare ricavi e scontrino medio per brand e canale. Trova dove si concentrano gli ordini ad alto valore (superiori a 300 €)!</p>
+            <div class="p-3 bg-amber-50/90 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/60 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-amber-950 dark:text-amber-300" id="b2-s1-brief-title">🎯 Brief per il Detective:</span>
+              <p class="text-amber-900 dark:text-amber-200" id="b2-s1-brief-desc">Interroga la tabella <code>lux_online_orders</code> con Gemini per analizzare ricavi e scontrino medio per brand e canale. Trova dove si concentrano gli ordini ad alto valore (superiori a 300 €)!</p>
             </div>
             <!-- LOCKED HINT 2.1 -->
             <div id="hint-box-b2-s1" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
@@ -2444,9 +2564,9 @@
 
           <div class="space-y-3">
             <h4 class="text-xs font-bold uppercase text-slate-500" id="b2-prompt2-title">Passo 2.2: Stanare l'Erosione dei Margini (Sconti per Canale)</h4>
-            <div class="p-3 bg-amber-50/60 border border-amber-200 rounded-xl text-xs space-y-1">
-              <span class="font-bold text-amber-900" id="b2-s2-brief-title">🎯 Brief per il Detective:</span>
-              <p class="text-amber-800" id="b2-s2-brief-desc">Chiedi a Gemini di calcolare la media degli sconti in euro per brand e canale di vendita da <code>lux_online_orders</code>, e ordina i risultati in modo da vedere chi regala più margine in cima!</p>
+            <div class="p-3 bg-amber-50/90 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/60 rounded-xl text-xs space-y-1">
+              <span class="font-bold text-amber-950 dark:text-amber-300" id="b2-s2-brief-title">🎯 Brief per il Detective:</span>
+              <p class="text-amber-900 dark:text-amber-200" id="b2-s2-brief-desc">Chiedi a Gemini di calcolare la media degli sconti in euro per brand e canale di vendita da <code>lux_online_orders</code>, e ordina i risultati in modo da vedere chi regala più margine in cima!</p>
             </div>
             <!-- LOCKED HINT 2.2 -->
             <div id="hint-box-b2-s2" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
@@ -2833,6 +2953,10 @@
               <h2 class="text-lg font-bold text-slate-800" id="b3-title">Blocco 3: Challenge #2 - ROAS Multi-Canale con CTE & JOIN</h2>
             </div>
             <div class="flex items-center space-x-2">
+              <button onclick="document.getElementById('quiz-card-ch2').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/60 dark:hover:bg-amber-900 border border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs cursor-pointer">
+                <span>🎯</span>
+                <span>Convalida (+100 pt)</span>
+              </button>
               <button onclick="openChallengeModal(2)" class="px-3.5 py-2 bg-gradient-to-r from-indigo-500/15 to-blue-500/15 hover:from-indigo-500/25 hover:to-blue-500/25 text-indigo-950 border-2 border-indigo-500/60 rounded-xl text-xs font-black transition flex items-center space-x-2 cursor-pointer shadow-sm hover:shadow-md">
                 <span class="text-base">📄</span>
                 <div class="text-left leading-tight">
@@ -2960,6 +3084,10 @@ ORDER BY roas_multiplier DESC;</pre>
               <h2 class="text-lg font-bold text-slate-800" id="b4-title">Blocco 4: Challenge #3 - Creazione Vista Pulita Lead VIP</h2>
             </div>
             <div class="flex items-center space-x-2">
+              <button onclick="document.getElementById('quiz-card-ch3').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/60 dark:hover:bg-amber-900 border border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs cursor-pointer">
+                <span>🎯</span>
+                <span>Convalida (+100 pt)</span>
+              </button>
               <button onclick="openChallengeModal(3)" class="px-3.5 py-2 bg-gradient-to-r from-emerald-500/15 to-teal-500/15 hover:from-emerald-500/25 hover:to-teal-500/25 text-emerald-950 border-2 border-emerald-500/60 rounded-xl text-xs font-black transition flex items-center space-x-2 cursor-pointer shadow-sm hover:shadow-md">
                 <span class="text-base">📄</span>
                 <div class="text-left leading-tight">
@@ -3186,81 +3314,100 @@ ORDER BY roas_multiplier DESC;</pre>
         </div>
       </div>
 
-      <!-- ROSETTA STONE SEARCHABLE CARD -->
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center justify-between flex-wrap gap-2">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400" id="hdr-rosetta">Ricerca Rosetta Stone Excel vs BigQuery SQL</h3>
-          <input type="text" id="rosetta-search" onkeyup="filterRosetta()" placeholder="Cerca termini Excel (es. Pivot, VLOOKUP, Somma)..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="bg-slate-50 border border-slate-300 text-xs rounded-lg px-3 py-1.5 w-64 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <!-- ROSETTA STONE COLLAPSIBLE ACCORDION & QUICK LAUNCHER -->
+      <details id="rosetta-accordion" class="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs transition overflow-hidden">
+        <summary class="flex items-center justify-between p-4 sm:p-5 cursor-pointer select-none bg-slate-50/70 hover:bg-slate-100/80 dark:bg-slate-800/40 dark:hover:bg-slate-800/70 transition">
+          <div class="flex items-center space-x-3">
+            <span class="text-xl">📖</span>
+            <div>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider" id="hdr-rosetta">Ricerca Rosetta Stone Excel vs BigQuery SQL</h3>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">Dizionario delle formule Excel tradotte nella sintassi BigQuery</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button type="button" onclick="event.preventDefault(); event.stopPropagation(); openRosettaModal();" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 transition cursor-pointer flex items-center space-x-1 shadow-2xs">
+              <span>🔍</span>
+              <span class="hidden sm:inline">Apri a Tutto Schermo</span>
+            </button>
+            <span class="text-slate-400 group-open:rotate-180 transition-transform duration-200 font-mono text-xs">▼</span>
+          </div>
+        </summary>
+        
+        <div class="p-5 border-t border-slate-200 dark:border-slate-800 space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs text-slate-500 dark:text-slate-400">Filtro rapido nella tabella:</span>
+            <input type="text" id="rosetta-search" oninput="filterRosetta()" onkeyup="filterRosetta()" placeholder="Cerca termini Excel (es. Pivot, VLOOKUP, Somma)..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs rounded-lg px-3 py-1.5 w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white">
+          </div>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+            <table class="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+              <thead class="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 uppercase font-semibold text-[11px] border-b border-slate-200 dark:border-slate-700">
+                <tr>
+                  <th class="p-2.5" id="th-excel">Funzione Excel</th>
+                  <th class="p-2.5" id="th-sql">Equivalente BigQuery SQL</th>
+                  <th class="p-2.5" id="th-example">Esempio Codice SQL</th>
+                </tr>
+              </thead>
+              <tbody id="rosetta-table-body" class="divide-y divide-slate-100 dark:divide-slate-800 font-mono">
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row1-excel">Righe Tabella Pivot</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row1-sql">GROUP BY colonna</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">GROUP BY brand</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row2-excel">CERCA.VERT / VLOOKUP</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row2-sql">LEFT JOIN tabella ON chiave</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">LEFT JOIN lux_crm_customers ON ...</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row3-excel">Filtro Colonna</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row3-sql">WHERE condizione</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">WHERE brand = 'Ray-Ban'</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row4-excel">Filtro Opzioni Multiple</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row4-sql">WHERE colonna IN ('A', 'B')</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">WHERE channel IN ('E-Commerce Direct', 'App')</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row5-excel">Somma Valori</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row5-sql">SUM(colonna)</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">SUM(revenue_eur)</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row6-excel">Conteggio Univoco / CONTA.VALORI</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row6-sql">COUNT(DISTINCT id)</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">COUNT(DISTINCT customer_id)</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row7-excel">Divisione Sicura / SE.ERRORE(A/B, 0)</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row7-sql">SAFE_DIVIDE(num, den)</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">SAFE_DIVIDE(SUM(revenue), SUM(spend))</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row8-excel">Tabelle Modulari (Fogli Separati)</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row8-sql">WITH nome_cte AS (...)</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">WITH spend_agg AS (SELECT ...)</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row9-excel">Pulizia Testo / ANNULLA.SPAZI</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row9-sql">TRIM(colonna) / LOWER(colonna)</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">LOWER(TRIM(email))</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row10-excel">Conversione Tipo / VALORE</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row10-sql">SAFE_CAST(colonna AS NUMERIC)</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">SAFE_CAST(cleaned_string AS NUMERIC)</td>
+                </tr>
+                <tr class="rosetta-row">
+                  <td class="p-2.5 font-sans font-medium text-slate-800 dark:text-slate-200" id="rs-row11-excel">Rimuovi Duplicati Avanzato</td>
+                  <td class="p-2.5 font-bold text-blue-600 dark:text-blue-400" id="rs-row11-sql">QUALIFY ROW_NUMBER() OVER(...) = 1</td>
+                  <td class="p-2.5 text-slate-600 dark:text-slate-400">Keep latest record per email</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-slate-700">
-            <thead class="bg-slate-50 text-slate-500 uppercase font-semibold text-[11px] border-b border-slate-200">
-              <tr>
-                <th class="p-2.5" id="th-excel">Funzione Excel</th>
-                <th class="p-2.5" id="th-sql">Equivalente BigQuery SQL</th>
-                <th class="p-2.5" id="th-example">Esempio Codice SQL</th>
-              </tr>
-            </thead>
-            <tbody id="rosetta-table-body" class="divide-y divide-slate-100 font-mono">
-              <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row1-excel">Righe Tabella Pivot</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row1-sql">GROUP BY colonna</td>
-                <td class="p-2.5 text-slate-600">GROUP BY brand</td>
-              </tr>
-              <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row2-excel">CERCA.VERT / VLOOKUP</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row2-sql">LEFT JOIN tabella ON chiave</td>
-                <td class="p-2.5 text-slate-600">LEFT JOIN lux_crm_customers ON ...</td>
-              </tr>
-              <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row3-excel">Filtro Colonna</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row3-sql">WHERE condizione</td>
-                <td class="p-2.5 text-slate-600">WHERE brand = 'Ray-Ban'</td>
-              </tr>
-              <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row4-excel">Filtro Opzioni Multiple</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row4-sql">WHERE colonna IN ('A', 'B')</td>
-                <td class="p-2.5 text-slate-600">WHERE channel IN ('E-Commerce Direct', 'App')</td>
-              </tr>
-              <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row5-excel">Somma Valori</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row5-sql">SUM(colonna)</td>
-                <td class="p-2.5 text-slate-600">SUM(revenue_eur)</td>
-              </tr>
-              <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row6-excel">Conteggio Univoco / CONTA.VALORI</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row6-sql">COUNT(DISTINCT id)</td>
-                <td class="p-2.5 text-slate-600">COUNT(DISTINCT customer_id)</td>
-              </tr>
-              <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row7-excel">Divisione Sicura / SE.ERRORE(A/B, 0)</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row7-sql">SAFE_DIVIDE(num, den)</td>
-                <td class="p-2.5 text-slate-600">SAFE_DIVIDE(SUM(revenue), SUM(spend))</td>
-              </tr>
-              <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row8-excel">Tabelle Modulari (Fogli Separati)</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row8-sql">WITH nome_cte AS (...)</td>
-                <td class="p-2.5 text-slate-600">WITH spend_agg AS (SELECT ...)</td>
-              </tr>
-              <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row9-excel">Pulizia Testo / ANNULLA.SPAZI</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row9-sql">TRIM(colonna) / LOWER(colonna)</td>
-                <td class="p-2.5 text-slate-600">LOWER(TRIM(email))</td>
-              </tr>
-              <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row10-excel">Conversione Tipo / VALORE</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row10-sql">SAFE_CAST(colonna AS NUMERIC)</td>
-                <td class="p-2.5 text-slate-600">SAFE_CAST(cleaned_string AS NUMERIC)</td>
-              </tr>
-              <tr class="rosetta-row">
-                <td class="p-2.5 font-sans font-medium text-slate-800" id="rs-row11-excel">Rimuovi Duplicati Avanzato</td>
-                <td class="p-2.5 font-bold text-blue-600" id="rs-row11-sql">QUALIFY ROW_NUMBER() OVER(...) = 1</td>
-                <td class="p-2.5 text-slate-600">Keep latest record per email</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      </details>
 
     </main>
 
@@ -6326,6 +6473,36 @@ ORDER BY roas_multiplier DESC;</pre>
       setText('rs-row11-excel', t.rsRow11Excel);
       setText('rs-row11-sql', t.rsRow11Sql);
 
+      // ROSETTA STONE MODAL TRANSLATIONS
+      setText('hdr-rosetta-modal', t.hdrRosetta);
+      const searchModalInput = document.getElementById('rosetta-modal-search');
+      if (searchModalInput) searchModalInput.placeholder = t.searchPlaceholder;
+      setText('th-excel-modal', t.thExcel);
+      setText('th-sql-modal', t.thSql);
+      setText('th-example-modal', t.thExample);
+      setText('rs-m-row1-excel', t.rsRow1Excel);
+      setText('rs-m-row1-sql', t.rsRow1Sql);
+      setText('rs-m-row2-excel', t.rsRow2Excel);
+      setText('rs-m-row2-sql', t.rsRow2Sql);
+      setText('rs-m-row3-excel', t.rsRow3Excel);
+      setText('rs-m-row3-sql', t.rsRow3Sql);
+      setText('rs-m-row4-excel', t.rsRow4Excel);
+      setText('rs-m-row4-sql', t.rsRow4Sql);
+      setText('rs-m-row5-excel', t.rsRow5Excel);
+      setText('rs-m-row5-sql', t.rsRow5Sql);
+      setText('rs-m-row6-excel', t.rsRow6Excel);
+      setText('rs-m-row6-sql', t.rsRow6Sql);
+      setText('rs-m-row7-excel', t.rsRow7Excel);
+      setText('rs-m-row7-sql', t.rsRow7Sql);
+      setText('rs-m-row8-excel', t.rsRow8Excel);
+      setText('rs-m-row8-sql', t.rsRow8Sql);
+      setText('rs-m-row9-excel', t.rsRow9Excel);
+      setText('rs-m-row9-sql', t.rsRow9Sql);
+      setText('rs-m-row10-excel', t.rsRow10Excel);
+      setText('rs-m-row10-sql', t.rsRow10Sql);
+      setText('rs-m-row11-excel', t.rsRow11Excel);
+      setText('rs-m-row11-sql', t.rsRow11Sql);
+
       // PIN LOCKED HINTS TRANSLATIONS
       setText('lbl-hint-locked-b1s1', t.lblHintLocked);
       setText('btn-unlock-b1s1', t.btnUnlock);
@@ -6660,9 +6837,27 @@ ORDER BY roas_multiplier DESC;</pre>
     }
 
     // SWITCH BLOCK TABS WITH VIEW TRANSITIONS API
-    function showBlock(blockId, isBroadcast) {
+    function showBlock(rawBlockId, isBroadcast) {
+      // Normalize blockId and aliases (e.g. legacy 'bq' -> 1, 'gemini' -> 1, 'retail' -> 2)
+      let blockId = String(rawBlockId || 'cover').trim();
+      if (blockId === 'bq' || blockId === 'gemini') blockId = '1';
+      else if (blockId === 'retail') blockId = '2';
+
+      // Fallback: if section doesn't exist, default to 'cover'
+      if (!document.getElementById(`block-${blockId}`)) {
+        blockId = 'cover';
+      }
+
       const updateDOM = () => {
-        document.querySelectorAll('.block-section').forEach(el => el.classList.add('hidden'));
+        // Mutually exclusive toggle: explicitly hide all and show only target
+        document.querySelectorAll('.block-section').forEach(el => {
+          if (el.id === `block-${blockId}`) {
+            el.classList.remove('hidden');
+          } else {
+            el.classList.add('hidden');
+          }
+        });
+
         document.querySelectorAll('.tab-btn').forEach(el => {
           el.classList.remove('bg-blue-600', 'text-white');
           el.classList.add('text-slate-600', 'hover:bg-slate-100');
@@ -6672,11 +6867,6 @@ ORDER BY roas_multiplier DESC;</pre>
         if (activeTab) {
           activeTab.classList.remove('text-slate-600', 'hover:bg-slate-100');
           activeTab.classList.add('bg-blue-600', 'text-white');
-        }
-
-        const activeSection = document.getElementById(`block-${blockId}`);
-        if (activeSection) {
-          activeSection.classList.remove('hidden');
         }
       };
 
@@ -8549,6 +8739,29 @@ ORDER BY roas_multiplier DESC;</pre>
       if (!searchEl) return;
       const query = searchEl.value.toLowerCase();
       document.querySelectorAll('.rosetta-row').forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      });
+    }
+
+    function openRosettaModal() {
+      const searchEl = document.getElementById('rosetta-modal-search');
+      if (searchEl) {
+        searchEl.value = '';
+        filterRosettaModal();
+      }
+      showModalDialog('rosetta-modal');
+    }
+
+    function closeRosettaModal() {
+      closeModalDialog('rosetta-modal');
+    }
+
+    function filterRosettaModal() {
+      const searchEl = document.getElementById('rosetta-modal-search');
+      if (!searchEl) return;
+      const query = searchEl.value.toLowerCase();
+      document.querySelectorAll('.rosetta-modal-row').forEach(row => {
         const text = row.innerText.toLowerCase();
         row.style.display = text.includes(query) ? '' : 'none';
       });
