@@ -65,7 +65,17 @@ Il repository include uno script di orchestrazione completo che automatizza l'in
    - Invia il build a Cloud Build utilizzando [`v2/cloudbuild.yaml`](file:///Users/maurizio.ipsale/Library/CloudStorage/GoogleDrive-maurizio.ipsale@gmail.com/My%20Drive/Progetti%20Agy/MyQwiklabs/v2/cloudbuild.yaml).
    - Crea l'immagine Docker nel repository Artifact Registry del nuovo progetto.
    - Rilascia il servizio **Cloud Run** `luxottica-training-hub` con autoscaling (scale-to-zero) e porta 8080.
-4. **URL Generati**:
+4. **Automazione CI/CD GitHub Actions (Opzionale)**:
+   - Sincronizza i secrets su GitHub per abilitare il redeploy automatico ad ogni `git push`:
+     ```bash
+     KEY_TMP=$(mktemp)
+     gcloud iam service-accounts keys create "$KEY_TMP" \
+       --iam-account="github-actions-deployer@<NUOVO_PROJECT_ID>.iam.gserviceaccount.com"
+     gh secret set GCP_SA_KEY < "$KEY_TMP"
+     gh secret set GCP_PROJECT_ID --body "<NUOVO_PROJECT_ID>"
+     rm -f "$KEY_TMP"
+     ```
+5. **URL Generati**:
    - Stampa a video l'URL pubblico per la classe e l'URL riservato alla console istruttore.
 
 ---
