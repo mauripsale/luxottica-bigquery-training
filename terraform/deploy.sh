@@ -37,7 +37,7 @@ cd ..
 
 # 5. Build Container & Push to Artifact Registry via gcloud builds
 echo "🐳 Building Docker Container Image with gcloud builds..."
-gcloud builds submit --tag "${REPO_URL}" --project="${PROJECT_ID}" v2/backend/
+(cd v2 && cp backend/Dockerfile Dockerfile && gcloud builds submit --tag "${REPO_URL}" --project="${PROJECT_ID}")
 
 # 6. Apply Terraform again to trigger Cloud Run update with new image tag
 cd terraform
