@@ -1,0 +1,14 @@
+# Copy this file to terraform.tfvars and fill in your GCP values
+project_id             = "your-gcp-project-id"
+region                 = "us-central1"
+service_name           = "ipsale-training-hub"
+bq_dataset_id          = "luxottica_marketing_analytics"
+google_client_id       = "your-oauth-client-id.apps.googleusercontent.com"
+auth_required          = true
+allowed_domains        = "luxottica.com,essilorluxottica.com,datatonic.com"
+trainer_emails         = "maurizio.ipsale@gmail.com"
+manager_emails         = "maurizio.ipsale@gmail.com"
+content_creator_emails = "maurizio.ipsale@gmail.com"
+billing_account_id     = "" # Optional
+enable_spend_cap       = true
+monthly_budget_amount  = 10.0
