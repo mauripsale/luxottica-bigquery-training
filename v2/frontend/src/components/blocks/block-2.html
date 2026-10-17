@@ -43,18 +43,26 @@
             <div id="hint-box-b2-s1" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
               <div id="lock-state-b2-s1" class="flex items-center justify-between gap-2 flex-wrap">
                 <div class="flex items-center space-x-2">
-                  <span class="text-amber-400">🔒</span>
-                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b2s1">Suggerimento Protetto da PIN:</span>
+                  <span class="text-amber-400 text-base">💡</span>
+                  <div>
+                    <span class="text-amber-300 font-bold font-sans" id="lbl-hint-locked-b2s1">Aiuto Docente (Opzionale / Solo se bloccato):</span>
+                    <p class="text-[10px] text-slate-400 font-sans" id="desc-hint-b2s1">Non serve per rispondere alla sfida. Sblocca solo se hai bisogno del prompt suggerito.</p>
+                  </div>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <input type="text" inputmode="numeric" id="pin-b2-s1" placeholder="PIN" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
-                  <button onclick="unlockHint('b2-s1')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b2s1">Sblocca 🔓</button>
+                  <input type="text" inputmode="numeric" id="pin-b2-s1" placeholder="PIN Docente" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-24 text-center focus:outline-none focus:border-amber-500">
+                  <button onclick="unlockHint('b2-s1')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition cursor-pointer" id="btn-unlock-b2s1">Sblocca Aiuto 💡</button>
                 </div>
               </div>
               <div id="content-b2-s1" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
                 <span id="p-b2-s1">Mostrami il fatturato totale, gli ordini e lo scontrino medio per brand e canale dalla tabella lux_online_orders, filtrando ordini ad alto valore con fatturato > 300 euro.</span>
-                <button onclick="copyToClipboard(document.getElementById('p-b2-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+                <button onclick="copyToClipboard(document.getElementById('p-b2-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap cursor-pointer">Copia 📋</button>
               </div>
+            </div>
+            <div class="flex justify-end">
+              <button onclick="document.getElementById('quiz-card-ch1').scrollIntoView({behavior:'smooth'})" class="text-[11px] text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer">
+                <span>📝 Pronto per convalidare? Vai al modulo risposte in fondo ↓</span>
+              </button>
             </div>
           </div>
 
@@ -68,18 +76,26 @@
             <div id="hint-box-b2-s2" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
               <div id="lock-state-b2-s2" class="flex items-center justify-between gap-2 flex-wrap">
                 <div class="flex items-center space-x-2">
-                  <span class="text-amber-400">🔒</span>
-                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b2s2">Suggerimento Protetto da PIN:</span>
+                  <span class="text-amber-400 text-base">💡</span>
+                  <div>
+                    <span class="text-amber-300 font-bold font-sans" id="lbl-hint-locked-b2s2">Aiuto Docente (Opzionale / Solo se bloccato):</span>
+                    <p class="text-[10px] text-slate-400 font-sans" id="desc-hint-b2s2">Non serve per rispondere alla sfida. Sblocca solo se hai bisogno del prompt suggerito.</p>
+                  </div>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <input type="text" inputmode="numeric" id="pin-b2-s2" placeholder="PIN" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
-                  <button onclick="unlockHint('b2-s2')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b2s2">Sblocca 🔓</button>
+                  <input type="text" inputmode="numeric" id="pin-b2-s2" placeholder="PIN Docente" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-24 text-center focus:outline-none focus:border-amber-500">
+                  <button onclick="unlockHint('b2-s2')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition cursor-pointer" id="btn-unlock-b2s2">Sblocca Aiuto 💡</button>
                 </div>
               </div>
               <div id="content-b2-s2" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
                 <span id="p-b2-s2">Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.</span>
-                <button onclick="copyToClipboard(document.getElementById('p-b2-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+                <button onclick="copyToClipboard(document.getElementById('p-b2-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap cursor-pointer">Copia 📋</button>
               </div>
+            </div>
+            <div class="flex justify-end">
+              <button onclick="document.getElementById('quiz-card-ch1').scrollIntoView({behavior:'smooth'})" class="text-[11px] text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer">
+                <span>📝 Pronto per convalidare? Vai al modulo risposte in fondo ↓</span>
+              </button>
             </div>
           </div>
 
@@ -89,20 +105,34 @@
           </div>
 
           <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (CHALLENGE #1) -->
-          <div id="quiz-card-ch1" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border border-slate-800 shadow-md space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div class="flex items-center space-x-2">
-                <span class="text-amber-400 text-base">🎯</span>
-                <span class="font-bold text-sm text-amber-300" id="quiz-title-ch1">Convalida Risultati Challenge #1 & Ottieni Punti</span>
+          <div id="quiz-card-ch1" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border-2 border-amber-500/40 shadow-lg space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-800 pb-3">
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span class="text-amber-400 text-lg">📝</span>
+                  <span class="font-extrabold text-sm tracking-wide text-white uppercase" id="quiz-title-ch1">Modulo Risposta Ufficiale: Challenge #1</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-0.5" id="quiz-subtitle-ch1">Rispondi qui sotto con i risultati della tua query SQL per assegnare i punti a te e alla tua squadra.</p>
               </div>
-              <span id="quiz-badge-ch1" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+              <div class="flex items-center space-x-2 shrink-0">
+                <span id="quiz-badge-ch1" class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+                <span id="quiz-penalty-badge-ch1" class="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700">Errori: 0</span>
+              </div>
+            </div>
+
+            <!-- WARNING CALLOUT ABOUT PENALTIES -->
+            <div class="px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-300 flex items-center justify-between gap-2">
+              <div class="flex items-center space-x-1.5">
+                <span>⚠️</span>
+                <span id="quiz-warning-ch1">Ogni tentativo errato applica una penalità di <strong>-15 pt</strong> sul punteggio di questa sfida (minimo 40 pt). Non tirare a indovinare!</span>
+              </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <!-- QUESTION 1 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch1-q1">1. Quale brand guida lo scontrino medio (AOV) più elevato?</label>
-                <select id="quiz-ch1-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <label class="block text-slate-200 font-semibold" id="lbl-quiz-ch1-q1">1. Quale brand guida lo scontrino medio (AOV) più elevato?</label>
+                <select id="quiz-ch1-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2.5 focus:ring-2 focus:ring-amber-500 focus:outline-none">
                   <option value="" id="opt-quiz-ch1-q1-default">-- Seleziona il brand --</option>
                   <option value="Oliver Peoples">Oliver Peoples</option>
                   <option value="Ray-Ban">Ray-Ban</option>
@@ -114,14 +144,14 @@
 
               <!-- QUESTION 2 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch1-q2">2. Quanto vale lo sconto medio (€) su Wholesale Vogue?</label>
-                <input type="text" id="quiz-ch1-q2" placeholder="Es. 15.00" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <label class="block text-slate-200 font-semibold" id="lbl-quiz-ch1-q2">2. Quanto vale lo sconto medio (€) su Wholesale Vogue?</label>
+                <input type="text" id="quiz-ch1-q2" placeholder="Es. 15.00" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2.5 focus:ring-2 focus:ring-amber-500 focus:outline-none">
                 <p class="text-[10px] text-slate-400" id="hint-quiz-ch1-q2">Inserisci il valore numerico dello sconto medio ottenuto dalla tua query</p>
               </div>
             </div>
 
             <div class="flex items-center justify-between pt-2 border-t border-slate-800">
-              <div id="quiz-feedback-ch1" class="text-xs font-medium text-slate-400">Rispondi per sbloccare i punti per te e per la squadra</div>
+              <div id="quiz-feedback-ch1" class="text-xs font-medium text-slate-400">Rispondi per sbloccare fino a 100 punti per te e per la squadra</div>
               <button onclick="validateChallenge1()" id="btn-validate-ch1" class="px-5 py-2 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md cursor-pointer flex items-center space-x-1.5">
                 <span id="btn-validate-ch1-text">Invia Risposte 🚀</span>
               </button>

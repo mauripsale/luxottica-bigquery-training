@@ -563,16 +563,22 @@
 
       // PIN LOCKED HINTS TRANSLATIONS
       setText('lbl-hint-locked-b1s1', t.lblHintLocked);
+      setText('desc-hint-b1s1', t.descHintLocked);
       setText('btn-unlock-b1s1', t.btnUnlock);
       setText('lbl-hint-locked-b1s2', t.lblHintLocked);
+      setText('desc-hint-b1s2', t.descHintLocked);
       setText('btn-unlock-b1s2', t.btnUnlock);
       setText('lbl-hint-locked-b2s1', t.lblHintLocked);
+      setText('desc-hint-b2s1', t.descHintLocked);
       setText('btn-unlock-b2s1', t.btnUnlock);
       setText('lbl-hint-locked-b2s2', t.lblHintLocked);
+      setText('desc-hint-b2s2', t.descHintLocked);
       setText('btn-unlock-b2s2', t.btnUnlock);
       setText('lbl-hint-locked-b3', t.lblHintLockedQuery);
+      setText('desc-hint-b3', t.descHintLockedQuery);
       setText('btn-unlock-b3', t.btnUnlock);
       setText('lbl-hint-locked-b4', t.lblHintLocked);
+      setText('desc-hint-b4', t.descHintLocked);
       setText('btn-unlock-b4', t.btnUnlock);
 
       setText('toast-text', t.toastText);
@@ -793,6 +799,8 @@
       // QUIZ CARDS TRANSLATIONS BINDINGS
       // CH0
       setText('quiz-title-ch0', t.quizTitleCh0);
+      setText('quiz-subtitle-ch0', t.quizSubtitleCh0);
+      setText('quiz-warning-ch0', t.quizWarningCh0);
       setText('quiz-badge-ch0', t.quizBadgeCh0);
       setText('lbl-quiz-ch0-q1', t.lblQuizCh0Q1);
       setText('opt-quiz-ch0-q1-default', t.optQuizCh0Q1Default);
@@ -810,6 +818,8 @@
 
       // CH1
       setText('quiz-title-ch1', t.quizTitleCh1);
+      setText('quiz-subtitle-ch1', t.quizSubtitleCh1);
+      setText('quiz-warning-ch1', t.quizWarningCh1);
       setText('quiz-badge-ch1', t.quizBadgeCh1);
       setText('lbl-quiz-ch1-q1', t.lblQuizCh1Q1);
       setText('opt-quiz-ch1-q1-default', t.optQuizCh1Q1Default);
@@ -824,6 +834,8 @@
 
       // CH2
       setText('quiz-title-ch2', t.quizTitleCh2);
+      setText('quiz-subtitle-ch2', t.quizSubtitleCh2);
+      setText('quiz-warning-ch2', t.quizWarningCh2);
       setText('quiz-badge-ch2', t.quizBadgeCh2);
       setText('lbl-quiz-ch2-q1', t.lblQuizCh2Q1);
       setText('opt-quiz-ch2-q1-default', t.optQuizCh2Q1Default);
@@ -838,6 +850,8 @@
 
       // CH3
       setText('quiz-title-ch3', t.quizTitleCh3);
+      setText('quiz-subtitle-ch3', t.quizSubtitleCh3);
+      setText('quiz-warning-ch3', t.quizWarningCh3);
       setText('quiz-badge-ch3', t.quizBadgeCh3);
       setText('lbl-quiz-ch3-q1', t.lblQuizCh3Q1);
       const ch3Q1Input = document.getElementById('quiz-ch3-q1');

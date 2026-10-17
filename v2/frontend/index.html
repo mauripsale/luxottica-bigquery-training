@@ -2459,22 +2459,30 @@
               <span class="font-bold text-blue-900" id="b1-s1-brief-title">🎯 Obiettivo di Business per il CMO:</span>
               <p class="text-blue-800" id="b1-s1-brief-desc">Apri Data Canvas (tasto `+`) e chiedi a Gemini in linguaggio naturale di analizzare il dataset <code>luxottica_marketing_analytics</code>: calcolare le vendite complessive e lo scontrino medio per ciascun brand.</p>
             </div>
-            <!-- LOCKED HINT 1.1 -->
-            <div id="hint-box-b1-s1" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+            <!-- OPTIONAL TRAINER HINT 1.1 (PIN PROTECTED) -->
+            <div id="hint-box-b1-s1" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs border border-slate-800">
               <div id="lock-state-b1-s1" class="flex items-center justify-between gap-2 flex-wrap">
                 <div class="flex items-center space-x-2">
-                  <span class="text-amber-400">🔒</span>
-                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b1s1">Suggerimento Protetto da PIN:</span>
+                  <span class="text-amber-400">💡</span>
+                  <div>
+                    <span class="text-slate-300 font-sans font-medium" id="lbl-hint-locked-b1s1">Aiuto Docente (Opzionale / Solo se bloccato):</span>
+                    <span class="text-[10px] text-slate-400 block" id="sub-hint-b1s1">Non serve per rispondere • Sblocca solo se hai bisogno del prompt suggerito</span>
+                  </div>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <input type="text" inputmode="numeric" id="pin-b1-s1" placeholder="PIN" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
-                  <button onclick="unlockHint('b1-s1')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b1s1">Sblocca 🔓</button>
+                  <input type="text" inputmode="numeric" id="pin-b1-s1" placeholder="PIN Docente" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-24 text-center focus:outline-none focus:border-amber-500">
+                  <button onclick="unlockHint('b1-s1')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition cursor-pointer" id="btn-unlock-b1s1">Sblocca Aiuto 💡</button>
                 </div>
               </div>
               <div id="content-b1-s1" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
                 <span id="p-b1-s1">Mostrami le vendite totali e lo scontrino medio per brand nel dataset luxottica_marketing_analytics</span>
-                <button onclick="copyToClipboard(document.getElementById('p-b1-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+                <button onclick="copyToClipboard(document.getElementById('p-b1-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap cursor-pointer">Copia 📋</button>
               </div>
+            </div>
+            <div class="flex justify-end">
+              <button onclick="document.getElementById('quiz-card-ch0').scrollIntoView({behavior:'smooth'})" class="text-[11px] text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer">
+                <span>📝 Hai i dati? Compila il modulo risposta in fondo</span> <span>↓</span>
+              </button>
             </div>
           </div>
 
@@ -2484,40 +2492,62 @@
               <span class="font-bold text-blue-900" id="b1-s2-brief-title">🎯 Obiettivo di Business per il CMO:</span>
               <p class="text-blue-800" id="b1-s2-brief-desc">Apri l'Editor SQL (`+ -> SQL query`), premi <code>Ctrl + Shift + P</code> e istruisci Gemini a calcolare i 3 totali aggregati: ordini complessivi, fatturato totale e spesa adv totale.</p>
             </div>
-            <!-- LOCKED HINT 1.2 -->
-            <div id="hint-box-b1-s2" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
+            <!-- OPTIONAL TRAINER HINT 1.2 (PIN PROTECTED) -->
+            <div id="hint-box-b1-s2" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs border border-slate-800">
               <div id="lock-state-b1-s2" class="flex items-center justify-between gap-2 flex-wrap">
                 <div class="flex items-center space-x-2">
-                  <span class="text-amber-400">🔒</span>
-                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b1s2">Suggerimento Protetto da PIN:</span>
+                  <span class="text-amber-400">💡</span>
+                  <div>
+                    <span class="text-slate-300 font-sans font-medium" id="lbl-hint-locked-b1s2">Aiuto Docente (Opzionale / Solo se bloccato):</span>
+                    <span class="text-[10px] text-slate-400 block" id="sub-hint-b1s2">Non serve per rispondere • Sblocca solo se hai bisogno del prompt suggerito</span>
+                  </div>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <input type="text" inputmode="numeric" id="pin-b1-s2" placeholder="PIN" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
-                  <button onclick="unlockHint('b1-s2')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b1s2">Sblocca 🔓</button>
+                  <input type="text" inputmode="numeric" id="pin-b1-s2" placeholder="PIN Docente" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-24 text-center focus:outline-none focus:border-amber-500">
+                  <button onclick="unlockHint('b1-s2')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition cursor-pointer" id="btn-unlock-b1s2">Sblocca Aiuto 💡</button>
                 </div>
               </div>
               <div id="content-b1-s2" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
                 <span id="p-b1-s2">Calcola il totale ordini, il fatturato totale in euro e la spesa adv totale dal dataset luxottica_marketing_analytics</span>
-                <button onclick="copyToClipboard(document.getElementById('p-b1-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+                <button onclick="copyToClipboard(document.getElementById('p-b1-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap cursor-pointer">Copia 📋</button>
               </div>
+            </div>
+            <div class="flex justify-end">
+              <button onclick="document.getElementById('quiz-card-ch0').scrollIntoView({behavior:'smooth'})" class="text-[11px] text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer">
+                <span>📝 Pronto per convalidare? Vai al modulo risposte in basso</span> <span>↓</span>
+              </button>
             </div>
           </div>
 
           <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (WARM-UP SETUP & DATA CANVAS) -->
-          <div id="quiz-card-ch0" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border border-slate-800 shadow-md space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div class="flex items-center space-x-2">
-                <span class="text-blue-400 text-base">🎯</span>
-                <span class="font-bold text-sm text-blue-300" id="quiz-title-ch0">Convalida Warm-Up: Setup & Data Canvas</span>
+          <div id="quiz-card-ch0" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border-2 border-blue-500/40 shadow-lg space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-800 pb-3">
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span class="text-blue-400 text-lg">📝</span>
+                  <span class="font-extrabold text-sm tracking-wide text-white uppercase" id="quiz-title-ch0">Modulo Risposta Ufficiale: Setup & Data Canvas</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-0.5" id="quiz-subtitle-ch0">Rispondi qui sotto per convalidare il lavoro svolto e assegnare i punti a te e alla tua squadra.</p>
               </div>
-              <span id="quiz-badge-ch0" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">+50 pt in palio</span>
+              <div class="flex items-center space-x-2 shrink-0">
+                <span id="quiz-badge-ch0" class="text-xs font-bold px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">+50 pt in palio</span>
+                <span id="quiz-penalty-badge-ch0" class="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700">Errori: 0</span>
+              </div>
+            </div>
+
+            <!-- WARNING CALLOUT ABOUT PENALTIES -->
+            <div class="px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-300 flex items-center justify-between gap-2">
+              <div class="flex items-center space-x-1.5">
+                <span>⚠️</span>
+                <span id="quiz-warning-ch0">Ogni tentativo errato applica una penalità di <strong>-10 pt</strong> sul punteggio di questa sfida (minimo 20 pt). Non tirare a indovinare!</span>
+              </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <!-- QUESTION 1 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch0-q1">1. Quale brand guida le vendite complessive nei dati BigQuery?</label>
-                <select id="quiz-ch0-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <label class="block text-slate-200 font-semibold" id="lbl-quiz-ch0-q1">1. Quale brand guida le vendite complessive nei dati BigQuery?</label>
+                <select id="quiz-ch0-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                   <option value="" id="opt-quiz-ch0-q1-default">-- Seleziona il brand --</option>
                   <option value="Ray-Ban">Ray-Ban</option>
                   <option value="Oliver Peoples">Oliver Peoples</option>
@@ -2529,8 +2559,8 @@
 
               <!-- QUESTION 2 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch0-q2">2. Quante tabelle compongono il dataset luxottica_marketing_analytics?</label>
-                <select id="quiz-ch0-q2" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <label class="block text-slate-200 font-semibold" id="lbl-quiz-ch0-q2">2. Quante tabelle compongono il dataset luxottica_marketing_analytics?</label>
+                <select id="quiz-ch0-q2" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                   <option value="" id="opt-quiz-ch0-q2-default">-- Seleziona numero tabelle --</option>
                   <option value="2" id="opt-quiz-ch0-q2-2">2 tabelle</option>
                   <option value="3" id="opt-quiz-ch0-q2-3">3 tabelle</option>
@@ -2542,7 +2572,7 @@
             </div>
 
             <div class="flex items-center justify-between pt-2 border-t border-slate-800">
-              <div id="quiz-feedback-ch0" class="text-xs font-medium text-slate-400">Guadagna i primi 50 punti per te e per la tua squadra!</div>
+              <div id="quiz-feedback-ch0" class="text-xs font-medium text-slate-400">Guadagna fino a 50 punti per te e per la tua squadra!</div>
               <button onclick="validateChallenge0()" id="btn-validate-ch0" class="px-5 py-2 rounded-xl font-bold text-xs bg-blue-600 hover:bg-blue-500 text-white transition shadow-md cursor-pointer flex items-center space-x-1.5">
                 <span id="btn-validate-ch0-text">Invia Risposte 🚀</span>
               </button>
@@ -2597,18 +2627,26 @@
             <div id="hint-box-b2-s1" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
               <div id="lock-state-b2-s1" class="flex items-center justify-between gap-2 flex-wrap">
                 <div class="flex items-center space-x-2">
-                  <span class="text-amber-400">🔒</span>
-                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b2s1">Suggerimento Protetto da PIN:</span>
+                  <span class="text-amber-400 text-base">💡</span>
+                  <div>
+                    <span class="text-amber-300 font-bold font-sans" id="lbl-hint-locked-b2s1">Aiuto Docente (Opzionale / Solo se bloccato):</span>
+                    <p class="text-[10px] text-slate-400 font-sans" id="desc-hint-b2s1">Non serve per rispondere alla sfida. Sblocca solo se hai bisogno del prompt suggerito.</p>
+                  </div>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <input type="text" inputmode="numeric" id="pin-b2-s1" placeholder="PIN" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
-                  <button onclick="unlockHint('b2-s1')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b2s1">Sblocca 🔓</button>
+                  <input type="text" inputmode="numeric" id="pin-b2-s1" placeholder="PIN Docente" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-24 text-center focus:outline-none focus:border-amber-500">
+                  <button onclick="unlockHint('b2-s1')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition cursor-pointer" id="btn-unlock-b2s1">Sblocca Aiuto 💡</button>
                 </div>
               </div>
               <div id="content-b2-s1" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
                 <span id="p-b2-s1">Mostrami il fatturato totale, gli ordini e lo scontrino medio per brand e canale dalla tabella lux_online_orders, filtrando ordini ad alto valore con fatturato > 300 euro.</span>
-                <button onclick="copyToClipboard(document.getElementById('p-b2-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+                <button onclick="copyToClipboard(document.getElementById('p-b2-s1').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap cursor-pointer">Copia 📋</button>
               </div>
+            </div>
+            <div class="flex justify-end">
+              <button onclick="document.getElementById('quiz-card-ch1').scrollIntoView({behavior:'smooth'})" class="text-[11px] text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer">
+                <span>📝 Pronto per convalidare? Vai al modulo risposte in fondo ↓</span>
+              </button>
             </div>
           </div>
 
@@ -2622,18 +2660,26 @@
             <div id="hint-box-b2-s2" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
               <div id="lock-state-b2-s2" class="flex items-center justify-between gap-2 flex-wrap">
                 <div class="flex items-center space-x-2">
-                  <span class="text-amber-400">🔒</span>
-                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b2s2">Suggerimento Protetto da PIN:</span>
+                  <span class="text-amber-400 text-base">💡</span>
+                  <div>
+                    <span class="text-amber-300 font-bold font-sans" id="lbl-hint-locked-b2s2">Aiuto Docente (Opzionale / Solo se bloccato):</span>
+                    <p class="text-[10px] text-slate-400 font-sans" id="desc-hint-b2s2">Non serve per rispondere alla sfida. Sblocca solo se hai bisogno del prompt suggerito.</p>
+                  </div>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <input type="text" inputmode="numeric" id="pin-b2-s2" placeholder="PIN" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
-                  <button onclick="unlockHint('b2-s2')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b2s2">Sblocca 🔓</button>
+                  <input type="text" inputmode="numeric" id="pin-b2-s2" placeholder="PIN Docente" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-24 text-center focus:outline-none focus:border-amber-500">
+                  <button onclick="unlockHint('b2-s2')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition cursor-pointer" id="btn-unlock-b2s2">Sblocca Aiuto 💡</button>
                 </div>
               </div>
               <div id="content-b2-s2" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
                 <span id="p-b2-s2">Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.</span>
-                <button onclick="copyToClipboard(document.getElementById('p-b2-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+                <button onclick="copyToClipboard(document.getElementById('p-b2-s2').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap cursor-pointer">Copia 📋</button>
               </div>
+            </div>
+            <div class="flex justify-end">
+              <button onclick="document.getElementById('quiz-card-ch1').scrollIntoView({behavior:'smooth'})" class="text-[11px] text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer">
+                <span>📝 Pronto per convalidare? Vai al modulo risposte in fondo ↓</span>
+              </button>
             </div>
           </div>
 
@@ -2643,20 +2689,34 @@
           </div>
 
           <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (CHALLENGE #1) -->
-          <div id="quiz-card-ch1" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border border-slate-800 shadow-md space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div class="flex items-center space-x-2">
-                <span class="text-amber-400 text-base">🎯</span>
-                <span class="font-bold text-sm text-amber-300" id="quiz-title-ch1">Convalida Risultati Challenge #1 & Ottieni Punti</span>
+          <div id="quiz-card-ch1" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border-2 border-amber-500/40 shadow-lg space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-800 pb-3">
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span class="text-amber-400 text-lg">📝</span>
+                  <span class="font-extrabold text-sm tracking-wide text-white uppercase" id="quiz-title-ch1">Modulo Risposta Ufficiale: Challenge #1</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-0.5" id="quiz-subtitle-ch1">Rispondi qui sotto con i risultati della tua query SQL per assegnare i punti a te e alla tua squadra.</p>
               </div>
-              <span id="quiz-badge-ch1" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+              <div class="flex items-center space-x-2 shrink-0">
+                <span id="quiz-badge-ch1" class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+                <span id="quiz-penalty-badge-ch1" class="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700">Errori: 0</span>
+              </div>
+            </div>
+
+            <!-- WARNING CALLOUT ABOUT PENALTIES -->
+            <div class="px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-300 flex items-center justify-between gap-2">
+              <div class="flex items-center space-x-1.5">
+                <span>⚠️</span>
+                <span id="quiz-warning-ch1">Ogni tentativo errato applica una penalità di <strong>-15 pt</strong> sul punteggio di questa sfida (minimo 40 pt). Non tirare a indovinare!</span>
+              </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <!-- QUESTION 1 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch1-q1">1. Quale brand guida lo scontrino medio (AOV) più elevato?</label>
-                <select id="quiz-ch1-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <label class="block text-slate-200 font-semibold" id="lbl-quiz-ch1-q1">1. Quale brand guida lo scontrino medio (AOV) più elevato?</label>
+                <select id="quiz-ch1-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2.5 focus:ring-2 focus:ring-amber-500 focus:outline-none">
                   <option value="" id="opt-quiz-ch1-q1-default">-- Seleziona il brand --</option>
                   <option value="Oliver Peoples">Oliver Peoples</option>
                   <option value="Ray-Ban">Ray-Ban</option>
@@ -2668,14 +2728,14 @@
 
               <!-- QUESTION 2 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch1-q2">2. Quanto vale lo sconto medio (€) su Wholesale Vogue?</label>
-                <input type="text" id="quiz-ch1-q2" placeholder="Es. 15.00" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <label class="block text-slate-200 font-semibold" id="lbl-quiz-ch1-q2">2. Quanto vale lo sconto medio (€) su Wholesale Vogue?</label>
+                <input type="text" id="quiz-ch1-q2" placeholder="Es. 15.00" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2.5 focus:ring-2 focus:ring-amber-500 focus:outline-none">
                 <p class="text-[10px] text-slate-400" id="hint-quiz-ch1-q2">Inserisci il valore numerico dello sconto medio ottenuto dalla tua query</p>
               </div>
             </div>
 
             <div class="flex items-center justify-between pt-2 border-t border-slate-800">
-              <div id="quiz-feedback-ch1" class="text-xs font-medium text-slate-400">Rispondi per sbloccare i punti per te e per la squadra</div>
+              <div id="quiz-feedback-ch1" class="text-xs font-medium text-slate-400">Rispondi per sbloccare fino a 100 punti per te e per la squadra</div>
               <button onclick="validateChallenge1()" id="btn-validate-ch1" class="px-5 py-2 rounded-xl font-bold text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 transition shadow-md cursor-pointer flex items-center space-x-1.5">
                 <span id="btn-validate-ch1-text">Invia Risposte 🚀</span>
               </button>
@@ -3039,12 +3099,15 @@
           <div id="hint-box-b3" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
             <div id="lock-state-b3" class="flex items-center justify-between gap-2 flex-wrap">
               <div class="flex items-center space-x-2">
-                <span class="text-amber-400">🔒</span>
-                <span class="text-slate-300 font-sans" id="lbl-hint-locked-b3">Query Soluzione Protetta da PIN:</span>
+                <span class="text-amber-400 text-base">💡</span>
+                <div>
+                  <span class="text-amber-300 font-bold font-sans" id="lbl-hint-locked-b3">Query Soluzione Docente (Opzionale / Solo se bloccato):</span>
+                  <p class="text-[10px] text-slate-400 font-sans" id="desc-hint-b3">Non serve per rispondere alla sfida. Sblocca solo se hai bisogno del codice SQL suggerito.</p>
+                </div>
               </div>
               <div class="flex items-center space-x-2">
-                <input type="text" inputmode="numeric" id="pin-b3" placeholder="PIN" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
-                <button onclick="unlockHint('b3')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b3">Sblocca 🔓</button>
+                <input type="text" inputmode="numeric" id="pin-b3" placeholder="PIN Docente" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-24 text-center focus:outline-none focus:border-amber-500">
+                <button onclick="unlockHint('b3')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition cursor-pointer" id="btn-unlock-b3">Sblocca Aiuto 💡</button>
               </div>
             </div>
             <div id="content-b3" class="hidden relative mt-2 pt-2 border-t border-slate-800">
@@ -3073,10 +3136,15 @@ SELECT
 FROM spend_summary s
 JOIN revenue_summary r ON s.brand = r.brand
 ORDER BY roas_multiplier DESC;</pre>
-              <button onclick="copyToClipboard(`WITH spend_summary AS (\n  SELECT \n    brand, \n    platform, \n    ROUND(SUM(spend_eur), 2) AS total_spend\n  FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend\`\n  GROUP BY brand, platform\n),\nrevenue_summary AS (\n  SELECT \n    brand, \n    ROUND(SUM(revenue_eur), 2) AS total_revenue\n  FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\`\n  GROUP BY brand\n)\nSELECT \n  s.platform, \n  s.brand, \n  s.total_spend, \n  r.total_revenue, \n  ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas_multiplier\nFROM spend_summary s\nJOIN revenue_summary r ON s.brand = r.brand\nORDER BY roas_multiplier DESC;`)" class="absolute top-2 right-2 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans shadow">
+              <button onclick="copyToClipboard(`WITH spend_summary AS (\n  SELECT \n    brand, \n    platform, \n    ROUND(SUM(spend_eur), 2) AS total_spend\n  FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_ad_spend\`\n  GROUP BY brand, platform\n),\nrevenue_summary AS (\n  SELECT \n    brand, \n    ROUND(SUM(revenue_eur), 2) AS total_revenue\n  FROM \`qwiklabs-asl-02-9bb3224716de.luxottica_marketing_analytics.lux_online_orders\`\n  GROUP BY brand\n)\nSELECT \n  s.platform, \n  s.brand, \n  s.total_spend, \n  r.total_revenue, \n  ROUND(SAFE_DIVIDE(r.total_revenue, s.total_spend), 2) AS roas_multiplier\nFROM spend_summary s\nJOIN revenue_summary r ON s.brand = r.brand\nORDER BY roas_multiplier DESC;`)" class="absolute top-2 right-2 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans shadow cursor-pointer">
                 Copia SQL 📋
               </button>
             </div>
+          </div>
+          <div class="flex justify-end">
+            <button onclick="document.getElementById('quiz-card-ch2').scrollIntoView({behavior:'smooth'})" class="text-[11px] text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer">
+              <span>📝 Pronto per convalidare? Vai al modulo risposte in fondo ↓</span>
+            </button>
           </div>
 
           <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs space-y-1">
@@ -3085,20 +3153,34 @@ ORDER BY roas_multiplier DESC;</pre>
           </div>
 
           <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (CHALLENGE #2) -->
-          <div id="quiz-card-ch2" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border border-slate-800 shadow-md space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div class="flex items-center space-x-2">
-                <span class="text-amber-400 text-base">🎯</span>
-                <span class="font-bold text-sm text-amber-300" id="quiz-title-ch2">Convalida Risultati Challenge #2 & Ottieni Punti</span>
+          <div id="quiz-card-ch2" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border-2 border-indigo-500/40 shadow-lg space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-800 pb-3">
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span class="text-amber-400 text-lg">📝</span>
+                  <span class="font-extrabold text-sm tracking-wide text-white uppercase" id="quiz-title-ch2">Modulo Risposta Ufficiale: Challenge #2</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-0.5" id="quiz-subtitle-ch2">Rispondi qui sotto con i risultati del calcolo ROAS per assegnare i punti a te e alla tua squadra.</p>
               </div>
-              <span id="quiz-badge-ch2" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+              <div class="flex items-center space-x-2 shrink-0">
+                <span id="quiz-badge-ch2" class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+                <span id="quiz-penalty-badge-ch2" class="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700">Errori: 0</span>
+              </div>
+            </div>
+
+            <!-- WARNING CALLOUT ABOUT PENALTIES -->
+            <div class="px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-300 flex items-center justify-between gap-2">
+              <div class="flex items-center space-x-1.5">
+                <span>⚠️</span>
+                <span id="quiz-warning-ch2">Ogni tentativo errato applica una penalità di <strong>-15 pt</strong> sul punteggio di questa sfida (minimo 40 pt). Non tirare a indovinare!</span>
+              </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <!-- QUESTION 1 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch2-q1">1. Quale canale registra il ROAS più basso (&lt; 1.0x)?</label>
-                <select id="quiz-ch2-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <label class="block text-slate-200 font-semibold" id="lbl-quiz-ch2-q1">1. Quale canale registra il ROAS più basso (&lt; 1.0x)?</label>
+                <select id="quiz-ch2-q1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                   <option value="" id="opt-quiz-ch2-q1-default">-- Seleziona canale pubblicitario --</option>
                   <option value="TikTok Ads">TikTok Ads</option>
                   <option value="Google Ads">Google Ads</option>
@@ -3109,8 +3191,8 @@ ORDER BY roas_multiplier DESC;</pre>
 
               <!-- QUESTION 2 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch2-q2">2. A quanto ammonta il ROAS generato da Google Ads?</label>
-                <input type="text" id="quiz-ch2-q2" placeholder="Es. 4.5" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <label class="block text-slate-200 font-semibold" id="lbl-quiz-ch2-q2">2. A quanto ammonta il ROAS generato da Google Ads?</label>
+                <input type="text" id="quiz-ch2-q2" placeholder="Es. 4.5" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 <p class="text-[10px] text-slate-400" id="hint-quiz-ch2-q2">Inserisci il valore numerico del moltiplicatore ROAS calcolato dalla query</p>
               </div>
             </div>
@@ -3175,43 +3257,65 @@ ORDER BY roas_multiplier DESC;</pre>
             <div id="hint-box-b4" class="bg-slate-900 text-slate-100 rounded-xl p-3 text-xs">
               <div id="lock-state-b4" class="flex items-center justify-between gap-2 flex-wrap">
                 <div class="flex items-center space-x-2">
-                  <span class="text-amber-400">🔒</span>
-                  <span class="text-slate-300 font-sans" id="lbl-hint-locked-b4">Suggerimento Protetto da PIN:</span>
+                  <span class="text-amber-400 text-base">💡</span>
+                  <div>
+                    <span class="text-amber-300 font-bold font-sans" id="lbl-hint-locked-b4">Aiuto Docente (Opzionale / Solo se bloccato):</span>
+                    <p class="text-[10px] text-slate-400 font-sans" id="desc-hint-b4">Non serve per rispondere alla sfida. Sblocca solo se hai bisogno del prompt suggerito.</p>
+                  </div>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <input type="text" inputmode="numeric" id="pin-b4" placeholder="PIN" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-16 text-center focus:outline-none focus:border-blue-500">
-                  <button onclick="unlockHint('b4')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition" id="btn-unlock-b4">Sblocca 🔓</button>
+                  <input type="text" inputmode="numeric" id="pin-b4" placeholder="PIN Docente" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="pin-input bg-slate-800 border border-slate-700 text-white text-xs px-2 py-1 rounded w-24 text-center focus:outline-none focus:border-amber-500">
+                  <button onclick="unlockHint('b4')" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1 rounded font-sans font-semibold text-xs transition cursor-pointer" id="btn-unlock-b4">Sblocca Aiuto 💡</button>
                 </div>
               </div>
               <div id="content-b4" class="hidden mt-2 pt-2 border-t border-slate-800 font-mono flex items-center justify-between gap-2">
                 <span id="prompt-view-text">Crea la vista luxottica_marketing_analytics.v_clean_marketing_leads_chiara prendendo da lux_raw_marketing_leads_dirty: pulisci email con LOWER e TRIM, estrai brand e converti spesa in numero, filtrando lead VIP con spesa > 200 euro.</span>
-                <button onclick="copyToClipboard(document.getElementById('prompt-view-text').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap">Copia 📋</button>
+                <button onclick="copyToClipboard(document.getElementById('prompt-view-text').innerText)" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white text-xs font-sans whitespace-nowrap cursor-pointer">Copia 📋</button>
               </div>
+            </div>
+            <div class="flex justify-end">
+              <button onclick="document.getElementById('quiz-card-ch3').scrollIntoView({behavior:'smooth'})" class="text-[11px] text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer">
+                <span>📝 Pronto per convalidare? Vai al modulo risposte in fondo ↓</span>
+              </button>
             </div>
           </div>
 
           <!-- INTERACTIVE QUIZ & SCORE VALIDATION CARD (CHALLENGE #3) -->
-          <div id="quiz-card-ch3" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border border-slate-800 shadow-md space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div class="flex items-center space-x-2">
-                <span class="text-amber-400 text-base">🎯</span>
-                <span class="font-bold text-sm text-amber-300" id="quiz-title-ch3">Convalida Risultati Challenge #3 & Ottieni Punti</span>
+          <div id="quiz-card-ch3" class="p-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl border-2 border-emerald-500/40 shadow-lg space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-800 pb-3">
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span class="text-amber-400 text-lg">📝</span>
+                  <span class="font-extrabold text-sm tracking-wide text-white uppercase" id="quiz-title-ch3">Modulo Risposta Ufficiale: Challenge #3</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-0.5" id="quiz-subtitle-ch3">Rispondi qui sotto con i risultati della tua View BigQuery per assegnare i punti a te e alla tua squadra.</p>
               </div>
-              <span id="quiz-badge-ch3" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+              <div class="flex items-center space-x-2 shrink-0">
+                <span id="quiz-badge-ch3" class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">+100 pt in palio</span>
+                <span id="quiz-penalty-badge-ch3" class="text-[11px] font-mono px-2 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700">Errori: 0</span>
+              </div>
+            </div>
+
+            <!-- WARNING CALLOUT ABOUT PENALTIES -->
+            <div class="px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-300 flex items-center justify-between gap-2">
+              <div class="flex items-center space-x-1.5">
+                <span>⚠️</span>
+                <span id="quiz-warning-ch3">Ogni tentativo errato applica una penalità di <strong>-15 pt</strong> sul punteggio di questa sfida (minimo 40 pt). Non tirare a indovinare!</span>
+              </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <!-- QUESTION 1 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch3-q1">1. Quanti lead VIP validi (spesa &gt; 200 €) ha recuperato la tua View?</label>
-                <input type="text" id="quiz-ch3-q1" placeholder="Es. 150 (inserisci conteggio)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <label class="block text-slate-200 font-semibold" id="lbl-quiz-ch3-q1">1. Quanti lead VIP validi (spesa &gt; 200 €) ha recuperato la tua View?</label>
+                <input type="text" id="quiz-ch3-q1" placeholder="Es. 150 (inserisci conteggio)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-bwignore="true" data-form-type="other" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 <p class="text-[10px] text-slate-400" id="hint-quiz-ch3-q1">Inserisci il conteggio totale di righe restituite dalla vista creata</p>
               </div>
 
               <!-- QUESTION 2 -->
               <div class="space-y-1.5">
-                <label class="block text-slate-300 font-medium" id="lbl-quiz-ch3-q2">2. Quale funzione SQL ha eliminato gli spazi spuri prima e dopo le email?</label>
-                <select id="quiz-ch3-q2" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <label class="block text-slate-200 font-semibold" id="lbl-quiz-ch3-q2">2. Quale funzione SQL ha eliminato gli spazi spuri prima e dopo le email?</label>
+                <select id="quiz-ch3-q2" class="w-full bg-slate-800 border border-slate-700 text-white rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                   <option value="" id="opt-quiz-ch3-q2-default">-- Seleziona la funzione SQL --</option>
                   <option value="TRIM">TRIM(email)</option>
                   <option value="LOWER">LOWER(email)</option>
@@ -3710,9 +3814,11 @@ window.Hub = window.Hub || {
         rsRow10Sql: "SAFE_CAST(colonna AS NUMERIC)",
         rsRow11Excel: "Rimuovi Duplicati Avanzato",
         rsRow11Sql: "QUALIFY ROW_NUMBER() OVER(...) = 1",
-        lblHintLocked: "Suggerimento Protetto da PIN:",
-        lblHintLockedQuery: "Query Soluzione Protetta da PIN:",
-        btnUnlock: "Sblocca 🔓",
+        lblHintLocked: "Aiuto Docente (Opzionale / Solo se bloccato):",
+        lblHintLockedQuery: "Soluzione Docente (Opzionale / Solo se bloccato):",
+        descHintLocked: "Non serve per rispondere alla sfida. Sblocca solo se hai bisogno del prompt suggerito.",
+        descHintLockedQuery: "Non serve per rispondere alla sfida. Sblocca solo se hai bisogno della query di riferimento.",
+        btnUnlock: "Sblocca Aiuto 💡",
         toastText: "✅ Copiato negli Appunti!",
         // TRAINER BAR TRANSLATIONS
         tbBadge: "🎓 Console Docente",
@@ -3878,7 +3984,9 @@ window.Hub = window.Hub || {
         roleModalFooter: "Potrai sempre cambiare modalità o accedere alla console docente tramite l'header o con il PIN dedicato.",
 
         // QUIZ CARDS TRANSLATIONS IT
-        quizTitleCh0: "Convalida Warm-Up: Setup & Data Canvas",
+        quizTitleCh0: "Modulo Risposta Ufficiale: Setup & Data Canvas",
+        quizSubtitleCh0: "Rispondi qui sotto per convalidare il lavoro svolto e assegnare i punti a te e alla tua squadra.",
+        quizWarningCh0: "Ogni tentativo errato applica una penalità di -10 pt sul punteggio di questa sfida (minimo 20 pt). Non tirare a indovinare!",
         quizBadgeCh0: "+50 pt in palio",
         lblQuizCh0Q1: "1. Nel grafico di Data Canvas, quale brand guida le vendite complessive?",
         optQuizCh0Q1Default: "-- Seleziona il brand --",
@@ -3889,20 +3997,24 @@ window.Hub = window.Hub || {
         optQuizCh0Q2_4: "4 tabelle",
         optQuizCh0Q2_5: "5 tabelle",
         hintQuizCh0Q2: "Verifica nell'Explorer di BigQuery o nel riquadro Specifiche Ambiente",
-        quizFeedbackCh0: "Guadagna i primi 50 punti per te e per la tua squadra!",
+        quizFeedbackCh0: "Guadagna fino a 50 punti per te e per la tua squadra!",
         btnValidateCh0Text: "Invia Risposte 🚀",
 
-        quizTitleCh1: "Convalida Risultati Challenge #1 & Ottieni Punti",
+        quizTitleCh1: "Modulo Risposta Ufficiale: Challenge #1",
+        quizSubtitleCh1: "Rispondi qui sotto con i risultati della tua query SQL per assegnare i punti a te e alla tua squadra.",
+        quizWarningCh1: "Ogni tentativo errato applica una penalità di -15 pt sul punteggio di questa sfida (minimo 40 pt). Non tirare a indovinare!",
         quizBadgeCh1: "+100 pt in palio",
         lblQuizCh1Q1: "1. Quale brand guida lo scontrino medio (AOV) più elevato?",
         optQuizCh1Q1Default: "-- Seleziona il brand --",
         lblQuizCh1Q2: "2. Quanto vale lo sconto medio (€) su Wholesale Vogue?",
         phQuizCh1Q2: "Es. 15.00",
         hintQuizCh1Q2: "Inserisci il valore numerico dello sconto medio ottenuto dalla tua query",
-        quizFeedbackCh1: "Rispondi per sbloccare i punti per te e per la squadra",
+        quizFeedbackCh1: "Rispondi per sbloccare fino a 100 punti per te e per la squadra",
         btnValidateCh1Text: "Invia Risposte 🚀",
 
-        quizTitleCh2: "Convalida Risultati Challenge #2 & Ottieni Punti",
+        quizTitleCh2: "Modulo Risposta Ufficiale: Challenge #2",
+        quizSubtitleCh2: "Rispondi qui sotto con i risultati del calcolo ROAS per assegnare i punti a te e alla tua squadra.",
+        quizWarningCh2: "Ogni tentativo errato applica una penalità di -15 pt sul punteggio di questa sfida (minimo 40 pt). Non tirare a indovinare!",
         quizBadgeCh2: "+100 pt in palio",
         lblQuizCh2Q1: "1. Quale canale registra il ROAS più basso (< 1.0x)?",
         optQuizCh2Q1Default: "-- Seleziona canale pubblicitario --",
@@ -3912,7 +4024,9 @@ window.Hub = window.Hub || {
         quizFeedbackCh2: "Dimostra al CMO il rendimento delle campagne adv",
         btnValidateCh2Text: "Invia Risposte 🚀",
 
-        quizTitleCh3: "Convalida Risultati Challenge #3 & Ottieni Punti",
+        quizTitleCh3: "Modulo Risposta Ufficiale: Challenge #3",
+        quizSubtitleCh3: "Rispondi qui sotto per verificare la vista pulita creata e assegnare i punti alla tua squadra.",
+        quizWarningCh3: "Ogni tentativo errato applica una penalità di -15 pt sul punteggio di questa sfida (minimo 40 pt). Non tirare a indovinare!",
         quizBadgeCh3: "+100 pt in palio",
         lblQuizCh3Q1: "1. Quanti lead VIP validi (spesa > 200 €) ha recuperato la tua View?",
         phQuizCh3Q1: "Es. 150 (inserisci conteggio)",
@@ -4084,9 +4198,11 @@ window.Hub = window.Hub || {
         rsRow10Sql: "SAFE_CAST(column AS NUMERIC)",
         rsRow11Excel: "Advanced Deduplication",
         rsRow11Sql: "QUALIFY ROW_NUMBER() OVER(...) = 1",
-        lblHintLocked: "PIN-Protected Hint:",
-        lblHintLockedQuery: "PIN-Protected Solution Query:",
-        btnUnlock: "Unlock 🔓",
+        lblHintLocked: "Teacher Assistance (Optional / Only if stuck):",
+        lblHintLockedQuery: "Teacher Solution (Optional / Only if stuck):",
+        descHintLocked: "Not required to answer the challenge. Only unlock if you need the suggested prompt.",
+        descHintLockedQuery: "Not required to answer the challenge. Only unlock if you need the reference query.",
+        btnUnlock: "Unlock Hint 💡",
         toastText: "✅ Copied to Clipboard!",
         // TRAINER BAR TRANSLATIONS
         tbBadge: "🎓 Trainer Console",
@@ -4252,7 +4368,9 @@ window.Hub = window.Hub || {
         roleModalFooter: "You can always switch roles or access the trainer console via the header or with the dedicated PIN.",
 
         // QUIZ CARDS TRANSLATIONS EN
-        quizTitleCh0: "Warm-Up Validation: Setup & Data Canvas",
+        quizTitleCh0: "Official Submission Form: Setup & Data Canvas",
+        quizSubtitleCh0: "Submit answers below to validate your completed work and award points to yourself and your team.",
+        quizWarningCh0: "Each incorrect attempt applies a -10 pt penalty to this challenge score (minimum 20 pts). Do not guess!",
         quizBadgeCh0: "+50 pts reward",
         lblQuizCh0Q1: "1. In Data Canvas bar chart, which brand leads overall sales?",
         optQuizCh0Q1Default: "-- Select brand --",
@@ -4263,20 +4381,24 @@ window.Hub = window.Hub || {
         optQuizCh0Q2_4: "4 tables",
         optQuizCh0Q2_5: "5 tables",
         hintQuizCh0Q2: "Check BigQuery Explorer or the Environment Specs box above",
-        quizFeedbackCh0: "Earn your first 50 points for yourself and your team!",
+        quizFeedbackCh0: "Earn up to 50 points for yourself and your team!",
         btnValidateCh0Text: "Submit Answers 🚀",
 
-        quizTitleCh1: "Challenge #1 Validation & Earn Points",
+        quizTitleCh1: "Official Submission Form: Challenge #1",
+        quizSubtitleCh1: "Submit answers below with your SQL query results to award points to yourself and your team.",
+        quizWarningCh1: "Each incorrect attempt applies a -15 pt penalty to this challenge score (minimum 40 pts). Do not guess!",
         quizBadgeCh1: "+100 pts reward",
         lblQuizCh1Q1: "1. Which brand leads the highest average order value (AOV)?",
         optQuizCh1Q1Default: "-- Select brand --",
         lblQuizCh1Q2: "2. What is the average discount (€) on Wholesale Vogue?",
         phQuizCh1Q2: "E.g. 15.00",
         hintQuizCh1Q2: "Enter the numeric average discount obtained from your query",
-        quizFeedbackCh1: "Answer to unlock points for yourself and your team",
+        quizFeedbackCh1: "Submit answers to unlock up to 100 points for your team",
         btnValidateCh1Text: "Submit Answers 🚀",
 
-        quizTitleCh2: "Challenge #2 Validation & Earn Points",
+        quizTitleCh2: "Official Submission Form: Challenge #2",
+        quizSubtitleCh2: "Submit answers below with your ROAS calculation results to award points to yourself and your team.",
+        quizWarningCh2: "Each incorrect attempt applies a -15 pt penalty to this challenge score (minimum 40 pts). Do not guess!",
         quizBadgeCh2: "+100 pts reward",
         lblQuizCh2Q1: "1. Which ad channel has the lowest ROAS (< 1.0x)?",
         optQuizCh2Q1Default: "-- Select ad platform --",
@@ -4286,7 +4408,9 @@ window.Hub = window.Hub || {
         quizFeedbackCh2: "Demonstrate campaign performance to the CMO",
         btnValidateCh2Text: "Submit Answers 🚀",
 
-        quizTitleCh3: "Challenge #3 Validation & Earn Points",
+        quizTitleCh3: "Official Submission Form: Challenge #3",
+        quizSubtitleCh3: "Submit answers below to verify your clean created view and award points to your team.",
+        quizWarningCh3: "Each incorrect attempt applies a -15 pt penalty to this challenge score (minimum 40 pts). Do not guess!",
         quizBadgeCh3: "+100 pts reward",
         lblQuizCh3Q1: "1. How many valid VIP leads (spend > 200 €) did your View recover?",
         phQuizCh3Q1: "E.g. 150 (enter row count)",
@@ -6697,16 +6821,22 @@ window.Hub = window.Hub || {
 
       // PIN LOCKED HINTS TRANSLATIONS
       setText('lbl-hint-locked-b1s1', t.lblHintLocked);
+      setText('desc-hint-b1s1', t.descHintLocked);
       setText('btn-unlock-b1s1', t.btnUnlock);
       setText('lbl-hint-locked-b1s2', t.lblHintLocked);
+      setText('desc-hint-b1s2', t.descHintLocked);
       setText('btn-unlock-b1s2', t.btnUnlock);
       setText('lbl-hint-locked-b2s1', t.lblHintLocked);
+      setText('desc-hint-b2s1', t.descHintLocked);
       setText('btn-unlock-b2s1', t.btnUnlock);
       setText('lbl-hint-locked-b2s2', t.lblHintLocked);
+      setText('desc-hint-b2s2', t.descHintLocked);
       setText('btn-unlock-b2s2', t.btnUnlock);
       setText('lbl-hint-locked-b3', t.lblHintLockedQuery);
+      setText('desc-hint-b3', t.descHintLockedQuery);
       setText('btn-unlock-b3', t.btnUnlock);
       setText('lbl-hint-locked-b4', t.lblHintLocked);
+      setText('desc-hint-b4', t.descHintLocked);
       setText('btn-unlock-b4', t.btnUnlock);
 
       setText('toast-text', t.toastText);
@@ -6927,6 +7057,8 @@ window.Hub = window.Hub || {
       // QUIZ CARDS TRANSLATIONS BINDINGS
       // CH0
       setText('quiz-title-ch0', t.quizTitleCh0);
+      setText('quiz-subtitle-ch0', t.quizSubtitleCh0);
+      setText('quiz-warning-ch0', t.quizWarningCh0);
       setText('quiz-badge-ch0', t.quizBadgeCh0);
       setText('lbl-quiz-ch0-q1', t.lblQuizCh0Q1);
       setText('opt-quiz-ch0-q1-default', t.optQuizCh0Q1Default);
@@ -6944,6 +7076,8 @@ window.Hub = window.Hub || {
 
       // CH1
       setText('quiz-title-ch1', t.quizTitleCh1);
+      setText('quiz-subtitle-ch1', t.quizSubtitleCh1);
+      setText('quiz-warning-ch1', t.quizWarningCh1);
       setText('quiz-badge-ch1', t.quizBadgeCh1);
       setText('lbl-quiz-ch1-q1', t.lblQuizCh1Q1);
       setText('opt-quiz-ch1-q1-default', t.optQuizCh1Q1Default);
@@ -6958,6 +7092,8 @@ window.Hub = window.Hub || {
 
       // CH2
       setText('quiz-title-ch2', t.quizTitleCh2);
+      setText('quiz-subtitle-ch2', t.quizSubtitleCh2);
+      setText('quiz-warning-ch2', t.quizWarningCh2);
       setText('quiz-badge-ch2', t.quizBadgeCh2);
       setText('lbl-quiz-ch2-q1', t.lblQuizCh2Q1);
       setText('opt-quiz-ch2-q1-default', t.optQuizCh2Q1Default);
@@ -6972,6 +7108,8 @@ window.Hub = window.Hub || {
 
       // CH3
       setText('quiz-title-ch3', t.quizTitleCh3);
+      setText('quiz-subtitle-ch3', t.quizSubtitleCh3);
+      setText('quiz-warning-ch3', t.quizWarningCh3);
       setText('quiz-badge-ch3', t.quizBadgeCh3);
       setText('lbl-quiz-ch3-q1', t.lblQuizCh3Q1);
       const ch3Q1Input = document.getElementById('quiz-ch3-q1');
@@ -7141,6 +7279,19 @@ window.Hub = window.Hub || {
       { key: 'oliver', name: 'Team Oliver Peoples', icon: '🕶️', desc: 'Luxury Vintage & Custom Acetates', color: 'purple' }
     ];
 
+    const CHALLENGE_CONFIG = {
+      ch0: { basePoints: 50, penaltyPerError: 10, minPoints: 20 },
+      ch1: { basePoints: 100, penaltyPerError: 15, minPoints: 40 },
+      ch2: { basePoints: 100, penaltyPerError: 15, minPoints: 40 },
+      ch3: { basePoints: 100, penaltyPerError: 15, minPoints: 40 }
+    };
+
+    function getChallengePotentialPoints(chKey) {
+      const cfg = CHALLENGE_CONFIG[chKey] || { basePoints: 100, penaltyPerError: 15, minPoints: 40 };
+      const attempts = (currentStudent.challengeAttempts && currentStudent.challengeAttempts[chKey]) || 0;
+      return Math.max(cfg.minPoints, cfg.basePoints - (attempts * cfg.penaltyPerError));
+    }
+
     let currentStudent = {
       id: '',
       name: '',
@@ -7154,6 +7305,18 @@ window.Hub = window.Hub || {
         ch1: false,
         ch2: false,
         ch3: false
+      },
+      challengeAttempts: {
+        ch0: 0,
+        ch1: 0,
+        ch2: 0,
+        ch3: 0
+      },
+      challengePoints: {
+        ch0: 0,
+        ch1: 0,
+        ch2: 0,
+        ch3: 0
       }
     };
 
@@ -7249,7 +7412,9 @@ window.Hub = window.Hub || {
         googleSub: '',
         teamKey: '',
         score: 0,
-        completedChallenges: {}
+        completedChallenges: { ch0: false, ch1: false, ch2: false, ch3: false },
+        challengeAttempts: { ch0: 0, ch1: 0, ch2: 0, ch3: 0 },
+        challengePoints: { ch0: 0, ch1: 0, ch2: 0, ch3: 0 }
       };
 
       try {
@@ -7764,19 +7929,23 @@ window.Hub = window.Hub || {
       const btn = document.getElementById(`btn-validate-${chKey}`);
       const feedback = document.getElementById(`quiz-feedback-${chKey}`);
       const badge = document.getElementById(`quiz-badge-${chKey}`);
+      const penaltyBadge = document.getElementById(`quiz-penalty-badge-${chKey}`);
 
-      const pointsMap = { ch0: '+50 pt in palio', ch1: '+100 pt in palio', ch2: '+100 pt in palio', ch3: '+100 pt in palio' };
+      const attempts = (currentStudent.challengeAttempts && currentStudent.challengeAttempts[chKey]) || 0;
+      const potentialPts = getChallengePotentialPoints(chKey);
+
       const defaultFeedbackMap = {
-        ch0: currentLang === 'it' ? "Guadagna i primi 50 punti per te e per la tua squadra!" : "Earn the first 50 points for you and your team!",
-        ch1: currentLang === 'it' ? "Rispondi per sbloccare i punti per te e per la squadra" : "Submit answers to unlock points for your team",
+        ch0: currentLang === 'it' ? "Guadagna fino a 50 punti per te e per la tua squadra!" : "Earn up to 50 points for you and your team!",
+        ch1: currentLang === 'it' ? "Rispondi per sbloccare fino a 100 punti per te e per la squadra" : "Submit answers to unlock up to 100 points for your team",
         ch2: currentLang === 'it' ? "Dimostra al CMO il rendimento delle campagne adv" : "Prove campaign ROAS performance to the CMO",
         ch3: currentLang === 'it' ? "Verifica la qualità del tuo dataset per Google Ads Customer Match" : "Verify dataset quality for Google Ads Customer Match"
       };
 
       if (isCompleted) {
+        const awardedPts = (currentStudent.challengePoints && currentStudent.challengePoints[chKey]) || potentialPts;
         if (card) {
-          card.classList.remove('from-slate-900', 'to-slate-950', 'border-slate-800');
-          card.classList.add('from-emerald-950', 'to-slate-900', 'border-emerald-700/60');
+          card.classList.remove('from-slate-900', 'to-slate-950', 'border-slate-800', 'border-blue-500/40', 'border-amber-500/40', 'border-indigo-500/40', 'border-emerald-500/40');
+          card.classList.add('from-emerald-950', 'to-slate-900', 'border-emerald-500/80');
         }
         if (btn) {
           btn.disabled = true;
@@ -7784,18 +7953,22 @@ window.Hub = window.Hub || {
           btn.innerHTML = currentLang === 'it' ? "<span>Completata ✅</span>" : "<span>Completed ✅</span>";
         }
         if (badge) {
-          badge.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
-          badge.innerText = currentLang === 'it' ? "✅ Punti Assegnati" : "✅ Points Awarded";
+          badge.className = "text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+          badge.innerText = currentLang === 'it' ? `✅ +${awardedPts} pt Assegnati` : `✅ +${awardedPts} pts Awarded`;
+        }
+        if (penaltyBadge) {
+          penaltyBadge.className = "text-[11px] font-mono px-2 py-1 rounded-md bg-emerald-950/80 text-emerald-300 border border-emerald-700/60";
+          penaltyBadge.innerText = currentLang === 'it' ? `Errori: ${attempts} • +${awardedPts} pt` : `Errors: ${attempts} • +${awardedPts} pts`;
         }
         if (feedback) {
           feedback.className = "text-xs font-bold text-emerald-400";
-          feedback.innerText = currentLang === 'it' ? "🎉 Sfida superata con successo! Punti registrati." : "🎉 Challenge passed! Points awarded.";
+          feedback.innerText = currentLang === 'it' ? `🎉 Sfida superata con successo! +${awardedPts} punti registrati.` : `🎉 Challenge passed! +${awardedPts} points awarded.`;
         }
       } else {
         // Reset to initial playable state
         if (card) {
-          card.classList.remove('from-emerald-950', 'to-slate-900', 'border-emerald-700/60');
-          card.classList.add('from-slate-900', 'to-slate-950', 'border-slate-800');
+          card.classList.remove('from-emerald-950', 'border-emerald-500/80');
+          card.classList.add('from-slate-900', 'to-slate-950');
         }
         if (btn) {
           btn.disabled = false;
@@ -7808,11 +7981,19 @@ window.Hub = window.Hub || {
         }
         if (badge) {
           if (chKey === 'ch0') {
-            badge.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30";
+            badge.className = "text-xs font-bold px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30";
           } else {
-            badge.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30";
+            badge.className = "text-xs font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30";
           }
-          badge.innerText = pointsMap[chKey] || '+100 pt in palio';
+          badge.innerText = currentLang === 'it' ? `+${potentialPts} pt in palio` : `+${potentialPts} pts reward`;
+        }
+        if (penaltyBadge) {
+          if (attempts > 0) {
+            penaltyBadge.className = "text-[11px] font-mono px-2 py-1 rounded-md bg-amber-950/80 text-amber-300 border border-amber-700/60";
+          } else {
+            penaltyBadge.className = "text-[11px] font-mono px-2 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700";
+          }
+          penaltyBadge.innerText = currentLang === 'it' ? `Errori: ${attempts}` : `Errors: ${attempts}`;
         }
         if (feedback) {
           feedback.className = "text-xs font-medium text-slate-400";
@@ -8060,6 +8241,8 @@ window.Hub = window.Hub || {
     function handleRemoteResetScores() {
       currentStudent.score = 0;
       currentStudent.completedChallenges = { ch0: false, ch1: false, ch2: false, ch3: false };
+      currentStudent.challengeAttempts = { ch0: 0, ch1: 0, ch2: 0, ch3: 0 };
+      currentStudent.challengePoints = { ch0: 0, ch1: 0, ch2: 0, ch3: 0 };
       classroomStudents = {};
       saveStudentProfile();
       saveClassroomState();
@@ -8098,6 +8281,16 @@ window.Hub = window.Hub || {
       const q2 = (document.getElementById('quiz-ch0-q2')?.value || '').trim();
       const feedback = document.getElementById('quiz-feedback-ch0');
 
+      if (!q1 || !q2) {
+        if (feedback) {
+          feedback.className = "text-xs font-semibold text-amber-300";
+          feedback.innerText = currentLang === 'it' 
+            ? "⚠️ Seleziona entrambe le risposte prima di procedere alla verifica!" 
+            : "⚠️ Please select both answers before submitting!";
+        }
+        return;
+      }
+
       // Q1: Brand with highest overall sales -> Ray-Ban (also allow Oliver Peoples for dataset variance)
       // Q2: Tables count -> 4
       const isQ1Correct = (q1 === 'Ray-Ban' || q1 === 'Oliver Peoples');
@@ -8105,23 +8298,43 @@ window.Hub = window.Hub || {
 
       if (isQ1Correct && isQ2Correct) {
         if (!currentStudent.completedChallenges) currentStudent.completedChallenges = {};
+        if (!currentStudent.challengePoints) currentStudent.challengePoints = {};
+        const awardedPts = getChallengePotentialPoints('ch0');
         currentStudent.completedChallenges.ch0 = true;
-        currentStudent.score = (currentStudent.score || 0) + 50;
+        currentStudent.challengePoints.ch0 = awardedPts;
+        currentStudent.score = (currentStudent.score || 0) + awardedPts;
         saveStudentProfile();
         applyStudentProfileUI();
         registerStudentInClassroom(currentStudent);
-        broadcastScoreUpdate('ch0', 50);
-        showToast(currentLang === 'it' ? "🎯 Warm-Up Convalidato! +50 Punti!" : "🎯 Warm-Up Validated! +50 Points!");
+        broadcastScoreUpdate('ch0', awardedPts);
+        renderQuizStatus('ch0', true);
+        showToast(currentLang === 'it' ? `🎯 Warm-Up Convalidato! +${awardedPts} Punti!` : `🎯 Warm-Up Validated! +${awardedPts} Points!`);
       } else {
+        if (!currentStudent.challengeAttempts) currentStudent.challengeAttempts = {};
+        currentStudent.challengeAttempts.ch0 = (currentStudent.challengeAttempts.ch0 || 0) + 1;
+        saveStudentProfile();
+        renderQuizStatus('ch0', false);
+        const potential = getChallengePotentialPoints('ch0');
         if (feedback) {
           feedback.className = "text-xs font-bold text-red-400";
+          let hintMsg = "";
           if (!isQ1Correct && !isQ2Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Rivedi il grafico in Data Canvas e conta le tabelle nell'Explorer!" : "❌ Check the Data Canvas chart and table count!";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Risposte non corrette. Rivedi il grafico in Data Canvas e conta le tabelle nell'Explorer." 
+              : "❌ Both answers are incorrect. Review the chart in Data Canvas and count tables in the Explorer.";
           } else if (!isQ1Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Brand errato: cerca il brand leader per vendite complessive (Ray-Ban)" : "❌ Wrong brand: search the leader brand by overall sales (Ray-Ban)";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Brand errato: osserva la barra con il volume di vendite più alto nel grafico." 
+              : "❌ Wrong brand: observe the bar with the highest sales volume in the chart.";
           } else {
-            feedback.innerText = currentLang === 'it' ? "❌ Ricorda: le tabelle nel dataset sono 4 (Orders, Spend, CRM, Leads)" : "❌ Remember: there are 4 tables in the dataset";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Conteggio tabelle errato: espandi l'albero del dataset 'luxottica_retail' nell'Explorer." 
+              : "❌ Incorrect table count: check the dataset tree 'luxottica_retail' in BigQuery Explorer.";
           }
+          const penaltyNotice = currentLang === 'it'
+            ? ` (Tentativo registrato: rimangono ${potential} pt potenziali)`
+            : ` (Attempt recorded: ${potential} potential pts remaining)`;
+          feedback.innerText = hintMsg + penaltyNotice;
         }
       }
     }
@@ -8134,40 +8347,81 @@ window.Hub = window.Hub || {
       const feedback = document.getElementById('quiz-feedback-ch1');
       const q2Num = extractNumericValue(q2Raw);
 
+      if (!q1 || q2Raw.trim() === '' || q2Num === null) {
+        if (feedback) {
+          feedback.className = "text-xs font-semibold text-amber-300";
+          feedback.innerText = currentLang === 'it' 
+            ? "⚠️ Compila entrambe le risposte prima di procedere alla verifica!" 
+            : "⚠️ Please fill in both answers before submitting!";
+        }
+        return;
+      }
+
       // Q1: Brand with highest AOV -> Oliver Peoples
       // Q2: Wholesale Vogue discount -> 28.50 (accept 28 to 29)
       const isQ1Correct = (q1 === 'Oliver Peoples');
       const isQ2Correct = (q2Num !== null && q2Num >= 28.0 && q2Num <= 29.0);
 
       if (isQ1Correct && isQ2Correct) {
+        if (!currentStudent.completedChallenges) currentStudent.completedChallenges = {};
+        if (!currentStudent.challengePoints) currentStudent.challengePoints = {};
+        const awardedPts = getChallengePotentialPoints('ch1');
         currentStudent.completedChallenges.ch1 = true;
-        currentStudent.score = (currentStudent.score || 0) + 100;
+        currentStudent.challengePoints.ch1 = awardedPts;
+        currentStudent.score = (currentStudent.score || 0) + awardedPts;
         saveStudentProfile();
         applyStudentProfileUI();
         registerStudentInClassroom(currentStudent);
-        broadcastScoreUpdate('ch1', 100);
-        showToast(currentLang === 'it' ? "🎉 Sfida #1 Convalidata! +100 Punti!" : "🎉 Challenge #1 Validated! +100 Points!");
+        broadcastScoreUpdate('ch1', awardedPts);
+        renderQuizStatus('ch1', true);
+        showToast(currentLang === 'it' ? `🎉 Sfida #1 Convalidata! +${awardedPts} Punti!` : `🎉 Challenge #1 Validated! +${awardedPts} Points!`);
       } else {
+        if (!currentStudent.challengeAttempts) currentStudent.challengeAttempts = {};
+        currentStudent.challengeAttempts.ch1 = (currentStudent.challengeAttempts.ch1 || 0) + 1;
+        saveStudentProfile();
+        renderQuizStatus('ch1', false);
+        const potential = getChallengePotentialPoints('ch1');
         if (feedback) {
           feedback.className = "text-xs font-bold text-red-400";
+          let hintMsg = "";
           if (!isQ1Correct && !isQ2Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Entrambe le risposte non tornano. Rivedi la query in BigQuery!" : "❌ Both answers are incorrect. Review your SQL query!";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Risposte non corrette. Rivedi il calcolo di AOV e lo sconto medio in BigQuery." 
+              : "❌ Both answers are incorrect. Review your AOV and average discount calculations in BigQuery.";
           } else if (!isQ1Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Verifica quale brand ha l'AOV più alto (> 300€)" : "❌ Check which brand has the highest AOV (> €300)";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Brand errato: calcola revenue_eur / COUNT(DISTINCT order_id) per ciascun brand." 
+              : "❌ Wrong brand: calculate revenue_eur / COUNT(DISTINCT order_id) for each brand.";
           } else {
-            feedback.innerText = currentLang === 'it' ? "❌ Lo sconto medio di Vogue wholesale non corrisponde al risultato della query" : "❌ Wholesale Vogue discount does not match your query calculation";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Sconto medio non corretto: calcola AVG(discount_amount_eur) filtrando su canale Wholesale e brand Vogue." 
+              : "❌ Average discount incorrect: compute AVG(discount_amount_eur) filtering for Wholesale channel and brand Vogue.";
           }
+          const penaltyNotice = currentLang === 'it'
+            ? ` (Tentativo registrato: rimangono ${potential} pt potenziali)`
+            : ` (Attempt recorded: ${potential} potential pts remaining)`;
+          feedback.innerText = hintMsg + penaltyNotice;
         }
       }
     }
 
     function validateChallenge2() {
-      if (currentStudent.completedChallenges.ch2) return;
+      if (currentStudent.completedChallenges && currentStudent.completedChallenges.ch2) return;
 
       const q1 = (document.getElementById('quiz-ch2-q1')?.value || '').trim();
       const q2Raw = document.getElementById('quiz-ch2-q2')?.value || '';
       const feedback = document.getElementById('quiz-feedback-ch2');
       const q2Num = extractNumericValue(q2Raw);
+
+      if (!q1 || q2Raw.trim() === '' || q2Num === null) {
+        if (feedback) {
+          feedback.className = "text-xs font-semibold text-amber-300";
+          feedback.innerText = currentLang === 'it' 
+            ? "⚠️ Compila entrambe le risposte prima di procedere alla verifica!" 
+            : "⚠️ Please fill in both answers before submitting!";
+        }
+        return;
+      }
 
       // Q1: Channel with worst ROAS -> TikTok Ads
       // Q2: Google Ads ROAS -> 7.08 (accept 7.0 to 7.15)
@@ -8175,29 +8429,50 @@ window.Hub = window.Hub || {
       const isQ2Correct = (q2Num !== null && q2Num >= 7.0 && q2Num <= 7.15);
 
       if (isQ1Correct && isQ2Correct) {
+        if (!currentStudent.completedChallenges) currentStudent.completedChallenges = {};
+        if (!currentStudent.challengePoints) currentStudent.challengePoints = {};
+        const awardedPts = getChallengePotentialPoints('ch2');
         currentStudent.completedChallenges.ch2 = true;
-        currentStudent.score = (currentStudent.score || 0) + 100;
+        currentStudent.challengePoints.ch2 = awardedPts;
+        currentStudent.score = (currentStudent.score || 0) + awardedPts;
         saveStudentProfile();
         applyStudentProfileUI();
         registerStudentInClassroom(currentStudent);
-        broadcastScoreUpdate('ch2', 100);
-        showToast(currentLang === 'it' ? "🚀 Sfida #2 Convalidata! +100 Punti!" : "🚀 Challenge #2 Validated! +100 Points!");
+        broadcastScoreUpdate('ch2', awardedPts);
+        renderQuizStatus('ch2', true);
+        showToast(currentLang === 'it' ? `🚀 Sfida #2 Convalidata! +${awardedPts} Punti!` : `🚀 Challenge #2 Validated! +${awardedPts} Points!`);
       } else {
+        if (!currentStudent.challengeAttempts) currentStudent.challengeAttempts = {};
+        currentStudent.challengeAttempts.ch2 = (currentStudent.challengeAttempts.ch2 || 0) + 1;
+        saveStudentProfile();
+        renderQuizStatus('ch2', false);
+        const potential = getChallengePotentialPoints('ch2');
         if (feedback) {
           feedback.className = "text-xs font-bold text-red-400";
+          let hintMsg = "";
           if (!isQ1Correct && !isQ2Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Valori non corretti. Ricontrolla i risultati della query con CTE!" : "❌ Incorrect values. Check your CTE query results!";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Valori non corretti. Ricontrolla i risultati della query con CTE (spend & orders)!" 
+              : "❌ Incorrect values. Review the results of your CTE query joining spend and orders!";
           } else if (!isQ1Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Canale pubblicitario errato: cerca quello con ROAS < 1.0x" : "❌ Wrong ad channel: search the one with ROAS < 1.0x";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Canale pubblicitario errato: cerca il canale con ritorno negativo (ROAS < 1.0x)." 
+              : "❌ Incorrect ad channel: look for the channel with negative return (ROAS < 1.0x).";
           } else {
-            feedback.innerText = currentLang === 'it' ? "❌ Il valore di ROAS per Google Ads non corrisponde al risultato della query" : "❌ The ROAS value for Google Ads does not match your query calculation";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Valore ROAS Google Ads non corretto: dividi revenue_eur per spend_eur con SAFE_DIVIDE." 
+              : "❌ Incorrect Google Ads ROAS: divide revenue_eur by spend_eur using SAFE_DIVIDE.";
           }
+          const penaltyNotice = currentLang === 'it'
+            ? ` (Tentativo registrato: rimangono ${potential} pt potenziali)`
+            : ` (Attempt recorded: ${potential} potential pts remaining)`;
+          feedback.innerText = hintMsg + penaltyNotice;
         }
       }
     }
 
     function validateChallenge3() {
-      if (currentStudent.completedChallenges.ch3) return;
+      if (currentStudent.completedChallenges && currentStudent.completedChallenges.ch3) return;
 
       // Optional v2 Cloud Backend validation for view creation
       if (window.hubClient) {
@@ -8214,29 +8489,60 @@ window.Hub = window.Hub || {
       const feedback = document.getElementById('quiz-feedback-ch3');
       const q1Num = extractNumericValue(q1Raw);
 
+      if (q1Raw.trim() === '' || q1Num === null || !q2) {
+        if (feedback) {
+          feedback.className = "text-xs font-semibold text-amber-300";
+          feedback.innerText = currentLang === 'it' 
+            ? "⚠️ Compila entrambe le risposte prima di procedere alla verifica!" 
+            : "⚠️ Please fill in both answers before submitting!";
+        }
+        return;
+      }
+
       // Q1: Count of VIP leads -> 350 to 355
       // Q2: SQL function -> TRIM
       const isQ1Correct = (q1Num !== null && q1Num >= 345 && q1Num <= 360);
       const isQ2Correct = (q2 === 'TRIM');
 
       if (isQ1Correct && isQ2Correct) {
+        if (!currentStudent.completedChallenges) currentStudent.completedChallenges = {};
+        if (!currentStudent.challengePoints) currentStudent.challengePoints = {};
+        const awardedPts = getChallengePotentialPoints('ch3');
         currentStudent.completedChallenges.ch3 = true;
-        currentStudent.score = (currentStudent.score || 0) + 100;
+        currentStudent.challengePoints.ch3 = awardedPts;
+        currentStudent.score = (currentStudent.score || 0) + awardedPts;
         saveStudentProfile();
         applyStudentProfileUI();
         registerStudentInClassroom(currentStudent);
-        broadcastScoreUpdate('ch3', 100);
-        showToast(currentLang === 'it' ? "🏆 Sfida #3 Convalidata! Vista Pulita Creata (+100 Punti)!" : "🏆 Challenge #3 Validated! Clean View Created (+100 Points)!");
+        broadcastScoreUpdate('ch3', awardedPts);
+        renderQuizStatus('ch3', true);
+        showToast(currentLang === 'it' ? `🏆 Sfida #3 Convalidata! Vista Pulita Creata (+${awardedPts} Punti)!` : `🏆 Challenge #3 Validated! Clean View Created (+${awardedPts} Points)!`);
       } else {
+        if (!currentStudent.challengeAttempts) currentStudent.challengeAttempts = {};
+        currentStudent.challengeAttempts.ch3 = (currentStudent.challengeAttempts.ch3 || 0) + 1;
+        saveStudentProfile();
+        renderQuizStatus('ch3', false);
+        const potential = getChallengePotentialPoints('ch3');
         if (feedback) {
           feedback.className = "text-xs font-bold text-red-400";
+          let hintMsg = "";
           if (!isQ1Correct && !isQ2Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Rivedi il conteggio dei lead nella vista creata e la funzione SQL!" : "❌ Review the lead count in the created view and the SQL function!";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Conteggio o funzione errati. Controlla il SELECT COUNT(*) sulla vista creata!" 
+              : "❌ Incorrect count or SQL function. Check SELECT COUNT(*) on your view!";
           } else if (!isQ1Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Il conteggio dei lead VIP non corrisponde al totale di righe della vista creata" : "❌ VIP lead count does not match the total rows in your created view";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Conteggio lead non corretto: verifica i filtri per stato VIP e total_purchases >= 5." 
+              : "❌ Incorrect lead count: verify filters for VIP status and total_purchases >= 5.";
           } else {
-            feedback.innerText = currentLang === 'it' ? "❌ La funzione corretta per rimuovere spazi è TRIM()" : "❌ The correct function to remove whitespace is TRIM()";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Funzione SQL errata: serve la funzione standard ANSI SQL per rimuovere spazi bianchi all'inizio e alla fine." 
+              : "❌ Incorrect SQL function: use the standard ANSI SQL function that trims leading and trailing whitespace.";
           }
+          const penaltyNotice = currentLang === 'it'
+            ? ` (Tentativo registrato: rimangono ${potential} pt potenziali)`
+            : ` (Attempt recorded: ${potential} potential pts remaining)`;
+          feedback.innerText = hintMsg + penaltyNotice;
         }
       }
     }

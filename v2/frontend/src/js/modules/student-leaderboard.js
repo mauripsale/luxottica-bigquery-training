@@ -8,6 +8,19 @@
       { key: 'oliver', name: 'Team Oliver Peoples', icon: '🕶️', desc: 'Luxury Vintage & Custom Acetates', color: 'purple' }
     ];
 
+    const CHALLENGE_CONFIG = {
+      ch0: { basePoints: 50, penaltyPerError: 10, minPoints: 20 },
+      ch1: { basePoints: 100, penaltyPerError: 15, minPoints: 40 },
+      ch2: { basePoints: 100, penaltyPerError: 15, minPoints: 40 },
+      ch3: { basePoints: 100, penaltyPerError: 15, minPoints: 40 }
+    };
+
+    function getChallengePotentialPoints(chKey) {
+      const cfg = CHALLENGE_CONFIG[chKey] || { basePoints: 100, penaltyPerError: 15, minPoints: 40 };
+      const attempts = (currentStudent.challengeAttempts && currentStudent.challengeAttempts[chKey]) || 0;
+      return Math.max(cfg.minPoints, cfg.basePoints - (attempts * cfg.penaltyPerError));
+    }
+
     let currentStudent = {
       id: '',
       name: '',
@@ -21,6 +34,18 @@
         ch1: false,
         ch2: false,
         ch3: false
+      },
+      challengeAttempts: {
+        ch0: 0,
+        ch1: 0,
+        ch2: 0,
+        ch3: 0
+      },
+      challengePoints: {
+        ch0: 0,
+        ch1: 0,
+        ch2: 0,
+        ch3: 0
       }
     };
 
@@ -116,7 +141,9 @@
         googleSub: '',
         teamKey: '',
         score: 0,
-        completedChallenges: {}
+        completedChallenges: { ch0: false, ch1: false, ch2: false, ch3: false },
+        challengeAttempts: { ch0: 0, ch1: 0, ch2: 0, ch3: 0 },
+        challengePoints: { ch0: 0, ch1: 0, ch2: 0, ch3: 0 }
       };
 
       try {
@@ -631,19 +658,23 @@
       const btn = document.getElementById(`btn-validate-${chKey}`);
       const feedback = document.getElementById(`quiz-feedback-${chKey}`);
       const badge = document.getElementById(`quiz-badge-${chKey}`);
+      const penaltyBadge = document.getElementById(`quiz-penalty-badge-${chKey}`);
 
-      const pointsMap = { ch0: '+50 pt in palio', ch1: '+100 pt in palio', ch2: '+100 pt in palio', ch3: '+100 pt in palio' };
+      const attempts = (currentStudent.challengeAttempts && currentStudent.challengeAttempts[chKey]) || 0;
+      const potentialPts = getChallengePotentialPoints(chKey);
+
       const defaultFeedbackMap = {
-        ch0: currentLang === 'it' ? "Guadagna i primi 50 punti per te e per la tua squadra!" : "Earn the first 50 points for you and your team!",
-        ch1: currentLang === 'it' ? "Rispondi per sbloccare i punti per te e per la squadra" : "Submit answers to unlock points for your team",
+        ch0: currentLang === 'it' ? "Guadagna fino a 50 punti per te e per la tua squadra!" : "Earn up to 50 points for you and your team!",
+        ch1: currentLang === 'it' ? "Rispondi per sbloccare fino a 100 punti per te e per la squadra" : "Submit answers to unlock up to 100 points for your team",
         ch2: currentLang === 'it' ? "Dimostra al CMO il rendimento delle campagne adv" : "Prove campaign ROAS performance to the CMO",
         ch3: currentLang === 'it' ? "Verifica la qualità del tuo dataset per Google Ads Customer Match" : "Verify dataset quality for Google Ads Customer Match"
       };
 
       if (isCompleted) {
+        const awardedPts = (currentStudent.challengePoints && currentStudent.challengePoints[chKey]) || potentialPts;
         if (card) {
-          card.classList.remove('from-slate-900', 'to-slate-950', 'border-slate-800');
-          card.classList.add('from-emerald-950', 'to-slate-900', 'border-emerald-700/60');
+          card.classList.remove('from-slate-900', 'to-slate-950', 'border-slate-800', 'border-blue-500/40', 'border-amber-500/40', 'border-indigo-500/40', 'border-emerald-500/40');
+          card.classList.add('from-emerald-950', 'to-slate-900', 'border-emerald-500/80');
         }
         if (btn) {
           btn.disabled = true;
@@ -651,18 +682,22 @@
           btn.innerHTML = currentLang === 'it' ? "<span>Completata ✅</span>" : "<span>Completed ✅</span>";
         }
         if (badge) {
-          badge.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
-          badge.innerText = currentLang === 'it' ? "✅ Punti Assegnati" : "✅ Points Awarded";
+          badge.className = "text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+          badge.innerText = currentLang === 'it' ? `✅ +${awardedPts} pt Assegnati` : `✅ +${awardedPts} pts Awarded`;
+        }
+        if (penaltyBadge) {
+          penaltyBadge.className = "text-[11px] font-mono px-2 py-1 rounded-md bg-emerald-950/80 text-emerald-300 border border-emerald-700/60";
+          penaltyBadge.innerText = currentLang === 'it' ? `Errori: ${attempts} • +${awardedPts} pt` : `Errors: ${attempts} • +${awardedPts} pts`;
         }
         if (feedback) {
           feedback.className = "text-xs font-bold text-emerald-400";
-          feedback.innerText = currentLang === 'it' ? "🎉 Sfida superata con successo! Punti registrati." : "🎉 Challenge passed! Points awarded.";
+          feedback.innerText = currentLang === 'it' ? `🎉 Sfida superata con successo! +${awardedPts} punti registrati.` : `🎉 Challenge passed! +${awardedPts} points awarded.`;
         }
       } else {
         // Reset to initial playable state
         if (card) {
-          card.classList.remove('from-emerald-950', 'to-slate-900', 'border-emerald-700/60');
-          card.classList.add('from-slate-900', 'to-slate-950', 'border-slate-800');
+          card.classList.remove('from-emerald-950', 'border-emerald-500/80');
+          card.classList.add('from-slate-900', 'to-slate-950');
         }
         if (btn) {
           btn.disabled = false;
@@ -675,11 +710,19 @@
         }
         if (badge) {
           if (chKey === 'ch0') {
-            badge.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30";
+            badge.className = "text-xs font-bold px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30";
           } else {
-            badge.className = "text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30";
+            badge.className = "text-xs font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30";
           }
-          badge.innerText = pointsMap[chKey] || '+100 pt in palio';
+          badge.innerText = currentLang === 'it' ? `+${potentialPts} pt in palio` : `+${potentialPts} pts reward`;
+        }
+        if (penaltyBadge) {
+          if (attempts > 0) {
+            penaltyBadge.className = "text-[11px] font-mono px-2 py-1 rounded-md bg-amber-950/80 text-amber-300 border border-amber-700/60";
+          } else {
+            penaltyBadge.className = "text-[11px] font-mono px-2 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700";
+          }
+          penaltyBadge.innerText = currentLang === 'it' ? `Errori: ${attempts}` : `Errors: ${attempts}`;
         }
         if (feedback) {
           feedback.className = "text-xs font-medium text-slate-400";
@@ -927,6 +970,8 @@
     function handleRemoteResetScores() {
       currentStudent.score = 0;
       currentStudent.completedChallenges = { ch0: false, ch1: false, ch2: false, ch3: false };
+      currentStudent.challengeAttempts = { ch0: 0, ch1: 0, ch2: 0, ch3: 0 };
+      currentStudent.challengePoints = { ch0: 0, ch1: 0, ch2: 0, ch3: 0 };
       classroomStudents = {};
       saveStudentProfile();
       saveClassroomState();
@@ -965,6 +1010,16 @@
       const q2 = (document.getElementById('quiz-ch0-q2')?.value || '').trim();
       const feedback = document.getElementById('quiz-feedback-ch0');
 
+      if (!q1 || !q2) {
+        if (feedback) {
+          feedback.className = "text-xs font-semibold text-amber-300";
+          feedback.innerText = currentLang === 'it' 
+            ? "⚠️ Seleziona entrambe le risposte prima di procedere alla verifica!" 
+            : "⚠️ Please select both answers before submitting!";
+        }
+        return;
+      }
+
       // Q1: Brand with highest overall sales -> Ray-Ban (also allow Oliver Peoples for dataset variance)
       // Q2: Tables count -> 4
       const isQ1Correct = (q1 === 'Ray-Ban' || q1 === 'Oliver Peoples');
@@ -972,23 +1027,43 @@
 
       if (isQ1Correct && isQ2Correct) {
         if (!currentStudent.completedChallenges) currentStudent.completedChallenges = {};
+        if (!currentStudent.challengePoints) currentStudent.challengePoints = {};
+        const awardedPts = getChallengePotentialPoints('ch0');
         currentStudent.completedChallenges.ch0 = true;
-        currentStudent.score = (currentStudent.score || 0) + 50;
+        currentStudent.challengePoints.ch0 = awardedPts;
+        currentStudent.score = (currentStudent.score || 0) + awardedPts;
         saveStudentProfile();
         applyStudentProfileUI();
         registerStudentInClassroom(currentStudent);
-        broadcastScoreUpdate('ch0', 50);
-        showToast(currentLang === 'it' ? "🎯 Warm-Up Convalidato! +50 Punti!" : "🎯 Warm-Up Validated! +50 Points!");
+        broadcastScoreUpdate('ch0', awardedPts);
+        renderQuizStatus('ch0', true);
+        showToast(currentLang === 'it' ? `🎯 Warm-Up Convalidato! +${awardedPts} Punti!` : `🎯 Warm-Up Validated! +${awardedPts} Points!`);
       } else {
+        if (!currentStudent.challengeAttempts) currentStudent.challengeAttempts = {};
+        currentStudent.challengeAttempts.ch0 = (currentStudent.challengeAttempts.ch0 || 0) + 1;
+        saveStudentProfile();
+        renderQuizStatus('ch0', false);
+        const potential = getChallengePotentialPoints('ch0');
         if (feedback) {
           feedback.className = "text-xs font-bold text-red-400";
+          let hintMsg = "";
           if (!isQ1Correct && !isQ2Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Rivedi il grafico in Data Canvas e conta le tabelle nell'Explorer!" : "❌ Check the Data Canvas chart and table count!";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Risposte non corrette. Rivedi il grafico in Data Canvas e conta le tabelle nell'Explorer." 
+              : "❌ Both answers are incorrect. Review the chart in Data Canvas and count tables in the Explorer.";
           } else if (!isQ1Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Brand errato: cerca il brand leader per vendite complessive (Ray-Ban)" : "❌ Wrong brand: search the leader brand by overall sales (Ray-Ban)";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Brand errato: osserva la barra con il volume di vendite più alto nel grafico." 
+              : "❌ Wrong brand: observe the bar with the highest sales volume in the chart.";
           } else {
-            feedback.innerText = currentLang === 'it' ? "❌ Ricorda: le tabelle nel dataset sono 4 (Orders, Spend, CRM, Leads)" : "❌ Remember: there are 4 tables in the dataset";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Conteggio tabelle errato: espandi l'albero del dataset 'luxottica_retail' nell'Explorer." 
+              : "❌ Incorrect table count: check the dataset tree 'luxottica_retail' in BigQuery Explorer.";
           }
+          const penaltyNotice = currentLang === 'it'
+            ? ` (Tentativo registrato: rimangono ${potential} pt potenziali)`
+            : ` (Attempt recorded: ${potential} potential pts remaining)`;
+          feedback.innerText = hintMsg + penaltyNotice;
         }
       }
     }
@@ -1001,40 +1076,81 @@
       const feedback = document.getElementById('quiz-feedback-ch1');
       const q2Num = extractNumericValue(q2Raw);
 
+      if (!q1 || q2Raw.trim() === '' || q2Num === null) {
+        if (feedback) {
+          feedback.className = "text-xs font-semibold text-amber-300";
+          feedback.innerText = currentLang === 'it' 
+            ? "⚠️ Compila entrambe le risposte prima di procedere alla verifica!" 
+            : "⚠️ Please fill in both answers before submitting!";
+        }
+        return;
+      }
+
       // Q1: Brand with highest AOV -> Oliver Peoples
       // Q2: Wholesale Vogue discount -> 28.50 (accept 28 to 29)
       const isQ1Correct = (q1 === 'Oliver Peoples');
       const isQ2Correct = (q2Num !== null && q2Num >= 28.0 && q2Num <= 29.0);
 
       if (isQ1Correct && isQ2Correct) {
+        if (!currentStudent.completedChallenges) currentStudent.completedChallenges = {};
+        if (!currentStudent.challengePoints) currentStudent.challengePoints = {};
+        const awardedPts = getChallengePotentialPoints('ch1');
         currentStudent.completedChallenges.ch1 = true;
-        currentStudent.score = (currentStudent.score || 0) + 100;
+        currentStudent.challengePoints.ch1 = awardedPts;
+        currentStudent.score = (currentStudent.score || 0) + awardedPts;
         saveStudentProfile();
         applyStudentProfileUI();
         registerStudentInClassroom(currentStudent);
-        broadcastScoreUpdate('ch1', 100);
-        showToast(currentLang === 'it' ? "🎉 Sfida #1 Convalidata! +100 Punti!" : "🎉 Challenge #1 Validated! +100 Points!");
+        broadcastScoreUpdate('ch1', awardedPts);
+        renderQuizStatus('ch1', true);
+        showToast(currentLang === 'it' ? `🎉 Sfida #1 Convalidata! +${awardedPts} Punti!` : `🎉 Challenge #1 Validated! +${awardedPts} Points!`);
       } else {
+        if (!currentStudent.challengeAttempts) currentStudent.challengeAttempts = {};
+        currentStudent.challengeAttempts.ch1 = (currentStudent.challengeAttempts.ch1 || 0) + 1;
+        saveStudentProfile();
+        renderQuizStatus('ch1', false);
+        const potential = getChallengePotentialPoints('ch1');
         if (feedback) {
           feedback.className = "text-xs font-bold text-red-400";
+          let hintMsg = "";
           if (!isQ1Correct && !isQ2Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Entrambe le risposte non tornano. Rivedi la query in BigQuery!" : "❌ Both answers are incorrect. Review your SQL query!";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Risposte non corrette. Rivedi il calcolo di AOV e lo sconto medio in BigQuery." 
+              : "❌ Both answers are incorrect. Review your AOV and average discount calculations in BigQuery.";
           } else if (!isQ1Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Verifica quale brand ha l'AOV più alto (> 300€)" : "❌ Check which brand has the highest AOV (> €300)";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Brand errato: calcola revenue_eur / COUNT(DISTINCT order_id) per ciascun brand." 
+              : "❌ Wrong brand: calculate revenue_eur / COUNT(DISTINCT order_id) for each brand.";
           } else {
-            feedback.innerText = currentLang === 'it' ? "❌ Lo sconto medio di Vogue wholesale non corrisponde al risultato della query" : "❌ Wholesale Vogue discount does not match your query calculation";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Sconto medio non corretto: calcola AVG(discount_amount_eur) filtrando su canale Wholesale e brand Vogue." 
+              : "❌ Average discount incorrect: compute AVG(discount_amount_eur) filtering for Wholesale channel and brand Vogue.";
           }
+          const penaltyNotice = currentLang === 'it'
+            ? ` (Tentativo registrato: rimangono ${potential} pt potenziali)`
+            : ` (Attempt recorded: ${potential} potential pts remaining)`;
+          feedback.innerText = hintMsg + penaltyNotice;
         }
       }
     }
 
     function validateChallenge2() {
-      if (currentStudent.completedChallenges.ch2) return;
+      if (currentStudent.completedChallenges && currentStudent.completedChallenges.ch2) return;
 
       const q1 = (document.getElementById('quiz-ch2-q1')?.value || '').trim();
       const q2Raw = document.getElementById('quiz-ch2-q2')?.value || '';
       const feedback = document.getElementById('quiz-feedback-ch2');
       const q2Num = extractNumericValue(q2Raw);
+
+      if (!q1 || q2Raw.trim() === '' || q2Num === null) {
+        if (feedback) {
+          feedback.className = "text-xs font-semibold text-amber-300";
+          feedback.innerText = currentLang === 'it' 
+            ? "⚠️ Compila entrambe le risposte prima di procedere alla verifica!" 
+            : "⚠️ Please fill in both answers before submitting!";
+        }
+        return;
+      }
 
       // Q1: Channel with worst ROAS -> TikTok Ads
       // Q2: Google Ads ROAS -> 7.08 (accept 7.0 to 7.15)
@@ -1042,29 +1158,50 @@
       const isQ2Correct = (q2Num !== null && q2Num >= 7.0 && q2Num <= 7.15);
 
       if (isQ1Correct && isQ2Correct) {
+        if (!currentStudent.completedChallenges) currentStudent.completedChallenges = {};
+        if (!currentStudent.challengePoints) currentStudent.challengePoints = {};
+        const awardedPts = getChallengePotentialPoints('ch2');
         currentStudent.completedChallenges.ch2 = true;
-        currentStudent.score = (currentStudent.score || 0) + 100;
+        currentStudent.challengePoints.ch2 = awardedPts;
+        currentStudent.score = (currentStudent.score || 0) + awardedPts;
         saveStudentProfile();
         applyStudentProfileUI();
         registerStudentInClassroom(currentStudent);
-        broadcastScoreUpdate('ch2', 100);
-        showToast(currentLang === 'it' ? "🚀 Sfida #2 Convalidata! +100 Punti!" : "🚀 Challenge #2 Validated! +100 Points!");
+        broadcastScoreUpdate('ch2', awardedPts);
+        renderQuizStatus('ch2', true);
+        showToast(currentLang === 'it' ? `🚀 Sfida #2 Convalidata! +${awardedPts} Punti!` : `🚀 Challenge #2 Validated! +${awardedPts} Points!`);
       } else {
+        if (!currentStudent.challengeAttempts) currentStudent.challengeAttempts = {};
+        currentStudent.challengeAttempts.ch2 = (currentStudent.challengeAttempts.ch2 || 0) + 1;
+        saveStudentProfile();
+        renderQuizStatus('ch2', false);
+        const potential = getChallengePotentialPoints('ch2');
         if (feedback) {
           feedback.className = "text-xs font-bold text-red-400";
+          let hintMsg = "";
           if (!isQ1Correct && !isQ2Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Valori non corretti. Ricontrolla i risultati della query con CTE!" : "❌ Incorrect values. Check your CTE query results!";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Valori non corretti. Ricontrolla i risultati della query con CTE (spend & orders)!" 
+              : "❌ Incorrect values. Review the results of your CTE query joining spend and orders!";
           } else if (!isQ1Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Canale pubblicitario errato: cerca quello con ROAS < 1.0x" : "❌ Wrong ad channel: search the one with ROAS < 1.0x";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Canale pubblicitario errato: cerca il canale con ritorno negativo (ROAS < 1.0x)." 
+              : "❌ Incorrect ad channel: look for the channel with negative return (ROAS < 1.0x).";
           } else {
-            feedback.innerText = currentLang === 'it' ? "❌ Il valore di ROAS per Google Ads non corrisponde al risultato della query" : "❌ The ROAS value for Google Ads does not match your query calculation";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Valore ROAS Google Ads non corretto: dividi revenue_eur per spend_eur con SAFE_DIVIDE." 
+              : "❌ Incorrect Google Ads ROAS: divide revenue_eur by spend_eur using SAFE_DIVIDE.";
           }
+          const penaltyNotice = currentLang === 'it'
+            ? ` (Tentativo registrato: rimangono ${potential} pt potenziali)`
+            : ` (Attempt recorded: ${potential} potential pts remaining)`;
+          feedback.innerText = hintMsg + penaltyNotice;
         }
       }
     }
 
     function validateChallenge3() {
-      if (currentStudent.completedChallenges.ch3) return;
+      if (currentStudent.completedChallenges && currentStudent.completedChallenges.ch3) return;
 
       // Optional v2 Cloud Backend validation for view creation
       if (window.hubClient) {
@@ -1081,29 +1218,60 @@
       const feedback = document.getElementById('quiz-feedback-ch3');
       const q1Num = extractNumericValue(q1Raw);
 
+      if (q1Raw.trim() === '' || q1Num === null || !q2) {
+        if (feedback) {
+          feedback.className = "text-xs font-semibold text-amber-300";
+          feedback.innerText = currentLang === 'it' 
+            ? "⚠️ Compila entrambe le risposte prima di procedere alla verifica!" 
+            : "⚠️ Please fill in both answers before submitting!";
+        }
+        return;
+      }
+
       // Q1: Count of VIP leads -> 350 to 355
       // Q2: SQL function -> TRIM
       const isQ1Correct = (q1Num !== null && q1Num >= 345 && q1Num <= 360);
       const isQ2Correct = (q2 === 'TRIM');
 
       if (isQ1Correct && isQ2Correct) {
+        if (!currentStudent.completedChallenges) currentStudent.completedChallenges = {};
+        if (!currentStudent.challengePoints) currentStudent.challengePoints = {};
+        const awardedPts = getChallengePotentialPoints('ch3');
         currentStudent.completedChallenges.ch3 = true;
-        currentStudent.score = (currentStudent.score || 0) + 100;
+        currentStudent.challengePoints.ch3 = awardedPts;
+        currentStudent.score = (currentStudent.score || 0) + awardedPts;
         saveStudentProfile();
         applyStudentProfileUI();
         registerStudentInClassroom(currentStudent);
-        broadcastScoreUpdate('ch3', 100);
-        showToast(currentLang === 'it' ? "🏆 Sfida #3 Convalidata! Vista Pulita Creata (+100 Punti)!" : "🏆 Challenge #3 Validated! Clean View Created (+100 Points)!");
+        broadcastScoreUpdate('ch3', awardedPts);
+        renderQuizStatus('ch3', true);
+        showToast(currentLang === 'it' ? `🏆 Sfida #3 Convalidata! Vista Pulita Creata (+${awardedPts} Punti)!` : `🏆 Challenge #3 Validated! Clean View Created (+${awardedPts} Points)!`);
       } else {
+        if (!currentStudent.challengeAttempts) currentStudent.challengeAttempts = {};
+        currentStudent.challengeAttempts.ch3 = (currentStudent.challengeAttempts.ch3 || 0) + 1;
+        saveStudentProfile();
+        renderQuizStatus('ch3', false);
+        const potential = getChallengePotentialPoints('ch3');
         if (feedback) {
           feedback.className = "text-xs font-bold text-red-400";
+          let hintMsg = "";
           if (!isQ1Correct && !isQ2Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Rivedi il conteggio dei lead nella vista creata e la funzione SQL!" : "❌ Review the lead count in the created view and the SQL function!";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Conteggio o funzione errati. Controlla il SELECT COUNT(*) sulla vista creata!" 
+              : "❌ Incorrect count or SQL function. Check SELECT COUNT(*) on your view!";
           } else if (!isQ1Correct) {
-            feedback.innerText = currentLang === 'it' ? "❌ Il conteggio dei lead VIP non corrisponde al totale di righe della vista creata" : "❌ VIP lead count does not match the total rows in your created view";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Conteggio lead non corretto: verifica i filtri per stato VIP e total_purchases >= 5." 
+              : "❌ Incorrect lead count: verify filters for VIP status and total_purchases >= 5.";
           } else {
-            feedback.innerText = currentLang === 'it' ? "❌ La funzione corretta per rimuovere spazi è TRIM()" : "❌ The correct function to remove whitespace is TRIM()";
+            hintMsg = currentLang === 'it' 
+              ? "❌ Funzione SQL errata: serve la funzione standard ANSI SQL per rimuovere spazi bianchi all'inizio e alla fine." 
+              : "❌ Incorrect SQL function: use the standard ANSI SQL function that trims leading and trailing whitespace.";
           }
+          const penaltyNotice = currentLang === 'it'
+            ? ` (Tentativo registrato: rimangono ${potential} pt potenziali)`
+            : ` (Attempt recorded: ${potential} potential pts remaining)`;
+          feedback.innerText = hintMsg + penaltyNotice;
         }
       }
     }
