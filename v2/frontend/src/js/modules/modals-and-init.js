@@ -769,12 +769,8 @@ ORDER BY total_vip_leads DESC;
         });
       }
 
-      const urlParams = new URLSearchParams(window.location.search);
-      const role = urlParams.get('role');
-      const pin = urlParams.get('pin');
-      const trainer = urlParams.get('trainer');
-
-      if (role === 'trainer' || pin === '1926' || pin === '2026' || trainer === 'true' || trainer === '1') {
+      // SECURITY AUDIT FIX: Enforce verified Google OAuth or Trainer Auth (no URL parameter escalation)
+      if (window.luxAuth && window.luxAuth.user && window.luxAuth.user.role === 'TRAINER') {
         enableTrainerMode();
       } else {
         applyLockState(true);

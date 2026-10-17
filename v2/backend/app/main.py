@@ -3,6 +3,7 @@ import logging
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, HTTPException, Query, Body
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from app.models import (
@@ -25,10 +26,13 @@ app = FastAPI(
     description="Multi-course interactive classroom platform running on Google Cloud Run"
 )
 
-# CORS SETUP FOR PORTAL CLIENTS
+# GZIP COMPRESSION MIDDLEWARE (Compresses index.html from ~600KB down to ~105KB)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
+
+# CORS SETUP FOR PORTAL CLIENTS (RESTRICTED FOR CREDENTIALED REQUESTS)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origin_regex=r"https://.*\.run\.app|https://.*\.luxottica\.com|https://.*\.essilorluxottica\.com|http://localhost:.*|http://127\.0\.0\.1:.*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

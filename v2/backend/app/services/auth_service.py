@@ -81,15 +81,15 @@ class AuthService:
             # Dev/Demo mode: open if auth not explicitly required
             return True, "Modalità Demo Aperta"
 
-        email = email.lower()
+        email = email.strip().lower()
         domain = email.split("@")[-1] if "@" in email else ""
 
         # Check explicit emails
         if email in self.allowed_emails:
             return True, "Email presente nella allowlist specifica"
 
-        # Check wildcard domains
-        if domain in self.allowed_domains:
+        # Check wildcard domains and corporate subdomains
+        if any(domain == d or domain.endswith("." + d) for d in self.allowed_domains):
             return True, f"Dominio @{domain} autorizzato"
 
         # If allowed_domains includes '*' or all domains allowed
@@ -102,7 +102,7 @@ class AuthService:
         """
         Returns True if the verified email belongs to an authorized trainer/instructor.
         """
-        email = email.lower()
+        email = email.strip().lower()
         return email in self.trainer_emails
 
     def verify_trainer_access(self, email: Optional[str] = None, pin: Optional[str] = None) -> bool:
