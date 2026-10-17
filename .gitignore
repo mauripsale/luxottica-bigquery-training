@@ -9,5 +9,6 @@ venv/
 *.tfstate
 *.tfstate.*
 .terraform.lock.hcl
+terraform.tfvars
 node_modules/
 audit_*.py
