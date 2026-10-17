@@ -1,26 +1,25 @@
-# Capability Map: Frontend Modularization & Zero-Build Pipeline
+# 🗺️ CAPABILITY MAP: UNIVERSAL TRAINING PLATFORM (v3.0.0)
 
-**Iniziativa:** Modularizzazione di `v2/frontend/index.html` (9.557 righe) con Zero-Build Python Assembler e Facade Bridge per Cloud Run.
+**Iniziativa:** Disaccoppiamento dal cliente specifico (Luxottica POC) verso **Universal Training Platform (UTP)** multi-tenant, multi-corso e multi-ruolo.
 
-| Module id | Responsibility | Depends on |
+| Capability Module ID | Responsabilità | Dipende Da |
 |---|---|---|
-| `builder-pipeline` | Script Python deterministico (`tools/build_frontend.py`) che assembla i partials HTML, script e stili in un singolo file `v2/frontend/index.html`. Zero dipendenze Node.js. | — |
-| `core-bridge` | Namespace `window.Hub` e Facade Bridge per esportare su `window` tutti i 165 handler top-level e preservare i 180+ attributi inline `onclick`/`oninput`. | `builder-pipeline` |
-| `partials-dialogs` | Estrazione e scomposizione dei 12 modali nativi `<dialog>` (`rosetta-modal`, `leaderboard-modal`, `auth-modals`, ecc.) e relativa logica JS. | `core-bridge` |
-| `partials-blocks` | Estrazione dei 6 blocchi didattici (`block-cover`, `block-1`..`5`) e dei 3 motori procedurali Web Audio / Canvas del Coffee Break. | `core-bridge` |
-| `verification-suite` | Test suite automatizzata CDP/Playwright che valida rendering a 60fps, assenza di `ReferenceError`, funzionamento di Rosetta search e integrità d'aula. | `partials-dialogs`, `partials-blocks` |
+| `spec-universal-platform` | Documento di specifica formale [SPEC-universal-training-platform.md](file:///Users/maurizio.ipsale/Library/CloudStorage/GoogleDrive-maurizio.ipsale@gmail.com/My%20Drive/Progetti%20Agy/MyQwiklabs/SPEC-universal-training-platform.md) con modello a 4 ruoli, disaccoppiamento branding e schema Firestore. | — |
+| `white-label-branding` | Refactoring di testi, loghi, brand di squadra e colori in `TenantConfig` dinamico basato su tenant o sessione. | `spec-universal-platform` |
+| `rbac-4-roles` | Estensione di `AuthService` per supportare `STUDENT`, `TRAINER`, `MANAGER` e `CONTENT_CREATOR`. | `spec-universal-platform` |
+| `manager-portal` | Modale/Pannello `#manager-admin-dialog` per la gestione dell'allowlist dinamica, importazione CSV email e report presenze. | `rbac-4-roles`, `white-label-branding` |
+| `content-creator-studio` | Editor visuale di corsi, sfide SQL, tolleranze di verifica e dispense Markdown (`#content-creator-modal`). | `rbac-4-roles` |
+| `firestore-multi-tenant` | Estensione di `FirestoreStateService` per le collezioni `/tenants`, `/courses`, `/allowlists` e `/sessions`. | `manager-portal`, `content-creator-studio` |
 
 ---
 
-### Build Order:
+### Build Order Sequenziale:
 ```mermaid
 flowchart TD
-    BP["1. builder-pipeline"] --> CB["2. core-bridge"]
-    CB --> PD["3. partials-dialogs"]
-    CB --> PB["4. partials-blocks"]
-    PD --> VS["5. verification-suite"]
-    PB --> VS
+    SP["1. spec-universal-platform"] --> WB["2. white-label-branding"]
+    SP --> RBAC["3. rbac-4-roles"]
+    RBAC --> MP["4. manager-portal"]
+    RBAC --> CC["5. content-creator-studio"]
+    MP --> FMT["6. firestore-multi-tenant"]
+    CC --> FMT
 ```
-
-**Build Order Sequenziale:**
-`builder-pipeline` ➔ `core-bridge` ➔ `partials-dialogs` ➔ `partials-blocks` ➔ `verification-suite`
