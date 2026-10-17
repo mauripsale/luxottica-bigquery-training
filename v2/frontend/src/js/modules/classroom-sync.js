@@ -542,14 +542,76 @@
         activeBadgeEl.innerText = currentLang === 'it' ? badgeInfo.it : badgeInfo.en;
       }
 
+      const blockMetaMap = {
+        'cover': {
+          titleId: 'tb-b-cover-title',
+          descId: 'tb-b-cover-desc',
+          defaultTitleClass: 'text-xs font-bold text-slate-900 dark:text-white',
+          defaultDescClass: 'text-[10px] text-slate-500 dark:text-slate-400',
+          inactiveBtnClass: 'w-full text-left p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 transition flex items-center justify-between group cursor-pointer'
+        },
+        '1': {
+          titleId: 'tb-b-b1-title',
+          descId: 'tb-b-b1-desc',
+          defaultTitleClass: 'text-xs font-bold text-slate-900 dark:text-white',
+          defaultDescClass: 'text-[10px] text-slate-500 dark:text-slate-400',
+          inactiveBtnClass: 'w-full text-left p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 transition flex items-center justify-between group cursor-pointer'
+        },
+        '2': {
+          titleId: 'tb-b-b2-title',
+          descId: 'tb-b-b2-desc',
+          defaultTitleClass: 'text-xs font-bold text-slate-900 dark:text-white',
+          defaultDescClass: 'text-[10px] text-amber-600 dark:text-amber-400 font-medium',
+          inactiveBtnClass: 'w-full text-left p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 transition flex items-center justify-between group cursor-pointer'
+        },
+        'break': {
+          titleId: 'tb-b-break-title',
+          descId: 'tb-b-break-desc',
+          defaultTitleClass: 'text-xs font-bold text-amber-700 dark:text-amber-300',
+          defaultDescClass: 'text-[10px] text-slate-500 dark:text-slate-400',
+          inactiveBtnClass: 'w-full text-left p-3 rounded-xl font-medium text-amber-700 dark:text-amber-300 hover:text-amber-900 dark:hover:text-white bg-amber-500/5 dark:bg-slate-950/70 hover:bg-amber-500/10 dark:hover:bg-slate-800/80 border border-amber-500/30 dark:border-amber-500/20 transition flex items-center justify-between group cursor-pointer'
+        },
+        '3': {
+          titleId: 'tb-b-b3-title',
+          descId: 'tb-b-b3-desc',
+          defaultTitleClass: 'text-xs font-bold text-slate-900 dark:text-white',
+          defaultDescClass: 'text-[10px] text-amber-600 dark:text-amber-400 font-medium',
+          inactiveBtnClass: 'w-full text-left p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 transition flex items-center justify-between group cursor-pointer'
+        },
+        '4': {
+          titleId: 'tb-b-b4-title',
+          descId: 'tb-b-b4-desc',
+          defaultTitleClass: 'text-xs font-bold text-slate-900 dark:text-white',
+          defaultDescClass: 'text-[10px] text-amber-600 dark:text-amber-400 font-medium',
+          inactiveBtnClass: 'w-full text-left p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 transition flex items-center justify-between group cursor-pointer'
+        },
+        '5': {
+          titleId: 'tb-b-b5-title',
+          descId: 'tb-b-b5-desc',
+          defaultTitleClass: 'text-xs font-bold text-emerald-700 dark:text-emerald-300',
+          defaultDescClass: 'text-[10px] text-slate-500 dark:text-slate-400',
+          inactiveBtnClass: 'w-full text-left p-3 rounded-xl font-medium text-emerald-700 dark:text-emerald-300 hover:text-emerald-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-emerald-500/30 dark:border-emerald-500/20 transition flex items-center justify-between group cursor-pointer'
+        }
+      };
+
       Object.entries(blockButtonMap).forEach(([bId, btnId]) => {
         const btn = document.getElementById(btnId);
         if (!btn) return;
+        const meta = blockMetaMap[bId];
+        const titleEl = meta ? document.getElementById(meta.titleId) : null;
+        const descEl = meta ? document.getElementById(meta.descId) : null;
         const isActive = (String(bId) === String(activeBlockId));
+
         if (isActive) {
-          btn.className = "w-full text-left p-3 rounded-xl font-bold text-white bg-blue-600 shadow-md ring-2 ring-amber-400 ring-offset-1 ring-offset-slate-900 transition flex items-center justify-between";
+          btn.className = "w-full text-left p-3 rounded-xl font-bold text-white bg-blue-600 shadow-md ring-2 ring-amber-400 ring-offset-1 ring-offset-white dark:ring-offset-slate-900 transition flex items-center justify-between";
+          if (titleEl) titleEl.className = "text-xs font-bold text-white";
+          if (descEl) descEl.className = "text-[10px] text-blue-100 font-medium";
         } else {
-          btn.className = "w-full text-left p-3 rounded-xl font-medium text-slate-300 hover:text-white bg-slate-950/70 hover:bg-slate-800/80 border border-slate-800 transition flex items-center justify-between group cursor-pointer";
+          btn.className = (meta && meta.inactiveBtnClass) 
+            ? meta.inactiveBtnClass 
+            : "w-full text-left p-3 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 transition flex items-center justify-between group cursor-pointer";
+          if (titleEl && meta) titleEl.className = meta.defaultTitleClass;
+          if (descEl && meta) descEl.className = meta.defaultDescClass;
         }
 
         const tagEl = document.getElementById(`tb-live-tag-${bId}`);
@@ -558,7 +620,7 @@
             tagEl.innerHTML = '<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-400 text-slate-950 animate-pulse">LIVE</span>';
           } else {
             const inactiveText = currentLang === 'it' ? 'Inattivo' : 'Inactive';
-            tagEl.innerHTML = `<span class="text-[10px] text-slate-500 font-mono">${inactiveText}</span>`;
+            tagEl.innerHTML = `<span class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">${inactiveText}</span>`;
           }
         }
       });
@@ -589,7 +651,7 @@
             btn.innerHTML = `<span>${item.code}</span> <span>🔓</span>`;
             btn.title = `${item.label}: SBLOCCATO! Clicca per RI-BLOCCARE`;
           } else {
-            btn.className = "px-2.5 py-0.5 rounded text-[11px] font-mono font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition cursor-pointer flex items-center space-x-1";
+            btn.className = "px-2.5 py-0.5 rounded text-[11px] font-mono font-medium bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-700 transition cursor-pointer flex items-center space-x-1";
             btn.innerHTML = `<span>${item.code}</span> <span>🔒</span>`;
             btn.title = `${item.label}: BLOCCATO. Clicca per SBLOCCARE`;
           }
@@ -621,12 +683,12 @@
         const pinValue = el.getAttribute('data-pin');
         if (trainerPinsRevealed) {
           el.innerText = pinValue;
-          el.classList.remove('bg-slate-800');
-          el.classList.add('bg-amber-950/80', 'text-amber-200', 'border', 'border-amber-500/40');
+          el.classList.remove('bg-slate-200', 'dark:bg-slate-800');
+          el.classList.add('bg-amber-100', 'dark:bg-amber-950/80', 'text-amber-800', 'dark:text-amber-200', 'border', 'border-amber-400', 'dark:border-amber-500/40');
         } else {
           el.innerText = '••••';
-          el.classList.remove('bg-amber-950/80', 'text-amber-200', 'border', 'border-amber-500/40');
-          el.classList.add('bg-slate-800');
+          el.classList.remove('bg-amber-100', 'dark:bg-amber-950/80', 'text-amber-800', 'dark:text-amber-200', 'border', 'border-amber-400', 'dark:border-amber-500/40');
+          el.classList.add('bg-slate-200', 'dark:bg-slate-800');
         }
       });
 
@@ -643,12 +705,12 @@
       const pinValue = el.getAttribute('data-pin');
       if (el.innerText === '••••') {
         el.innerText = pinValue;
-        el.classList.remove('bg-slate-800');
-        el.classList.add('bg-amber-950/80', 'text-amber-200', 'border', 'border-amber-500/40');
+        el.classList.remove('bg-slate-200', 'dark:bg-slate-800');
+        el.classList.add('bg-amber-100', 'dark:bg-amber-950/80', 'text-amber-800', 'dark:text-amber-200', 'border', 'border-amber-400', 'dark:border-amber-500/40');
       } else {
         el.innerText = '••••';
-        el.classList.remove('bg-amber-950/80', 'text-amber-200', 'border', 'border-amber-500/40');
-        el.classList.add('bg-slate-800');
+        el.classList.remove('bg-amber-100', 'dark:bg-amber-950/80', 'text-amber-800', 'dark:text-amber-200', 'border', 'border-amber-400', 'dark:border-amber-500/40');
+        el.classList.add('bg-slate-200', 'dark:bg-slate-800');
       }
     }
 
