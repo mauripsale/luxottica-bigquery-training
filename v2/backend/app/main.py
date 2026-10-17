@@ -62,6 +62,12 @@ if FRONTEND_DIR and os.path.exists(os.path.join(FRONTEND_DIR, "assets")):
     logger.info(f"Mounting static assets from {os.path.join(FRONTEND_DIR, 'assets')}")
     app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIR, "assets")), name="assets")
 
+from fastapi.responses import FileResponse, Response
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    return Response(status_code=204)
+
 @app.get("/")
 def serve_index():
     if FRONTEND_DIR:
