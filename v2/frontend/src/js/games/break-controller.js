@@ -36,25 +36,26 @@
     function handleRemoteBreakGameSync(gameId) {
       currentBreakGame = gameId || 'free';
       const statusText = document.getElementById('break-mode-status-text');
+      const lang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang : 'it';
       if (statusText) {
         if (gameId === 'free') {
-          statusText.innerText = 'Libera Scelta Studente';
+          statusText.innerText = lang === 'it' ? 'Libera Scelta Studente' : 'Student Free Choice';
           statusText.className = 'text-xs font-black text-amber-600 dark:text-amber-400';
         } else if (gameId === 'dj') {
-          statusText.innerText = 'Regia: Query Beats DJ 🎛️';
+          statusText.innerText = lang === 'it' ? 'Regia: Query Beats DJ 🎛️' : 'Host: Query Beats DJ 🎛️';
           statusText.className = 'text-xs font-black text-blue-600 dark:text-blue-400';
         } else if (gameId === 'optics') {
-          statusText.innerText = 'Regia: Virtual Optics Lab 🔬';
+          statusText.innerText = lang === 'it' ? 'Regia: Virtual Optics Lab 🔬' : 'Host: Virtual Optics Lab 🔬';
           statusText.className = 'text-xs font-black text-cyan-600 dark:text-cyan-400';
         } else if (gameId === 'roast') {
-          statusText.innerText = 'Regia: AI Turing Roast 🌶️';
+          statusText.innerText = lang === 'it' ? 'Regia: AI Turing Roast 🌶️' : 'Host: AI Turing Roast 🌶️';
           statusText.className = 'text-xs font-black text-rose-600 dark:text-rose-400';
         }
       }
 
       if (gameId !== 'free') {
         switchBreakGame(gameId, true);
-        showToast(currentLang === 'it' 
+        showToast(lang === 'it' 
           ? `☕ Il Trainer ha sincronizzato il gioco di pausa: ${gameId.toUpperCase()}!` 
           : `☕ Trainer synced break game: ${gameId.toUpperCase()}!`);
       }

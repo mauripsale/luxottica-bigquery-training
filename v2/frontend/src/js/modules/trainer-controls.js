@@ -452,8 +452,78 @@
       setText('b2-discovery-title', t.b2DiscoveryTitle);
       setHTML('b2-discovery-desc', t.b2DiscoveryDesc);
 
+      setText('break-badge-tag', t.breakBadgeTag);
       setText('break-title', t.breakTitle);
       setText('break-desc', t.breakDesc);
+      setText('break-mode-lbl', t.breakModeLbl);
+      setText('break-mode-sub', t.breakModeSub);
+      setText('coffee-tournament-title', t.coffeeTournamentTitle);
+      setHTML('coffee-tournament-desc', t.coffeeTournamentDesc);
+      setText('coffee-tournament-tag', t.coffeeTournamentTag);
+      setText('coffee-badge-dj-title', t.coffeeBadgeDjTitle);
+      setText('coffee-badge-dj-desc', t.coffeeBadgeDjDesc);
+      setText('coffee-badge-optics-title', t.coffeeBadgeOpticsTitle);
+      setText('coffee-badge-optics-desc', t.coffeeBadgeOpticsDesc);
+      setText('coffee-badge-roast-title', t.coffeeBadgeRoastTitle);
+      setText('coffee-badge-roast-desc', t.coffeeBadgeRoastDesc);
+      setText('tab-lbl-dj', t.tabLblDj);
+      setText('tab-lbl-optics', t.tabLblOptics);
+      setText('tab-lbl-roast', t.tabLblRoast);
+
+      // DJ Game i18n
+      setText('dj-game-title', t.djGameTitle);
+      setText('dj-game-subtitle', t.djGameSubtitle);
+      setText('qb-btn-clear', t.djBtnClear);
+      setText('qb-tempo-lbl', t.djTempoLbl);
+      setText('qb-preset-lbl', t.djPresetLbl);
+      setText('qb-synth-spec-lbl', t.djSynthSpecLbl);
+      setText('dj-guide-title', t.djGuideTitle);
+      setText('dj-guide-bonus-tag', t.djGuideBonusTag);
+      setHTML('dj-guide-obj', t.djGuideObj);
+      setHTML('dj-guide-step1', t.djGuideStep1);
+      setHTML('dj-guide-step2', t.djGuideStep2);
+      setHTML('dj-guide-step3', t.djGuideStep3);
+      setHTML('dj-guide-step4', t.djGuideStep4);
+
+      // Optics Lab Game i18n
+      setText('optics-game-title', t.opticsGameTitle);
+      setText('optics-game-subtitle', t.opticsGameSubtitle);
+      setText('optics-focal-lbl', t.opticsFocalLbl);
+      setText('optics-glare-lbl', t.opticsGlareLbl);
+      setText('optics-n-lbl', t.opticsNLbl);
+      setText('optics-n-sub', t.opticsNSub);
+      setText('optics-d-lbl', t.opticsDLbl);
+      setText('optics-d-sub', t.opticsDSub);
+      setText('optics-tint-lbl', t.opticsTintLbl);
+      setText('optics-tint-g15', t.opticsTintG15);
+      setText('optics-tint-b15', t.opticsTintB15);
+      setText('optics-tint-clear', t.opticsTintClear);
+      setText('optics-polar-lbl', t.opticsPolarLbl);
+      setText('optics-polar-sub', t.opticsPolarSub);
+      setText('optics-guide-title', t.opticsGuideTitle);
+      setText('optics-guide-bonus-tag', t.opticsGuideBonusTag);
+      setHTML('optics-guide-obj', t.opticsGuideObj);
+      setHTML('optics-guide-step1', t.opticsGuideStep1);
+      setHTML('optics-guide-step2', t.opticsGuideStep2);
+      setHTML('optics-guide-step3', t.opticsGuideStep3);
+      setHTML('optics-guide-step4', t.opticsGuideStep4);
+
+      // Roast Game i18n
+      setText('roast-game-title', t.roastGameTitle);
+      setText('roast-game-subtitle', t.roastGameSubtitle);
+      setText('roast-input-lbl', t.roastInputLbl);
+      setText('roast-sample-btn', t.roastSampleBtn);
+      setText('roast-submit-text', t.roastSubmitBtnText);
+      setText('roast-verdict-hdr', t.roastVerdictHdr);
+      setText('roast-bytes-lbl', t.roastBytesLbl);
+      setText('roast-grade-lbl', t.roastGradeLbl);
+      setText('roast-guide-title', t.roastGuideTitle);
+      setText('roast-guide-bonus-tag', t.roastGuideBonusTag);
+      setHTML('roast-guide-obj', t.roastGuideObj);
+      setHTML('roast-guide-step1', t.roastGuideStep1);
+      setHTML('roast-guide-step2', t.roastGuideStep2);
+      setHTML('roast-guide-step3', t.roastGuideStep3);
+      setHTML('roast-guide-step4', t.roastGuideStep4);
 
       setText('b3-title', t.b3Title);
       setText('b3-detective-tag', t.b3DetectiveTag);

@@ -2752,7 +2752,7 @@
             <div class="space-y-2 max-w-xl">
               <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-800 dark:text-amber-300 text-xs font-bold">
                 <span>☕</span>
-                <span>Luxottica Coffee Lounge & Interactive Lab</span>
+                <span id="break-badge-tag">Luxottica Coffee Lounge & Interactive Lab</span>
               </div>
               <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight" id="break-title">Pausa Caffè & Smart Games</h2>
               <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed" id="break-desc">
@@ -2762,9 +2762,9 @@
             <!-- BREAK QUICK STATUS & REGIA NOTICE -->
             <div class="bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border border-amber-500/30 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[200px] text-center shadow-sm">
               <span class="text-2xl mb-1">⏱️</span>
-              <span class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400">Modalità Aula</span>
+              <span id="break-mode-lbl" class="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400">Modalità Aula</span>
               <span id="break-mode-status-text" aria-live="polite" class="text-xs font-black text-amber-600 dark:text-amber-400">Libera Scelta Studente</span>
-              <span class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Scegli la tab o attendi regia</span>
+              <span id="break-mode-sub" class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Scegli la tab o attendi regia</span>
             </div>
           </div>
         </div>
@@ -2775,12 +2775,12 @@
             <div class="flex items-center space-x-3">
               <span class="text-3xl">🏆</span>
               <div>
-                <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white">Sfida Competitiva Coffee Break in Aula</h3>
-                <p class="text-xs text-slate-600 dark:text-slate-300">Completa le 3 mini-sfide durante la pausa: guadagni fino a <strong class="text-amber-600 dark:text-amber-400 font-black">+150 punti bonus</strong> per te e per la tua squadra!</p>
+                <h3 id="coffee-tournament-title" class="text-sm sm:text-base font-black text-slate-900 dark:text-white">Sfida Competitiva Coffee Break in Aula</h3>
+                <p id="coffee-tournament-desc" class="text-xs text-slate-600 dark:text-slate-300">Completa le 3 mini-sfide durante la pausa: guadagni fino a <strong class="text-amber-600 dark:text-amber-400 font-black">+150 punti bonus</strong> per te e per la tua squadra!</p>
               </div>
             </div>
             <div class="flex items-center space-x-2">
-              <span class="px-3 py-1 rounded-full text-xs font-black bg-amber-500 text-slate-950 shadow-sm animate-pulse">
+              <span id="coffee-tournament-tag" class="px-3 py-1 rounded-full text-xs font-black bg-amber-500 text-slate-950 shadow-sm animate-pulse">
                 🔥 Sfida Live Attiva
               </span>
             </div>
@@ -2793,8 +2793,8 @@
               <div class="flex items-center space-x-3">
                 <span class="text-2xl">🎛️</span>
                 <div>
-                  <div class="text-xs font-black text-slate-900 dark:text-white">Query DJ Beat Master</div>
-                  <div class="text-[10px] text-slate-500 dark:text-slate-400">Avvia beat con ≥8 note attive</div>
+                  <div id="coffee-badge-dj-title" class="text-xs font-black text-slate-900 dark:text-white">Query DJ Beat Master</div>
+                  <div id="coffee-badge-dj-desc" class="text-[10px] text-slate-500 dark:text-slate-400">Avvia beat con ≥8 note attive</div>
                 </div>
               </div>
               <div class="text-right shrink-0">
@@ -2809,8 +2809,8 @@
               <div class="flex items-center space-x-3">
                 <span class="text-2xl">🔬</span>
                 <div>
-                  <div class="text-xs font-black text-slate-900 dark:text-white">Master Lens Crafter</div>
-                  <div class="text-[10px] text-slate-500 dark:text-slate-400">Calibra F=+120mm & Polarizzato</div>
+                  <div id="coffee-badge-optics-title" class="text-xs font-black text-slate-900 dark:text-white">Master Lens Crafter</div>
+                  <div id="coffee-badge-optics-desc" class="text-[10px] text-slate-500 dark:text-slate-400">Calibra F=+120mm & Polarizzato</div>
                 </div>
               </div>
               <div class="text-right shrink-0">
@@ -2825,8 +2825,8 @@
               <div class="flex items-center space-x-3">
                 <span class="text-2xl">🌶️</span>
                 <div>
-                  <div class="text-xs font-black text-slate-900 dark:text-white">AI Roast Survivor</div>
-                  <div class="text-[10px] text-slate-500 dark:text-slate-400">Fatti roastare una query SQL</div>
+                  <div id="coffee-badge-roast-title" class="text-xs font-black text-slate-900 dark:text-white">AI Roast Survivor</div>
+                  <div id="coffee-badge-roast-desc" class="text-[10px] text-slate-500 dark:text-slate-400">Fatti roastare una query SQL</div>
                 </div>
               </div>
               <div class="text-right shrink-0">
@@ -2842,15 +2842,15 @@
         <div class="flex items-center space-x-2 p-1.5 bg-slate-200/80 dark:bg-slate-900/90 rounded-2xl border border-slate-300 dark:border-slate-800 overflow-x-auto shadow-inner">
           <button onclick="switchBreakGame('dj')" id="btn-tab-game-dj" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-400 shadow-sm cursor-pointer">
             <span class="text-base">🎛️</span>
-            <span>Query Beats DJ</span>
+            <span id="tab-lbl-dj">Query Beats DJ</span>
           </button>
           <button onclick="switchBreakGame('optics')" id="btn-tab-game-optics" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer">
             <span class="text-base">🔬</span>
-            <span>Virtual Optics Lab</span>
+            <span id="tab-lbl-optics">Virtual Optics Lab</span>
           </button>
           <button onclick="switchBreakGame('roast')" id="btn-tab-game-roast" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer">
             <span class="text-base">🌶️</span>
-            <span>AI Turing Roast</span>
+            <span id="tab-lbl-roast">AI Turing Roast</span>
           </button>
         </div>
 
@@ -2864,8 +2864,8 @@
                 🎛️
               </div>
               <div>
-                <h3 class="text-base font-black text-slate-900 dark:text-white">SQL Prompt DJ • Query Beats 16-Step Sequencer</h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400">Ogni clausola SQL suona uno strumento sintetico proceduralmente nel tuo browser (Web Audio API)</p>
+                <h3 id="dj-game-title" class="text-base font-black text-slate-900 dark:text-white">SQL Prompt DJ • Query Beats 16-Step Sequencer</h3>
+                <p id="dj-game-subtitle" class="text-xs text-slate-500 dark:text-slate-400">Ogni clausola SQL suona uno strumento sintetico proceduralmente nel tuo browser (Web Audio API)</p>
               </div>
             </div>
             <!-- TRANSPORT CONTROLS -->
@@ -2874,21 +2874,43 @@
                 <span id="qb-play-icon">▶</span>
                 <span id="qb-play-text">AVVIA BEAT</span>
               </button>
-              <button onclick="QueryBeats.clear()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs transition cursor-pointer">
+              <button onclick="QueryBeats.clear()" id="qb-btn-clear" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs transition cursor-pointer">
                 Svuota
               </button>
+            </div>
+          </div>
+
+          <!-- DETAILED GAME GUIDE / COME SI GIOCA CARD -->
+          <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-xs space-y-2.5">
+            <div class="flex items-center justify-between font-black text-amber-900 dark:text-amber-300">
+              <span id="dj-guide-title" class="flex items-center space-x-1.5 text-sm">
+                <span>📖</span>
+                <span>Come si Gioca & Regolamento • Query Beats DJ</span>
+              </span>
+              <span id="dj-guide-bonus-tag" class="px-2 py-0.5 rounded-full text-[10px] bg-amber-500 text-slate-950 font-black">
+                Bonus +50 Punti
+              </span>
+            </div>
+            <p id="dj-guide-obj" class="text-slate-700 dark:text-slate-300 leading-relaxed">
+              <strong>Obiettivo:</strong> Crea un ritmo musicale interattivo associando le clausole SQL ai 4 strumenti sintetizzati in tempo reale dal browser Web Audio API.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-600 dark:text-slate-300">
+              <div id="dj-guide-step1">1️⃣ <strong>Attiva i Pad:</strong> Clicca sulle caselle per accendere le note sui 16 step del sequencer.</div>
+              <div id="dj-guide-step2">2️⃣ <strong>Regola il Tempo:</strong> Trascina lo slider BPM (80-150) o carica un preset da tasto rapido.</div>
+              <div id="dj-guide-step3">3️⃣ <strong>Condizione di Vittoria (+50 pt):</strong> Attiva <strong>almeno 8 note</strong> sulla griglia e premi <strong class="text-amber-600 dark:text-amber-400">AVVIA BEAT</strong>.</div>
+              <div id="dj-guide-step4">4️⃣ <strong>Connessione Luxottica:</strong> Immagina ogni step come un ciclo di esecuzione distribuita dei nodi BigQuery ad Agordo!</div>
             </div>
           </div>
 
           <!-- SEQUENCER TOOLBAR: BPM & PRESETS -->
           <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-50 dark:bg-slate-950 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs">
             <div class="flex items-center space-x-3">
-              <span class="font-bold text-slate-600 dark:text-slate-400">Tempo (BPM):</span>
+              <span id="qb-tempo-lbl" class="font-bold text-slate-600 dark:text-slate-400">Tempo (BPM):</span>
               <input type="range" id="qb-bpm-slider" min="80" max="150" value="116" oninput="QueryBeats.setBpm(this.value)" class="w-28 accent-amber-500 cursor-pointer">
               <span id="qb-bpm-display" class="font-mono font-bold text-amber-600 dark:text-amber-400 w-12">116 BPM</span>
             </div>
             <div class="flex items-center space-x-2">
-              <span class="font-bold text-slate-600 dark:text-slate-400">Preset:</span>
+              <span id="qb-preset-lbl" class="font-bold text-slate-600 dark:text-slate-400">Preset:</span>
               <button onclick="QueryBeats.loadPreset('agordo')" class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-amber-500 font-medium transition cursor-pointer">Agordo Techno</button>
               <button onclick="QueryBeats.loadPreset('datalake')" class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-amber-500 font-medium transition cursor-pointer">Data Lake Lo-Fi</button>
               <button onclick="QueryBeats.loadPreset('funk')" class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-amber-500 font-medium transition cursor-pointer">CTE Groove</button>
@@ -2910,7 +2932,7 @@
               <span>✨ <strong>JOIN</strong> = Closed Hi-Hat</span>
               <span>🎸 <strong>ORDER BY</strong> = Sub Synth Bass</span>
             </div>
-            <span class="font-mono text-[10px]">Zero campioni esterni • Web Audio API Synthesizer</span>
+            <span id="qb-synth-spec-lbl" class="font-mono text-[10px]">Zero campioni esterni • Web Audio API Synthesizer</span>
           </div>
         </div>
 
@@ -2924,13 +2946,35 @@
                 🔬
               </div>
               <div>
-                <h3 class="text-base font-black text-slate-900 dark:text-white">Luxottica Virtual Optics Lab • Ray-Ban Lens Crafter</h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400">Simulatore fisico di rifrazione ottica 2D in tempo reale basato sulla Legge di Snell (Snell's Law)</p>
+                <h3 id="optics-game-title" class="text-base font-black text-slate-900 dark:text-white">Luxottica Virtual Optics Lab • Ray-Ban Lens Crafter</h3>
+                <p id="optics-game-subtitle" class="text-xs text-slate-500 dark:text-slate-400">Simulatore fisico di rifrazione ottica 2D in tempo reale basato sulla Legge di Snell (Snell's Law)</p>
               </div>
             </div>
             <div class="flex items-center space-x-2">
               <button onclick="OpticsLab.loadPreset('aviator')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 cursor-pointer transition">Ray-Ban Aviator G-15</button>
               <button onclick="OpticsLab.loadPreset('wayfarer')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 cursor-pointer transition">Wayfarer Polarized</button>
+            </div>
+          </div>
+
+          <!-- DETAILED GAME GUIDE / COME SI GIOCA CARD -->
+          <div class="bg-cyan-500/10 border border-cyan-500/30 rounded-2xl p-4 text-xs space-y-2.5">
+            <div class="flex items-center justify-between font-black text-cyan-900 dark:text-cyan-300">
+              <span id="optics-guide-title" class="flex items-center space-x-1.5 text-sm">
+                <span>📖</span>
+                <span>Come si Gioca & Regolamento • Virtual Optics Lab</span>
+              </span>
+              <span id="optics-guide-bonus-tag" class="px-2 py-0.5 rounded-full text-[10px] bg-cyan-500 text-slate-950 font-black">
+                Bonus +50 Punti
+              </span>
+            </div>
+            <p id="optics-guide-obj" class="text-slate-700 dark:text-slate-300 leading-relaxed">
+              <strong>Obiettivo:</strong> Progetta la lente Ray-Ban ideale calibrando la rifrazione della luce e l'abbattimento del riverbero ottico.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-600 dark:text-slate-300">
+              <div id="optics-guide-step1">1️⃣ <strong>Indice di Rifrazione (n):</strong> Regola lo slider da CR-39 (1.50) a Policarbonato (1.59) fino a High-Index (1.74).</div>
+              <div id="optics-guide-step2">2️⃣ <strong>Potere Diottrico (D):</strong> Varia la curvatura da convergente (presbiopia) a divergente (miopia).</div>
+              <div id="optics-guide-step3">3️⃣ <strong>Condizione di Vittoria (+50 pt):</strong> Ottieni un punto focale <strong class="text-cyan-600 dark:text-cyan-400">F ≈ +120 mm</strong> (tolleranza ±15mm) e mantieni attivo il <strong class="text-cyan-600 dark:text-cyan-400">Filtro Polarizzato P3 Plus</strong>.</div>
+              <div id="optics-guide-step4">4️⃣ <strong>Eccellenza Luxottica:</strong> Sperimenta le lenti storiche G-15 (verde classico) e B-15 (marrone ad alto contrasto)!</div>
             </div>
           </div>
 
@@ -2940,7 +2984,7 @@
             <div class="lg:col-span-2 relative bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden shadow-inner flex flex-col items-center justify-center p-3">
               <canvas id="optics-canvas" width="600" height="320" class="w-full max-w-full h-auto rounded-xl"></canvas>
               <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-800 text-[11px] text-cyan-300 font-mono">
-                Punto Focale F: <span id="optics-focal-readout" class="font-bold text-white">+120 mm</span> • Abbattimento Glare: <span id="optics-glare-readout" class="font-bold text-emerald-400">99.8%</span>
+                <span id="optics-focal-lbl">Punto Focale F:</span> <span id="optics-focal-readout" class="font-bold text-white">+120 mm</span> • <span id="optics-glare-lbl">Abbattimento Glare:</span> <span id="optics-glare-readout" class="font-bold text-emerald-400">99.8%</span>
               </div>
             </div>
 
@@ -2949,26 +2993,26 @@
               <!-- REFRACTIVE INDEX -->
               <div class="space-y-1.5">
                 <div class="flex justify-between">
-                  <label class="font-bold text-slate-700 dark:text-slate-300">Indice di Rifrazione (n):</label>
+                  <label id="optics-n-lbl" class="font-bold text-slate-700 dark:text-slate-300">Indice di Rifrazione (n):</label>
                   <span id="optics-n-val" class="font-mono font-bold text-cyan-600 dark:text-cyan-400">1.60</span>
                 </div>
                 <input type="range" id="optics-n-slider" min="1.50" max="1.74" step="0.02" value="1.60" oninput="OpticsLab.setN(this.value)" class="w-full accent-cyan-500 cursor-pointer">
-                <span class="text-[10px] text-slate-500 dark:text-slate-400 block">1.50 (CR-39) • 1.59 (Policarbonato) • 1.67-1.74 (Ultra Sottile)</span>
+                <span id="optics-n-sub" class="text-[10px] text-slate-500 dark:text-slate-400 block">1.50 (CR-39) • 1.59 (Policarbonato) • 1.67-1.74 (Ultra Sottile)</span>
               </div>
 
               <!-- DIOPTERS / CURVATURE -->
               <div class="space-y-1.5">
                 <div class="flex justify-between">
-                  <label class="font-bold text-slate-700 dark:text-slate-300">Potere Diottrico (D):</label>
+                  <label id="optics-d-lbl" class="font-bold text-slate-700 dark:text-slate-300">Potere Diottrico (D):</label>
                   <span id="optics-d-val" class="font-mono font-bold text-cyan-600 dark:text-cyan-400">+2.50 D</span>
                 </div>
                 <input type="range" id="optics-d-slider" min="-5.0" max="5.0" step="0.5" value="2.5" oninput="OpticsLab.setDiopters(this.value)" class="w-full accent-cyan-500 cursor-pointer">
-                <span class="text-[10px] text-slate-500 dark:text-slate-400 block">&lt; 0 Divergente (Miopia) • &gt; 0 Convergente (Presbiopia)</span>
+                <span id="optics-d-sub" class="text-[10px] text-slate-500 dark:text-slate-400 block">&lt; 0 Divergente (Miopia) • &gt; 0 Convergente (Presbiopia)</span>
               </div>
 
               <!-- LENS TINT -->
               <div class="space-y-1.5">
-                <label class="font-bold text-slate-700 dark:text-slate-300 block">Tinta & Trattamento Ray-Ban:</label>
+                <label id="optics-tint-lbl" class="font-bold text-slate-700 dark:text-slate-300 block">Tinta & Trattamento Ray-Ban:</label>
                 <div class="grid grid-cols-3 gap-1.5">
                   <button onclick="OpticsLab.setTint('g15')" id="optics-tint-g15" class="py-1.5 rounded-lg border-2 border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-bold text-[10px] cursor-pointer">Verde G-15</button>
                   <button onclick="OpticsLab.setTint('b15')" id="optics-tint-b15" class="py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-bold text-[10px] cursor-pointer">Marrone B-15</button>
@@ -2979,8 +3023,8 @@
               <!-- POLARIZATION FILTER TOGGLE -->
               <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
                 <div>
-                  <span class="font-bold text-slate-700 dark:text-slate-300 block">Filtro Polarizzato P3 Plus</span>
-                  <span class="text-[10px] text-slate-500 dark:text-slate-400">Elimina i riverberi orizzontali</span>
+                  <span id="optics-polar-lbl" class="font-bold text-slate-700 dark:text-slate-300 block">Filtro Polarizzato P3 Plus</span>
+                  <span id="optics-polar-sub" class="text-[10px] text-slate-500 dark:text-slate-400">Elimina i riverberi orizzontali</span>
                 </div>
                 <input type="checkbox" id="optics-polar-cb" checked onchange="OpticsLab.setPolarized(this.checked)" class="w-4 h-4 rounded text-cyan-600 cursor-pointer">
               </div>
@@ -2997,21 +3041,43 @@
               🌶️
             </div>
             <div>
-              <h3 class="text-base font-black text-slate-900 dark:text-white">Prompt Arena • The AI Turing Roast</h3>
-              <p class="text-xs text-slate-500 dark:text-slate-400">Incolla la tua query SQL o il tuo prompt Gemini: il nostro AI critico ne smaschererà vizi, sprechi di byte e fan-out!</p>
+              <h3 id="roast-game-title" class="text-base font-black text-slate-900 dark:text-white">Prompt Arena • The AI Turing Roast</h3>
+              <p id="roast-game-subtitle" class="text-xs text-slate-500 dark:text-slate-400">Incolla la tua query SQL o il tuo prompt Gemini: il nostro AI critico ne smaschererà vizi, sprechi di byte e fan-out!</p>
+            </div>
+          </div>
+
+          <!-- DETAILED GAME GUIDE / COME SI GIOCA CARD -->
+          <div class="bg-rose-500/10 border border-rose-500/30 rounded-2xl p-4 text-xs space-y-2.5">
+            <div class="flex items-center justify-between font-black text-rose-900 dark:text-rose-300">
+              <span id="roast-guide-title" class="flex items-center space-x-1.5 text-sm">
+                <span>📖</span>
+                <span>Come si Gioca & Regolamento • AI Turing Roast</span>
+              </span>
+              <span id="roast-guide-bonus-tag" class="px-2 py-0.5 rounded-full text-[10px] bg-rose-500 text-white font-black">
+                Bonus +50 Punti
+              </span>
+            </div>
+            <p id="roast-guide-obj" class="text-slate-700 dark:text-slate-300 leading-relaxed">
+              <strong>Obiettivo:</strong> Metti alla prova le tue query SQL o i tuoi prompt AI contro la valutazione sarcastica dell'Architetto AI di BigQuery.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-600 dark:text-slate-300">
+              <div id="roast-guide-step1">1️⃣ <strong>Incolla o Carica:</strong> Inserisci il tuo codice SQL oppure usa "Carica query peggiore" per testare una query trappola.</div>
+              <div id="roast-guide-step2">2️⃣ <strong>Fatti Roastare:</strong> Clicca su "Roastami Questa Query!" per scatenare la recensione dell'AI.</div>
+              <div id="roast-guide-step3">3️⃣ <strong>Condizione di Vittoria (+50 pt):</strong> Sottometti <strong class="text-rose-600 dark:text-rose-400">qualsiasi query o prompt non vuoto</strong> per sopravvivere al roast ed essere premiato.</div>
+              <div id="roast-guide-step4">4️⃣ <strong>Consigli Architetturali:</strong> Leggi attentamente la stima dei byte scansionati e la dritta per evitare sprechi in produzione.</div>
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- INPUT FORM -->
             <div class="space-y-3">
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Incolla Query SQL o Prompt da Roostare:</label>
+              <label id="roast-input-lbl" class="block text-xs font-bold text-slate-700 dark:text-slate-300">Incolla Query SQL o Prompt da Roostare:</label>
               <textarea id="roast-input" rows="7" placeholder="SELECT * FROM `luxottica_orders` WHERE status = 'COMPLETED'..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl p-3.5 text-xs font-mono text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-rose-500 resize-none"></textarea>
               <div class="flex items-center justify-between">
-                <button onclick="TuringRoast.loadSample()" class="text-xs text-rose-600 dark:text-rose-400 hover:underline cursor-pointer">Carica query peggiore di sempre 🤦</button>
-                <button onclick="TuringRoast.roast()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-600 hover:to-orange-600 text-white font-extrabold text-xs transition shadow-sm cursor-pointer flex items-center space-x-2">
+                <button onclick="TuringRoast.loadSample()" id="roast-sample-btn" class="text-xs text-rose-600 dark:text-rose-400 hover:underline cursor-pointer">Carica query peggiore di sempre 🤦</button>
+                <button onclick="TuringRoast.roast()" id="roast-submit-btn" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-600 hover:to-orange-600 text-white font-extrabold text-xs transition shadow-sm cursor-pointer flex items-center space-x-2">
                   <span>🔥</span>
-                  <span>Roastami Questa Query!</span>
+                  <span id="roast-submit-text">Roastami Questa Query!</span>
                 </button>
               </div>
             </div>
@@ -3020,7 +3086,7 @@
             <div id="roast-result-card" class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 flex flex-col justify-between space-y-4">
               <div class="space-y-3">
                 <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-                  <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Verdetto AI Critico</span>
+                  <span id="roast-verdict-hdr" class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Verdetto AI Critico</span>
                   <div class="flex items-center space-x-1" id="roast-spiciness-rating">
                     <span class="text-xs font-bold text-rose-600 dark:text-rose-400">Piccantezza:</span>
                     <span>🌶️🌶️🌶️</span>
@@ -3037,11 +3103,11 @@
               <!-- ROAST METRICS & OPTIMIZATION TIP -->
               <div class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2 text-[11px]">
                 <div class="flex justify-between text-slate-600 dark:text-slate-400">
-                  <span>Byte Scansionati Stimati:</span>
+                  <span id="roast-bytes-lbl">Byte Scansionati Stimati:</span>
                   <span id="roast-bytes-metric" class="font-bold text-rose-600 dark:text-rose-400">4.2 TB (Spavento)</span>
                 </div>
                 <div class="flex justify-between text-slate-600 dark:text-slate-400">
-                  <span>Voto Efficienza BigQuery:</span>
+                  <span id="roast-grade-lbl">Voto Efficienza BigQuery:</span>
                   <span id="roast-grade-metric" class="font-bold text-amber-500">D- (Richiamo Formale)</span>
                 </div>
                 <div class="text-[11px] text-emerald-600 dark:text-emerald-400 pt-1 border-t border-slate-100 dark:border-slate-800 flex items-start space-x-1">
@@ -3741,8 +3807,80 @@ window.Hub = window.Hub || {
         pB2S2: "Calcola lo sconto medio in euro (discount_amount_eur) per brand e canale dalla tabella lux_online_orders, ordinando per sconto medio decrescente.",
         b2DiscoveryTitle: "💎 Plot Twist #1 per il CMO (High Margin Discovery):",
         b2DiscoveryDesc: "I <strong>Ray-Ban Meta Smart Glasses</strong> e <strong>Oliver Peoples</strong> registrano lo scontrino medio più alto in assoluto (<strong>AOV > 300 €</strong>) su E-Commerce Direct! Al contempo, i partner wholesale erodono margini con sconti fino a <strong>28,50 €</strong> su Vogue.",
-        breakTitle: "Pausa Caffè & Networking",
-        breakDesc: "Fai una pausa, assimila le scoperte del Blocco 2 e preparati per la Challenge avanzata sul ROAS con CTE & JOIN!",
+        breakBadgeTag: "Luxottica Coffee Lounge & Interactive Lab",
+        breakTitle: "Pausa Caffè & Smart Games",
+        breakDesc: "Ricarica le energie con i tre mini-giochi interattivi creati per la classe: crea beat musicali con le tue clausole SQL, testa l'ottica e la rifrazione Ray-Ban nel simulatore di lenti, o fatti \"roastare\" una query dall'AI con rating di piccantezza!",
+        breakModeLbl: "Modalità Aula",
+        breakModeStatusFree: "Libera Scelta Studente",
+        breakModeSub: "Scegli la tab o attendi regia",
+        coffeeTournamentTitle: "Sfida Competitiva Coffee Break in Aula",
+        coffeeTournamentDesc: "Completa le 3 mini-sfide durante la pausa: guadagni fino a <strong class=\"text-amber-600 dark:text-amber-400 font-black\">+150 punti bonus</strong> per te e per la tua squadra!",
+        coffeeTournamentTag: "🔥 Sfida Live Attiva",
+        coffeeBadgeDjTitle: "Query DJ Beat Master",
+        coffeeBadgeDjDesc: "Avvia beat con ≥8 note attive",
+        coffeeBadgeOpticsTitle: "Master Lens Crafter",
+        coffeeBadgeOpticsDesc: "Calibra F=+120mm & Polarizzato",
+        coffeeBadgeRoastTitle: "AI Roast Survivor",
+        coffeeBadgeRoastDesc: "Fatti roastare una query SQL",
+        tabLblDj: "Query Beats DJ",
+        tabLblOptics: "Virtual Optics Lab",
+        tabLblRoast: "AI Turing Roast",
+        // DJ GAME IT
+        djGameTitle: "SQL Prompt DJ • Query Beats 16-Step Sequencer",
+        djGameSubtitle: "Ogni clausola SQL suona uno strumento sintetico proceduralmente nel tuo browser (Web Audio API)",
+        djPlayStart: "AVVIA BEAT",
+        djPlayPause: "PAUSA BEAT",
+        djBtnClear: "Svuota",
+        djTempoLbl: "Tempo (BPM):",
+        djPresetLbl: "Preset:",
+        djSynthSpecLbl: "Zero campioni esterni • Web Audio API Synthesizer",
+        djGuideTitle: "Come si Gioca & Regolamento • Query Beats DJ",
+        djGuideBonusTag: "Bonus +50 Punti",
+        djGuideObj: "<strong>Obiettivo:</strong> Crea un ritmo musicale interattivo associando le clausole SQL ai 4 strumenti sintetizzati in tempo reale dal browser Web Audio API.",
+        djGuideStep1: "1️⃣ <strong>Attiva i Pad:</strong> Clicca sulle caselle per accendere le note sui 16 step del sequencer.",
+        djGuideStep2: "2️⃣ <strong>Regola il Tempo:</strong> Trascina lo slider BPM (80-150) o carica un preset da tasto rapido.",
+        djGuideStep3: "3️⃣ <strong>Condizione di Vittoria (+50 pt):</strong> Attiva <strong>almeno 8 note</strong> sulla griglia e premi <strong class=\"text-amber-600 dark:text-amber-400\">AVVIA BEAT</strong>.",
+        djGuideStep4: "4️⃣ <strong>Connessione Luxottica:</strong> Immagina ogni step come un ciclo di esecuzione distribuita dei nodi BigQuery ad Agordo!",
+        // OPTICS LAB GAME IT
+        opticsGameTitle: "Luxottica Virtual Optics Lab • Ray-Ban Lens Crafter",
+        opticsGameSubtitle: "Simulatore fisico di rifrazione ottica 2D in tempo reale basato sulla Legge di Snell (Snell's Law)",
+        opticsFocalLbl: "Punto Focale F:",
+        opticsGlareLbl: "Abbattimento Glare:",
+        opticsNLbl: "Indice di Rifrazione (n):",
+        opticsNSub: "1.50 (CR-39) • 1.59 (Policarbonato) • 1.67-1.74 (Ultra Sottile)",
+        opticsDLbl: "Potere Diottrico (D):",
+        opticsDSub: "< 0 Divergente (Miopia) • > 0 Convergente (Presbiopia)",
+        opticsTintLbl: "Tinta & Trattamento Ray-Ban:",
+        opticsTintG15: "Verde G-15",
+        opticsTintB15: "Marrone B-15",
+        opticsTintClear: "Trasparente",
+        opticsPolarLbl: "Filtro Polarizzato P3 Plus",
+        opticsPolarSub: "Elimina i riverberi orizzontali",
+        opticsGuideTitle: "Come si Gioca & Regolamento • Virtual Optics Lab",
+        opticsGuideBonusTag: "Bonus +50 Punti",
+        opticsGuideObj: "<strong>Obiettivo:</strong> Progetta la lente Ray-Ban ideale calibrando la rifrazione della luce e l'abbattimento del riverbero ottico.",
+        opticsGuideStep1: "1️⃣ <strong>Indice di Rifrazione (n):</strong> Regola lo slider da CR-39 (1.50) a Policarbonato (1.59) fino a High-Index (1.74).",
+        opticsGuideStep2: "2️⃣ <strong>Potere Diottrico (D):</strong> Varia la curvatura da convergente (presbiopia) a divergente (miopia).",
+        opticsGuideStep3: "3️⃣ <strong>Condizione di Vittoria (+50 pt):</strong> Ottieni un punto focale <strong class=\"text-cyan-600 dark:text-cyan-400\">F ≈ +120 mm</strong> (tolleranza ±15mm) e mantieni attivo il <strong class=\"text-cyan-600 dark:text-cyan-400\">Filtro Polarizzato P3 Plus</strong>.",
+        opticsGuideStep4: "4️⃣ <strong>Eccellenza Luxottica:</strong> Sperimenta le lenti storiche G-15 (verde classico) e B-15 (marrone ad alto contrasto)!",
+        // ROAST GAME IT
+        roastGameTitle: "Prompt Arena • The AI Turing Roast",
+        roastGameSubtitle: "Incolla la tua query SQL o il tuo prompt Gemini: il nostro AI critico ne smaschererà vizi, sprechi di byte e fan-out!",
+        roastInputLbl: "Incolla Query SQL o Prompt da Roostare:",
+        roastSampleBtn: "Carica query peggiore di sempre 🤦",
+        roastSubmitBtnText: "Roastami Questa Query!",
+        roastVerdictHdr: "Verdetto AI Critico",
+        roastSpicinessLbl: "Piccantezza:",
+        roastBytesLbl: "Byte Scansionati Stimati:",
+        roastGradeLbl: "Voto Efficienza BigQuery:",
+        roastAdvicePrefix: "Consiglio Salva-Vita: ",
+        roastGuideTitle: "Come si Gioca & Regolamento • AI Turing Roast",
+        roastGuideBonusTag: "Bonus +50 Punti",
+        roastGuideObj: "<strong>Obiettivo:</strong> Metti alla prova le tue query SQL o i tuoi prompt AI contro la valutazione sarcastica dell'Architetto AI di BigQuery.",
+        roastGuideStep1: "1️⃣ <strong>Incolla o Carica:</strong> Inserisci il tuo codice SQL oppure usa \"Carica query peggiore\" per testare una query trappola.",
+        roastGuideStep2: "2️⃣ <strong>Fatti Roastare:</strong> Clicca su \"Roastami Questa Query!\" per scatenare la recensione dell'AI.",
+        roastGuideStep3: "3️⃣ <strong>Condizione di Vittoria (+50 pt):</strong> Sottometti <strong class=\"text-rose-600 dark:text-rose-400\">qualsiasi query o prompt non vuoto</strong> per sopravvivere al roast ed essere premiato.",
+        roastGuideStep4: "4️⃣ <strong>Consigli Architetturali:</strong> Leggi attentamente la stima dei byte scansionati e la dritta per evitare sprechi in produzione.",
         b3Title: "Blocco 3: Challenge #2 - ROAS Multi-Canale con CTE & JOIN",
         b3DetectiveTag: "Detective Mission • Capitolo 2",
         b3DetectiveTitle: "L'Attacco al Budget ADV: Voragine Social Terzi vs Google Ads Dominance",
@@ -4125,8 +4263,80 @@ window.Hub = window.Hub || {
         pB2S2: "Calculate average discount in euros (discount_amount_eur) by brand and channel from lux_online_orders, ordering by average discount descending.",
         b2DiscoveryTitle: "💎 Plot Twist #1 for CMO (High Margin Discovery):",
         b2DiscoveryDesc: "<strong>Ray-Ban Meta Smart Glasses</strong> and <strong>Oliver Peoples</strong> drive the highest Average Order Value (<strong>AOV > €300</strong>) on E-Commerce Direct! Meanwhile, wholesale partners erode margins with heavy discounts on Vogue.",
-        breakTitle: "Coffee & Networking Break",
-        breakDesc: "Take a break, digest Block 2 findings, and prepare for the advanced CTE + JOIN ROAS Challenge!",
+        breakBadgeTag: "Luxottica Coffee Lounge & Interactive Lab",
+        breakTitle: "Coffee Break & Smart Games",
+        breakDesc: "Recharge your energy with three interactive classroom mini-games: compose musical beats using SQL clauses, test Ray-Ban optics and light refraction in the lens simulator, or get your query roasted by the AI with spiciness ratings!",
+        breakModeLbl: "Classroom Mode",
+        breakModeStatusFree: "Student Free Choice",
+        breakModeSub: "Choose a tab or await trainer control",
+        coffeeTournamentTitle: "Classroom Coffee Break Competitive Challenge",
+        coffeeTournamentDesc: "Complete all 3 mini-challenges during the break: earn up to <strong class=\"text-amber-600 dark:text-amber-400 font-black\">+150 bonus points</strong> for yourself and your team!",
+        coffeeTournamentTag: "🔥 Live Challenge Active",
+        coffeeBadgeDjTitle: "Query DJ Beat Master",
+        coffeeBadgeDjDesc: "Start beat with ≥8 active notes",
+        coffeeBadgeOpticsTitle: "Master Lens Crafter",
+        coffeeBadgeOpticsDesc: "Calibrate F=+120mm & Polarized",
+        coffeeBadgeRoastTitle: "AI Roast Survivor",
+        coffeeBadgeRoastDesc: "Get a SQL query roasted",
+        tabLblDj: "Query Beats DJ",
+        tabLblOptics: "Virtual Optics Lab",
+        tabLblRoast: "AI Turing Roast",
+        // DJ GAME EN
+        djGameTitle: "SQL Prompt DJ • Query Beats 16-Step Sequencer",
+        djGameSubtitle: "Every SQL clause plays a synthetic instrument procedurally in your browser (Web Audio API)",
+        djPlayStart: "PLAY BEAT",
+        djPlayPause: "PAUSE BEAT",
+        djBtnClear: "Clear",
+        djTempoLbl: "Tempo (BPM):",
+        djPresetLbl: "Presets:",
+        djSynthSpecLbl: "Zero external samples • Web Audio API Synthesizer",
+        djGuideTitle: "How to Play & Rules • Query Beats DJ",
+        djGuideBonusTag: "Bonus +50 Points",
+        djGuideObj: "<strong>Objective:</strong> Compose an interactive musical rhythm by associating SQL clauses with 4 real-time Web Audio API synthesized instruments.",
+        djGuideStep1: "1️⃣ <strong>Toggle Pads:</strong> Click grid pads to turn notes ON/OFF across the 16 sequencer steps.",
+        djGuideStep2: "2️⃣ <strong>Adjust Tempo:</strong> Drag the BPM slider (80-150) or load a preset via quick buttons.",
+        djGuideStep3: "3️⃣ <strong>Victory Condition (+50 pts):</strong> Activate <strong>at least 8 notes</strong> on the grid and click <strong class=\"text-amber-600 dark:text-amber-400\">PLAY BEAT</strong>.",
+        djGuideStep4: "4️⃣ <strong>Luxottica Connection:</strong> Picture each step as a distributed execution cycle across BigQuery slots in Agordo!",
+        // OPTICS LAB GAME EN
+        opticsGameTitle: "Luxottica Virtual Optics Lab • Ray-Ban Lens Crafter",
+        opticsGameSubtitle: "Real-time 2D optical refraction physics simulator based on Snell's Law",
+        opticsFocalLbl: "Focal Point F:",
+        opticsGlareLbl: "Glare Reduction:",
+        opticsNLbl: "Refractive Index (n):",
+        opticsNSub: "1.50 (CR-39) • 1.59 (Polycarbonate) • 1.67-1.74 (Ultra Thin)",
+        opticsDLbl: "Dioptric Power (D):",
+        opticsDSub: "< 0 Diverging (Myopia) • > 0 Converging (Presbyopia)",
+        opticsTintLbl: "Ray-Ban Lens Tint & Coating:",
+        opticsTintG15: "Green G-15",
+        opticsTintB15: "Brown B-15",
+        opticsTintClear: "Clear Glass",
+        opticsPolarLbl: "P3 Plus Polarized Filter",
+        opticsPolarSub: "Eliminates horizontal glare",
+        opticsGuideTitle: "How to Play & Rules • Virtual Optics Lab",
+        opticsGuideBonusTag: "Bonus +50 Points",
+        opticsGuideObj: "<strong>Objective:</strong> Engineer the ideal Ray-Ban lens by calibrating light refraction and optical glare reduction.",
+        opticsGuideStep1: "1️⃣ <strong>Refractive Index (n):</strong> Adjust slider from CR-39 (1.50) to Polycarbonate (1.59) up to High-Index (1.74).",
+        opticsGuideStep2: "2️⃣ <strong>Dioptric Power (D):</strong> Change curvature from converging (presbyopia) to diverging (myopia).",
+        opticsGuideStep3: "3️⃣ <strong>Victory Condition (+50 pts):</strong> Calibrate focal point <strong class=\"text-cyan-600 dark:text-cyan-400\">F ≈ +120 mm</strong> (±15mm tolerance) and keep <strong class=\"text-cyan-600 dark:text-cyan-400\">P3 Plus Polarized Filter</strong> enabled.",
+        opticsGuideStep4: "4️⃣ <strong>Luxottica Craftsmanship:</strong> Test legendary G-15 (classic green) and B-15 (high contrast brown) lenses!",
+        // ROAST GAME EN
+        roastGameTitle: "Prompt Arena • The AI Turing Roast",
+        roastGameSubtitle: "Paste your SQL query or Gemini prompt: our critical AI will expose bad practices, byte waste, and fan-out!",
+        roastInputLbl: "Paste SQL Query or Prompt to Roast:",
+        roastSampleBtn: "Load worst query ever 🤦",
+        roastSubmitBtnText: "Roast My Query!",
+        roastVerdictHdr: "Critical AI Verdict",
+        roastSpicinessLbl: "Spiciness:",
+        roastBytesLbl: "Estimated Scanned Bytes:",
+        roastGradeLbl: "BigQuery Efficiency Grade:",
+        roastAdvicePrefix: "Life-Saving Tip: ",
+        roastGuideTitle: "How to Play & Rules • AI Turing Roast",
+        roastGuideBonusTag: "Bonus +50 Points",
+        roastGuideObj: "<strong>Objective:</strong> Test your SQL queries or AI prompts against the sarcastic review of BigQuery's AI Architect.",
+        roastGuideStep1: "1️⃣ <strong>Paste or Load:</strong> Enter your SQL code or click \"Load worst query\" to test a trap query.",
+        roastGuideStep2: "2️⃣ <strong>Get Roasted:</strong> Click \"Roast My Query!\" to trigger the AI review.",
+        roastGuideStep3: "3️⃣ <strong>Victory Condition (+50 pts):</strong> Submit <strong class=\"text-rose-600 dark:text-rose-400\">any non-empty query or prompt</strong> to survive the roast and claim your bonus.",
+        roastGuideStep4: "4️⃣ <strong>Architectural Guidance:</strong> Pay close attention to scanned byte estimates and production optimization tips.",
         b3Title: "Block 3: Challenge #2 - Multi-Platform ROAS with CTE & JOIN",
         b3DetectiveTag: "Detective Mission • Chapter 2",
         b3DetectiveTitle: "Ad Spend Cross-Examination: 3rd-Party Social Money Pit vs Google Ads Dominance",
@@ -5506,25 +5716,26 @@ window.Hub = window.Hub || {
     function handleRemoteBreakGameSync(gameId) {
       currentBreakGame = gameId || 'free';
       const statusText = document.getElementById('break-mode-status-text');
+      const lang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang : 'it';
       if (statusText) {
         if (gameId === 'free') {
-          statusText.innerText = 'Libera Scelta Studente';
+          statusText.innerText = lang === 'it' ? 'Libera Scelta Studente' : 'Student Free Choice';
           statusText.className = 'text-xs font-black text-amber-600 dark:text-amber-400';
         } else if (gameId === 'dj') {
-          statusText.innerText = 'Regia: Query Beats DJ 🎛️';
+          statusText.innerText = lang === 'it' ? 'Regia: Query Beats DJ 🎛️' : 'Host: Query Beats DJ 🎛️';
           statusText.className = 'text-xs font-black text-blue-600 dark:text-blue-400';
         } else if (gameId === 'optics') {
-          statusText.innerText = 'Regia: Virtual Optics Lab 🔬';
+          statusText.innerText = lang === 'it' ? 'Regia: Virtual Optics Lab 🔬' : 'Host: Virtual Optics Lab 🔬';
           statusText.className = 'text-xs font-black text-cyan-600 dark:text-cyan-400';
         } else if (gameId === 'roast') {
-          statusText.innerText = 'Regia: AI Turing Roast 🌶️';
+          statusText.innerText = lang === 'it' ? 'Regia: AI Turing Roast 🌶️' : 'Host: AI Turing Roast 🌶️';
           statusText.className = 'text-xs font-black text-rose-600 dark:text-rose-400';
         }
       }
 
       if (gameId !== 'free') {
         switchBreakGame(gameId, true);
-        showToast(currentLang === 'it' 
+        showToast(lang === 'it' 
           ? `☕ Il Trainer ha sincronizzato il gioco di pausa: ${gameId.toUpperCase()}!` 
           : `☕ Trainer synced break game: ${gameId.toUpperCase()}!`);
       }
@@ -5763,10 +5974,11 @@ window.Hub = window.Hub || {
         const btn = document.getElementById('qb-btn-play');
         const icon = document.getElementById('qb-play-icon');
         const text = document.getElementById('qb-play-text');
+        const lang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang : 'it';
 
         if (isPlaying) {
           if (icon) icon.innerText = '⏸';
-          if (text) text.innerText = 'PAUSA BEAT';
+          if (text) text.innerText = lang === 'it' ? 'PAUSA BEAT' : 'PAUSE BEAT';
           if (btn) btn.className = "px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-black text-xs transition flex items-center space-x-2 shadow-md cursor-pointer animate-pulse";
           const stepIntervalMs = (60 / bpm / 4) * 1000;
           intervalId = setInterval(step, stepIntervalMs);
@@ -5783,7 +5995,7 @@ window.Hub = window.Hub || {
           }
         } else {
           if (icon) icon.innerText = '▶';
-          if (text) text.innerText = 'AVVIA BEAT';
+          if (text) text.innerText = lang === 'it' ? 'AVVIA BEAT' : 'PLAY BEAT';
           if (btn) btn.className = "px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition flex items-center space-x-2 shadow-sm cursor-pointer";
           if (intervalId) clearInterval(intervalId);
           currentStep = 0;
@@ -6069,67 +6281,130 @@ window.Hub = window.Hub || {
       const ROAST_RULES = [
         {
           regex: /SELECT\s+\*/i,
-          badge: "SELECT * Criminale 🚨",
           spiciness: "🌶️🌶️🌶️🌶️🌶️",
-          quote: "SELECT * su BigQuery? Hai intenzione di far bruciare il budget annuale di Google Cloud prima del secondo espresso, o volevi solo essere sicuro che il data warehouse ricordasse tutte le sue colonne?",
-          bytes: "4.8 TB (Terrore puro)",
-          grade: "F (Lettera di richiamo)",
-          advice: "Non usare MAI SELECT * su tabelle analitiche: specifica le colonne esatte necessarie alla CTE!"
+          it: {
+            badge: "SELECT * Criminale 🚨",
+            quote: "SELECT * su BigQuery? Hai intenzione di far bruciare il budget annuale di Google Cloud prima del secondo espresso, o volevi solo essere sicuro che il data warehouse ricordasse tutte le sue colonne?",
+            bytes: "4.8 TB (Terrore puro)",
+            grade: "F (Lettera di richiamo)",
+            advice: "Non usare MAI SELECT * su tabelle analitiche: specifica le colonne esatte necessarie alla CTE!"
+          },
+          en: {
+            badge: "Criminal SELECT * 🚨",
+            quote: "SELECT * on BigQuery? Planning to burn through our annual Google Cloud quota before your second espresso, or just making sure the data warehouse remembers all its columns?",
+            bytes: "4.8 TB (Pure Terror)",
+            grade: "F (Formal Warning)",
+            advice: "NEVER use SELECT * on analytical tables: specify the exact columns required by your CTE!"
+          }
         },
         {
           regex: /CROSS\s+JOIN/i,
-          badge: "Cartesian Explosion 💣",
           spiciness: "🌶️🌶️🌶️🌶️",
-          quote: "Una CROSS JOIN non protetta? Complimenti, hai appena generato 84 miliardi di combinazioni per confrontare due paia di Ray-Ban. I server di Agordo stanno chiedendo asilo politico in Svizzera.",
-          bytes: "18.2 TB (Supernova)",
-          grade: "E (Pericolo Pubblico)",
-          advice: "Utilizza clausole ON ben definite o subquery pre-aggregate prima della JOIN."
+          it: {
+            badge: "Cartesian Explosion 💣",
+            quote: "Una CROSS JOIN non protetta? Complimenti, hai appena generato 84 miliardi di combinazioni per confrontare due paia di Ray-Ban. I server di Agordo stanno chiedendo asilo politico in Svizzera.",
+            bytes: "18.2 TB (Supernova)",
+            grade: "E (Pericolo Pubblico)",
+            advice: "Utilizza clausole ON ben definite o subquery pre-aggregate prima della JOIN."
+          },
+          en: {
+            badge: "Cartesian Explosion 💣",
+            quote: "An unconstrained CROSS JOIN? Congratulations, you just multiplied 84 billion combinations comparing two pairs of Ray-Bans. The Agordo datacenter is seeking political asylum in Switzerland.",
+            bytes: "18.2 TB (Supernova)",
+            grade: "E (Public Hazard)",
+            advice: "Use strict ON join conditions or pre-aggregated CTEs prior to joining."
+          }
         },
         {
           regex: /WHERE\s+1\s*=\s*1/i,
-          badge: "Pigrizia da Backend 😴",
           spiciness: "🌶️🌶️",
-          quote: "WHERE 1=1... Si vede che hai programmato in PHP nel 2007 e ti porti ancora dentro quel trauma della concatenazione delle stringhe. Lascialo andare, qui siamo su BigQuery Studio.",
-          bytes: "120 MB (Nessun danno, ma tanto imbarazzo)",
-          grade: "C- (Nostalgico)",
-          advice: "Rimuovi costrutti fittizi quando scrivi query di reportistica per il management."
+          it: {
+            badge: "Pigrizia da Backend 😴",
+            quote: "WHERE 1=1... Si vede che hai programmato in PHP nel 2007 e ti porti ancora dentro quel trauma della concatenazione delle stringhe. Lascialo andare, qui siamo su BigQuery Studio.",
+            bytes: "120 MB (Nessun danno, ma tanto imbarazzo)",
+            grade: "C- (Nostalgico)",
+            advice: "Rimuovi costrutti fittizi quando scrivi query di reportistica per il management."
+          },
+          en: {
+            badge: "Backend Sloth 😴",
+            quote: "WHERE 1=1... We can tell you were string-concatenating SQL in PHP back in 2007 and still carry that trauma. Let it go, you are on BigQuery Studio now.",
+            bytes: "120 MB (No financial harm, just emotional damage)",
+            grade: "C- (Nostalgic)",
+            advice: "Purge dummy predicates when writing business-grade analytical queries."
+          }
         },
         {
           regex: /ORDER\s+BY[^\n]+LIMIT/i,
-          badge: "Ordinamento Top-N Pulito ✨",
           spiciness: "🌶️",
-          quote: "Un ORDER BY con LIMIT... incredibile, qualcuno che rispetta le code di esecuzione distribuite di Google! Quasi mi dispiace doverti fare un complimento durante un roast.",
-          bytes: "2.1 GB (Gestibile)",
-          grade: "A- (Esemplare)",
-          advice: "Ottimo uso! Se puoi, unisci un filtro di partizione temporale nel WHERE per abbattere ulteriormente lo scan."
+          it: {
+            badge: "Ordinamento Top-N Pulito ✨",
+            quote: "Un ORDER BY con LIMIT... incredibile, qualcuno che rispetta le code di esecuzione distribuite di Google! Quasi mi dispiace doverti fare un complimento durante un roast.",
+            bytes: "2.1 GB (Gestibile)",
+            grade: "A- (Esemplare)",
+            advice: "Ottimo uso! Se puoi, unisci un filtro di partizione temporale nel WHERE per abbattere ulteriormente lo scan."
+          },
+          en: {
+            badge: "Clean Top-N Sort ✨",
+            quote: "ORDER BY accompanied by LIMIT... incredible, an engineer who actually respects Google's distributed execution slots! I almost regret complimenting you during a roast.",
+            bytes: "2.1 GB (Lean & Mean)",
+            grade: "A- (Exemplary)",
+            advice: "Great pattern! Couple this with partition pruning in WHERE to drive byte scan even lower."
+          }
         },
         {
           regex: /WITH\s+[a-zA-Z0-9_]+\s+AS/i,
-          badge: "Architetto delle CTE 🏗️",
           spiciness: "🌶️🌶️",
-          quote: "Usi le CTE per rendere il codice leggibile. Bellissimo, ti senti raffinato vero? Ricordati solo che se fai una sub-CTE con fan-out per ogni canale social, alla fine i conti del ROAS li paghi tu.",
-          bytes: "450 MB (Ben isolato)",
-          grade: "B+ (Strutturato)",
-          advice: "Assicurati di raggruppare sempre per channel prima del JOIN di attribuzione."
+          it: {
+            badge: "Architetto delle CTE 🏗️",
+            quote: "Usi le CTE per rendere il codice leggibile. Bellissimo, ti senti raffinato vero? Ricordati solo che se fai una sub-CTE con fan-out per ogni canale social, alla fine i conti del ROAS li paghi tu.",
+            bytes: "450 MB (Ben isolato)",
+            grade: "B+ (Strutturato)",
+            advice: "Assicurati di raggruppare sempre per channel prima del JOIN di attribuzione."
+          },
+          en: {
+            badge: "CTE Architect 🏗️",
+            quote: "Using CTEs to keep logic pristine. Looking sophisticated, aren't we? Just remember: if your sub-CTE duplicates rows across marketing channels, the CFO will personally audit your desk.",
+            bytes: "450 MB (Well isolated)",
+            grade: "B+ (Structured)",
+            advice: "Always aggregate metrics by channel inside the CTE before joining."
+          }
         }
       ];
 
       const DEFAULT_ROASTS = [
         {
-          badge: "Query Neutra & Timida 🥱",
           spiciness: "🌶️🌶️",
-          quote: "Query sintatticamente accettabile, ma priva di anima. Il tuo codice assomiglia a un manuale d'uso in tedesco di una macchina del caffè degli anni '80: funziona, ma non entusiasma nessuno.",
-          bytes: "640 MB (Modesto)",
-          grade: "B- (Impiegatizio)",
-          advice: "Aggiungi qualche funzione analitica di finestra (OVER / PARTITION BY) per fare il salto di qualità."
+          it: {
+            badge: "Query Neutra & Timida 🥱",
+            quote: "Query sintatticamente accettabile, ma priva di anima. Il tuo codice assomiglia a un manuale d'uso in tedesco di una macchina del caffè degli anni '80: funziona, ma non entusiasma nessuno.",
+            bytes: "640 MB (Modesto)",
+            grade: "B- (Impiegatizio)",
+            advice: "Aggiungi qualche funzione analitica di finestra (OVER / PARTITION BY) per fare il salto di qualità."
+          },
+          en: {
+            badge: "Timid Vanilla Query 🥱",
+            quote: "Syntactically acceptable, yet completely devoid of passion. Your code reads like a 1980s German appliance manual: functional, yet deeply uninspiring.",
+            bytes: "640 MB (Modest)",
+            grade: "B- (Bureaucratic)",
+            advice: "Add analytical window functions (OVER / PARTITION BY) to step up your engineering game."
+          }
         },
         {
-          badge: "Codice Zen / Mistero Ermetico 🧘",
           spiciness: "🌶️🌶️🌶️",
-          quote: "Questo prompt o query è così minimalista che neppure Gemini in persona sa se vuoi analizzare le vendite di occhiali o calcolare l'orbita di Marte. Più contesto la prossima volta!",
-          bytes: "Sconosciuto",
-          grade: "C (Nebuloso)",
-          advice: "Fornisci sempre schema di partenza, obiettivo di business e vincoli attesi."
+          it: {
+            badge: "Codice Zen / Mistero Ermetico 🧘",
+            quote: "Questo prompt o query è così minimalista che neppure Gemini in persona sa se vuoi analizzare le vendite di occhiali o calcolare l'orbita di Marte. Più contesto la prossima volta!",
+            bytes: "Sconosciuto",
+            grade: "C (Nebuloso)",
+            advice: "Fornisci sempre schema di partenza, obiettivo di business e vincoli attesi."
+          },
+          en: {
+            badge: "Hermetic Zen Code 🧘",
+            quote: "This prompt is so cryptic that Gemini himself cannot tell if you are analyzing luxury eyewear sales or calculating planetary orbits. Give us some context next time!",
+            bytes: "Unknown",
+            grade: "C (Nebulous)",
+            advice: "Always specify the target schema, commercial objective, and constraints."
+          }
         }
       ];
 
@@ -6137,8 +6412,12 @@ window.Hub = window.Hub || {
         const inputEl = document.getElementById('roast-input');
         const text = (inputEl ? inputEl.value : '').trim();
 
+        const lang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang : 'it';
+
         if (!text) {
-          showToast("Inserisci prima una query SQL o un prompt da roostare! 🌶️");
+          showToast(lang === 'it' 
+            ? "Inserisci prima una query SQL o un prompt da roostare! 🌶️" 
+            : "Enter a SQL query or prompt to roast first! 🌶️");
           return;
         }
 
@@ -6154,6 +6433,8 @@ window.Hub = window.Hub || {
           selected = DEFAULT_ROASTS[Math.floor(Math.random() * DEFAULT_ROASTS.length)];
         }
 
+        const data = (lang === 'en' && selected.en) ? selected.en : (selected.it || selected);
+
         // Populate Result Card
         const badgeEl = document.getElementById('roast-badge');
         const spiceEl = document.getElementById('roast-spiciness-rating');
@@ -6162,14 +6443,17 @@ window.Hub = window.Hub || {
         const gradeEl = document.getElementById('roast-grade-metric');
         const adviceEl = document.getElementById('roast-advice');
 
-        if (badgeEl) badgeEl.innerText = selected.badge;
+        const spiceLabel = lang === 'it' ? 'Piccantezza:' : 'Spiciness:';
+        const advicePrefix = lang === 'it' ? 'Consiglio Salva-Vita: ' : 'Life-Saving Tip: ';
+
+        if (badgeEl) badgeEl.innerText = data.badge;
         if (spiceEl) {
-          spiceEl.innerHTML = `<span class="text-xs font-bold text-rose-600 dark:text-rose-400">Piccantezza:</span><span>${selected.spiciness}</span>`;
+          spiceEl.innerHTML = `<span class="text-xs font-bold text-rose-600 dark:text-rose-400">${spiceLabel}</span><span>${selected.spiciness}</span>`;
         }
-        if (quoteEl) quoteEl.innerText = `"${selected.quote}"`;
-        if (bytesEl) bytesEl.innerText = selected.bytes;
-        if (gradeEl) gradeEl.innerText = selected.grade;
-        if (adviceEl) adviceEl.innerText = `Consiglio Salva-Vita: ${selected.advice}`;
+        if (quoteEl) quoteEl.innerText = `"${data.quote}"`;
+        if (bytesEl) bytesEl.innerText = data.bytes;
+        if (gradeEl) gradeEl.innerText = data.grade;
+        if (adviceEl) adviceEl.innerText = `${advicePrefix}${data.advice}`;
 
         // Shake visual effect
         const card = document.getElementById('roast-result-card');
@@ -6179,7 +6463,7 @@ window.Hub = window.Hub || {
         }
 
         // Classroom Competition Award Hook: +50 pt for surviving the AI roast!
-        awardCoffeeBadge('roast', 50, '🌶️ AI Roast Survivor');
+        awardCoffeeBadge('roast', 50, lang === 'it' ? '🌶️ AI Roast Survivor' : '🌶️ AI Roast Survivor');
       }
 
       function loadSample() {
@@ -6710,8 +6994,78 @@ window.Hub = window.Hub || {
       setText('b2-discovery-title', t.b2DiscoveryTitle);
       setHTML('b2-discovery-desc', t.b2DiscoveryDesc);
 
+      setText('break-badge-tag', t.breakBadgeTag);
       setText('break-title', t.breakTitle);
       setText('break-desc', t.breakDesc);
+      setText('break-mode-lbl', t.breakModeLbl);
+      setText('break-mode-sub', t.breakModeSub);
+      setText('coffee-tournament-title', t.coffeeTournamentTitle);
+      setHTML('coffee-tournament-desc', t.coffeeTournamentDesc);
+      setText('coffee-tournament-tag', t.coffeeTournamentTag);
+      setText('coffee-badge-dj-title', t.coffeeBadgeDjTitle);
+      setText('coffee-badge-dj-desc', t.coffeeBadgeDjDesc);
+      setText('coffee-badge-optics-title', t.coffeeBadgeOpticsTitle);
+      setText('coffee-badge-optics-desc', t.coffeeBadgeOpticsDesc);
+      setText('coffee-badge-roast-title', t.coffeeBadgeRoastTitle);
+      setText('coffee-badge-roast-desc', t.coffeeBadgeRoastDesc);
+      setText('tab-lbl-dj', t.tabLblDj);
+      setText('tab-lbl-optics', t.tabLblOptics);
+      setText('tab-lbl-roast', t.tabLblRoast);
+
+      // DJ Game i18n
+      setText('dj-game-title', t.djGameTitle);
+      setText('dj-game-subtitle', t.djGameSubtitle);
+      setText('qb-btn-clear', t.djBtnClear);
+      setText('qb-tempo-lbl', t.djTempoLbl);
+      setText('qb-preset-lbl', t.djPresetLbl);
+      setText('qb-synth-spec-lbl', t.djSynthSpecLbl);
+      setText('dj-guide-title', t.djGuideTitle);
+      setText('dj-guide-bonus-tag', t.djGuideBonusTag);
+      setHTML('dj-guide-obj', t.djGuideObj);
+      setHTML('dj-guide-step1', t.djGuideStep1);
+      setHTML('dj-guide-step2', t.djGuideStep2);
+      setHTML('dj-guide-step3', t.djGuideStep3);
+      setHTML('dj-guide-step4', t.djGuideStep4);
+
+      // Optics Lab Game i18n
+      setText('optics-game-title', t.opticsGameTitle);
+      setText('optics-game-subtitle', t.opticsGameSubtitle);
+      setText('optics-focal-lbl', t.opticsFocalLbl);
+      setText('optics-glare-lbl', t.opticsGlareLbl);
+      setText('optics-n-lbl', t.opticsNLbl);
+      setText('optics-n-sub', t.opticsNSub);
+      setText('optics-d-lbl', t.opticsDLbl);
+      setText('optics-d-sub', t.opticsDSub);
+      setText('optics-tint-lbl', t.opticsTintLbl);
+      setText('optics-tint-g15', t.opticsTintG15);
+      setText('optics-tint-b15', t.opticsTintB15);
+      setText('optics-tint-clear', t.opticsTintClear);
+      setText('optics-polar-lbl', t.opticsPolarLbl);
+      setText('optics-polar-sub', t.opticsPolarSub);
+      setText('optics-guide-title', t.opticsGuideTitle);
+      setText('optics-guide-bonus-tag', t.opticsGuideBonusTag);
+      setHTML('optics-guide-obj', t.opticsGuideObj);
+      setHTML('optics-guide-step1', t.opticsGuideStep1);
+      setHTML('optics-guide-step2', t.opticsGuideStep2);
+      setHTML('optics-guide-step3', t.opticsGuideStep3);
+      setHTML('optics-guide-step4', t.opticsGuideStep4);
+
+      // Roast Game i18n
+      setText('roast-game-title', t.roastGameTitle);
+      setText('roast-game-subtitle', t.roastGameSubtitle);
+      setText('roast-input-lbl', t.roastInputLbl);
+      setText('roast-sample-btn', t.roastSampleBtn);
+      setText('roast-submit-text', t.roastSubmitBtnText);
+      setText('roast-verdict-hdr', t.roastVerdictHdr);
+      setText('roast-bytes-lbl', t.roastBytesLbl);
+      setText('roast-grade-lbl', t.roastGradeLbl);
+      setText('roast-guide-title', t.roastGuideTitle);
+      setText('roast-guide-bonus-tag', t.roastGuideBonusTag);
+      setHTML('roast-guide-obj', t.roastGuideObj);
+      setHTML('roast-guide-step1', t.roastGuideStep1);
+      setHTML('roast-guide-step2', t.roastGuideStep2);
+      setHTML('roast-guide-step3', t.roastGuideStep3);
+      setHTML('roast-guide-step4', t.roastGuideStep4);
 
       setText('b3-title', t.b3Title);
       setText('b3-detective-tag', t.b3DetectiveTag);
