@@ -449,8 +449,8 @@ ORDER BY total_vip_leads DESC;
 
       const isIt = (lang === 'it');
       if (btnIt && btnEn) {
-        btnIt.className = isIt ? "px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white" : "px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 hover:text-white";
-        btnEn.className = !isIt ? "px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white" : "px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 hover:text-white";
+        btnIt.className = isIt ? "px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white" : "px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700";
+        btnEn.className = !isIt ? "px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white" : "px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700";
       }
 
       title.innerText = isIt ? "Guida Ufficiale Studente: BigQuery & Gemini Workshop" : "Official Student Guide: BigQuery & Gemini Workshop";
@@ -521,8 +521,8 @@ ORDER BY total_vip_leads DESC;
       const isIt = (activeLang === 'it');
 
       if (btnIt && btnEn) {
-        btnIt.className = isIt ? "px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white" : "px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 hover:text-white";
-        btnEn.className = !isIt ? "px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white" : "px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 hover:text-white";
+        btnIt.className = isIt ? "px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white" : "px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700";
+        btnEn.className = !isIt ? "px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white" : "px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700";
       }
 
       if (title) title.innerText = isIt ? "Copione & Gobbo Dettagliato Minuto per Minuto" : "Minute-by-Minute Playbook & Teleprompter";

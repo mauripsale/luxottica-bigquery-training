@@ -46,10 +46,10 @@
 
       if (btn && text && t) {
         if (isStrictLocked) {
-          btn.className = "px-2.5 py-1 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold transition flex items-center space-x-1 shadow-sm";
+          btn.className = "w-full py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black transition flex items-center justify-center space-x-2 shadow-lg text-xs sm:text-sm cursor-pointer";
           text.innerText = t.btnLockLocked;
         } else {
-          btn.className = "px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition flex items-center space-x-1 shadow-sm";
+          btn.className = "w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black transition flex items-center justify-center space-x-2 shadow-lg text-xs sm:text-sm cursor-pointer";
           text.innerText = t.btnLockUnlocked;
         }
       }
