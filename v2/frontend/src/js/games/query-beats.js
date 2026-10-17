@@ -196,10 +196,11 @@
         const btn = document.getElementById('qb-btn-play');
         const icon = document.getElementById('qb-play-icon');
         const text = document.getElementById('qb-play-text');
+        const lang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang : 'it';
 
         if (isPlaying) {
           if (icon) icon.innerText = '⏸';
-          if (text) text.innerText = 'PAUSA BEAT';
+          if (text) text.innerText = lang === 'it' ? 'PAUSA BEAT' : 'PAUSE BEAT';
           if (btn) btn.className = "px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-black text-xs transition flex items-center space-x-2 shadow-md cursor-pointer animate-pulse";
           const stepIntervalMs = (60 / bpm / 4) * 1000;
           intervalId = setInterval(step, stepIntervalMs);
@@ -216,7 +217,7 @@
           }
         } else {
           if (icon) icon.innerText = '▶';
-          if (text) text.innerText = 'AVVIA BEAT';
+          if (text) text.innerText = lang === 'it' ? 'AVVIA BEAT' : 'PLAY BEAT';
           if (btn) btn.className = "px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition flex items-center space-x-2 shadow-sm cursor-pointer";
           if (intervalId) clearInterval(intervalId);
           currentStep = 0;
