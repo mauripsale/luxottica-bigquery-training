@@ -29,6 +29,10 @@
       CURRENT_ROOM = newRoom.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '') || 'lux-bq-2026';
       try { localStorage.setItem('lux_bq_room_code_v1', CURRENT_ROOM); } catch(e) {}
       setText('trainer-room-code-badge', CURRENT_ROOM);
+      setText('tcc-room-code', CURRENT_ROOM);
+      if (window.hubClient) {
+        window.hubClient.sessionId = CURRENT_ROOM;
+      }
     }
 
     // LOCAL CROSS-TAB BUS FOR INSTANT ZERO-LATENCY SYNCHRONIZATION (SAME BROWSER PROFILE)
@@ -427,6 +431,9 @@
         return;
       }
       syncEngineActive = true;
+      if (window.hubClient) {
+        window.hubClient.sessionId = CURRENT_ROOM;
+      }
 
       const dot = document.getElementById('net-status-dot');
       const text = document.getElementById('net-status-text');

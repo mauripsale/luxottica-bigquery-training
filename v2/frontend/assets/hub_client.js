@@ -15,7 +15,14 @@ class TrainingHubClient {
       this.apiBaseUrl = "http://localhost:8080";
     }
     this.courseId = config.courseId || "luxottica-bigquery-marketing";
-    this.sessionId = config.sessionId || "default-session";
+    let defaultRoom = 'lux-bq-2026';
+    if (typeof window !== 'undefined' && window.location) {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        defaultRoom = params.get('room') || params.get('r') || localStorage.getItem('lux_bq_room_code_v1') || 'lux-bq-2026';
+      } catch (e) {}
+    }
+    this.sessionId = config.sessionId || defaultRoom;
     this.onStateChangeCallback = null;
     this.manifest = null;
     this.serverConfig = null;
