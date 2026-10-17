@@ -1,14 +1,14 @@
-# 🚀 ARCHITECTURAL SPECIFICATION: UNIVERSAL TRAINING PLATFORM (UTP)
-**Transitioning from Client-Specific POC (Luxottica) to White-Label Multi-Tenant, Multi-Course Enterprise Engine**  
-**Version:** 3.0.0-draft  
-**Author:** Lead Architect & Principal Software Engineer  
+# 🚀 ARCHITECTURAL SPECIFICATION: IPSALE ENGINE (v3.0.0)
+**IPSALE: Interactive Platform for Skill Assessment & Live Education**  
+*Transitioning from Client-Specific POC (Luxottica) to White-Label Multi-Tenant, Multi-Course Enterprise Engine*  
+**Author:** Maurizio Ipsale (Platform Creator & Architect)  
 **Date:** October 17, 2026  
 
 ---
 
 ## 1. 🎯 Vision & Executive Summary
 
-The **Universal Training Platform (UTP)** evolves the current Luxottica BigQuery Training Hub POC into a fully decoupled, multi-tenant, multi-course **Enterprise Classroom & Authoring Engine**. 
+The **IPSALE Engine** (**I**nteractive **P**latform for **S**kill **A**ssessment & **L**ive **E**ducation) evolves the current Luxottica BigQuery Training Hub POC into a fully decoupled, multi-tenant, multi-course **Enterprise Classroom & Authoring Platform**. 
 
 ### Key Principles:
 1. **100% White-Label & Client Agnostic**: Zero hardcoded client references (Luxottica, Oakley, Persol). Branding, logos, team brand names, themes, and domains are dynamically injected per **Tenant / Course Session**.
