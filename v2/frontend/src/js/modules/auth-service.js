@@ -6,6 +6,7 @@ window.luxAuth = {
     clientId: "",
     authRequired: false,
     allowedDomains: [],
+    tenantConfig: null,
 
     init: async function() {
         try {
@@ -15,6 +16,10 @@ window.luxAuth = {
                 this.clientId = config.google_client_id || "";
                 this.authRequired = !!config.auth_required;
                 this.allowedDomains = config.allowed_domains || [];
+                if (config.tenant_config) {
+                    this.tenantConfig = config.tenant_config;
+                    this.applyTenantConfig(config.tenant_config);
+                }
             }
         } catch (e) {
             console.warn("[Auth] Imperfetta lettura config:", e);
@@ -34,6 +39,31 @@ window.luxAuth = {
         // Load Google GIS SDK if Client ID is configured or GIS button present
         if (this.clientId) {
             this.loadGoogleSDK();
+        }
+    },
+
+    applyTenantConfig: function(tenant) {
+        if (!tenant) return;
+        
+        // 1. Update Organization Branding Name and Logos
+        if (tenant.org_name) {
+            document.title = `${tenant.org_name} | IPSALE Engine`;
+            const orgTitleEls = document.querySelectorAll('.tenant-org-name');
+            orgTitleEls.forEach(el => { el.textContent = tenant.org_name; });
+        }
+
+        if (tenant.logo_url) {
+            const logoEls = document.querySelectorAll('.tenant-logo-img');
+            logoEls.forEach(el => { el.src = tenant.logo_url; });
+        }
+
+        // 2. Dynamic Team Names in Onboarding Modal
+        if (tenant.team_names && Array.isArray(tenant.team_names) && tenant.team_names.length > 0) {
+            const teamSelects = document.querySelectorAll('.tenant-team-select');
+            teamSelects.forEach(select => {
+                select.innerHTML = '<option value="">-- Seleziona il tuo Team --</option>' + 
+                    tenant.team_names.map(t => `<option value="${t}">${t}</option>`).join('');
+            });
         }
     },
 
@@ -89,14 +119,12 @@ window.luxAuth = {
                     window.showToast(`Benvenuto ${this.user.name}! Accesso autorizzato (@${this.user.domain})`, 'success');
                 }
 
-                // If user is trainer, enable trainer controls automatically
-                if (this.user.role === 'TRAINER') {
-                    if (window.enableTrainerMode) {
-                        window.enableTrainerMode();
-                    }
+                // Role actions
+                if (this.isTrainer() && window.enableTrainerMode) {
+                    window.enableTrainerMode();
                 }
             } else {
-                const errMsg = data.detail || "Accesso negato: email non presente nella allowlist Luxottica.";
+                const errMsg = data.detail || "Accesso negato: email non presente nella allowlist.";
                 if (window.showToast) {
                     window.showToast(errMsg, 'error');
                 } else {
@@ -109,13 +137,31 @@ window.luxAuth = {
         }
     },
 
+    isTrainer: function() {
+        return this.user && ['TRAINER', 'MANAGER', 'CONTENT_CREATOR'].includes(this.user.role);
+    },
+
+    isManager: function() {
+        return this.user && ['MANAGER', 'CONTENT_CREATOR'].includes(this.user.role);
+    },
+
+    isCreator: function() {
+        return this.user && this.user.role === 'CONTENT_CREATOR';
+    },
+
     updateUIProfileBadge: function() {
         const badgeEl = document.getElementById('user-profile-badge');
         if (!badgeEl) return;
 
         if (this.user) {
-            const isTrainer = this.user.role === 'TRAINER';
-            const roleBadge = isTrainer ? `<span class="px-2 py-0.5 text-xs font-bold bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">👑 Trainer</span>` : `<span class="px-2 py-0.5 text-xs font-medium bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-500/30">🎓 Studente</span>`;
+            let roleBadge = `<span class="px-2 py-0.5 text-xs font-medium bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-500/30">🎓 Studente</span>`;
+            if (this.user.role === 'CONTENT_CREATOR') {
+                roleBadge = `<span class="px-2 py-0.5 text-xs font-bold bg-purple-500/20 text-purple-300 rounded-full border border-purple-500/30">🎨 Creator</span>`;
+            } else if (this.user.role === 'MANAGER') {
+                roleBadge = `<span class="px-2 py-0.5 text-xs font-bold bg-blue-500/20 text-blue-300 rounded-full border border-blue-500/30">💼 Manager</span>`;
+            } else if (this.user.role === 'TRAINER') {
+                roleBadge = `<span class="px-2 py-0.5 text-xs font-bold bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">👑 Trainer</span>`;
+            }
             
             badgeEl.innerHTML = `
                 <div class="flex items-center gap-2 bg-slate-800/80 border border-slate-700/60 rounded-full pl-1.5 pr-3 py-1 text-xs text-slate-200">
@@ -130,6 +176,16 @@ window.luxAuth = {
                     </button>
                 </div>
             `;
+
+            // Toggle Visibility of Manager UI elements
+            const managerNavBtn = document.getElementById('nav-manager-btn');
+            if (managerNavBtn) {
+                if (this.isManager()) {
+                    managerNavBtn.classList.remove('hidden');
+                } else {
+                    managerNavBtn.classList.add('hidden');
+                }
+            }
         } else {
             badgeEl.innerHTML = `
                 <div class="google-signin-container"></div>

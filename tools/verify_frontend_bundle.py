@@ -31,6 +31,7 @@ REQUIRED_DIALOGS = [
     "playbook-modal",
     "student-manager-modal",
     "trainer-solutions-modal",
+    "manager-admin-modal",
 ]
 
 REQUIRED_DOM_IDS = [
@@ -101,13 +102,15 @@ def verify_bundle(path: Path) -> bool:
         for m in re.finditer(r"(?:let|var)\s+([a-zA-Z0-9_$]+)\s*=\s*(?:function|\([^)]*\)\s*=>)", script_text):
             func_names.add(m.group(1))
 
-        # Also add Hub namespace and bridge names
+        # Also add Hub namespace, window bindings, and object methods
         hub_bindings = set(re.findall(r"window\.([a-zA-Z0-9_]+)\s*=", script_text))
         func_names.update(hub_bindings)
+        object_methods = set(re.findall(r"([a-zA-Z0-9_]+)\s*:\s*(?:async\s+)?function\b", script_text))
+        func_names.update(object_methods)
 
         # Standard JS browser functions allowed in handlers
         allowed_globals = {
-            "preventDefault", "stopPropagation", "getElementById", "scrollIntoView", 
+            "preventDefault", "stopPropagation", "getElementById", "scrollIntoView", "click",
             "clear", "AS", "ROUND", "SAFE_DIVIDE", "SUM", "alert", "prompt", "confirm",
             "OpticsLab", "QueryBeats", "TuringRoast"
         }

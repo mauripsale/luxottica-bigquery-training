@@ -1,73 +1,61 @@
-# Technical Implementation Plan: Frontend Modularization & Zero-Build Pipeline
-**File di Riferimento Spec:** `SPEC-frontend-modularization.md` & `CAPABILITY-MAP.md`  
-**Branch di Lavoro:** `feature/frontend-modularization`  
-**Governance di Verifica:** Framework `/adversarial-debate` a 360° (UI/UX, QA Bug Hunter, Performance, Security, Lead Architect)
+# Technical Implementation Plan: IPSALE Engine v3.0 (White-Label & Manager Portal)
+
+**File di Riferimento Spec:** `SPEC-universal-training-platform.md` & `CAPABILITY-MAP.md`  
+**Piattaforma:** IPSALE Engine (**I**nteractive **P**latform for **S**kill **A**ssessment & **L**ive **E**ducation)  
+**Obiettivo:** Disaccoppiare la piattaforma da Luxottica (trasformandolo in un Tenant POC) ed estendere l'autenticazione con il ruolo `MANAGER` per la gestione dinamica dell'allowlist e l'importazione CSV.
 
 ---
 
-## 1. Architettura Target & Componenti
+## 1. Architettura dei Componenti Target (v3.0)
 
 ```mermaid
 flowchart TD
-    subgraph SRC ["Directory Sorgente: v2/frontend/src/"]
-        L["layout/ (head.html, nav-header.html, footer.html)"]
-        D["components/dialogs/ (12 modali nativi <dialog>)"]
-        B["components/blocks/ (6 sezioni didattiche + games)"]
-        TC["components/trainer/ (command-center.html)"]
-        JC["js/core/ (hub-namespace.js, theme.js, state.js, window-bridge.js)"]
-        JM["js/modules/ (i18n, timeline, rosetta, leaderboard, challenges, trainer)"]
-        JG["js/games/ (query-beats, optics-sim, turing-roast)"]
-        CSS["css/custom-styles.css"]
+    subgraph Frontend ["IPSALE Modular Frontend (v3.0)"]
+        TC["js/modules/auth-service.js (RBAC: Student, Trainer, Manager, Creator)"]
+        MM["components/dialogs/manager-modal.html (Pannello Manager & Allowlist CSV)"]
+        CONF["/api/v2/config?tenant_id=... (Branding Dinamico & Tenant Config)"]
     end
 
-    BUILDER["tools/build_frontend.py (Assemblatore Python <50ms)"]
-    PROD["v2/frontend/index.html (Artefatto Atomico Compresso per Cloud Run)"]
-    CDP["tools/verify_frontend_bundle.py (Test Suite Live CDP Headless)"]
+    subgraph Backend ["FastAPI Backend (IPSALE Engine)"]
+        AUTH["services/auth_service.py (Dynamic Role Checker & Subdomains)"]
+        CSV["services/allowlist_service.py (Firestore Storage & CSV Parser)"]
+        STORE["Firestore Collections (/tenants, /allowlists, /sessions)"]
+    end
 
-    SRC --> BUILDER
-    BUILDER --> PROD
-    PROD --> CDP
+    Frontend --> Backend
+    AUTH --> STORE
+    CSV --> STORE
 ```
 
 ---
 
 ## 2. Fasi di Implementazione Sequenziali
 
-### Fase 1: `builder-pipeline` (L'Assemblatore Deterministico)
-- Implementare `tools/build_frontend.py` in puro Python (zero dipendenze pip o npm).
-- Legge i partials tramite marker dichiarativi o struttura a directory e genera `v2/frontend/index.html`.
-- Implementare `tools/verify_frontend_bundle.py` per confrontare hash, struttura DOM ed integrità dei tag.
-- **Checkpoint di Validazione:** Eseguendo il build sui sorgenti estratti, il rendering deve essere funzionalmente indistinguibile dall'originale.
+### Fase 1: White-Label Branding Engine (`white-label-branding`)
+- Estrarre dal backend e dal frontend tutti i riferimenti cablati a Luxottica in configurazioni dinamiche `TenantConfig`:
+  - `tenant_id` (default: `luxottica`)
+  - `org_name` (default: `Luxottica Masterclass`)
+  - `logo_url`
+  - `team_names` (default: `['Ray-Ban', 'Oakley', 'Persol', 'Oliver Peoples', 'Vogue Eyewear']`)
+- Aggiornare `/api/v2/config` per restituire il `TenantConfig` esteso.
+- Aggiornare `i18n-translations.js` e `student-onboarding-modal.html` per renderizzare dinamicamente le opzioni dei team.
 
-### Fase 2: `core-bridge` (Namespace `window.Hub` & Preservazione Handlers)
-- Creare `v2/frontend/src/js/core/hub-namespace.js` e `window-bridge.js`.
-- Mappare esplicitamente tutti i 165 metodi globali per garantire che i 180+ attributi inline `onclick`/`oninput` continuino a funzionare senza `ReferenceError`.
-- Spostare `theme.js` con il resolver zero-FOUC collocato rigorosamente nell'<head>.
+### Fase 2: Ruolo Manager & Pannello Gestione Allowlist (`manager-portal`)
+- **Backend (`auth_service.py` & `main.py`)**:
+  - Aggiungere il controllo del ruolo `MANAGER` per gli indirizzi email definiti in `MANAGER_EMAILS` (default: `maurizio.ipsale@gmail.com,manager@ipsale.io`).
+  - Creare l'endpoint `GET /api/v3/admin/allowlist` per consultare l'allowlist corrente.
+  - Creare l'endpoint `POST /api/v3/admin/allowlist` per aggiungere/rimuovere domini o email singole.
+  - Creare l'endpoint `POST /api/v3/admin/allowlist/import-csv` per caricare elenchi massivi di partecipanti da file CSV/Excel.
+- **Frontend (`manager-modal.html` & `manager-controls.js`)**:
+  - Creare il modale nativo `<dialog id="manager-admin-modal">`.
+  - Tabella di gestione dell'Allowlist con filtri e ricerca istantanea.
+  - Area drag & drop per l'importazione di file CSV di partecipanti.
+  - Pulsante per esportare i punteggi ed il report delle presenze dell'aula.
 
-### Fase 3: `partials-dialogs` (Estrazione dei 12 Modali `<dialog>`)
-- Scomporre i 12 modali in `v2/frontend/src/components/dialogs/`:
-  1. `rosetta-modal.html` & `rosetta.js` (Filtro live bilingue)
-  2. `leaderboard-modal.html` & `leaderboard.js` (Podio team animato e coriandoli)
-  3. `role-selection.html`, `student-onboarding.html`, `trainer-pin.html`, `student-resume.html`
-  4. `student-manager.html`, `trainer-solutions.html`, `playbook-modal.html`, `guide-modal.html`, `challenge-detail.html`
-- Preservare gli stili nativi del top-layer e i backdrop blur.
-
-### Fase 4: `partials-blocks` (Sezioni Didattiche & Motori Audio/Canvas)
-- Scomporre in `v2/frontend/src/components/blocks/`:
-  - `block-cover.html`, `block-1.html`, `block-2.html`, `block-break.html`, `block-3.html`, `block-4.html`, `block-5.html`.
-- Estrarre i motori procedurali in `v2/frontend/src/js/games/`:
-  - `query-beats.js` (Web Audio 808 Synth)
-  - `optics-sim.js` (Ray-Ban Meta Canvas Simulator)
-  - `turing-roast.js` (Prompt Roaster)
-- Estrarre `i18n-translations.js` (~750 righe di dizionario IT/EN).
-
-### Fase 5: `verification-suite` & Audit Avversariale a 360°
-- Lanciare i subagenti del Consiglio Avversariale per testare il bundle generato:
-  - 🎨 **UI/UX & Engagement Specialist**: Controllo layout, gerarchia visiva, animazioni view-transitions e contrasto.
-  - 🐞 **QA & Edge Case Hunter**: Test di tutti i bottoni, apertura dialog, ricerca Rosetta Stone, submit quiz.
-  - ⚡ **Performance Specialist**: Benchmark tempo di caricamento, metriche Vitals e dimensione bundle.
-  - 🛡️ **Security Auditor**: Verifica CSP, isolamento scope, assenza di eval o injection.
-- Esecuzione finale del deployment Cloud Run di test sul progetto Qwiklabs.
+### Fase 3: Verification & Rebuild Pipeline
+- Ricompilare il bundle frontend con `tools/build_frontend.py` ed eseguire `verify_frontend_bundle.py`.
+- Eseguire unit test e verification script per testare i nuovi endpoint `/api/v3/admin/allowlist`.
+- Commit e push su `main` per la distribuzione automatica su Cloud Run.
 
 ---
 
@@ -75,7 +63,6 @@ flowchart TD
 
 | Rischio Identificato | Probabilità | Impatto | Contromisura Architetturale |
 | :--- | :--- | :--- | :--- |
-| **`ReferenceError` su bottoni inline** | Alta | Catastrofico | `window-bridge.js` con esportazione automatica censita di tutte le 165 funzioni su `window`. |
-| **Purge accidentale di classi Tailwind** | Media | Alto | Mantenere il compilatore runtime `tailwindcss.min.js`, non usare Tailwind CLI statica. |
-| **FOUC tema Dark/Light** | Bassa | Medio | `theme.js` iniettato all'inizio di `<head>` prima del rendering di `<body>`. |
-| **Latenza di caricamento / Waterfall HTTP** | Bassa | Alto | Build monolitica atomica per Cloud Run: 1 singola richiesta HTTP per l'intera app. |
+| **CSV Malformato caricato dal Manager** | Media | Medio | Parser CSV robusto con sanitizzazione regex ed `.strip().lower()` automatica. |
+| **Bypass del ruolo Manager** | Bassa | Alto | Verifica rigida del JWT Google OAuth + email check sia lato client che lato server (`MANAGER_EMAILS`). |
+| **Compatibilità Tenant Luxottica POC** | Bassa | Alto | Mantenere `luxottica` come tenant predefinito di fallback per garantire retro-compatibilità al 100%. |

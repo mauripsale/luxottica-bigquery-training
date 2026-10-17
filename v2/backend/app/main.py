@@ -1,7 +1,7 @@
 import os
 import logging
 from typing import Optional, List, Dict, Any
-from fastapi import FastAPI, HTTPException, Query, Body
+from fastapi import FastAPI, HTTPException, Query, Body, Depends, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -78,7 +78,17 @@ def serve_index():
 
 @app.get("/api/v2/config")
 def get_hub_config():
-    """Returns runtime public configuration for client SDK & Google Identity Services."""
+    """Returns runtime public configuration for client SDK & Google Identity Services, including tenant branding."""
+    tenant_id = os.getenv("TENANT_ID", "luxottica")
+    org_name = os.getenv("ORG_NAME", "Luxottica Masterclass")
+    logo_url = os.getenv("LOGO_URL", "/assets/luxottica_logo.png")
+    primary_color = os.getenv("PRIMARY_COLOR", "#003366")
+    
+    # Default gamification team names for Luxottica POC
+    default_teams = ["Team Ray-Ban", "Team Oakley", "Team Persol", "Team Oliver Peoples", "Team Vogue Eyewear"]
+    raw_teams = os.getenv("TEAM_NAMES")
+    team_names = [t.strip() for t in raw_teams.split(",")] if raw_teams else default_teams
+
     return {
         "gcp_project_id": PROJECT_ID,
         "dataset_id": DATASET_ID,
@@ -86,14 +96,21 @@ def get_hub_config():
         "auth_required": auth_service.auth_required,
         "allowed_domains": auth_service.allowed_domains,
         "default_course_id": "luxottica-bigquery-marketing",
-        "api_version": "2.2.0"
+        "api_version": "3.0.0",
+        "tenant_config": {
+            "tenant_id": tenant_id,
+            "org_name": org_name,
+            "logo_url": logo_url,
+            "primary_color": primary_color,
+            "team_names": team_names
+        }
     }
 
 @app.post("/api/v2/auth/verify-google-token")
 def verify_google_oauth_token(payload: Dict[str, Any] = Body(...)):
     """
     Verifies a Google OAuth ID Token sent by Google Identity Services on the frontend.
-    Returns user profile, verified email, assigned role (TRAINER vs STUDENT), and allowlist status.
+    Returns user profile, verified email, assigned role (STUDENT, TRAINER, MANAGER, CONTENT_CREATOR), and allowlist status.
     """
     token = payload.get("credential") or payload.get("id_token") or payload.get("token")
     if not token:
@@ -120,11 +137,80 @@ def get_auth_allowlist():
         "google_client_id_configured": bool(GOOGLE_CLIENT_ID)
     }
 
+# =========================================================================
+# FASTAPI SECURITY & ROLE DEPENDENCY FUNCTIONS
+# =========================================================================
+from fastapi import Header, Request
+
+def get_current_user(
+    request: Request,
+    authorization: Optional[str] = Header(None),
+    x_user_email: Optional[str] = Header(None)
+) -> Dict[str, Any]:
+    """Dependency to extract and verify current user profile and role from request headers."""
+    try:
+        return auth_service.resolve_user_from_headers(
+            authorization=authorization,
+            x_user_email=x_user_email
+        )
+    except ValueError as ve:
+        raise HTTPException(status_code=401, detail=str(ve))
+
+def require_trainer(user: Dict[str, Any] = Depends(get_current_user)) -> Dict[str, Any]:
+    """Dependency enforcing TRAINER, MANAGER, or CONTENT_CREATOR role."""
+    role = user.get("role", "STUDENT")
+    if role not in ("TRAINER", "MANAGER", "CONTENT_CREATOR"):
+        raise HTTPException(
+            status_code=403,
+            detail=f"Accesso negato: richiesto ruolo Docente/Trainer (ruolo utente attuale: '{role}')"
+        )
+    return user
+
+def require_manager(user: Dict[str, Any] = Depends(get_current_user)) -> Dict[str, Any]:
+    """Dependency enforcing MANAGER or CONTENT_CREATOR role."""
+    role = user.get("role", "STUDENT")
+    if role not in ("MANAGER", "CONTENT_CREATOR"):
+        raise HTTPException(
+            status_code=403,
+            detail=f"Accesso negato: richiesto ruolo Manager Admin (ruolo utente attuale: '{role}')"
+        )
+    return user
+
+# =========================================================================
+# V3 MANAGER PORTAL & ALLOWLIST MANAGEMENT ENDPOINTS (PROTECTED BY REQUIRE_MANAGER)
+# =========================================================================
+@app.get("/api/v3/admin/allowlist")
+def admin_get_allowlist(user: Dict[str, Any] = Depends(require_manager)):
+    """Returns detailed allowlist accounts and configuration for Manager Portal."""
+    return auth_service.get_allowlist_details()
+
+@app.post("/api/v3/admin/allowlist")
+def admin_add_email(payload: Dict[str, Any] = Body(...), user: Dict[str, Any] = Depends(require_manager)):
+    """Adds a participant email to the allowlist."""
+    email = payload.get("email", "")
+    try:
+        return auth_service.add_allowed_email(email)
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+
+@app.delete("/api/v3/admin/allowlist/{email}")
+def admin_remove_email(email: str, user: Dict[str, Any] = Depends(require_manager)):
+    """Removes a participant email from the allowlist."""
+    return auth_service.remove_allowed_email(email)
+
+@app.post("/api/v3/admin/allowlist/import-csv")
+def admin_import_csv(payload: Dict[str, Any] = Body(...), user: Dict[str, Any] = Depends(require_manager)):
+    """Bulk imports participant emails from CSV data."""
+    csv_content = payload.get("csv_content", "") or payload.get("content", "")
+    if not csv_content:
+        raise HTTPException(status_code=400, detail="Contenuto CSV mancante nel payload.")
+    return auth_service.import_csv_emails(csv_content)
+
 @app.get("/healthz")
 def healthcheck():
     return {
         "status": "ok",
-        "version": "2.2.0",
+        "version": "3.0.0",
         "gcp_project": PROJECT_ID,
         "auth_required": auth_service.auth_required,
         "frontend_mounted": bool(FRONTEND_DIR and os.path.exists(FRONTEND_DIR)),
@@ -140,9 +226,18 @@ def list_available_courses():
     return course_manager.list_courses()
 
 @app.get("/api/v2/courses/{course_id}")
-def get_course_manifest(course_id: str, raw: bool = Query(False, description="Set true for trainer backend to view grading keys")):
+def get_course_manifest(
+    course_id: str,
+    raw: bool = Query(False, description="Set true for trainer backend to view grading keys"),
+    authorization: Optional[str] = Header(None),
+    x_user_email: Optional[str] = Header(None)
+):
     """Returns the course structure. By default, solutions and hint PINs are stripped for student protection."""
     if raw:
+        user = auth_service.resolve_user_from_headers(authorization=authorization, x_user_email=x_user_email)
+        role = user.get("role", "STUDENT")
+        if role not in ("TRAINER", "MANAGER", "CONTENT_CREATOR"):
+            raise HTTPException(status_code=403, detail="Accesso al manifest raw riservato ai docenti.")
         manifest = course_manager.get_course(course_id)
     else:
         manifest = course_manager.get_student_manifest(course_id)
@@ -166,22 +261,22 @@ def get_session_state(session_id: str, course_id: str = Query("luxottica-bigquer
     return session
 
 @app.post("/api/v2/session/{session_id}/block")
-def change_block(session_id: str, block_id: str, course_id: str = Query("luxottica-bigquery-marketing")):
+def change_block(session_id: str, block_id: str, course_id: str = Query("luxottica-bigquery-marketing"), user: Dict[str, Any] = Depends(require_trainer)):
     success = state_service.set_session_block(course_id=course_id, session_id=session_id, block_id=block_id)
     return {"session_id": session_id, "course_id": course_id, "active_block": block_id, "synced": success}
 
 @app.post("/api/v2/session/{session_id}/lock")
-def change_lock(session_id: str, locked: bool = Query(...), course_id: str = Query("luxottica-bigquery-marketing")):
+def change_lock(session_id: str, locked: bool = Query(...), course_id: str = Query("luxottica-bigquery-marketing"), user: Dict[str, Any] = Depends(require_trainer)):
     success = state_service.set_session_lock(course_id=course_id, session_id=session_id, locked=locked)
     return {"session_id": session_id, "course_id": course_id, "is_locked": locked, "synced": success}
 
 @app.post("/api/v2/session/{session_id}/hints")
-def change_hints(session_id: str, hints: List[str] = Body(...), course_id: str = Query("luxottica-bigquery-marketing")):
+def change_hints(session_id: str, hints: List[str] = Body(...), course_id: str = Query("luxottica-bigquery-marketing"), user: Dict[str, Any] = Depends(require_trainer)):
     success = state_service.set_session_hints(course_id=course_id, session_id=session_id, hints=hints)
     return {"session_id": session_id, "course_id": course_id, "unlocked_hints": hints, "synced": success}
 
 @app.post("/api/v2/session/{session_id}/timer")
-def change_timer(session_id: str, timer: Dict[str, Any] = Body(...), course_id: str = Query("luxottica-bigquery-marketing")):
+def change_timer(session_id: str, timer: Dict[str, Any] = Body(...), course_id: str = Query("luxottica-bigquery-marketing"), user: Dict[str, Any] = Depends(require_trainer)):
     success = state_service.set_session_timer(course_id=course_id, session_id=session_id, timer_data=timer)
     return {"session_id": session_id, "course_id": course_id, "timer": timer, "synced": success}
 
@@ -196,13 +291,13 @@ def get_leaderboard(session_id: str, course_id: str = Query("luxottica-bigquery-
     return state_service.get_classroom_leaderboard(course_id=course_id, session_id=session_id)
 
 @app.delete("/api/v2/session/{session_id}/students/{student_id}")
-def delete_single_student(session_id: str, student_id: str, course_id: str = Query("luxottica-bigquery-marketing")):
+def delete_single_student(session_id: str, student_id: str, course_id: str = Query("luxottica-bigquery-marketing"), user: Dict[str, Any] = Depends(require_trainer)):
     """Removes a student permanently from the classroom session in Firestore."""
     success = state_service.delete_student(course_id=course_id, session_id=session_id, student_id=student_id)
     return {"success": success, "deleted_student_id": student_id, "session_id": session_id}
 
 @app.post("/api/v2/session/{session_id}/students/batch-delete")
-def delete_students_batch(session_id: str, payload: Dict[str, Any] = Body(...), course_id: str = Query("luxottica-bigquery-marketing")):
+def delete_students_batch(session_id: str, payload: Dict[str, Any] = Body(...), course_id: str = Query("luxottica-bigquery-marketing"), user: Dict[str, Any] = Depends(require_trainer)):
     """Batch removes selected or all students from the classroom session in Firestore."""
     student_ids = payload.get("student_ids", [])
     result = state_service.delete_students_batch(course_id=course_id, session_id=session_id, student_ids=student_ids)
