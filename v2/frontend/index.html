@@ -7986,6 +7986,9 @@ window.managerControls = {
                 this.renderAllowlistUI();
             } else {
                 console.warn("[Manager] Impossibile recuperare allowlist:", res.statusText);
+                if (res.status === 403 && window.showToast) {
+                    window.showToast("🚫 Accesso Negato: Richiesto ruolo Manager Admin.", "error");
+                }
             }
         } catch (err) {
             console.error("[Manager] Errore fetch allowlist:", err);
