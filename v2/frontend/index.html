@@ -7331,6 +7331,11 @@ document.addEventListener('DOMContentLoaded', () => {
       setText('break-title', t.breakTitle);
       setText('break-desc', t.breakDesc);
       setText('break-mode-lbl', t.breakModeLbl);
+      if (typeof currentBreakGame !== 'undefined' && currentBreakGame !== 'free') {
+        if (typeof handleRemoteBreakGameSync === 'function') handleRemoteBreakGameSync(currentBreakGame);
+      } else {
+        setText('break-mode-status-text', t.breakModeStatusFree);
+      }
       setText('break-mode-sub', t.breakModeSub);
       setText('coffee-tournament-title', t.coffeeTournamentTitle);
       setHTML('coffee-tournament-desc', t.coffeeTournamentDesc);
