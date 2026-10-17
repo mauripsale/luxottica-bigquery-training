@@ -13,6 +13,7 @@ from app.models import (
 )
 from app.services.validator import BigQueryValidator
 from app.services.state_service import FirestoreStateService
+from app.services.auth_service import auth_service
 from app.core.course_manager import course_manager
 
 logging.basicConfig(level=logging.INFO)
@@ -20,7 +21,7 @@ logger = logging.getLogger("training-api")
 
 app = FastAPI(
     title="Universal Training Hub Framework API",
-    version="2.1.0",
+    version="2.2.0",
     description="Multi-course interactive classroom platform running on Google Cloud Run"
 )
 
@@ -72,16 +73,50 @@ def get_hub_config():
         "gcp_project_id": PROJECT_ID,
         "dataset_id": DATASET_ID,
         "google_client_id": GOOGLE_CLIENT_ID,
+        "auth_required": auth_service.auth_required,
+        "allowed_domains": auth_service.allowed_domains,
         "default_course_id": "luxottica-bigquery-marketing",
-        "api_version": "2.1.0"
+        "api_version": "2.2.0"
+    }
+
+@app.post("/api/v2/auth/verify-google-token")
+def verify_google_oauth_token(payload: Dict[str, Any] = Body(...)):
+    """
+    Verifies a Google OAuth ID Token sent by Google Identity Services on the frontend.
+    Returns user profile, verified email, assigned role (TRAINER vs STUDENT), and allowlist status.
+    """
+    token = payload.get("credential") or payload.get("id_token") or payload.get("token")
+    if not token:
+        raise HTTPException(status_code=400, detail="Mancante il token 'credential' di Google OAuth")
+
+    try:
+        user_profile = auth_service.verify_google_token(token)
+        return {
+            "success": True,
+            "user": user_profile
+        }
+    except ValueError as ve:
+        raise HTTPException(status_code=403, detail=str(ve))
+    except Exception as e:
+        logger.error(f"Errore auth Google OAuth: {e}")
+        raise HTTPException(status_code=500, detail=f"Errore interno durante l'autenticazione: {str(e)}")
+
+@app.get("/api/v2/auth/allowlist")
+def get_auth_allowlist():
+    """Returns configured domains and public allowlist status."""
+    return {
+        "auth_required": auth_service.auth_required,
+        "allowed_domains": auth_service.allowed_domains,
+        "google_client_id_configured": bool(GOOGLE_CLIENT_ID)
     }
 
 @app.get("/healthz")
 def healthcheck():
     return {
         "status": "ok",
-        "version": "2.1.0",
+        "version": "2.2.0",
         "gcp_project": PROJECT_ID,
+        "auth_required": auth_service.auth_required,
         "frontend_mounted": bool(FRONTEND_DIR and os.path.exists(FRONTEND_DIR)),
         "available_courses": list(course_manager.list_courses().keys())
     }
